@@ -14,6 +14,16 @@ https://yydshly.github.io/1013_codex_project/
 
 这是地址约定。某个项目是否实际发布，以它的 `project.json` 中经过验证的 `demo_url` 和发布记录为准；部署脚本或工作流的存在不等于发布成功。
 
+## 当前已验证发布
+
+2026-10-13，已启用仓库 GitHub Pages 的 Actions 发布方式，首次部署提交为 `8d12bcc46c753c9ddc30c8b95f32fa92ecd29013`，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38393707526)以及索引检查均成功。
+
+- [站点总览](https://yydshly.github.io/1013_codex_project/)：完整展示已提交项目的能力、原理、输入输出、价值、意义与局限摘要。
+- [001 Infinite Bookshelf](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/)：详细研究、一图总览、摄影与电商样稿、回放和文件下载。
+- [摄影入口](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/?sample=photography#workbench)：摄影样稿参数可用于直接阅读。
+
+首页、项目页、摄影入口、CSS、JavaScript、总览 PNG、两份 JSON 和首页预览图已实际请求，均返回 HTTP 200；项目静态文件 SHA-256 与远端提交 blob 一致。页面新版浏览器交互尚未重测，当前发布不包含自动生成新主题所需的模型服务。完整范围见 [发布验证](../projects/001-infinite-bookshelf/experiments/results/verification.md#公网静态发布验证)。
+
 子项目静态源文件保存在 `projects/编号-slug/web/`。`scripts/build_site.py` 使用 Python 标准库，将可发布的原生静态项目汇集为一个完整站点：
 
 ```text

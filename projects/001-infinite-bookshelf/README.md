@@ -10,6 +10,8 @@
 
 [返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/Bklieger/infinite-bookshelf) · [源码证据表](./references/source-map.md) · [实验与模型配置](./experiments/README.md) · [演示说明](./web/README.md)
 
+[线上研究与演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) · [直接阅读摄影样稿](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/?sample=photography#workbench) · [站点总览](https://yydshly.github.io/1013_codex_project/)。线上版本提供完整导读、一图总览、样稿阅读、回放和下载；生成新主题需另接模型服务。2026-10-13 已核验公开地址、资源与样稿内容，记录见 [发布验证](./experiments/results/verification.md#公网静态发布验证)。
+
 ## 一张图汇总我们的理解
 
 ![Infinite Bookshelf 理解总览：代码与多次模型请求控制写书步骤；输入主题、要求、思路与参考笔记，输出书名、目录和分节初稿；价值是流程自动化，局限是缺少完整前文与审核](./assets/03-understanding-overview.png)
@@ -110,7 +112,7 @@
 python projects/001-infinite-bookshelf/experiments/server.py
 ```
 
-随后打开 <http://127.0.0.1:8765/>。更多操作见 [Web 演示说明](./web/README.md)。当前尚未公开部署，`demo_url` 保持为空。
+随后打开 <http://127.0.0.1:8765/>。更多操作见 [Web 演示说明](./web/README.md)。静态阅读演示已发布到 GitHub Pages，`demo_url` 填写的是经过 HTTP 验证的实际地址；本地模型服务不会随网页公开发布。
 
 ## 4. 原版如何安排执行顺序和提示词
 
@@ -280,7 +282,7 @@ flowchart LR
 | 本地环境 | Windows、PowerShell、Python 3.10.11 |
 | 上游关键依赖 | Streamlit 1.37.0、Groq 0.6.0、WeasyPrint 62.3；[依赖清单](https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/requirements.txt) |
 | 复现范围 | 固定版本源码分析、历史样本读取、本地独立演示；未完整运行上游 Streamlit 应用 |
-| 当前状态 | 研究整理与本地演示完成；原版完整复现和模型 API 实测未执行 |
+| 当前状态 | 研究整理、本地演示与公网静态发布完成；原版完整复现和模型 API 实测未执行 |
 
 | 项目 | 验证状态 | 说明 |
 | --- | --- | --- |
@@ -293,7 +295,7 @@ flowchart LR
 | 先前本地页面交互 | 已实际展示并截图 | 回放、停止恢复、MD/TXT 下载通过；[验证记录](./experiments/results/verification.md)。`assets/01-demo.jpg`、`assets/02-photography-demo.jpg` 是先前页面实拍，不代表本轮新增全部说明已经做浏览器验证 |
 | 我们的真实模型接口 | 未验证 | 待配置接口地址、模型名与本地密钥 |
 | 上游 PDF 与生成速度 | 未验证 | 未运行原应用，未测中文 PDF 字体和排版 |
-| 公网演示 | 未部署 | 本地展示与公网发布分开记录 |
+| 公网演示 | 已发布并核验 | 页面、图片、脚本、样稿 JSON 与提交内容一致；[发布记录](./experiments/results/verification.md#公网静态发布验证)；新版浏览器交互未重测 |
 
 ## 研究结论
 

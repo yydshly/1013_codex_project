@@ -13,7 +13,7 @@
 
 | 编号 | 项目 / 研究摘要 | 图片预览 | 研究状态 | 相关入口 |
 | --- | --- | --- | --- | --- |
-| **001** | **[Infinite Bookshelf：写书流程、能力与价值研究](./projects/001-infinite-bookshelf/README.md)**<br>输入主题与读者、目标、范围、风格要求，高级模式可加入笔记或 TXT 资料；代码组织多次模型请求，依次生成目录、书名和分节正文，再汇总展示、导出 TXT/PDF 初稿。方法与手动让模型先出大纲再写细节相同，价值是减少重复请求与整理，可复用流程并接入自有模型；并未提高模型本身能力或自动保证质量。适合较独立的教程、培训材料初稿，复杂小说需补前文与人工审核。研究提供源码证据、一图总览与摄影等可阅读样稿，区分保存样稿、原版能力和未验证效果。<br>AI 写作 · 长文生成 · 模型可替换 · 源码研究 | <img src="./projects/001-infinite-bookshelf/assets/03-understanding-overview.png" alt="本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图" width="180"><br>本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图 | 已完成 | [研究文档](./projects/001-infinite-bookshelf/README.md) · [原仓库](https://github.com/Bklieger/infinite-bookshelf)<br>演示未部署 |
+| **001** | **[Infinite Bookshelf：写书流程、能力与价值研究](./projects/001-infinite-bookshelf/README.md)**<br>输入主题与读者、目标、范围、风格要求，高级模式可加入笔记或 TXT 资料；代码组织多次模型请求，依次生成目录、书名和分节正文，再汇总展示、导出 TXT/PDF 初稿。方法与手动让模型先出大纲再写细节相同，价值是减少重复请求与整理，可复用流程并接入自有模型；并未提高模型本身能力或自动保证质量。适合较独立的教程、培训材料初稿，复杂小说需补前文与人工审核。研究提供源码证据、一图总览与摄影等可阅读样稿，区分保存样稿、原版能力和未验证效果。<br>AI 写作 · 长文生成 · 模型可替换 · 源码研究 | <img src="./projects/001-infinite-bookshelf/assets/03-understanding-overview.png" alt="本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图" width="180"><br>本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图 | 已完成 | [研究文档](./projects/001-infinite-bookshelf/README.md) · [原仓库](https://github.com/Bklieger/infinite-bookshelf) · [在线演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) |
 <!-- PROJECT_INDEX:END -->
 
 ## 收录与阅读方式
@@ -62,7 +62,7 @@ python scripts/update_index.py --check
 
 预留同一站点下的独立路径，例如 `/1013_codex_project/001-example-project/`。每个子项目可选择适合自己的技术栈；有可访问的演示后，将实际地址写入 `project.json` 的 `demo_url`，索引便会显示入口。
 
-静态演示通过 GitHub Actions 汇集到 GitHub Pages，各子项目使用独立路径。线上页面展示研究说明与可公开的样稿；需要模型接口或私密凭据的功能使用单独后端。发布步骤和验证范围见 [Web 部署约定](./docs/deployment.md)。
+静态演示通过 GitHub Actions 汇集到 [GitHub Pages 站点](https://yydshly.github.io/1013_codex_project/)，各子项目使用独立路径。线上页面展示研究说明与可公开的样稿；需要模型接口或私密凭据的功能使用单独后端。发布步骤和验证范围见 [Web 部署约定](./docs/deployment.md)。
 
 ## 来源与使用
 

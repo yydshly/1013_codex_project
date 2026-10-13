@@ -10,5 +10,5 @@
   "tags": ["AI 写作", "长文生成", "模型可替换", "源码研究"],
   "preview": "assets/03-understanding-overview.png",
   "preview_caption": "本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图",
-  "demo_url": ""
+  "demo_url": "https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/"
 }

@@ -75,7 +75,7 @@ python -m http.server 8766 --directory projects/001-infinite-bookshelf/web --bin
 
 预期访问前缀为 `/1013_codex_project/001-infinite-bookshelf/`，资源和 API 请求均相对当前页面解析，兼容这个子路径。页面没有客户端路由，刷新入口不会产生深层路由问题。GitHub Pages 只支持样稿模式，本地模型服务不会随静态页面发布。
 
-**当前没有发布线上演示。** 未验证的地址不能填写到 `project.json.demo_url`。
+**已发布并验证：** [研究与演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) · [摄影样稿](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/?sample=photography#workbench) · [总览](https://yydshly.github.io/1013_codex_project/)。2026-10-13 已核验 HTTP 200、完整摘要及页面和资源内容；`project.json.demo_url` 已填写实际地址。线上提供静态导读、总览图和保存样稿；本地模型 API 不随 GitHub Pages 发布。
 
 ## 验证范围
 

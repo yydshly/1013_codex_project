@@ -69,10 +69,28 @@
 
 网页提供内容相同的 `web/assets/understanding-overview.png`，放在顶部原理之后的 `#understanding-overview`，支持收起、打开原图和下载；下方仍有文字说明。PNG 响应返回 HTTP 200、`image/png`，与保存原图的 SHA-256 一致；页面新增图片路径与锚点存在，HTML 结构检查通过。网页部署目录说明已补入 `assets/`。本次没有操作被拦截的浏览器，也没有把生成图称作原版运行截图或性能证据。
 
+## 公网静态发布验证
+
+日期：2026-10-13。首次发布 commit 为 `8d12bcc46c753c9ddc30c8b95f32fa92ecd29013`。[GitHub Pages 工作流](https://github.com/yydshly/1013_codex_project/actions/runs/38393707526) 的 build、deploy 均成功，索引校验工作流也成功。发布快照只含本项目及所需发布设施，根自动索引与实际提交项目一致；其他本地尚未提交项目没有加入本次快照。
+
+| 验证对象 | 实际结果 |
+| --- | --- |
+| [导航首页](https://yydshly.github.io/1013_codex_project/) | HTTP 200，完整保留 217 字符项目摘要，包含能力、原理、输入输出、价值、复用意义、适用性和局限 |
+| [项目页](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) | HTTP 200，37527 bytes，内容与提交 HTML 完全一致 |
+| [摄影入口](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/?sample=photography) | HTTP 200，静态 HTML 与普通入口一致；参数由已有前端样稿选择代码处理 |
+| CSS 与 JavaScript | HTTP 200，分别为 28116 / 27918 bytes，与提交文件 SHA-256 一致 |
+| 总览 PNG 与首页预览 | HTTP 200，均为 2094283 bytes，与已保存的研究解释图一致 |
+| 电商与摄影 JSON | HTTP 200，9865 / 12295 bytes，均可解析，3 节正文和 conversation 来源保留，与提交文件 SHA-256 一致 |
+| 正式仓库前缀预演 | `/1013_codex_project/` 下的首页、项目、摄影入口及资源完整下载和哈希检查通过 |
+| 本地与持续集成检查 | Windows 根测试 20 项通过、1 项符号链接权限测试跳过；后端 16 项合约测试通过；GitHub Actions 校验、构建与部署成功 |
+| 发布内容范围 | 10 个静态产物文件，包括导航、预览、项目网页、样稿、总览 PNG 和生成标记；不包含实验后端或实际密钥 |
+
+公开发布后的实际地址已填写到 `project.json.demo_url`，后续地址与摘要更新会再次提交并触发发布。线上版本只提供静态导读、已保存样稿和回放，不执行本地模型 API。新版浏览器布局、交互与 PDF 未重新验收，不把 HTTP 和哈希验证当作交互测评。
+
 ## 未验证与范围说明
 
 - 本次 GPT 样稿由当前对话生成并保存，未通过项目模型 API 调用；没有推理耗时和 token 统计。
 - 未使用实际模型服务生成新书稿。实时生成入口已通过本机伪服务验证，仍需配置实际接口后测试供应商兼容性与生成质量。
 - 未完整运行上游 Streamlit 应用，也未实际调用其已停用的 Groq 模型。
 - 打印 / 存 PDF 入口和打印样式已提供，尚未实际导出 PDF 验证；上游自动 PDF 导出未复现。
-- 本地演示已经运行；没有公网发布。元信息中的 completed 表示研究整理和本地演示完成，不表示原版完整复现或真实 API 实测完成。
+- 本地演示已经运行，静态网页已经公开发布；本地模型 API 后端不随静态网页公开。元信息中的 completed 表示研究整理、本地演示与静态发布完成，不表示原版完整复现或真实 API 实测完成。
