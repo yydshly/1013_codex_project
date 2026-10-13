@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="500" viewBox="0 0 960 500" role="img" aria-labelledby="title desc">
+  <title id="title">WireGuard Install 配置与传输架构示意</title>
+  <desc id="desc">安装脚本生成服务端和客户端配置。设备通过 UDP 加密隧道连接 Linux 服务器，服务器通过转发和 NAT 访问互联网。本图由研究者绘制，非运行截图。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#587086"/></marker>
+  </defs>
+  <rect width="960" height="500" fill="#f4f7fb"/>
+  <g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" fill="#20354b">
+    <text x="40" y="48" font-size="26" font-weight="700">WireGuard Install：配置管理与加密传输</text>
+    <text x="40" y="79" font-size="16" fill="#52667a">架构示意 · 本次研究绘制 · 非运行截图</text>
+    <rect x="280" y="112" width="400" height="88" rx="14" fill="#e0ebfa" stroke="#9ebadc"/>
+    <text x="480" y="148" font-size="22" text-anchor="middle" font-weight="700">安装与管理脚本</text>
+    <text x="480" y="177" font-size="16" text-anchor="middle">安装依赖 · 生成密钥与配置 · 添加 / 撤销设备</text>
+    <path d="M340 200 L170 280" stroke="#587086" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)" fill="none"/>
+    <path d="M560 200 L535 280" stroke="#587086" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)" fill="none"/>
+    <text x="172" y="234" font-size="15">配置文件 / 二维码</text>
+    <text x="580" y="241" font-size="15">wg0 / 防火墙 / 服务</text>
+    <rect x="40" y="285" width="220" height="125" rx="14" fill="white" stroke="#9ebadc"/>
+    <text x="150" y="321" font-size="22" text-anchor="middle" font-weight="700">设备客户端</text>
+    <text x="150" y="351" font-size="16" text-anchor="middle">导入配置 · 虚拟网卡</text>
+    <text x="150" y="380" font-size="16" text-anchor="middle">路由 · 认证 · 加解密</text>
+    <rect x="420" y="285" width="230" height="125" rx="14" fill="white" stroke="#9ebadc"/>
+    <text x="535" y="321" font-size="22" text-anchor="middle" font-weight="700">Linux 服务端</text>
+    <text x="535" y="351" font-size="16" text-anchor="middle">WireGuard · 多个 peer</text>
+    <text x="535" y="380" font-size="16" text-anchor="middle">认证 · 加解密 · 转发</text>
+    <rect x="770" y="285" width="150" height="125" rx="14" fill="white" stroke="#9ebadc"/>
+    <text x="845" y="329" font-size="22" text-anchor="middle" font-weight="700">互联网</text>
+    <text x="845" y="367" font-size="16" text-anchor="middle">网站 / 服务</text>
+    <path d="M268 358 L412 358" stroke="#587086" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text x="340" y="318" font-size="16" text-anchor="middle">UDP 加密隧道</text>
+    <text x="340" y="340" font-size="14" text-anchor="middle">承载 IP 流量</text>
+    <path d="M658 358 L762 358" stroke="#587086" stroke-width="3" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text x="710" y="329" font-size="16" text-anchor="middle">转发 / NAT</text>
+    <text x="40" y="462" font-size="16" fill="#52667a">脚本负责配置；WireGuard 与操作系统网络栈持续处理流量。</text>
+  </g>
+</svg>

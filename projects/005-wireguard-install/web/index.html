@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eef3ef">
+  <meta name="description" content="WireGuard Install 完整理解：一张图看懂部署管理、客户端与服务端、IP 隧道与 UDP 加密封装、使用场景、个人价值及能力边界。">
+  <title>自建 VPN 的能力、原理与价值 · WireGuard Install</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#overview">跳到正文</a>
+  <header class="header">
+    <a class="brand" href="#overview" aria-label="项目研究室首页"><span class="brand-icon" aria-hidden="true">↔</span><span>项目研究室<small>GITHUB PROJECT NOTES</small></span></a>
+    <div class="header-actions"><a class="source-link" href="../">站点总览</a><span class="project-id">研究项目 <b>005</b></span><a class="source-link" href="https://github.com/hwdsl2/wireguard-install" target="_blank" rel="noopener noreferrer">原仓库 <span aria-hidden="true">↗</span></a></div>
+  </header>
+  <nav class="mobile-nav" aria-label="移动端快速导航"><a href="#blueprint">总览图</a><a href="#roles">两端职责</a><a href="#interaction">通信流程</a><a href="#scenarios">使用场景</a></nav>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="nav-label">阅读路线 <span>CONTENTS</span></div>
+      <nav aria-label="章节导航">
+        <a class="nav-link active" href="#overview"><span>01</span>先理解它的本质</a>
+        <a class="nav-link" href="#blueprint"><span>02</span>一张图理解全貌</a>
+        <a class="nav-link" href="#capabilities"><span>03</span>包含哪些能力</a>
+        <a class="nav-link" href="#roles"><span>04</span>客户端与服务端</a>
+        <a class="nav-link" href="#deployment"><span>05</span>如何完成部署</a>
+        <a class="nav-link" href="#interaction"><span>06</span>两端如何交互</a>
+        <a class="nav-link" href="#tunneling"><span>07</span>隧道与中转的本质</a>
+        <a class="nav-link" href="#protocol"><span>08</span>UDP 与加密</a>
+        <a class="nav-link" href="#scenarios"><span>09</span>适用哪些场景</a>
+        <a class="nav-link" href="#boundaries"><span>10</span>个人价值与边界</a>
+        <a class="nav-link" href="#extensions"><span>11</span>可扩展方向</a>
+        <a class="nav-link" href="#evidence"><span>12</span>研究依据</a>
+      </nav>
+      <div class="research-status"><i aria-hidden="true"></i><strong>源码与协议已核对</strong><p>连接、抓包与性能<br>尚待实际验证。</p><small>2026.10.13 · 版本 3f42877</small></div>
+    </aside>
+    <main>
+      <section class="hero section" id="overview">
+        <div class="eyebrow"><span></span> WIREGUARD INSTALL / 项目中文导读</div>
+        <div class="hero-grid">
+          <div class="hero-copy"><h1>自己搭建 VPN，<br>看懂它如何<span>工作。</span></h1><p class="hero-description">在 Linux 上部署 WireGuard，<br>让自己的手机与电脑通过加密隧道接入服务器。</p><div class="hero-actions"><a class="button primary" href="#blueprint">一张图看懂全貌 <span aria-hidden="true">→</span></a><a class="button secondary" href="#interaction">跟着数据包走一遍</a></div><div class="hero-tags"><span>自建 VPN</span><span>UDP 传输</span><span>密钥认证</span></div></div>
+          <div class="hero-diagram" role="img" aria-label="设备通过 WireGuard UDP 加密隧道连接 Linux 服务器，服务器转发访问互联网。架构示意，非运行数据。">
+            <div class="diagram-label">一条隧道，连接你的设备与服务器<span>ARCHITECTURE</span></div>
+            <div class="diagram-endpoints"><div class="endpoint"><span class="device-symbol" aria-hidden="true">▣</span><strong>你的设备</strong><small>WireGuard 客户端</small></div><div class="endpoint server"><span class="server-symbol" aria-hidden="true">☷</span><strong>Linux 服务器</strong><small>WireGuard + 网络转发</small></div></div>
+            <div class="tunnel"><div class="tunnel-line"><span class="packet p1"></span><span class="packet p2"></span><span class="packet p3"></span></div><span class="tunnel-name"><svg width="13" height="14" viewBox="0 0 13 14" aria-hidden="true"><path d="M3 6V4a3.5 3.5 0 017 0v2M2 6h9v7H2z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg> UDP 加密隧道</span></div>
+            <div class="internet-line"><span>服务器出口</span><i aria-hidden="true"></i><b>互联网 / 其他可达网络</b></div><div class="diagram-caption">流程示意 · 内部可承载 TCP、UDP 等 IP 流量</div>
+          </div>
+        </div>
+        <div class="essence"><span>一句话理解</span><p><strong>这个库帮助你搭建自己的 VPN，并管理设备接入。</strong>它用脚本完成部署；WireGuard 负责 UDP 加密 IP 隧道，Linux 网络栈负责路由、转发和 NAT。</p></div>
+        <dl class="reading-summary"><div><dt>能力</dt><dd>自动搭建 WireGuard VPN，生成配置，添加与撤销设备。</dd></div><div><dt>原理</dt><dd>原始 IP 包认证加密 → 外层 UDP 封装 → 对端解封装 → 系统转发。</dd></div><div><dt>部署</dt><dd>准备可达 Linux 主机 → 运行安装器 → 设备导入配置 → 验证握手与业务。</dd></div><div><dt>价值</dt><dd>掌握出口和设备授权，减少手配；承担主机费用、系统维护和排错。</dd></div><div><dt>场景</dt><dd>个人集中出口、多设备接入；内网访问和网段分流需要额外网络配置。</dd></div><div><dt>扩展</dt><dd>访问策略、配置分发、Web 管理、监控和多网关；均需后续实现与验证。</dd></div></dl>
+        <div class="layer-map"><article><span>01 / 安装与管理</span><h3>一份 Bash 脚本</h3><p>安装、生成配置、登记与撤销设备。</p></article><b aria-hidden="true">+</b><article><span>02 / 加密通信</span><h3>WireGuard</h3><p>认证、握手、加解密和密钥更新。</p></article><b aria-hidden="true">+</b><article><span>03 / 网络转发</span><h3>操作系统网络栈</h3><p>虚拟网卡、路由、DNS、转发与 NAT。</p></article></div>
+      </section>
+      <section class="section" id="blueprint">
+        <div class="section-heading"><div class="eyebrow">02 / THE BIG PICTURE</div><h2>把我们的理解，放在一张图里。</h2><p>从脚本的部署能力，到两端的运行职责，再到封装、转发与价值。图中采用默认集中出口和 TCP / HTTPS 示例。</p></div>
+        <figure class="understanding-figure">
+          <div class="figure-toolbar"><strong>WireGuard Install · 理解总览与原理图</strong><a href="./assets/understanding-map.svg" target="_blank" rel="noopener noreferrer">打开完整图 ↗</a></div>
+          <div class="diagram-scroll" tabindex="0" role="region" aria-label="理解总览图，窄屏可左右滚动"><img src="./assets/understanding-map.svg" width="1440" height="1240" alt="部署脚本生成两端配置；客户端把整个内部 IP 包加密封装在外层 UDP 中；服务端验证、解密并交给 Linux 路由和 NAT 转发。返回方向相反。VPN 加密止于服务器，HTTPS 的 TLS 仍连接客户端应用与目标网站。图末总结使用场景、个人价值及维护条件。"></div>
+          <figcaption>本次研究原创示意，依据固定版本源码与官方协议；不是运行抓包。窄屏可左右滑动查看，或打开完整图。</figcaption>
+        </figure>
+        <div class="understanding-summary"><article><span>能力是什么</span><p>自动部署 WireGuard，生成并管理每台设备的接入配置。</p></article><article><span>原理是什么</span><p>整个内部 IP 包加密后，封装进外层 UDP；对端验证、解封装，再交给系统转发。</p></article><article><span>两端是什么</span><p>两端都是 WireGuard peer；客户端接入，服务器在这套拓扑中承担集中网关。</p></article><article><span>价值是什么</span><p>自己掌握出口与设备授权，并把网络协议和部署工程变成可研究的实践。</p></article></div>
+      </section>
+      <section class="section" id="capabilities">
+        <div class="section-heading"><div class="eyebrow">03 / CAPABILITIES</div><h2>把配置工作串成流程。</h2><p>这是可以直接运行的 Bash 安装管理脚本。它连接已有组件，提供从安装到设备撤销的操作入口。</p></div>
+        <div class="capability-list"><article><span class="row-number">01</span><div><h3>自动搭建 VPN 服务</h3><p>检查 Linux 环境，安装软件，设置网络转发、防火墙与开机启动。支持默认自动安装和交互式配置。</p></div><span class="row-tag">部署自动化</span></article><article><span class="row-number">02</span><div><h3>生成设备接入材料</h3><p>生成独立密钥、内部 IP、配置文件和二维码，供现成的 WireGuard 客户端导入。</p></div><span class="row-tag">文件 / 扫码</span></article><article><span class="row-number">03</span><div><h3>管理已登记的设备</h3><p>添加、列出、删除客户端，重新显示二维码；添加与撤销会更新运行状态和配置。</p></div><span class="row-tag">密钥授权</span></article><article><span class="row-number">04</span><div><h3>配置网络与日常维护</h3><p>自定义地址、UDP 端口和 DNS；具备条件时配置 IPv6，调整系统网络参数，提供卸载。</p></div><span class="row-tag">网络与维护</span></article></div>
+        <p class="callout"><span aria-hidden="true">↳</span> “列出客户端”展示已登记的配置身份。判断设备是否在通信，还要看最近握手和收发计数。</p>
+        <div class="subheading"><h3>能力归属：哪些来自仓库，哪些来自底层？</h3><p>把安装器直接提供的功能与 WireGuard、操作系统的能力分别理解，才能判断还需要做多少工程。</p></div>
+        <div class="table-wrap"><table class="study-table"><thead><tr><th scope="col">能力</th><th scope="col">由谁提供</th><th scope="col">具体覆盖范围</th></tr></thead><tbody>
+          <tr><th scope="row">安装与服务管理</th><td>本仓库脚本</td><td>环境检查、安装、配置 wg0、开机启动、卸载；主要针对受支持的 Linux 主机。</td></tr>
+          <tr><th scope="row">多设备接入</th><td>脚本 + WireGuard peer</td><td>独立密钥和内部地址、配置文件、二维码；默认地址池能配置 253 个身份，容量需另测。</td></tr>
+          <tr><th scope="row">加密认证与传输</th><td>WireGuard</td><td>双向认证、握手、会话密钥、认证加密、防重放、密钥更新和 endpoint 漫游。</td></tr>
+          <tr><th scope="row">转发、出口与解析器设置</th><td>操作系统；脚本协助配置</td><td>IP 转发、NAT、防火墙、路由；DNS 地址写入客户端配置，安装器未部署独立 DNS 服务。</td></tr>
+          <tr><th scope="row">IPv6 与网络参数</th><td>脚本按环境配置</td><td>检测服务器公网 IPv6 条件，补充双栈配置；调整 sysctl / 条件启用 BBR，效果未实测。</td></tr>
+          <tr><th scope="row">内网、分流与访问策略</th><td>需要自行设计</td><td>可基于 WireGuard 和系统网络实现；还要维护路由、返回路径、防火墙及设备配置。</td></tr>
+        </tbody></table></div>
+        <p class="source-note">来源：<a href="https://github.com/hwdsl2/wireguard-install/blob/3f428774e61c95bca60d1e7b80f0c768ca2c6137/wireguard-install.sh" target="_blank" rel="noopener noreferrer">固定版本安装脚本</a>与<a href="https://github.com/hwdsl2/wireguard-install/blob/3f428774e61c95bca60d1e7b80f0c768ca2c6137/README-zh.md" target="_blank" rel="noopener noreferrer">项目说明</a>。</p>
+      </section>
+      <section class="section" id="roles">
+        <div class="section-heading"><div class="eyebrow">04 / TWO ENDS</div><h2>两端都有密钥，职责各有侧重。</h2><p>协议中的双方都是 peer，具备收发和加解密能力。本项目按部署角色，把一台 Linux 主机作为集中网关。</p></div>
+        <div class="roles-grid"><article class="role-panel"><div class="role-title"><span class="role-icon" aria-hidden="true">▣</span><div><small>CLIENT / 客户端</small><h3>你的手机与电脑</h3></div></div><p class="platforms">Windows · macOS · iOS · Android · Linux</p><dl><div><dt>配置与身份</dt><dd>导入自己的私钥、服务器公钥、服务器地址和路由范围。</dd></div><div><dt>发送与接收</dt><dd>把选中的 IP 流量送入虚拟接口，认证、加密发送，解密返回。</dd></div><div><dt>用户操作</dt><dd>导入配置、启用或停用隧道；默认将互联网流量导向服务器。</dd></div></dl><div class="role-footer"><code>10.7.0.2</code><span>示例内部地址</span></div></article><article class="role-panel role-server"><div class="role-title"><span class="role-icon" aria-hidden="true">☷</span><div><small>SERVER / 服务端</small><h3>你提供的 Linux 服务器</h3></div></div><p class="platforms">Ubuntu · Debian · Rocky Linux 等</p><dl><div><dt>配置与身份</dt><dd>保存自身私钥，登记各客户端公钥，并绑定它们的内部 IP。</dd></div><div><dt>发送与接收</dt><dd>认证、解密、检查内部源 IP，通过转发和 NAT 访问外部网络。</dd></div><div><dt>管理员操作</dt><dd>运行脚本完成部署、添加与撤销设备；维护防火墙和服务。</dd></div></dl><div class="role-footer"><code>10.7.0.1 · UDP 51820</code><span>默认地址与端口</span></div></article></div>
+        <div class="key-relation"><span>身份关系</span><p>客户端保存 <b>自己的私钥 + 服务器公钥</b>。服务器保存 <b>自己的私钥 + 各客户端公钥</b>。脚本另为每台设备生成一份共享密钥 PSK。</p></div>
+        <div class="subheading"><h3>配置把身份、内部地址与外部位置关联起来。</h3><p>长久身份密钥用于握手，会话收发密钥由握手派生。客户端应用与协议实现来自 WireGuard 的现有发行渠道。</p></div>
+        <div class="table-wrap"><table class="study-table"><thead><tr><th scope="col">字段</th><th scope="col">客户端</th><th scope="col">服务端</th></tr></thead><tbody>
+          <tr><th scope="row"><code>PrivateKey / PublicKey</code></th><td>自己的私钥、服务器公钥。</td><td>自己的私钥、每个客户端的公钥。</td></tr>
+          <tr><th scope="row"><code>Address</code></th><td>例如 10.7.0.2，赋给本机虚拟接口。</td><td>默认 10.7.0.1，赋给 wg0。</td></tr>
+          <tr><th scope="row"><code>Endpoint / ListenPort</code></th><td>Endpoint 指向服务器可达地址和 UDP 端口。</td><td>ListenPort 默认 51820；从认证包学习客户端当前外部位置。</td></tr>
+          <tr><th scope="row"><code>AllowedIPs</code></th><td>默认 0.0.0.0/0、::/0；配合平台路由把流量交给服务器 peer。</td><td>给该 peer 绑定一个内部 /32 地址，双栈时加 /128；检查来包内部源 IP。</td></tr>
+          <tr><th scope="row"><code>PresharedKey</code></th><td>与该服务器 peer 共享的 PSK。</td><td>与该客户端共享同一 PSK，混入握手派生。</td></tr>
+          <tr><th scope="row"><code>DNS / Keepalive</code></th><td>配置解析器；脚本设置 PersistentKeepalive = 25 秒。</td><td>生成客户端字段；保活帮助维持 NAT 映射，可达性仍依赖实际网络。</td></tr>
+        </tbody></table></div>
+        <div class="deployment-note"><strong>配置交付也是授权过程。</strong><p>脚本在服务端生成客户端私钥，并保存导出的配置；二维码同样包含接入凭据。每台设备使用独立配置，才能单独撤销。目标网站通常无需安装 WireGuard。</p></div>
+        <p class="source-note">来源：<a href="https://github.com/hwdsl2/wireguard-install/blob/3f428774e61c95bca60d1e7b80f0c768ca2c6137/docs/clients-zh.md" target="_blank" rel="noopener noreferrer">客户端说明</a>、<a href="https://git.zx2c4.com/wireguard-tools/about/src/man/wg.8" target="_blank" rel="noopener noreferrer">配置字段手册</a>。</p>
+      </section>
+      <section class="section" id="deployment">
+        <div class="section-heading"><div class="eyebrow">05 / DEPLOYMENT</div><h2>部署先建立配置关系。</h2><p>准备一台服务器；脚本完成系统配置，再把接入材料交给设备。</p></div>
+        <div class="prerequisites"><article><span>服务器</span><p>受支持的 Linux、root 权限及适用内核。本版本安装器拒绝容器；协议本身的容器能力需另行理解。</p></article><article><span>可达网络</span><p>客户端能够访问服务器 UDP 端口。公网地址、云安全组、上游 NAT 映射由实际部署环境决定。</p></article><article><span>设备</span><p>安装对应平台 WireGuard 应用或工具，导入配置；需要保管自己的接入凭据。</p></article></div>
+        <ol class="deployment-steps"><li><span>01</span><div><h3>检查并安装环境</h3><p>检查系统、内核和管理员权限，安装 WireGuard 与辅助工具。</p></div></li><li><span>02</span><div><h3>生成服务端配置</h3><p>生成服务器密钥，写入内部地址与 UDP 监听端口。</p></div></li><li><span>03</span><div><h3>开启转发，配置出口</h3><p>设置 IP 转发、NAT 与防火墙，让服务器能够转发客户端流量。</p></div></li><li><span>04</span><div><h3>登记设备，输出配置</h3><p>生成客户端密钥与内部 IP，输出配置文件和二维码。</p></div></li><li><span>05</span><div><h3>启动服务，设备接入</h3><p>启动 wg0 并设置开机启动；设备导入配置后建立隧道。</p></div></li></ol>
+        <div class="deployment-note"><strong>脚本完成操作后退出。</strong><p>持续处理流量的是 WireGuard 和系统网络栈。云安全组、上游防火墙或 NAT 端口转发，需要在对应环境中配置。</p></div>
+        <p class="body-note">后续添加设备时，脚本更新配置并将 peer 加到运行中的接口；撤销时移除运行状态中的 peer、持久配置及导出文件。公开实现采用局部更新，实际连接影响仍待测试。公网 IP 检测只帮助确定地址，不会创建上游端口映射。</p>
+      </section>
+      <section class="section" id="interaction">
+        <div class="section-heading"><div class="eyebrow">06 / INTERACTION</div><h2>跟着一个数据包走一遍。</h2><p>以设备访问网站为例。点击步骤，理解每一段发生了什么。</p></div>
+        <div class="flow-demo"><div class="demo-topline"><span><i aria-hidden="true"></i> 通信流程示意</span><span>无实际网络请求</span></div><div class="flow-nodes"><div class="flow-node" data-node="client"><span aria-hidden="true">▣</span><strong>客户端</strong><small>内部 IP 10.7.0.2</small></div><div class="flow-edge" data-edge="tunnel"><span>UDP 加密隧道</span><i aria-hidden="true"></i></div><div class="flow-node" data-node="server"><span aria-hidden="true">☷</span><strong>VPN 服务器</strong><small>认证 / 加解密</small></div><div class="flow-edge" data-edge="internet"><span>转发与 NAT</span><i aria-hidden="true"></i></div><div class="flow-node" data-node="website"><span aria-hidden="true">◎</span><strong>目标网站</strong><small>业务请求与响应</small></div></div><div class="flow-step-buttons" role="group" aria-label="选择通信步骤"><button class="flow-step selected" data-step="0" aria-pressed="true">01 路由</button><button class="flow-step" data-step="1" aria-pressed="false">02 握手</button><button class="flow-step" data-step="2" aria-pressed="false">03 加密</button><button class="flow-step" data-step="3" aria-pressed="false">04 出网</button><button class="flow-step" data-step="4" aria-pressed="false">05 返回</button><button class="flow-step" data-step="5" aria-pressed="false">06 解密</button></div><div class="flow-explanation" aria-live="polite" aria-atomic="true"><span id="flow-count">01 / 06</span><div><h3 id="flow-title">系统路由把流量交给客户端</h3><p id="flow-description">应用生成 IP 包，操作系统按路由把需要经过 VPN 的流量交给 WireGuard 虚拟接口。</p><small id="flow-note">默认全流量配置：AllowedIPs = 0.0.0.0/0, ::/0</small></div><div class="flow-controls"><button id="flow-prev" aria-label="上一个通信步骤" disabled>←</button><button id="flow-next" aria-label="下一个通信步骤">→</button></div></div></div>
+        <p class="callout"><span aria-hidden="true">↳</span> 有有效会话时直接使用现有会话密钥；不为每个数据包重新握手。AllowedIPs 将 peer 与内部 IP 绑定，承担发送选择和接收源 IP 检查。</p>
+      </section>
+      <section class="section" id="tunneling">
+        <div class="section-heading"><div class="eyebrow">07 / TUNNELING & FORWARDING</div><h2>封装、解封装、转发：理解隧道本质。</h2><p>我们的理解可以表述为：原始 IP 包经过认证加密，被包装在另一套外层 IP / UDP 协议里传输；对端验证、解封装，再交给系统继续处理。</p></div>
+        <div class="concept-quote"><span>从“包装目标协议”进一步精确到</span><p><strong>包装整个内部 IP 包。</strong>TCP、UDP、TLS 和业务内容已经在这个 IP 包里面。外层目的地址指向 VPN 服务器；内部目的地址仍指向原来的目标服务。</p></div>
+        <div class="envelope-sequence" aria-label="HTTPS 的三种包形态"><article><span>01 · 进入隧道前</span><h3>原始业务包</h3><code>内部 IP / TCP / TLS 数据</code><p>应用与网站使用自己的业务协议。</p></article><b aria-hidden="true">→</b><article class="envelope-middle"><span>02 · 在公网隧道中</span><h3>外层 UDP 携带加密包</h3><code>外部 IP / UDP / WireGuard</code><small>└ 加密的 [内部 IP / TCP / TLS]</small><p>认证加密保护整个内部 IP 包。</p></article><b aria-hidden="true">→</b><article><span>03 · 网关解封装后</span><h3>业务包交给系统转发</h3><code>内部 IP / TCP / TLS 数据</code><p>TLS 仍加密；NAT 可改写 IP 和端口。</p></article></div>
+        <div class="subheading"><h3>“中转解析”分成三个层次。</h3><p>每一层读取的字段和承担的责任不同。能处理隧道包，并不意味着网关已读懂或解密业务内容。</p></div>
+        <div class="table-wrap"><table class="study-table"><thead><tr><th scope="col">处理层次</th><th scope="col">由谁执行</th><th scope="col">实际发生的事</th></tr></thead><tbody>
+          <tr><th scope="row">隧道处理</th><td>两端 WireGuard</td><td>读取 WG 消息，验证身份与完整性、防重放、解密，检查该 peer 的内部源 IP。</td></tr>
+          <tr><th scope="row">网络转发</th><td>服务端 Linux 网络栈</td><td>查看内部 IP 目标，应用路由与防火墙；出口 NAT 可改写源 IP / 端口，并维护返回映射。</td></tr>
+          <tr><th scope="row">业务处理</th><td>客户端应用与目标服务</td><td>处理 TLS、HTTP、SSH、DNS 等应用协议；正常 HTTPS 情形中，VPN 网关不持有网站 TLS 会话密钥。</td></tr>
+        </tbody></table></div>
+        <div class="connection-pair"><article><span>隧道通信关系</span><h3>客户端 WireGuard ↔ 服务端 WireGuard</h3><p>对端由配置公钥标识，外部 endpoint 用于 UDP 寻址，握手派生的会话密钥保护内部 IP 包。</p></article><article><span>业务通信关系</span><h3>客户端应用 ↔ 目标网站 / 服务</h3><p>内部 TCP 继续维持自身连接、排序和重传；服务器作为网关，通常不终止内部 TCP 或 TLS 连接。</p></article></div>
+        <details class="comparison-detail"><summary>与 HTTP / SOCKS 代理、二层网络和自动中继怎样区分？</summary><div class="table-wrap"><table class="study-table"><thead><tr><th scope="col">方式</th><th scope="col">主要处理对象</th><th scope="col">对这份研究的意义</th></tr></thead><tbody>
+          <tr><th scope="row">WireGuard IP 隧道</th><td>操作系统送入虚拟接口的 IP 包。</td><td>经路由选中的应用无需逐个理解 WG 协议；是否走 VPN 由路由与平台配置决定。</td></tr>
+          <tr><th scope="row">HTTP / SOCKS 代理</th><td>按代理协议接收请求或转接应用连接。</td><td>常需要应用代理设置或转接层；代理可能终止传输连接，HTTPS 是否被终止取决于具体模式。</td></tr>
+          <tr><th scope="row">二层桥接</th><td>以太网帧与二层网络行为。</td><td>WG 是三层 IP 隧道，安装成功不会自动形成一个支持以太网广播发现的局域网。</td></tr>
+          <tr><th scope="row">自动协调与中继平台</th><td>设备发现、网络穿透协调、路径选择等。</td><td>本安装器提供集中网关配置，未提供相应协调、中继或自动网状组网服务。</td></tr>
+        </tbody></table></div></details>
+        <p class="source-note">隧道、peer 和路由依据：<a href="https://www.wireguard.com/" target="_blank" rel="noopener noreferrer">官方概念说明</a>、<a href="https://www.wireguard.com/papers/wireguard.pdf" target="_blank" rel="noopener noreferrer">技术白皮书</a>。业务连接与 NAT 的说明是据封装层次所作的工程解释，本次未抓包验证。</p>
+      </section>
+      <section class="section" id="protocol">
+        <div class="section-heading"><div class="eyebrow">08 / PROTOCOL & CRYPTOGRAPHY</div><h2>外层 UDP，内层仍是你的业务。</h2><p>传输协议和业务协议处在不同层。隧道同时负责加密与认证。</p></div>
+        <div class="protocol-grid"><div class="packet-panel"><div class="packet-header"><strong>查看一个封装示例</strong><div class="packet-switch" role="group" aria-label="选择内部业务示例"><button data-packet="tcp" class="selected" aria-pressed="true">网页 / TCP</button><button data-packet="udp" aria-pressed="false">DNS / UDP</button></div></div><div class="packet-outer"><span class="packet-label">外层 · 公网传输</span><div class="packet-headers"><span>IP</span><span class="udp-label">UDP</span><span>WireGuard</span></div><div class="packet-encrypted"><span class="packet-label">会话密钥保护的内部 IP 包</span><div class="packet-inner"><span>IP</span><span id="inner-protocol">TCP</span><span id="inner-content">TLS / HTTPS 数据</span></div></div></div><p id="packet-description" aria-live="polite">以使用 TCP 的 HTTPS 请求为例：内部 TCP 负责自身的排序与重传，外层 WireGuard 始终通过 UDP 发送。</p></div><div class="protocol-facts"><article><span>传输</span><h3>UDP 是隧道的外层协议</h3><p>握手与数据消息都走 UDP，默认端口 51820。这个安装器没有提供 TCP 自动回退。</p></article><article><span>封装</span><h3>传输的是三层 IP 包</h3><p>可以承载内部 TCP、UDP 等 IP 流量；应用仍使用自己的协议。</p></article><article><span>边界</span><h3>VPN 与 HTTPS 可以叠加</h3><p>服务器解开 WireGuard 封装时，内部 HTTPS 的 TLS 加密仍然存在。</p></article></div></div>
+        <div class="crypto-heading"><h3>身份密钥与会话密钥，各做一件事。</h3><p>配置中的身份密钥用于认证；握手派生的会话密钥用于业务数据保护。</p></div><div class="table-wrap"><table class="crypto-table"><thead><tr><th scope="col">机制</th><th scope="col">使用的设计</th><th scope="col">实际作用</th></tr></thead><tbody><tr><th scope="row">认证与协商</th><td>Noise 握手 · Curve25519</td><td>验证配置中的对端身份，协商密钥材料。</td></tr><tr><th scope="row">数据加密</th><td>ChaCha20-Poly1305</td><td>保护内部 IP 包内容，并检测篡改。</td></tr><tr><th scope="row">额外共享秘密</th><td>每客户端一份 PSK</td><td>脚本生成额外共享密钥，混入握手过程。</td></tr><tr><th scope="row">防重放与更新</th><td>时间戳 · 计数器 · 协议定时器</td><td>抵御旧包重放，轮换会话密钥，提供前向保密。</td></tr></tbody></table></div>
+        <p class="body-note">握手采用 Noise IK 系列设计，密钥派生使用 BLAKE2s / HKDF。稳定公钥标识设备，会话密钥负责实际数据加密；身份公钥不直接逐包加密业务。已认证数据可更新对端 endpoint，帮助适应网络位置变化；保活帮助维持 NAT 状态，但不会让不可达的服务器自动变得可达。</p>
+        <div class="visibility-panel"><h3>谁能看到哪一层？</h3><div class="table-wrap"><table class="study-table"><thead><tr><th scope="col">观察位置</th><th scope="col">可观察内容</th><th scope="col">加密边界</th></tr></thead><tbody>
+          <tr><th scope="row">设备到服务器的链路</th><td>外部 IP、UDP 端口、包长和时序等。</td><td>内部 IP 包在 WG 认证加密范围内；这些外部元数据仍可观察。</td></tr>
+          <tr><th scope="row">VPN 服务器</th><td>解封装后的内部 IP、传输层字段，以及未做应用加密的内容。</td><td>普通 DNS 等明文业务可能被读取；正常 HTTPS 内容仍由 TLS 保护。</td></tr>
+          <tr><th scope="row">服务器到目标的链路</th><td>业务流量的网络字段；明文内容取决于业务协议。</td><td>离开 VPN 服务器后已无这条 WG 隧道保护，HTTPS / SSH 等应用加密继续存在。</td></tr>
+          <tr><th scope="row">目标网站或服务</th><td>应用请求、登录身份等；默认出口 NAT 场景下通常看到服务器出口 IP。</td><td>更换出口 IP 不会消除账号、Cookie 或设备指纹等识别方式。</td></tr>
+        </tbody></table></div></div>
+        <p class="source-note">密码学与 UDP 传输依据：<a href="https://www.wireguard.com/protocol/" target="_blank" rel="noopener noreferrer">官方协议</a>。可见范围按默认出口拓扑及封装层次说明；未实测 DNS 泄漏、平台断线阻断或流量识别。</p>
+      </section>
+      <section class="section" id="scenarios">
+        <div class="section-heading"><div class="eyebrow">09 / USE CASES</div><h2>场景决定路由，也决定额外工作。</h2><p>以下是基于源码能力和网络结构推导的用途，不代表已完成实际部署。先确定需要“统一出口”还是“只访问某个网段”。</p></div>
+        <div class="scenario-list">
+          <article><div class="scenario-label"><span>01</span><b>默认配置覆盖</b></div><div><h3>手机与电脑通过自己的服务器上网</h3><p>客户端默认全流量配置，服务器解密后转发和 NAT。适合希望掌握自己的出口、给多台设备分别授权的人。</p><small>需要：可达的 UDP 服务、服务器出口带宽与流量预算；确认 DNS、IPv6 和本地网络访问行为。</small></div></article>
+          <article><div class="scenario-label"><span>02</span><b>默认隧道可用</b></div><div><h3>在不可信网络上，把部分信任转移到自有服务器</h3><p>设备到服务器这一段由 WG 保护，降低沿途读取内部流量的机会。服务器与其后续网络仍是需要考虑的信任边界。</p><small>条件：路由实际经过 VPN；保持 HTTPS 等应用加密；断线阻断和 DNS 泄漏行为需按平台验证。</small></div></article>
+          <article><div class="scenario-label"><span>03</span><b>需补充网络配置</b></div><div><h3>远程访问家庭或办公室内网服务</h3><p>服务器部署在能到达 NAS、开发机或内网应用的位置。客户端通过隧道访问这些内部地址。</p><small>需要：内网路由、返回路径或合适 NAT、访问防火墙、网段冲突处理；家庭服务器可能还需公网可达或端口映射。</small></div></article>
+          <article><div class="scenario-label"><span>04</span><b>需修改两端配置</b></div><div><h3>只让指定网段走 VPN，其他流量走本地</h3><p>将客户端的 AllowedIPs 与系统路由改为目标网段，实现分流，减少无关流量绕行服务器。</p><small>需要：确定目标 IP 网段、返回路由和 DNS 策略；按域名或应用分流不能仅靠一个静态 CIDR 列表完成。</small></div></article>
+          <article><div class="scenario-label"><span>05</span><b>可作为基础组件</b></div><div><h3>个人实验室与小团队的密钥接入</h3><p>独立配置身份方便添加和撤销。也可以进一步研究 peer 对 peer 或站点之间的三层路由。</p><small>需要：团队访问策略、设备隔离、分发与密钥生命周期管理；站点互联和自动 mesh 不是此脚本的开箱功能。</small></div></article>
+          <article><div class="scenario-label"><span>06</span><b>当前研究用途</b></div><div><h3>学习 Linux 网络、抓包和部署自动化</h3><p>把配置文件、接口、握手、封装和 NAT 对应起来。比较外层 UDP 与内层 TCP / UDP，再验证添加和撤销。</p><small>建议顺序：先一台设备访问目标，再加第二台设备；最后验证分流、IPv6、异常网络和性能。</small></div></article>
+        </div>
+        <div class="decision-band"><strong>判断是否合适</strong><p>有可达服务器、UDP 可用、愿意维护少量设备配置，并接受经过单个网关的路径，这套安装器很实用。若需要企业身份登录、自动发现穿透、跨地域中继、复杂访问策略或高可用，需要额外系统设计。</p></div>
+      </section>
+      <section class="section" id="boundaries">
+        <div class="section-heading"><div class="eyebrow">10 / PERSONAL VALUE & BOUNDARIES</div><h2>价值在控制与理解，也伴随维护。</h2><p>对个人来说，它让自建 VPN 更容易；对项目研究来说，它展示了如何把协议能力落成可用的系统。</p></div>
+        <div class="value-strip"><article><span>01</span><h3>减少手工配置</h3><p>把密钥、路由、NAT、防火墙和启动管理连成可重复的流程。</p></article><article><span>02</span><h3>控制设备接入</h3><p>自己维护服务器与配置身份，为设备独立授权和撤销。</p></article><article><span>03</span><h3>学习网络工程</h3><p>观察协议、系统网络与部署脚本如何一起形成可用服务。</p></article></div>
+        <div class="subheading"><h3>个人能获得什么，又要承担什么？</h3></div>
+        <div class="table-wrap"><table class="study-table"><thead><tr><th scope="col">个人价值</th><th scope="col">具体收益</th><th scope="col">对应投入或限制</th></tr></thead><tbody>
+          <tr><th scope="row">掌握自己的出口</th><td>选择服务器位置与服务商；默认通过该服务器访问外部网络。</td><td>承担主机、出口流量与可用性成本；单个网关故障会影响依赖它的通信。</td></tr>
+          <tr><th scope="row">更细的设备管理</th><td>设备独立密钥，遗失或不再使用时可移除其 peer。</td><td>妥善交付配置、登记设备归属；脚本不提供完整的自动轮换和自助发放系统。</td></tr>
+          <tr><th scope="row">保护到网关这一段</th><td>内部 IP 包在设备与服务器之间受到认证加密保护。</td><td>信任集中到服务器；保持应用加密，按平台检查 DNS、IPv6 和断线行为。</td></tr>
+          <tr><th scope="row">远程使用个人资源</th><td>在网络条件与路由允许时，访问自己的内网服务。</td><td>额外维护内网路由、防火墙与返回路径；处理家庭网络和网段冲突。</td></tr>
+          <tr><th scope="row">获得可迁移的知识</th><td>理解虚拟接口、密码学路由、UDP 封装、NAT、systemd 与配置持久化。</td><td>投入实验和排错时间；区分安装成功、隧道握手成功与业务可用。</td></tr>
+        </tbody></table></div>
+        <div class="subheading"><h3>能力边界：需要额外系统的部分。</h3><p>以下为固定版本公开实现中未提供的完整能力；底层可扩展并不等于安装器已经实现。</p></div>
+        <div class="boundary-grid"><article><h3>账号与管理平台</h3><p>未提供 Web 面板、管理 HTTP API、用户名密码、SSO / MFA、自助注册及自动配置分发。</p></article><article><h3>网络协调与策略</h3><p>未提供自动打洞协调、中继平台、mesh 管理、应用级 ACL 或逐设备隔离策略。</p></article><article><h3>运营与连续性</h3><p>未提供完整的额度计费、集中审计、容量管理、自动故障切换与密钥生命周期平台。</p></article><article><h3>传输和效果保证</h3><p>无 TCP 回退或混淆；更换端口仍是 UDP。速度、匿名性、DNS 防泄漏与断线阻断均不能由安装成功推定。</p></article></div>
+        <p class="body-note">性能由设备、网关 CPU、带宽、路径和丢包共同决定。增加封装会增加包大小，绕行网关也可能增加延迟；遇到特定网站可用但大包卡住时，还应检查 MTU。网络参数调整和 BBR 设置不构成全链路加速保证。</p>
+        <div class="faq"><details open><summary>它直接提供哪些能力？<span aria-hidden="true">+</span></summary><p>自动部署、配置生成、二维码导入材料、设备添加与撤销，以及服务端网络设置。默认是设备通过服务器上网的集中网关结构。</p></details><details><summary>哪些需要我们另外设计？<span aria-hidden="true">+</span></summary><p>仅指定网段走 VPN、内网返回路由、客户端隔离、按应用授权，以及企业登录、审计与自助配置分发。公钥与内部 IP 的绑定不等于完整的访问权限系统。</p></details><details><summary>默认 253 个客户端，意味着什么？<span aria-hidden="true">+</span></summary><p>脚本默认地址池可配置 253 个客户端。这是地址分配上限，不是经过测试的并发能力或性能承诺。</p></details><details><summary>改成 443 端口，就变成 HTTPS 了吗？<span aria-hidden="true">+</span></summary><p>仍然是 WireGuard 的 UDP/443。端口变化不改变协议；安装器没有提供 TCP 回退、传输混淆或自动中继服务。</p></details><details><summary>二维码与配置文件包含什么？<span aria-hidden="true">+</span></summary><p>包含该设备的私钥、服务器公钥、共享密钥与连接参数，是完整的接入凭据。脚本在服务端生成并导出这些材料，由操作者交给设备。</p></details><details><summary>加密覆盖到哪里？速度有保证吗？<span aria-hidden="true">+</span></summary><p>VPN 加密覆盖设备到服务器的隧道。之后的应用内容保护取决于 HTTPS/TLS 等业务协议。实际速度取决于服务器、线路和设备；当前研究未进行吞吐或延迟测试。</p></details></div>
+      </section>
+      <section class="section" id="extensions">
+        <div class="section-heading"><div class="eyebrow">11 / EXTENSION DIRECTIONS</div><h2>在可用隧道之上，逐步扩展系统。</h2><p>安装器提供部署与 peer 管理基础。下面是我们可以继续设计的方向，当前网页仅说明方案，尚未实现这些扩展。</p></div>
+        <div class="table-wrap"><table class="study-table"><thead><tr><th scope="col">扩展方向</th><th scope="col">需要增加什么</th><th scope="col">怎样判断有价值</th></tr></thead><tbody>
+          <tr><th scope="row">分流与内网接入</th><td>目标网段、路由与 DNS 策略、内网返回路径；站点互联需单独规划 peer 与路由。</td><td>目标资源能访问，其他流量按预期走本地；检查网段冲突、IPv6 和重启恢复。</td></tr>
+          <tr><th scope="row">按设备限制访问</th><td>以已认证 peer 的内部 IP 为基础，补充防火墙、资源范围和设备隔离。</td><td>既验证允许的访问，也验证被禁止的访问；AllowedIPs 绑定本身不等于完整 ACL。</td></tr>
+          <tr><th scope="row">配置分发与生命周期</th><td>设备登记、受控配置交付、密钥替换、丢失设备撤销、配置版本与管理员权限。</td><td>能单独授权和撤销，重启后保持状态；减少误发凭据、共用密钥与配置漂移。</td></tr>
+          <tr><th scope="row">Web 管理与 API</th><td>在安装管理能力外增加鉴权、授权、操作校验、审计与有限管理接口。</td><td>管理操作可追溯，权限范围明确；避免把任意系统命令执行包装成开放 API。</td></tr>
+          <tr><th scope="row">观测与容量管理</th><td>收集握手、endpoint、收发量、资源消耗和业务探测；制定告警与容量基线。</td><td>区分已配置、最近通信与业务可用；定位失败环节，并用实测决定扩容。</td></tr>
+          <tr><th scope="row">自动化与多网关</th><td>配置模板、重复部署与备份恢复；规划备用节点、路由选择和切换策略。</td><td>故障时业务能恢复；复制配置或添加第二台服务器不会自动形成高可用。</td></tr>
+        </tbody></table></div>
+        <div class="decision-band"><strong>扩展顺序</strong><p>先验证一台服务器、一台客户端的真实通信，再做需要的分流和访问限制；有设备规模与管理需求后，再投入分发、面板、监控和冗余。逐项定义验收结果，保留配置与实测记录。</p></div>
+      </section>
+      <section class="section evidence" id="evidence">
+        <div class="section-heading"><div class="eyebrow">12 / RESEARCH NOTES</div><h2>每一层理解，都保留出处。</h2><p>这是一份源码与协议导读。使用场景、个人价值和扩展方向为工程分析，运行效果留待实际环境验证。</p></div>
+        <div class="evidence-meta"><div><small>研究版本</small><strong><a href="https://github.com/hwdsl2/wireguard-install/tree/3f428774e61c95bca60d1e7b80f0c768ca2c6137" target="_blank" rel="noopener noreferrer">3f42877 ↗</a></strong></div><div><small>安装脚本许可</small><strong>MIT</strong></div><div><small>研究日期</small><strong>2026.10.13</strong></div><div><small>研究阶段</small><strong>静态分析完成</strong></div></div>
+        <div class="evidence-columns"><div><h3><i class="verified-dot" aria-hidden="true"></i> 已核对</h3><p>部署与设备管理函数、配置字段、路由及 NAT 设置、官方 UDP 封装、握手与密码学机制。</p></div><div><h3><i class="pending-dot" aria-hidden="true"></i> 待实测</h3><p>各系统安装、真实客户端连接、抓包、DNS 与 IPv6 行为、网络切换、吞吐与延迟。</p></div></div>
+        <div class="source-list"><a href="https://github.com/hwdsl2/wireguard-install/blob/3f428774e61c95bca60d1e7b80f0c768ca2c6137/README-zh.md" target="_blank" rel="noopener noreferrer">项目中文说明 <span>↗</span></a><a href="https://github.com/hwdsl2/wireguard-install/blob/3f428774e61c95bca60d1e7b80f0c768ca2c6137/wireguard-install.sh" target="_blank" rel="noopener noreferrer">固定版本源码 <span>↗</span></a><a href="https://www.wireguard.com/" target="_blank" rel="noopener noreferrer">WireGuard 工作原理 <span>↗</span></a><a href="https://www.wireguard.com/protocol/" target="_blank" rel="noopener noreferrer">协议与密码学 <span>↗</span></a><a href="https://git.zx2c4.com/wireguard-tools/about/src/man/wg.8" target="_blank" rel="noopener noreferrer">配置字段手册 <span>↗</span></a><a href="https://git.zx2c4.com/wireguard-tools/about/src/man/wg-quick.8" target="_blank" rel="noopener noreferrer">接口与路由手册 <span>↗</span></a><a href="https://www.wireguard.com/papers/wireguard.pdf" target="_blank" rel="noopener noreferrer">协议技术白皮书 <span>↗</span></a><a href="https://github.com/hwdsl2/wireguard-install/blob/3f428774e61c95bca60d1e7b80f0c768ca2c6137/docs/clients-zh.md" target="_blank" rel="noopener noreferrer">客户端配置与导入 <span>↗</span></a><a href="https://github.com/hwdsl2/wireguard-install/blob/3f428774e61c95bca60d1e7b80f0c768ca2c6137/LICENSE.txt" target="_blank" rel="noopener noreferrer">上游 MIT 许可证 <span>↗</span></a></div>
+      </section>
+      <footer class="footer"><span>项目研究室 / 005 · WireGuard Install</span><a href="#overview">回到顶部 ↑</a></footer>
+    </main>
+  </div>
+</body>
+</html>
