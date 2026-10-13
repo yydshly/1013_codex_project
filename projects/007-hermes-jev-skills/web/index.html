@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ed">
+  <meta name="description" content="完整理解 Hermes Jev Skills 的能力、Jev 在 Agent 中的作用与位置、上游路由原理，以及我们的任务拆分、判断标准、规则与小模型选择、个人价值和扩展验证方法。">
+  <title>Hermes Jev Skills · 能力、架构与我们的理解</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#understanding">跳到正文</a>
+  <header class="header">
+    <a class="brand" href="#understanding"><span class="brand-mark" aria-hidden="true">J.</span><span>项目研究室<small>DECISIONS & MODEL ROUTING</small></span></a>
+    <div class="header-right"><span class="project-number">研究笔记 <b>007</b></span><a href="../">全部项目</a><a href="https://github.com/kerpopule/hermes-jev-skills" target="_blank" rel="noopener noreferrer">原仓库 ↗</a></div>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <p class="nav-title">我们的理解 <span>READING MAP</span></p>
+      <nav aria-label="阅读章节">
+        <a href="#understanding" class="active"><span>01</span>库的能力与核心</a>
+        <a href="#architecture"><span>02</span>Jev 的位置与分工</a>
+        <a href="#mechanism"><span>03</span>Jev 怎么判断</a>
+        <a href="#example"><span>04</span>一个具体场景</a>
+        <a href="#criteria"><span>05</span>制定自己的标准</a>
+        <a href="#validation"><span>06</span>验证是否有效</a>
+        <a href="#alternatives"><span>07</span>规则、Jev、小模型</a>
+        <a href="#projects"><span>08</span>用在我的项目里</a>
+        <a href="#extensions"><span>09</span>扩展需要什么</a>
+        <a href="#sources"><span>10</span>依据与验证边界</a>
+      </nav>
+      <div class="side-note"><span class="dot"></span><strong>源码核对 · 方案待验证</strong><p>示例帮助理解判断过程。<br>真实收益需要自己的数据。</p><small>2026.10.13 / 31f476c</small></div>
+    </aside>
+    <main>
+      <section class="section hero" id="understanding">
+        <div class="eyebrow">01 / 从我们的讨论出发</div>
+        <div class="hero-grid">
+          <div><p class="library-name">HERMES JEV SKILLS</p><h1>把判断<br>交给<span>谁？</span></h1><p class="hero-lead">把 Agent 中的有限判断接入 Jev，<br>让主模型和工具完成任务。</p><p class="hero-sub">库提供接入与策略，Jev 提供判断。<br>我们借鉴能力拆分，用验收决定是否值得。</p><a class="button primary" href="#architecture">先看 Jev 在哪里 <span aria-hidden="true">→</span></a></div>
+          <div class="decision-map" role="img" aria-label="你定义标准，判断器解释任务，本地策略选择执行模型 A 或 B，最终验收结果并修订标准。架构示意。">
+            <div class="map-top"><span>我们扩展的决策链</span><small>CONCEPT MAP</small></div>
+            <div class="map-input"><span class="mini-label">你</span><strong>任务 + 背景 + 判断标准</strong><small>先说清楚什么算做好</small></div>
+            <div class="map-arrow" aria-hidden="true">↓</div>
+            <div class="map-judge"><span class="mini-label">判断器</span><strong>规则 / Jev / 小模型</strong><small>识别需求，不承担最后的产出</small></div>
+            <div class="map-arrow" aria-hidden="true">↓</div>
+            <div class="map-policy"><span>本地策略</span><strong>约束 · 模型池 · 回退</strong></div>
+            <div class="map-branches"><div><b>A</b><span>便宜执行模型</span></div><div><b>B</b><span>较强执行模型</span></div></div>
+            <div class="map-feedback"><span aria-hidden="true">↺</span> 产出验收 → 修订标准和模型映射</div>
+          </div>
+        </div>
+        <div class="thesis"><span>我们真正学到的</span><p>按任务需要的能力拆分工作，<strong>把“如何选”做成可验证的决策。</strong><br>底层选规则、Jev 还是便宜小模型，要看自己的任务和实测结果。</p></div>
+        <div class="quick-summary" aria-label="先读懂三个概念"><article><span>这个库</span><h3>接入与编排工具</h3><p>Python 工具、CLI、技能、Hermes 插件与面板，把小决策放进 Agent 的工作流。</p></article><article><span>Jev</span><h3>云端决策模型</h3><p>按给定状态与问题返回选择、评分或是否概率。库里没有它的权重和训练实现。</p></article><article><span>我们的扩展</span><h3>能力拆分与验证</h3><p>设计自己的标准、规则和模型映射；验收成果，再决定是否需要判断模型。</p></article></div>
+        <h3 class="subheading">库能处理哪些判断？</h3>
+        <div class="capability-grid"><article><h3>模型路由</h3><p>任务的难度、类型与错误代价 → 本地策略选执行模型。</p></article><article><h3>技能选择</h3><p>任务与技能描述 → 选技能或不选，宿主负责加载。</p></article><article><h3>检索与证据</h3><p>筛结果、判断是否足够、选候选查询 → 检索器与主模型继续工作。</p></article><article><h3>上下文筛选</h3><p>从候选片段或轮次中判断保留价值 → 本地代码组织上下文。</p></article><article><h3>消息分类</h3><p>按分类定义判断紧急度、队列和是否需人工 → 工作流分派。</p></article><article><h3>合法动作选择</h3><p>从预先允许的动作中选下一步，或监督重试与升级 → 工具执行。</p></article></div>
+        <p class="footnote">接入方向依据固定版本的 <a href="https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/README.md" target="_blank" rel="noopener noreferrer">上游 README ↗</a> 与模块。各宿主的启用方式不同；默认交接流程并不依赖 Jev 筛选。包含某项能力，不等于每个环节都应使用它。</p>
+        <figure class="overview-figure" id="overview-map">
+          <div class="overview-figure-heading"><div><span class="mini-label">一张图，整理我们的完整理解</span><h3>从能力与标准，到验证与扩展。</h3></div><a class="button secondary" href="./assets/understanding-overview.png" download="Jev与多模型路由理解总览.png">下载原图 ↓</a></div>
+          <a class="overview-image-link" href="./assets/understanding-overview.png" target="_blank" rel="noopener noreferrer" aria-label="打开 Jev 与多模型路由理解总览原图"><img src="./assets/understanding-overview.png" width="941" height="1672" loading="lazy" alt="Jev 与多模型路由完整理解图：有限选择、评分和是否判断；目标与背景、判断器、本地策略、执行、验收的反馈闭环；适用条件与规则、Jev、小模型对比；背景、表达、综合、依赖、错误代价五项标准；标准设置、A/B 配对验证、扩展基础与个人实践入口。"></a>
+          <figcaption>本次讨论整理，使用 imagegen 生成。图解释场景架构、判断标准与行动策略；个人 A/B 路由与验收闭环是我们的扩展设计，非上游默认架构的逐项复刻，非真实模型实测。研究版本 31f476c。</figcaption>
+        </figure>
+        <div class="understanding-list"><p><b>能力</b>从有限选项中选择、按定义评分、判断是否满足条件。</p><p><b>原理</b>提供状态和标准，得到结构化判断，由代码决定后续动作。</p><p><b>价值</b>减少重复判断，尝试让合适的执行模型处理合适的任务。</p><p><b>边界</b>判断任务需求不等于验证模型能力，路由合理也不等于成果合格。</p></div>
+      </section>
+
+      <section class="section" id="architecture">
+        <div class="eyebrow">02 / ARCHITECTURE</div><h2>Jev 在判断环节，代码决定动作。</h2><p class="section-lead">先看上游实际接入，再看我们如何扩展。Jev 的一个答案，需要其他组件落实成结果。</p>
+        <h3 class="subheading">上游实际链路 · 以 Hermes 路由为例</h3>
+        <ol class="source-flow" aria-label="上游路由架构"><li><span>宿主</span><strong>用户请求</strong><small>Hermes 扩展点触发</small></li><li><span>工具库</span><strong>整理状态与问题</strong><small>jevkit 脱敏、截断、提问</small></li><li class="jev-position"><span>Jev 的位置</span><strong>云 API 判断</strong><small>难度、类型、错误代价</small></li><li><span>本地策略</span><strong>校验并选模型</strong><small>阈值、约束、模型池、回退</small></li><li><span>执行</span><strong>主模型与工具</strong><small>回答、写作、修改、检查</small></li></ol>
+        <p class="footnote">Jev 返回依据，调用方落实选择。Hermes 可换模型，但不会自动更换供应商连接；其他 Agent 使用技能 / CLI 不等于具有相同自动路由。详见 <a href="https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/hermes/plugin/hermes-jev/__init__.py" target="_blank" rel="noopener noreferrer">插件源码 ↗</a>。</p>
+        <h3 class="subheading">我们的扩展 · 规则优先，加上成果验收</h3>
+        <p class="section-lead compact">下面的五层是个人设计建议：固定分支先用规则，有语义歧义再比较判断模型，最后验收整项任务。</p>
+        <ol class="responsibility-list">
+          <li><span>01</span><div><h3>你定义目标与标准</h3><p>哪些输出算通过，哪些需求需要综合推理，哪些错误不能接受，以及可用哪些模型。</p></div><small>任务设计</small></li>
+          <li><span>02</span><div><h3>判断器识别任务需求</h3><p>面对提供的任务和背景，按标准回答问题。固定字段可用规则，语义歧义可交给 Jev 或小模型。</p></div><small>语义判断</small></li>
+          <li><span>03</span><div><h3>本地代码作出实际选择</h3><p>结合判断、模型能力、上下文、图像支持、风险约束和默认回退，选出具体执行模型。</p></div><small>路由策略</small></li>
+          <li><span>04</span><div><h3>执行模型与工具完成任务</h3><p>撰写内容、分析源码、修改代码、运行检查。地图、音频与镜头的同步由应用代码执行。</p></div><small>生成与执行</small></li>
+          <li><span>05</span><div><h3>用结果检验整条链</h3><p>按同一套验收要求看质量、费用、耗时和返工；识别错误发生在哪层，再调整。</p></div><small>反馈与评测</small></li>
+        </ol>
+        <div class="table-wrap"><table><thead><tr><th scope="col">三个概念</th><th scope="col">分别回答什么</th><th scope="col">导览例子</th></tr></thead><tbody><tr><th scope="row">场景架构</th><td>谁观察、谁判断、谁执行、谁验收？</td><td>任务 → 判断器 → 策略 → 执行 → 浏览器验收</td></tr><tr><th scope="row">判断标准</th><td>怎样识别这个任务的需求？</td><td>是否改变地图、音频、镜头间的共享进度？</td></tr><tr><th scope="row">路由策略</th><td>识别之后采取什么行动？</td><td>有依赖暂用 B；只整理字幕试 A；缺背景补信息</td></tr></tbody></table></div>
+        <div class="note accent"><b>一个具体作用：识别“共享暂停恢复”属于联动需求。</b><p>我们先定义依赖标准，Jev 按标准识别任务；策略暂选 B；执行模型修改代码；浏览器检验进度一致。识别、选择、修改和验收各有负责人。这是个人方案示例，未真实调用模型。</p></div>
+        <div class="note"><b>这个库与 Jev 模型是两件东西。</b><p>仓库提供接入工具、技能、Hermes 插件和本地策略。Jev 本身是 TypeSafe 的云端决策模型，仓库没有它的模型权重与训练实现。其他小模型可以替代判断角色，但需要适配和验证。</p></div>
+      </section>
+
+      <section class="section" id="mechanism">
+        <div class="eyebrow">03 / HOW IT DECIDES</div><h2>标准来自设计，判断来自模型。</h2><p class="section-lead">库作者已经提供默认标准。接入自己的业务时，我们复用或修改它们，再用数据修订；不必每次临时制定一套。</p>
+        <div class="three-layers"><article><span>输入定义</span><h3>状态 + 明确问题</h3><p>告诉 Jev 当前任务、可选项和含义。拆成尽量独立的问题，避免把多个要求混成一句“是否复杂”。</p></article><article><span>模型判断</span><h3>解释任务语义</h3><p>按给定问题返回选择、评分或“是”的概率。厂商描述了校准训练思路，内部权重和训练数据未在本仓库公开。</p></article><article><span>策略组合</span><h3>本地代码落地</h3><p>阈值、风险、能力约束和模型池决定实际路由。不能仅凭一个分数就断言哪个模型能完成。</p></article></div>
+        <div class="question-table table-wrap"><table><thead><tr><th scope="col">默认路由的问题</th><th scope="col">如何定义</th><th scope="col">如何影响路由</th></tr></thead><tbody><tr><th scope="row">完成它有多难？</th><td>机械 / 常规 / 需要规划协调 / 专家</td><td>映射到 simple、medium、hard 档位</td></tr><tr><th scope="row">主要是什么工作？</th><td>代码 / 写作 / 研究 / 通用</td><td>在该档位中查找对应模型池</td></tr><tr><th scope="row">出错的代价高吗？</th><td>错误是否昂贵或难以撤销</td><td>结合本地风险规则，避免过度降级</td></tr></tbody></table></div>
+        <p class="source-inline">依据：<a href="https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/jevkit/route.py" target="_blank" rel="noopener noreferrer">固定版本 route.py ↗</a></p>
+        <details><summary>展开看：默认阈值与输入范围</summary><div class="detail-content"><p>普通低置信度路径的阈值是 0.6；降到最便宜档位需要 P(机械任务) ≥ 0.7，且 confidence ≥ 0.85；P(较难两级) ≥ 0.6 可进入 hard。风险、隐私模式、上下文与模型可用性还能改变选择。</p><p>默认发送当前请求脱敏后的约 2,500 字符，长文本通常保留开头与结尾，并不发送完整历史、文件和工具结果。“继续完善”这样的请求，需要你在自有方案中补充真实目标、当前状态和验收要求。</p><p>这些是该 commit 的默认值，应该在自己的开发集上重新验证。Hermes 插件可换模型，但不能直接换已有的供应商连接；用户固定模型优先。Codex 技能和 CLI 不等于相同的自动路由中间件。</p></div></details>
+        <div class="note accent"><b>confidence 0.85 ≠ 执行模型有 85% 的成功率。</b><p>Choice / Score 的 confidence 是判断答案分布的集中程度。Noul 返回“是”的概率，没有另一个独立 confidence。任务判断、概率校准和最终任务成功，是不同的验证对象。<a href="https://docs.typesafe.ai/confidence" target="_blank" rel="noopener noreferrer">官方说明 ↗</a></p></div>
+      </section>
+
+      <section class="section" id="example">
+        <div class="eyebrow">04 / ONE CONCRETE EXAMPLE</div><h2>以你的新疆导览为例。</h2><p class="section-lead">同一套应用，任务的能力需求可以完全不同。选择任务和判断方式，观察分工。</p>
+        <div class="demo">
+          <div class="demo-label"><span><i class="dot"></i>教学模拟 · 预设分析</span><small>未调用 Jev 或其他模型</small></div>
+          <div class="scenario-tabs" role="group" aria-label="选择示例任务"><button data-scenario="subtitle" class="selected" aria-pressed="true">压缩字幕</button><button data-scenario="synthesis" aria-pressed="false">设计新讲解</button><button data-scenario="sync" aria-pressed="false">修复联动</button><button data-scenario="missing" aria-pressed="false">继续完善</button></div>
+          <div class="task-box"><span>用户任务</span><p id="task-text">把已经审核的导览字幕压缩到每条 30 字以内，保留地名和数字，不增加新知识。</p><small id="task-background">背景：原字幕与事实已提供。A / B 是待实测的执行模型候选。</small></div>
+          <div class="method-tabs" role="group" aria-label="选择判断方式"><button data-method="rules" class="selected" aria-pressed="true">本地规则</button><button data-method="jev" aria-pressed="false">Jev</button><button data-method="small" aria-pressed="false">便宜小模型</button></div>
+          <div class="comparison-result" aria-live="polite" aria-atomic="true"><div><span class="mini-label" id="method-label">如何判断 / 本地规则</span><h3 id="judge-title">明确的任务标签，直接走固定规则。</h3><p id="judge-description">如果入口已经标明“已审核字幕压缩”，且有原文与长度要求，代码可直接选择 A；无需再让模型判断。</p><p class="judgment" id="judge-output">任务性质：仅改表达；无新推理；无联动修改。</p></div><div class="route-card"><span>本地策略的示例结果</span><strong id="route-result">尝试 A</strong><p id="route-note">A 能否合格，需要与 B 配对实测。</p></div></div>
+          <div class="execution-box"><span>选择之后</span><p id="execution-text">执行模型压缩字幕 → 检查字数、专名、数字与事实 → 不合格时记录失败，再按既定策略返工或升级。</p></div>
+        </div>
+        <p class="footnote">这里没有预设 Jev 比规则或小模型更准确。同一标准可能得到相同选择；差异要通过真实任务测量。</p>
+      </section>
+
+      <section class="section" id="criteria">
+        <div class="eyebrow">05 / DEFINE YOUR CRITERIA</div><h2>先定义“做好”，再定义“怎么选”。</h2><p class="section-lead">把标准当成可检验的假设。开始只需要两个执行模型和少数清晰问题。</p>
+        <div class="acceptance table-wrap"><table><thead><tr><th scope="col">任务</th><th scope="col">完成标准</th><th scope="col">初始路由假设</th></tr></thead><tbody><tr><th scope="row">字幕压缩</th><td>字数符合要求；保留事实、数字、专名；无新结论</td><td>可以试 A</td></tr><tr><th scope="row">项目研究</th><td>结论有源码依据；分清上游、本地改动与未验证事项</td><td>已有结论整理试 A；新分析暂用 B</td></tr><tr><th scope="row">导览联动修改</th><td>地图、音频、镜头进度一致；暂停与返回正常</td><td>相互依赖暂用 B</td></tr></tbody></table></div>
+        <div class="rubric-demo"><div class="rubric-copy"><span class="mini-label">调整一个标准，观察选择如何变化</span><h3>把“复杂”拆成可复查的问题。</h3><p>三处按钮文字修改，未必需要联动协调。地图与音频共享暂停、恢复进度，则存在真实依赖。</p><p class="footnote">下方是我们设计的初始策略，用本地代码演示；不是上游默认路由，也没有真实预测概率。</p><button class="text-button" id="rubric-reset">恢复“字幕整理”条件 ↺</button></div><div class="rubric-controls"><label><input type="checkbox" id="criterion-context" checked><span><b>背景足够</b><small>任务、材料与验收要求已提供</small></span></label><label><input type="checkbox" id="criterion-expression" checked><span><b>仅改表达</b><small>事实和结论已给定，只改措辞或格式</small></span></label><label><input type="checkbox" id="criterion-synthesis"><span><b>需要综合推理</b><small>关联多份材料、处理冲突或形成新结论</small></span></label><label><input type="checkbox" id="criterion-dependency"><span><b>存在相互依赖</b><small>改变部件间行为、约束或共享状态</small></span></label><label><input type="checkbox" id="criterion-risk"><span><b>错误代价较高</b><small>返工昂贵，或触及不能随意降级的要求</small></span></label><label><input type="checkbox" id="criterion-uncertain"><span><b>判断仍不确定</b><small>现有信息不足以可靠应用标准</small></span></label></div><div class="rubric-result" aria-live="polite" aria-atomic="true"><span>本地策略</span><strong id="rubric-route">尝试 A</strong><p id="rubric-reason">背景完整，明确只改表达，且没有综合推理、联动或高代价条件。</p></div></div>
+        <div class="note"><b>决定模型能力的，是任务实测。</b><p>“需要推理就暂用 B”只是起点。若 A 在这类任务中同样稳定通过，就应修改映射；若 B 也失败，应先检查信息、工具、验收和工作流程。某个判断不会改变实际行动时，可以省去这一问。</p></div>
+        <h3 class="subheading">七步设置一套可以验证的标准</h3>
+        <ol class="criteria-steps"><li><b>限定场景和目标。</b>先做已核实材料的整理，事先约定质量容限和成本目标。</li><li><b>先写验收。</b>字数、专名、事实与格式怎样检查，失败如何记录。</li><li><b>整理真实输入。</b>材料、修改范围、约束与工具必须足够，缺信息先补。</li><li><b>拆成清晰问题。</b>表达、综合、依赖、风险分别判断，补充“否”和“未知”的例子。</li><li><b>定义动作和回退。</b>答案映射模型，硬约束放代码里；格式错误和不确定有兜底。</li><li><b>配对执行修订。</b>开发集测 A / B 能力，修订问题与模型映射，概率阈值另测。</li><li><b>冻结版本试运行。</b>独立测试集对比四条流程，先影子记录，再小范围切换。</li></ol>
+      </section>
+
+      <section class="section" id="validation">
+        <div class="eyebrow">06 / VERIFY THE VALUE</div><h2>选得像样，还不够。</h2><p class="section-lead">让 A、B 真正完成同一任务，才能知道哪些任务值得降级，哪些必须避免。</p>
+        <ol class="validation-steps"><li><b>1</b><div><h3>冻结任务和验收要求</h3><p>保存真实输入、必要材料、工具、模型版本和“通过”的定义。先定质量容限与延迟预算。</p></div></li><li><b>2</b><div><h3>配对执行，隐藏名称评阅</h3><p>A、B 用相同材料与工具完成任务；关键或不稳定案例重复运行。分别记录判断是否符合标准与结果是否通过。</p></div></li><li><b>3</b><div><h3>开发集修订，测试集验证</h3><p>改标准和阈值只用开发集；留出独立测试集。覆盖真实任务比例，也补充高代价与边界情况。</p></div></li><li><b>4</b><div><h3>对比四条完整流程</h3><p>固定默认模型、规则、规则 + Jev、规则 + 小模型。影子模式先记录建议，评测后再小范围切换。</p></div></li></ol>
+        <div class="pairing-grid"><article><span>A ✓ / B ✓</span><h3>都能通过</h3><p>优先比较完整费用与耗时，通常可尝试便宜的方案。</p></article><article class="critical"><span>A × / B ✓</span><h3>必须识别的任务</h3><p>这类任务选 A 会误降级。它比“便宜模型使用比例”更值得关注。</p></article><article><span>A ✓ / B ×</span><h3>能力映射需要修订</h3><p>较强候选并非每项都强，按任务重新选择模型池。</p></article><article><span>A × / B ×</span><h3>检查任务和流程</h3><p>补信息、改工具或重新拆分，单纯升级可能无效。</p></article></div>
+        <div class="metrics table-wrap"><table><thead><tr><th scope="col">指标</th><th scope="col">如何算 / 如何记录</th><th scope="col">为什么看它</th></tr></thead><tbody><tr><th scope="row">最终通过率</th><td>最终通过任务数 / 全部任务数</td><td>节省费用前，先满足质量要求</td></tr><tr><th scope="row">误降级率</th><td>A 失败、B 通过的任务中，路由选 A 的比例</td><td>衡量不该降级时是否降了级</td></tr><tr><th scope="row">每个通过任务的总成本</th><td>判断 + 执行 + 重试 + 升级 + 缓存变化，再除以通过数</td><td>避免只比较单次调用价格</td></tr><tr><th scope="row">延迟、返工与维护</th><td>完整完成耗时、人工返工、规则和提示维护工时</td><td>费用降低不一定代表总体收益</td></tr></tbody></table></div>
+        <div class="diagnosis"><h3>出了问题，先判断是哪一层。</h3><p><b>标准被正确应用，但 A 做不好：</b>标准或模型能力映射有问题。</p><p><b>标准要求选 B，判断器却漏掉联动：</b>背景、问题定义或语义判断有问题。</p></div>
+        <div class="download-row"><div><strong>把讨论变成一张记录表。</strong><p>下载空白 CSV；每个任务一行，记录配对结果、路由和完整费用。</p></div><button class="button secondary" id="download-evaluation">下载验证表 ↓</button></div>
+        <p class="footnote">上游 replay 只调用 Jev，不运行所选执行模型。它能观察路由与估算成本，不能证明最终质量。几十条案例能发现问题，无法证明罕见错误已经受控。<a href="https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/docs/measuring-a-router.md" target="_blank" rel="noopener noreferrer">原文 ↗</a></p>
+      </section>
+
+      <section class="section" id="alternatives">
+        <div class="eyebrow">07 / CHOOSE THE JUDGE</div><h2>判断器的选择，也要有依据。</h2><p class="section-lead">三种方式都可以应用你的标准。需要比较的是完成整项任务的收益。</p>
+        <div class="table-wrap"><table class="alternative-table"><thead><tr><th scope="col">比较项</th><th scope="col">本地规则</th><th scope="col">Jev</th><th scope="col">便宜小模型</th></tr></thead><tbody><tr><th scope="row">怎么判断</th><td>标签、字段、格式、流程阶段</td><td>状态 + 有限问题 + 标准</td><td>提示词 + 结构化输出</td></tr><tr><th scope="row">适合什么</th><td>固定任务、硬约束、可穷举分支</td><td>重复的有限语义判断</td><td>灵活的语义解释，复用已有模型服务</td></tr><tr><th scope="row">主要成本</th><td>规则维护与覆盖例外</td><td>接口调用、延迟、集成与评测</td><td>调用、格式校验、提示维护与评测</td></tr><tr><th scope="row">重点验证</th><td>边界与漏判</td><td>自有任务的判断质量与概率表现</td><td>格式稳定性、误判与总成本</td></tr><tr><th scope="row">失败怎么办</th><td>规则兜底或转人工</td><td>本地回退，通常保持当前模型</td><td>格式拒绝、重试或回到默认模型</td></tr></tbody></table></div>
+        <div class="decision-line"><span>一个实用起点</span><p>固定任务先走规则 → 有语义歧义再比较判断模型 → 缺信息先补背景 → 用验收结果决定保留哪种方式。</p></div>
+        <details><summary>不用 Jev，应该怎样替换？</summary><div class="detail-content"><p>保留任务状态、判断标准和本地策略，换一个判断适配层。让小模型返回有限字段，例如“仅改表达”“需要综合推理”“存在联动”“未知”，验证合法值，遇到格式错误或不确定按既定策略回退。</p><p>不要伪造高置信度来通过 Jev 风格接口，也不要把小模型自报的 0.9 当成真实成功概率。先比较确定的类别判断，阈值与概率表现另行评测。</p><p>候选可以来自已有的低价云端模型或本地小模型。我们尚未在个人路由任务中完成实测，所以没有证据宣布哪一个“最好”。模型价格、版本与结构化输出支持需要在选型时重新核对。</p></div></details>
+        <div class="value-check"><h3>什么时候值得引入？</h3><ul><li>有足够多的重复判断，且判断结果确实改变后续动作。</li><li>任务有多种能力需求，固定模型和简单规则留下了可测量的改进空间。</li><li>能给判断器足够信息，能验收输出，并有明确的错误与延迟预算。</li><li>实测节省大于判断调用、失败升级和维护的成本。</li></ul><p>任务偶发、模型费用本来就低、固定配置已覆盖大多数情况时，保留规则通常更容易管理。</p></div>
+      </section>
+
+      <section class="section" id="projects">
+        <div class="eyebrow">08 / APPLY IT TO MY WORK</div><h2>先在熟悉的工作里，找一个小切口。</h2><p class="section-lead">这些是基于我们研究经历提出的拆分方案，尚未在对应项目里接入路由。</p>
+        <div class="project-examples"><article><span class="project-type">长文写作</span><h3>Infinite Bookshelf</h3><p>目录、标题、章节是明确阶段，可先直接配置模型。已有材料的改写尝试 A；目录覆盖与全书一致性单独验收。</p><div><b>可能交给判断器</b><span>本次是表达整理，还是需要补新结论？</span></div></article><article><span class="project-type">交互场景</span><h3>新疆导览 / 海底世界</h3><p>批准的播放顺序直接执行。新需求如果影响共享进度或多个部件，暂路由 B；帧更新与同步由应用代码负责。</p><div><b>可能交给判断器</b><span>这个需求涉及部件之间的行为依赖吗？</span></div></article><article><span class="project-type">资料检索</span><h3>RAG 项目研究</h3><p>提供实际证据与覆盖标准，再判断是否足够回答；不足就继续检索，不能靠判断器补出不存在的事实。</p><div><b>可能交给判断器</b><span>当前证据覆盖了问题中的每一项要求吗？</span></div></article><article><span class="project-type">固定数据流程</span><h3>Leak Check</h3><p>格式识别、精确匹配与既定关联由规则完成。模型说明只能整理已验证的脱敏结果，不能推断同一身份。</p><div><b>优先方案</b><span>保留规则；只在确有必要的解释环节考虑模型。</span></div></article></div>
+        <div class="first-step"><span>你的第一条可验证假设</span><h3>已有材料的表达整理，<br>能否由便宜执行模型稳定完成？</h3><p>先选字幕压缩或已核实的项目总结，做 A/B 配对验收。确认这个分支成立，再扩展语义判断和联动任务。</p><a href="#validation">回到验证路线 ↑</a></div>
+        <div class="note"><b>对你的意义：把研究和验收经验变成可重复的标准。</b><p>你已经在记录项目的阶段、材料、约束和验证结果，可以据此先建立规则基线，再找值得委托的语义判断。先证明一个便宜执行分支确实能做好，才有依据研究自动路由的收益。</p></div>
+      </section>
+
+      <section class="section" id="extensions">
+        <div class="eyebrow">09 / EXTEND THE PATTERN</div><h2>扩展之前，先补齐六个基础。</h2><p class="section-lead">可迁移的是决策分工。换行业或换模型之前，先确认判断有足够依据、后续动作可执行、结果可检查。</p>
+        <div class="foundation-grid"><article><span>01</span><h3>可观察的状态</h3><p>任务、材料、当前进度和约束真实可用。</p></article><article><span>02</span><h3>有限合法选项</h3><p>模型、技能、队列或动作来自明确候选。</p></article><article><span>03</span><h3>清晰判断标准</h3><p>选项含义与边界明确，允许未知。</p></article><article><span>04</span><h3>确定的执行方式</h3><p>代码或工具能把选择落实成动作。</p></article><article><span>05</span><h3>失败回退</h3><p>超时、非法值、缺信息和重试有去处。</p></article><article><span>06</span><h3>成果验收</h3><p>能分辨通过与失败，记录费用和返工。</p></article></div>
+        <div class="table-wrap"><table><thead><tr><th scope="col">可以扩展到哪里</th><th scope="col">有限判断</th><th scope="col">执行与验证</th></tr></thead><tbody><tr><th scope="row">RAG 证据</th><td>足够 / 不足 / 未知</td><td>提供实际段落与覆盖清单；不足继续检索，最终逐项验收证据。</td></tr><tr><th scope="row">技能选择</th><td>某技能 / 无需技能</td><td>宿主加载可用技能；检查是否实际帮助完成任务。</td></tr><tr><th scope="row">重试与升级</th><td>继续 / 重试 / 升级 / 补信息 / 结束</td><td>结合检查失败与次数；工作流限制循环，记录最终通过与完整费用。</td></tr><tr><th scope="row">交付检查</th><td>通过 / 缺项 / 未知</td><td>先做确定性检查，再比较语义缺项判断；草稿必须对照核实材料。</td></tr><tr><th scope="row">消息分流</th><td>队列 / 人工 / 未知</td><td>按分类和时效要求分派，检查漏分与错分。</td></tr><tr><th scope="row">有限方案</th><td>预先批准的方案 / 暂停</td><td>选择布局或动作后，由渲染器和工具执行，检查兼容性与结果。</td></tr></tbody></table></div>
+        <p class="footnote">此处是可扩展方案清单，交付检查等不宣称为库内已安装的完整能力。有限选项也可能需要语义理解；允许列表只限制可选动作，并不证明所选动作正确。每个新场景都要单独验证。</p>
+      </section>
+
+      <section class="section" id="sources">
+        <div class="eyebrow">10 / EVIDENCE & SCOPE</div><h2>哪些已核实，哪些还要验证。</h2>
+        <div class="scope-grid"><div><span class="status-label verified">已核实 / 源码与文档</span><ul><li>默认路由问题、难度定义和策略阈值。</li><li>云端 Jev 与本地工具库的职责分工。</li><li>默认输入范围、回退与供应商连接约束。</li><li>replay 不执行被选模型的验证边界。</li></ul></div><div><span class="status-label pending">待验证 / 自有任务</span><ul><li>Jev 或便宜小模型的真实判断表现。</li><li>A / B 在个人任务中的能力与成功率。</li><li>标准、阈值、概率与模型映射的有效性。</li><li>总费用、延迟、返工与维护的实际收益。</li></ul></div></div>
+        <div class="sources-list"><a href="https://github.com/kerpopule/hermes-jev-skills/tree/31f476cac49713b6bf88c00d42382542e1c36965" target="_blank" rel="noopener noreferrer"><span>01</span><div><strong>Hermes Jev Skills · 固定研究版本</strong><small>31f476cac49713b6bf88c00d42382542e1c36965 · MIT</small></div><b>↗</b></a><a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer"><span>02</span><div><strong>TypeSafe · 决策 API 与问题类型</strong><small>Choice / Score / Noul，状态与原子问题</small></div><b>↗</b></a><a href="https://docs.typesafe.ai/confidence" target="_blank" rel="noopener noreferrer"><span>03</span><div><strong>TypeSafe · 概率与置信度说明</strong><small>分布集中程度与业务阈值的区别</small></div><b>↗</b></a><a href="https://docs.typesafe.ai/introduction/machine-learning-primer" target="_blank" rel="noopener noreferrer"><span>04</span><div><strong>TypeSafe · 训练与校准原理介绍</strong><small>厂商说明；本仓库不公开模型内部训练实现</small></div><b>↗</b></a><a href="https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/docs/measuring-a-router.md" target="_blank" rel="noopener noreferrer"><span>05</span><div><strong>上游 · 如何在自己的任务上测量路由</strong><small>完整成本、现有基线与 replay 的边界</small></div><b>↗</b></a></div>
+        <p class="footnote">网页为本次讨论的原创整理。架构与个人场景是研究说明，全部交互为本地教学模拟；没有真实模型调用、任务运行日志或效果排名。未复制上游图片和模型代码。上游版权与许可见 <a href="https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/LICENSE" target="_blank" rel="noopener noreferrer">MIT License ↗</a>。</p>
+      </section>
+      <footer><span>项目研究室 / 007 · 2026.10.14 整理</span><a href="../">全部项目</a><a href="https://github.com/yydshly/1013_codex_project/blob/main/projects/007-hermes-jev-skills/README.md" target="_blank" rel="noopener noreferrer">研究文档 ↗</a><a href="#understanding">返回顶部 ↑</a></footer>
+    </main>
+  </div>
+</body>
+</html>
