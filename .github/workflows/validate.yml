@@ -1,0 +1,25 @@
+name: Validate research index
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Check project metadata and README index
+        run: python scripts/update_index.py --check
+      - name: Check index and project creation behavior
+        run: python -m unittest discover -s tests -v

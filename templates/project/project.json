@@ -1,0 +1,14 @@
+{
+  "id": "{{ID}}",
+  "slug": "{{SLUG}}",
+  "name": "{{NAME}}",
+  "summary": "{{SUMMARY}}",
+  "source_url": "{{SOURCE_URL}}",
+  "source_ref": "",
+  "source_license": "",
+  "status": "planned",
+  "tags": [],
+  "preview": "assets/cover.svg",
+  "preview_caption": "待添加实际项目截图（当前为占位图）",
+  "demo_url": ""
+}
