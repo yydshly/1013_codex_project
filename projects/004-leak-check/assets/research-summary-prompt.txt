@@ -1,0 +1,70 @@
+# Leak Check 研究汇总图生成说明
+
+- 生成方式：Codex 内置图片生成工具（非 CLI）。
+- 生成日期：2026-10-13（Asia/Shanghai）。
+- 图片文件：`research-summary.png`。
+- 性质：AI 生成的研究信息图，非运行截图。
+- 依据：garinasset/leak-check 固定 commit `7e3a113b9cf616b142ad5236c547c2c9a9246607` 与作者官网公开页面。
+- 官网数字为页面展示值，未独立核验；具体数据渠道未在所查公开材料中说明。
+
+## 最终提示词
+
+Use case: infographic-diagram.
+Create ONE polished, comprehensive, highly readable Simplified Chinese editorial infographic for a GitHub project research repository. It summarizes leak-check's capabilities, actual database-based mechanism, limitations, distinction from the author's online service, and the user's decision that it has limited personal value and does not warrant extensive study. Landscape canvas about 3:2, high resolution, all Chinese text crisp, generous margins, uncluttered grid, clear hierarchy. Soft white background, dark navy typography, teal for query/data flow, muted amber for dependencies and research priority. Clean flat diagram icons and arrows; no people, screenshots, 3D effects, scare imagery, decorative filler or invented statistics. Typography: modern Chinese sans serif. Use the EXACT Chinese wording below, preserving factual qualifiers. Sections should be connected visually, the local database must be the central element in the mechanism, and the personal conclusion should be the strongest colored banner along the bottom.
+
+HEADER
+Title: "leak-check｜能力、原理与个人价值"
+Subtitle: "本质：对已有数据库做查询、关联与脱敏输出"
+Small project label: "004 · GitHub 项目研究"
+
+TOP LEFT PANEL — "它能做什么"
+Four clearly labelled input icons: "手机号" "邮箱" "身份证号" "QQ"
+Three concise capability lines:
+"查找匹配记录，关联更多标识"
+"返回姓名、联系方式、地址、公司等脱敏信息"
+"附来源标签，提供 API 接口"
+
+TOP RIGHT PANEL — "决定效果的是数据"
+Three distinct database states:
+"空库 → 无匹配结果"
+"示例库 → 演示流程"
+"真实数据 → 效果取决于覆盖与质量"
+
+LARGE CENTRAL PANEL — "实现原理"
+A left-to-right six-step flow with a conspicuous database cylinder at step 3:
+"输入标识" → "格式识别" → "查询本地数据库" → "再关联一轮" → "汇总与脱敏" → "返回结果"
+Under the database: "SQLite · 既有记录"
+Under the flow: "默认共两轮：直接查询 + 一轮关联查询"
+A small clearly marked fictional relationship example using three nodes:
+"示意：手机号甲 → 记录 A 的邮箱乙 → 记录 B 的 QQ 丙"
+Small implementation labels: "FastAPI · 正则规则 · SQL 查询"
+Small note: "数据库保留原始字段；个人信息在返回时脱敏，来源标签原样返回"
+
+LOWER LEFT PANEL — "能力边界"
+Six short lines, small simple icons, comfortably readable:
+"不自动采集泄漏数据"
+"仓库未附线上完整数据库"
+"查不到 ≠ 没有泄漏"
+"关联线索 ≠ 同一人证明"
+"字段与来源的对应关系未保留"
+"异常日志可能输出查询标识"
+
+LOWER RIGHT PANEL — "开源代码与作者线上服务"
+"代码：查询逻辑公开，可自行部署"
+"线上：作者另有查询界面"
+"官网展示约 14.46 亿条记录（未独立核验）"
+"公开材料未说明具体数据获取渠道"
+Emphasized small takeaway:
+"仓库不附数据库 ≠ 作者线上服务没有数据库"
+
+BOTTOM CONCLUSION BANNER — "我的判断"
+Large bold conclusion: "对我的价值有限"
+Three prominent chips: "低优先级" "保留参考" "无需过多研究"
+Supporting reason line: "实现较常规 · 关键数据未提供 · 难以完整复现效果"
+Do not present this personal assessment as a universal judgment that the project has no value.
+
+FOOTNOTE
+"依据：garinasset/leak-check · commit 7e3a113 · 官网公开页面 · 2026-10-13"
+"AI 生成示意图｜非运行截图"
+
+Layout requirements: the visual should be understandable in one glance, with clear arrows and a minimum of 5 distinct information areas. Fit all text without any cropping or microtext. Do not add any claim about data coming from dark web, purchases, hacks, scraping, or any named leaked dataset. Do not depict automatic Internet crawling. Do not claim the online record count is verified. Do not claim privacy is guaranteed. Do not create multiple images.
