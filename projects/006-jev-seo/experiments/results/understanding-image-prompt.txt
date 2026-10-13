@@ -1,0 +1,109 @@
+Use case: infographic-diagram.
+Asset type: one complete Chinese knowledge map, a saved research infographic for Jev SEO.
+Create ONE high-resolution portrait infographic (aim for 2160 × 3840 or similarly large portrait canvas) in simplified Chinese. Its purpose is to comprehensively explain our verified understanding, with readable text rather than decorative illustration. Visual language: polished editorial educational poster, warm white background, dark forest green headings, muted green for fixed rules, muted blue for model reasoning, restrained amber for contextual cautions; crisp flat vector-like diagrams, clean Chinese sans-serif typography, generous alignment, strong section hierarchy. No photorealism, no fake UI, no gradients behind small text, no watermark. Keep all text inside the canvas, leave safe margins, do not make body text tiny. Use the exact Chinese copy below; preserve important caveats and numbers. Do not invent additional capabilities. This is a research summary, not an actual audit report.
+
+READING ORDER / CONTENT (all within the single image):
+
+TITLE:
+"Jev SEO：把网页审查变成自己的能力"
+SUBTITLE:
+"规则与评估标准是核心 · 采集取证 · 模型可替换 · 结果可复核"
+OVERVIEW:
+"输入部署后的公开网址，检查可见技术问题和内容质量，输出带证据的整改清单。"
+Small name note: "Jev 是原内容判断模型，SEO 指搜索引擎优化。"
+
+SECTION 01 — "能力是什么？"
+Label "52 条固定规则 / 8 个领域"
+Eight compact tiles, each title and examples:
+"抓取设置 · 16" / "robots、地图、HTTP、noindex、canonical"
+"页面结构 · 12" / "标题、摘要、H1、语言、视口、图片 alt"
+"内容与重复 · 2" / "正文过少、相同正文"
+"链接与架构 · 6" / "死链、跳转、深层页、孤立页、锚文本"
+"结构化与分享 · 6" / "JSON-LD、必需字段、OG、多语言标记"
+"AI 爬虫政策 · 2" / "AI 抓取政策、可选 llms.txt"
+"性能观测 · 3" / "图片尺寸、首字节响应、HTML 大小"
+"响应安全配置 · 5" / "HTTPS、HSTS、响应头、混合资源、图标"
+Small note: "按条件触发，52 条定义不等于每页检查完全部问题。经验阈值和信息提示须结合用途。"
+
+SECTION 02 — "原理：一次审查怎样完成？"
+Make this the central clear flow diagram:
+"公开网址" → "采集" → "解析事实" → TWO PARALLEL BRANCHES → "校验与报告".
+Under public URL: "GitHub Pages 地址 ≠ GitHub 源码仓库"
+Under collection: "入口 + robots + 站点地图 + 站内链接；限定路径、页数与深度"
+Under parsed facts: "HTML、标题、正文、链接、图片、响应头"
+Parallel green branch: "固定规则" / "代码判断缺失、状态、数量与阈值"
+Parallel blue branch: "模型评估" / "按问题和标准理解内容，返回判断、理由与原文"
+Both branches merge into "问题与证据", then "任务快照 / 格式 / 原文校验", then "整改报告".
+Report labels: "网址与问题 · 来源与引文 · P1/P2/P3 · 工作量 · 覆盖与遗漏"
+Close the loop with a modest arrow: "人工复核 → 修改网站 → 新快照复查".
+Note: "直接访问网站是基本方式；真实 Google 收录、排名与流量需要额外数据。"
+
+SECTION 03 — "19 个模型评估维度"
+Three clearly labeled groups:
+"单页 · 13"
+"页面类型、搜索需求、业务重要性、处理方式、有用性、具体性、开头直达重点、可引用陈述、可信依据、下一步、标题匹配、摘要匹配、H1 匹配"
+"网站入口 · 5"
+"业务类型、价值说明、主体清晰度、主题聚焦、地区服务"
+"页面对 · 1"
+"是否满足同一搜索需求"
+Highlight: "分类 / 0–3 档评分 / 是或否；证据不足允许 null"
+Caution: "引文存在不证明推理正确。网站判断仅覆盖提供的入口材料和页面标题。"
+
+SECTION 04 — "怎样定制规则做排查？"
+This section must be substantial and readable.
+Six-step strip:
+"明确目标 → 选择证据字段 → 写条件或评分标准 → 定严重程度与建议 → 保存证据 → 用样例验证"
+Two side-by-side explanatory panels:
+"可计算条件：扩展检查代码"
+"定义规则 ID、领域、严重程度、建议、工作量、依据与经验标记；再编写实际触发判断。只增加规则名称不会自动执行。"
+"例：正式页面出现 noindex → 记录网址和原始字段 → 确认是否有意屏蔽 → 再决定修复。"
+"内容判断：扩展问题与报告映射"
+"说明检查对象，给出明确选项或评分档位；模型只能依据采集材料回答，附理由与原文，不足则未知。"
+"定制示例：产品页是否说明服务对象、具体功能和交付范围？再核对原文与真实业务。"
+Important footer inside this section:
+"当前定制需修改实验代码；网页 JSON 是规则手册，不是可直接加载的扫描配置。定制示例不是已实现的新规则。"
+
+SECTION 05 — "我们怎样替换模型？"
+Two slim routes:
+"当前聊天模型：导出材料 → 会话审查 → 导入校验 → 生成报告"
+"自有模型接口：本地配置服务 → 自动评估 → 保存结果 → 人工复核"
+Small note: "兼容 Chat Completions；JSON Schema / JSON 对象 / 文本都要本地校验。"
+Reuse versus modifications:
+"保留：采集、解析、52 条规则、19 个问题标准、整改排序思路"
+"补充：项目路径范围、中文正文保留、两种模型路径、引文与任务指纹校验"
+"未移植：DataForSEO 搜索竞争数据、TypeSafe 专用概率、上游 PDF/XLSX 导出"
+Note: "换模型复用流程，不继承原模型的准确率或概率性质。"
+
+SECTION 06 — "适合哪些使用场景？"
+Eight compact scene items with practical intent:
+"自己的 GitHub Pages：项目介绍、作品集与重要入口"
+"上线前后自查：错误响应、意外屏蔽、链接与说明"
+"博客与知识库：回答是否完整、具体、有来源"
+"产品与服务页：目标对象、功能价值、合理下一步"
+"改版与迁移：路径、重定向、canonical 与链接"
+"比较自有模型：固定材料，比较判断、未知与用量"
+"检索与引用研究：表达清晰、事实完整、抓取政策"
+"故障入口记录：网页只提供症状，后端根因另查"
+
+SECTION 07 — "价值在哪里？边界在哪里？"
+Two contrasting but equally readable columns:
+"价值"
+"把审查经验从供应商中抽离"
+"减少重复检查，形成可复用标准"
+"从泛泛建议变成有网址、有证据的行动"
+"按影响与工作量安排修复"
+"用人工标注验证模型质量、成本和复核时间"
+"边界与验证"
+"不能从公开 HTML 审查后端源码、数据库或业务权限"
+"不证明真实收录、排名、流量或 AI 引用"
+"只看到已采集材料；正文最多 6,000 字符，中文词数与页面对筛选仍有限制"
+"27 项离线测试通过；聊天样例 3 任务 / 28 判断跑通"
+"真实网站、自有接口、PageSpeed 与动态采集仍待实测"
+Bottom prominent takeaway:
+"核心价值：把检查目标、证据、判断标准和处理建议组织成可复用的审查流程。"
+
+SOURCE FOOTER:
+"研究来源：AgriciDaniel/jev-seo · v0.1.1 · commit 55a184a · MIT"
+"本仓库整理，2026-10-14；架构与规则理解图，非真实网站审查结果。"
+
+Constraints: ONE complete infographic only. Exact count totals: 16+12+2+6+6+2+3+5 = 52; 13+5+1 = 19. Keep the diagram's fixed-rule and model branches genuinely parallel. Do not depict GitHub source-code auditing as a current capability. No automatic ranking guarantees. Do not show code or dashboard controls as if users can configure rules in the webpage. Do not duplicate sections or omit section 04. Use restrained helpful line icons, but content and Chinese readability are the priority.

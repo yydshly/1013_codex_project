@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f6f1">
+  <meta name="description" content="Jev SEO 的核心是公开网页前端可见质量的检查规则与内容评估标准，适合作为网页质量检查的基础框架；还需补充实际交互、手机布局、无障碍、业务功能与后端检查。完整说明 52 条规则、19 个维度、原理、模型替换、定制、场景与价值。">
+  <title>网页质量检查的基础框架 · Jev SEO 规则与模型审查</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./catalog.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#overview">跳到正文</a>
+  <header class="header">
+    <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">⌘</span><span>项目研究室<small>OPEN SOURCE / STUDY 006</small></span></a>
+    <div class="header-links"><a href="../">研究索引 <span aria-hidden="true">↗</span></a><a href="https://github.com/AgriciDaniel/jev-seo" target="_blank" rel="noopener noreferrer">上游仓库 <span aria-hidden="true">↗</span></a><button id="print-page" type="button">打印 / 保存 PDF</button></div>
+  </header>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="nav-label">阅读路线 <span>CONTENTS</span></div>
+      <nav aria-label="章节导航">
+        <a href="#overview" class="nav-link active"><span>01</span>先理解它的本质</a>
+        <a href="#capabilities" class="nav-link"><span>02</span>能力、输入与输出</a>
+        <a href="#principles" class="nav-link"><span>03</span>一次审查如何完成</a>
+        <a href="#extraction" class="nav-link"><span>04</span>我们参考与提取了什么</a>
+        <a href="#rules" class="nav-link"><span>05</span>52 条固定规则手册</a>
+        <a href="#judgments" class="nav-link"><span>06</span>19 个内容评估维度</a>
+        <a href="#evidence" class="nav-link"><span>07</span>证据、未知与整改排序</a>
+        <a href="#scenarios" class="nav-link"><span>08</span>具体使用场景</a>
+        <a href="#models" class="nav-link"><span>09</span>两种模型接入方式</a>
+        <a href="#boundaries" class="nav-link"><span>10</span>能力边界与验证</a>
+        <a href="#faq" class="nav-link"><span>11</span>从问题到理解</a>
+        <a href="#sources" class="nav-link"><span>12</span>源码依据与下载</a>
+      </nav>
+      <div class="research-status"><span class="status-dot"></span><strong>规则已提取 · 实验可运行</strong><p>离线流程已验证。<br>真实模型与网站待验证。</p><small>2026.10.14 · 上游 55a184a</small></div>
+    </aside>
+    <main>
+      <section id="overview" class="section hero">
+        <div class="eyebrow">JEV SEO / 从理解到复用</div>
+        <div class="hero-grid">
+          <div class="hero-copy"><h1>把网页质量标准，<br>变成<span>自己的审查框架。</span></h1><p class="lead">核心是前端可见网页的检查规则与内容评估标准。<br>采集取证，代码检查，模型理解，人工复核。</p><div class="hero-actions"><a class="button primary" href="#rules">查阅完整规则 <span aria-hidden="true">→</span></a><a class="button secondary" href="#understanding-image">查看理解总览图</a><a class="button secondary" href="#scenarios">找到使用场景</a></div><div class="hero-tags"><span>网页质量基础框架</span><span>规则可复用</span><span>模型可替换</span></div></div>
+          <div class="hero-map" role="img" aria-label="网站地址进入采集器，分别进行固定规则和模型内容审查，校验证据后生成整改清单。架构示意。">
+            <div class="map-heading">一次审查的骨架 <span>WORKFLOW</span></div><div class="map-input"><span class="mono">https://你的站点/项目/</span><small>输入部署后可访问的网址</small></div><div class="map-down" aria-hidden="true">↓</div><div class="map-collector"><b>采集页面事实</b><span>HTML · 链接 · 响应 · 正文</span></div><div class="map-branches"><div><small>可直接确定</small><strong>固定规则</strong><span>是否缺失 / 状态 / 数量</span></div><div><small>需要理解文本</small><strong>我们的模型</strong><span>是否有用 / 具体 / 可信</span></div></div><div class="map-down" aria-hidden="true">↓</div><div class="map-output"><b>证据校验 → 整改清单</b><span>判断依据 · 优先级 · 建议</span></div><p class="map-caption">流程说明，非真实网站审查结果</p>
+          </div>
+        </div>
+        <div class="essence"><span>我们形成的理解</span><p><strong>核心是前端可见网页质量的检查规则与内容评估标准，适合作为网页质量检查的基础框架。</strong>采集与证据让标准可执行；换模型时，继续复用“检查什么、依据什么、怎样判定、如何处理”。</p></div>
+        <p class="callout"><strong>还需要补充实际交互、手机布局、无障碍、业务功能和后端检查。</strong>viewport 存在不等于手机布局正常；响应正常不等于业务功能正确。下面的标准是基础清单，不能当作完整应用的质量认证。</p>
+        <div class="metrics"><div><b>52</b><span>固定规则定义</span></div><div><b>19</b><span>模型评估维度</span></div><div><b>2</b><span>模型接入路径</span></div><div><b>27</b><span>离线测试通过</span></div></div>
+        <p class="quiet">这里是研究导读和规则手册。页面上的交互用于理解流程，不会现场抓取网站或调用模型。</p>
+        <details id="understanding-image" class="technical" open><summary>一张图总览：能力、原理、定制规则、使用场景与价值</summary><figure class="understanding-figure"><a href="./assets/04-jev-seo-understanding.png" target="_blank" rel="noopener noreferrer"><img src="./assets/04-jev-seo-understanding.png" width="941" height="1672" loading="lazy" alt="Jev SEO 理解总览：52 条固定规则的八个领域、19 个模型维度、采集审查原理、定制规则步骤、两种模型路径、八类场景、价值与验证边界"></a><figcaption>本仓库依据固定源码与实验整理的理解图，2026-10-14；非网站实测结果。点击图片可放大查看，定制规则需扩展实验代码。实际交互、手机布局、无障碍、业务功能和后端检查还需补充。</figcaption><a class="text-link" href="./assets/04-jev-seo-understanding.png" download="jev-seo-understanding.png">下载理解总览原图（PNG） ↓</a></figure></details>
+      </section>
+
+      <section id="capabilities" class="section">
+        <div class="section-heading"><div class="eyebrow">02 / WHAT IT DOES</div><h2>从一个网址，得到可核对的问题清单。</h2><p>Jev SEO 把网站检查、内容判断和报告组织成一个流程。SEO 指搜索引擎优化，关注网页能否被发现、理解，以及是否满足访问者需求。</p></div>
+        <div class="io-grid"><article><span class="panel-label">输入</span><h3>已经部署的网站地址</h3><p>公开入口网址、采集范围和数量限制；模型评估另外需要聊天会话或接口配置。</p><div class="url-example"><span>源码仓库</span><code>github.com/你/项目</code><span>部署后的网站</span><code>你.github.io/项目/</code></div></article><article><span class="panel-label">输出</span><h3>事实、判断与整改建议</h3><p>页面清单、规则问题、模型理由与引文、实际审查覆盖、优先级、工作量和能力限制。</p><div class="output-tags"><span>结构化 JSON</span><span>Markdown 报告</span><span>本地 HTML 报告</span></div></article></div>
+        <div class="table-wrap"><table><caption>上游能力与本次成果</caption><thead><tr><th>能力</th><th>上游 Jev SEO</th><th>本次提取实验</th></tr></thead><tbody>
+          <tr><th>网页采集与技术检查</th><td>直接采集网站，执行 52 条规则</td><td>保留，并增加项目路径限制</td></tr>
+          <tr><th>内容理解</th><td>调用 Jev / TypeSafe 的类型化判断</td><td>当前聊天模型或自有兼容接口</td></tr>
+          <tr><th>性能信息</th><td>PageSpeed 与抓取观测</td><td>保留可选 PageSpeed；真实调用未验证</td></tr>
+          <tr><th>搜索与竞争数据</th><td>可选 full 模式调用 DataForSEO</td><td>未移植；没有真实收录或排名检查</td></tr>
+          <tr><th>输出格式</th><td>PDF、XLSX、Markdown 等</td><td>JSON、Markdown、本地 HTML</td></tr>
+          <tr><th>可信度说明</th><td>保留原模型概率与作者评估</td><td>引文校验、允许未知、统一人工复核</td></tr>
+        </tbody></table></div>
+        <p class="callout">基本审查直接访问你的网站，不需要先在 Google 搜索它。搜索结果、流量和后端源码是其他数据来源，不能从网页材料中自动得出。</p>
+        <div class="extraction-grid"><article><span class="panel-label">能力与标准</span><h3>形成自己的基础检查清单</h3><p>代码确定标题、链接、状态与设置；模型按标准判断内容是否有用、具体、匹配。按作品集、产品页、文章和文档用途调整，而非机械套用阈值。</p></article><article><span class="panel-label">参考价值</span><h3>让经验与模型供应商分开</h3><p>复用检查目标、材料、条件、评分和修复思路，换模型后仍保留标准。结果带网址、原文与工作量，便于核对和安排整改；效果和成本还要实测。</p></article><article><span class="panel-label">对我们的意义</span><h3>逐步建立自己的质量流程</h3><p>用它复核自己的网页和内容，用相同材料比较模型；再补齐交互、手机、无障碍、业务与后端测试，把发布检查变成持续可复用的方法。</p></article></div>
+      </section>
+
+      <section id="principles" class="section">
+        <div class="section-heading"><div class="eyebrow">03 / HOW IT WORKS</div><h2>先取证，再判断，最后安排行动。</h2><p>选择一个步骤查看它的输入、做法和输出。固定规则与模型内容判断可以共享同一份页面快照。</p></div>
+        <div class="step-tabs" role="tablist" aria-label="审查流程步骤"><button role="tab" id="step-collect" aria-controls="step-panel" aria-selected="true" data-step="collect">01 采集</button><button role="tab" id="step-parse" aria-controls="step-panel" aria-selected="false" data-step="parse" tabindex="-1">02 提取事实</button><button role="tab" id="step-rule" aria-controls="step-panel" aria-selected="false" data-step="rule" tabindex="-1">03 固定规则</button><button role="tab" id="step-model" aria-controls="step-panel" aria-selected="false" data-step="model" tabindex="-1">04 模型判断</button><button role="tab" id="step-report" aria-controls="step-panel" aria-selected="false" data-step="report" tabindex="-1">05 校验与报告</button></div>
+        <div class="step-panel" id="step-panel" role="tabpanel" aria-labelledby="step-collect" tabindex="0"></div>
+        <div class="two-notes"><article><h3>不是盲目抓整个互联网</h3><p>采集入口、地图和链接，限定站点或项目路径，并限制页数与深度。HTTP 请求保留私有地址检查和逐跳重定向检查；robots 与抓取间隔影响覆盖。</p></article><article><h3>材料始终只是部分观察</h3><p>默认最多 30 条页面记录、深度 5，最多 20 页参与模型审查。正文最多送入 6,000 字符。数量限制、动态渲染和访问失败都可能遗漏内容。</p></article></div>
+        <details class="technical"><summary>展开：采集方式和 GitHub Pages 路径边界</summary><p>原始 HTML 使用请求和解析库。依赖 JavaScript 的页面可以选 Playwright 渲染，当前默认关闭。BFS 沿内部链接发现页面，发现不足时用站点地图种子补充。</p><p>输入 <code>https://name.github.io/project/</code> 时，内容范围包含 <code>/project</code> 和子路径，不包含 <code>/project-other</code>。根 robots/sitemap、域名探测与链接目标状态仍可能访问范围外路径。它限制的是审查内容，不是所有网络请求。</p><p>中文正文已保留，但原词数和标题重叠筛选没有中文分词。页面对先用英文标题/H1 词集重叠度 ≥ 0.4 筛选，最多 40 对，再交模型判断；这个筛选不能完整覆盖中文页面竞争。</p></details>
+      </section>
+
+      <section id="extraction" class="section">
+        <div class="section-heading"><div class="eyebrow">04 / WHAT WE REUSE</div><h2>参考上游的方法，明确自己的改动。</h2><p>我们复用的是审查标准与执行骨架。原模型的准确率、概率性质和性能不会随着提取问题自动转移。</p></div>
+        <div class="extraction-grid"><article><span class="panel-label">保留</span><h3>可复用的骨架</h3><ul><li>站点采集、HTML 解析和固定规则定义</li><li>页面、网站、页面对的评估问题与标准</li><li>问题关联网址、证据、建议与来源</li><li>严重程度、影响范围、重要性与工作量的排序思路</li></ul></article><article><span class="panel-label">调整与补充</span><h3>让我们的模型能参与</h3><ul><li>用可配置模型接口替换 Jev 客户端</li><li>增加导出材料、聊天审查、导入结果</li><li>校验原文引文，绑定快照与任务指纹</li><li>允许证据不足，显示失败与审查覆盖</li><li>新增项目路径边界，修正连续中文过滤</li></ul></article><article><span class="panel-label">未移植</span><h3>保持范围可理解</h3><ul><li>DataForSEO 关键词、竞争和搜索结果数据</li><li>TypeSafe 专用概率门槛</li><li>上游 PDF / XLSX 导出体系</li><li>Search Console、后端源码和业务日志审查</li></ul></article></div>
+        <div class="table-wrap"><table><caption>从哪个模块提取，解决什么问题</caption><thead><tr><th>来源</th><th>我们保留的思路</th><th>本地实现</th></tr></thead><tbody><tr><th><a href="https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/crawl.py">crawl.py ↗</a></th><td>从入口发现页面，记录访问与跳转证据</td><td>采集器 + 路径范围</td></tr><tr><th><a href="https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/parse.py">parse.py ↗</a></th><td>把 HTML 变成统一页面事实</td><td>解析器 + 中文保留修正</td></tr><tr><th><a href="https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/checks.py">checks.py ↗</a></th><td>每个问题有明确条件、整改建议和依据</td><td>52 条固定规则</td></tr><tr><th><a href="https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/jev.py">jev.py ↗</a></th><td>按范围设计问题、选项与评分档位</td><td>19 维度问题库 + 自有模型适配</td></tr><tr><th><a href="https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/psi.py">psi.py ↗</a></th><td>单独获取性能数据，不让模型猜性能</td><td>可选 PageSpeed 开关</td></tr></tbody></table></div>
+        <p class="quiet">固定研究版本为 55a184a3b0d09565a4c84268f725a47784e62528，v0.1.1，MIT。保留上游版权与许可证；中文条件说明是本仓库研究注释，执行条件以源码为准。</p>
+      </section>
+
+      <section id="rules" class="section">
+        <div class="section-heading"><div class="eyebrow">05 / RULE HANDBOOK</div><h2>52 条规则，完整展开给你查。</h2><p>代码确定“是否触发”；是否应修复，还取决于页面目的。比如测试页可能需要 noindex，装饰图片可以空 alt，llms.txt 是可选提示。</p></div>
+        <div class="rule-legend"><span><i class="legend-dot fact"></i>代码条件：可计算或测量</span><span><i class="legend-dot heuristic"></i>经验规则：上游明确标记</span><span><i class="legend-dot info"></i>信息提示：不直接进入整改排序</span></div>
+        <div class="filters"><div class="search-field"><label for="rule-search">搜索规则</label><input id="rule-search" type="search" placeholder="例如：标题、死链、noindex、中文…" autocomplete="off"></div><div><label for="rule-category">检查领域</label><select id="rule-category"><option value="all">全部领域</option></select></div><div><label for="rule-kind">规则性质</label><select id="rule-kind"><option value="all">全部性质</option><option value="fact">未标记为经验</option><option value="heuristic">经验规则</option><option value="info">信息提示</option></select></div></div>
+        <div class="list-toolbar"><p id="rule-count" role="status" aria-live="polite">加载规则目录…</p><div><button id="expand-rules" type="button">展开当前规则</button><button id="collapse-rules" type="button">收起</button><button id="reset-rules" type="button">清除筛选</button></div></div>
+        <div id="rule-list" class="rule-list"></div><noscript><p>交互规则目录需要 JavaScript。可直接<a href="./catalog.json">下载完整规则数据</a>；原定义见上游 checks.py。</p></noscript>
+        <p class="callout">“未标记为经验”只是保留上游字段，不意味着每条规则都是 Google 强制要求。规则未触发也可能来自未采集、未渲染或未检查，不能自动宣布整站通过。</p>
+      </section>
+
+      <section id="judgments" class="section">
+        <div class="section-heading"><div class="eyebrow">06 / MODEL RUBRICS</div><h2>让模型按标准理解内容。</h2><p>13 个单页维度、5 个网站维度、1 个页面对维度。标题、摘要或 H1 缺失时，相应匹配问题会省略；入口页类型由代码确定。</p></div>
+        <div class="question-layout"><div class="question-picker"><div class="scope-buttons" role="group" aria-label="模型问题范围"><button data-scope="page" aria-pressed="true">单个页面 · 13</button><button data-scope="site" aria-pressed="false">网站入口 · 5</button><button data-scope="pair" aria-pressed="false">页面对 · 1</button></div><div id="question-list" aria-label="选择评估维度"></div></div><article id="question-detail" class="question-detail" aria-live="polite"></article></div>
+        <p class="quiet">网站维度主要依据输入入口的正文与采集页面的标题；项目子路径入口不一定是真实首页，也不能代表未采集页面的完整情况。</p>
+        <div class="two-notes"><article><h3>分类、评分、是/否，分开问</h3><p>分类从给定选项选择；评分从低到高使用 0–3 档；是/否返回布尔值。所有类型都可返回未知，避免硬凑结论。</p></article><article><h3>评分是内容判断，不是真实世界认证</h3><p>“可信依据”评估页面展示了哪些证据，不保证案例真实。“便于引用”评估文本表达，不证明任何 AI 搜索已经引用它。</p></article></div>
+      </section>
+
+      <section id="evidence" class="section">
+        <div class="section-heading"><div class="eyebrow">07 / EVIDENCE TO ACTION</div><h2>让判断可以回到原文核对。</h2><p>先确认材料和格式，再安排人工复核。引文存在只能证明来源可追溯，不能自动证明模型理解正确。</p></div>
+        <div class="evidence-demo"><div class="evidence-source"><span class="panel-label">虚构样例 / 已采集正文</span><blockquote>我们提供专业优质的服务，致力于持续创新和满意体验。</blockquote><p>模型要回答：内容是否具体，有没有功能、数字或第一手细节？</p><small>此处仅演示校验逻辑，不进行现场模型调用。</small></div><div class="evidence-response"><div class="demo-buttons" role="group" aria-label="证据校验示例"><button data-evidence="grounded" aria-pressed="true">引文存在</button><button data-evidence="fabricated" aria-pressed="false">编造引文</button><button data-evidence="unknown" aria-pressed="false">证据不足</button></div><div id="evidence-result" aria-live="polite"></div></div></div>
+        <div class="integrity-strip"><span>同一采集快照</span><b aria-hidden="true">→</b><span>同一任务指纹</span><b aria-hidden="true">→</b><span>格式 / 选项合法</span><b aria-hidden="true">→</b><span>引文原样存在</span><b aria-hidden="true">→</b><span>人工复核</span></div>
+        <div class="two-notes"><article><h3>未知、失败和漏查，分别记录</h3><p>证据不足返回 null；接口失败、输出截断或拒绝回答记为失败；达到请求上限记为跳过；没有审查的任务显示未评估。它们都不代表没有问题。</p></article><article><h3>网页文字只作为资料</h3><p>材料中可能包含指令，审查提示要求忽略它们。固定输出和原文校验帮助约束结果，但不宣称完全消除了提示注入风险。</p></article></div>
+        <details class="technical"><summary>展开：整改优先级是怎样计算的</summary><p>本地相对影响参考：严重程度权重 × (0.6 + 0.4 × 涉及页面比例) × (0.6 + 0.8 × 业务重要性)。严重程度权重为 10 / 6 / 3 / 1，信息提示为 0；缺少重要性判断时使用中性值 0.5。</p><p>以本次最高影响项归一到 100，再生成 P1/P2/P3，并按影响和工作量排序。它是本次报告内部的安排工具，不适合把不同网站分数直接当作质量排名，也不预测搜索排名、流量或收益。</p><p>低分不总会成为整改项：法律/联系页面有用途限制；有用性和信任问题会结合业务重要性；商业下一步只在适当页面提示；合并/删除建议需要人工决定。达到 600 词的页面会抑制一类移除建议，但中文词数限制意味着这也不是可靠的中文保护阈值。</p></details>
+      </section>
+
+      <section id="scenarios" class="section">
+        <div class="section-heading"><div class="eyebrow">08 / USE CASES</div><h2>从你的任务，选择合适的检查方式。</h2><p>检查目标决定输入、覆盖范围和结果怎样使用。下面的场景是使用建议，不是已经完成的真实站点案例。</p></div>
+        <div class="scenario-layout"><div id="scenario-list" class="scenario-list" aria-label="选择使用场景"></div><article id="scenario-detail" class="scenario-detail" aria-live="polite"></article></div>
+        <div class="scenario-footnote"><h3>最适合的起点</h3><p>先选自己的小型公开网站，以一次版本发布为边界，检查重要页面。人工复核问题后修改网站，再用新的采集目录比较前后变化；同时记录未覆盖页面。</p></div>
+      </section>
+
+      <section id="models" class="section">
+        <div class="section-heading"><div class="eyebrow">09 / OUR MODELS</div><h2>同一套标准，两种接入路径。</h2><p>模型负责内容理解，采集器负责提供材料，固定规则继续由代码执行。无需为了替换模型重新训练一个 SEO 专用模型。</p></div>
+        <div class="model-tabs" role="tablist" aria-label="模型接入方式"><button id="model-chat-tab" role="tab" data-model="chat" aria-selected="true" aria-controls="model-chat">当前聊天模型</button><button id="model-api-tab" role="tab" data-model="api" aria-selected="false" aria-controls="model-api" tabindex="-1">自有模型接口</button></div>
+        <article class="model-panel" id="model-chat" role="tabpanel" aria-labelledby="model-chat-tab"><div class="model-intro"><span class="panel-label">适合研究、少量页面与人工复核</span><h3>导出材料 → 当前会话审查 → 导入结果</h3><p>程序提供网页材料、问题和返回约定。你让当前聊天模型读取这些文件，保存判断，再导入生成报告。这是会话操作，不是后台自动调用聊天账户。</p></div><ol class="route-list"><li><b>采集公开网站</b><span>先得到页面事实与规则报告。</span></li><li><b>把材料交给聊天模型</b><span>读取 review-pack、返回 schema 和审查说明。</span></li><li><b>按同一标准给出证据</b><span>判断、理由、对应字段中的原文；不足则未知。</span></li><li><b>导入与复核</b><span>校验后生成报告，未完成的任务保持未评估。</span></li></ol><details class="technical"><summary>展开：聊天模式的运行命令</summary><pre><code>cd projects/006-jev-seo/experiments
+python -m pip install -r requirements.txt
+python audit.py collect https://你的公开网址/ --out runs/my-site
+
+# 让聊天模型读取目录中的 review-instructions.md、
+# review-pack.json、review-schemas.json，保存 answers.json
+python audit.py import runs/my-site --answers runs/my-site/answers.json</code></pre><p>每个已提交任务必须包含全部问题；可以只完成部分任务。不要在聊天里发送模型密钥。</p></details></article>
+        <article class="model-panel" id="model-api" role="tabpanel" aria-labelledby="model-api-tab" hidden><div class="model-intro"><span class="panel-label">适合自动执行、较多任务与重复实验</span><h3>本地配置接口 → 自动评估 → 保存报告</h3><p>支持兼容 Chat Completions 的模型服务，含本地服务。地址、模型名称与密钥保存在本地配置，网页不保存密钥，也不直接调用模型。</p></div><ol class="route-list"><li><b>配置自己的服务</b><span>填写真实接口地址、模型名与所需密钥。</span></li><li><b>选择兼容输出方式</b><span>JSON Schema、JSON 对象或普通文本。</span></li><li><b>设置请求上限并执行</b><span>每个网站、单页、页面对任务各请求一次。</span></li><li><b>续跑并复核</b><span>成功任务可复用，失败和跳过任务可再次尝试。</span></li></ol><details class="technical"><summary>展开：接口配置与运行命令</summary><pre><code># 将 experiments/.env.example 复制为 .env 后在本地填写
+AUDIT_LLM_BASE_URL=https://你的模型服务/v1
+AUDIT_LLM_MODEL=实际模型名称
+AUDIT_LLM_API_KEY=仅在本地填写
+AUDIT_LLM_RESPONSE_MODE=json_schema
+AUDIT_LLM_MAX_REQUESTS=20
+
+python audit.py doctor
+python audit.py evaluate runs/my-site</code></pre><p>服务不支持严格模式时可手动选 json_object 或 text，本地校验仍保留。默认 3,000 输出 tokens、120 秒超时、20 次请求；实际任务可能更多，剩余显示跳过。</p></details></article>
+        <div class="two-notes"><article><h3>复用成功任务，保留不同快照</h3><p>相同材料的成功结果可续用。重新采集用新目录；新旧指纹不匹配时拒绝混入。比较模型时保留原目录副本，再重新评估。</p></article><article><h3>调用上限不等于费用预算</h3><p>记录返回的输入/输出用量；未返回则未知。不做自动付费重试，不伪造美元成本。实际计费与效果要按服务验证。</p></article></div>
+      </section>
+
+      <section id="boundaries" class="section">
+        <div class="section-heading"><div class="eyebrow">10 / LIMITS & VALIDATION</div><h2>清楚知道覆盖了哪里，也知道遗漏了哪里。</h2><p>完成一次程序运行不等于证明网站没有问题。规则提示、模型建议和真实搜索表现是不同层面的证据。</p></div>
+        <div class="boundary-grid"><article><h3>网页层面的可见表现</h3><p>能记录标题、链接、元信息、正文与响应错误。后端 500 只提供症状，要定位根因仍需源码、日志和运行信息。</p></article><article><h3>采集与语言限制</h3><p>只采集公开页面，不提供登录态。动态页面、数量限制和长文截断影响覆盖。中文正文已修正，词数和页面对筛选仍有限制。</p></article><article><h3>真实搜索与商业结果</h3><p>没有 Search Console 或 DataForSEO 数据，不能认定 Google 已收录、排名提升、流量增长或 AI 已引用。</p></article><article><h3>规则与模型可靠性</h3><p>52 条定义不等于全面覆盖所有 SEO 或安全问题。27 项测试验证程序行为，未验证全部规则准确率或真实模型能力。</p></article></div>
+        <div class="table-wrap"><table><caption>网页质量检查基础框架，还需要补齐哪些检查</caption><thead><tr><th>补充范围</th><th>需要实际验证</th><th>与当前框架的关系</th></tr></thead><tbody><tr><th>实际交互</th><td>导航、按钮、表单、错误状态与完整用户流程</td><td>查看链接或 HTML 不能替代操作验证</td></tr><tr><th>手机布局</th><td>不同屏幕排版、溢出、触控与可点击区域</td><td>viewport 元信息只是基础条件</td></tr><tr><th>无障碍</th><td>键盘、焦点、可访问名称、对比度与辅助技术</td><td>图片 alt 不等于完整无障碍检查</td></tr><tr><th>业务功能</th><td>注册、提交、支付及数据保存、返回是否正确</td><td>页面可打开不证明业务流程成功</td></tr><tr><th>后端</th><td>源码、鉴权、权限、接口、数据库、日志与业务逻辑</td><td>公开页面只提供外部症状，根因需另查</td></tr></tbody></table></div>
+        <div class="table-wrap"><table><caption>审查实验验证于 2026-10-13；网页展示验证于 2026-10-14</caption><thead><tr><th>项目</th><th>状态</th><th>实际含义</th></tr></thead><tbody><tr><th>规则提取与来源记录</th><td><span class="status-chip">已完成</span></td><td>固定上游版本，保留 MIT，完整规则与标准可查</td></tr><tr><th>采集 / 导入 / 报告流程</th><td><span class="status-chip">离线通过</span></td><td>27 项测试，网页与网络响应为构造数据</td></tr><tr><th>当前聊天模型</th><td><span class="status-chip">样例跑通</span></td><td>3 个任务、28 项判断成功导入；页面是虚构样例</td></tr><tr><th>自有模型接口</th><td><span class="status-chip neutral">模拟通过</span></td><td>验证成功、异常、截断、引文、上限与续跑；没有真实调用</td></tr><tr><th>本页交互与手机布局</th><td><span class="status-chip">本地验证</span></td><td>规则检索、评估维度、场景与模型切换；不等于真实网站审查</td></tr><tr><th>真实网站 / 渲染 / PageSpeed</th><td><span class="status-chip neutral">待验证</span></td><td>不能把模拟结果当作公开网站实测</td></tr><tr><th>后端源码 / 搜索排名</th><td><span class="status-chip neutral">不在范围</span></td><td>需要独立数据入口与评估体系</td></tr></tbody></table></div>
+        <div class="next-validation"><span class="panel-label">下一步怎样验证价值</span><h3>选小网站 → 人工标注 → 比较误报与漏报 → 修改后复查</h3><p>分别记录：固定规则误判、模型判断分歧、漏抓页面、未知答案、接口用量、人工复核时间。只有这样，才能判断换模型后是否适合自己的工作。</p></div>
+      </section>
+
+      <section id="faq" class="section">
+        <div class="section-heading"><div class="eyebrow">11 / QUESTIONS WE ASKED</div><h2>把讨论中的疑问，放到同一条理解线上。</h2></div>
+        <div class="faq-list"><details open><summary>可以作为我们自己的网页质量检查标准吗？</summary><p>可以。核心是前端可见网页质量的检查规则和内容评估标准，适合作为网页质量检查的基础框架。按页面用途调整，并补充实际交互、手机布局、无障碍、业务功能与后端检查。代码执行可确定条件，模型按标准理解内容，人工核对证据；经验阈值不应机械当作合格线。</p></details><details open><summary>规则是核心吗？</summary><p>是。固定规则和内容评估标准决定检查目标。采集提供事实，模型处理语义，证据与报告让结果可复核。只复制问题、没有材料与验证，无法得到同样的审查能力。</p></details><details><summary>它为什么叫 Jev SEO？</summary><p>原项目采用 TypeSafe 的 Jev 模型做内容判断，SEO 是搜索引擎优化。这个名称体现模型服务与应用领域；更具体的命名故事没有在本次研究中核实。</p></details><details><summary>它的价值只是找网页问题吗？</summary><p>发现问题是主要入口，还包括记录页面事实、解释问题原因、判断内容用途与重要性、安排整改顺序，并提供可复核报告。上游 full 模式还可加入第三方搜索与竞争数据，本次未移植。</p></details><details><summary>是不是在 Google 搜索我的网址，然后分析结果？</summary><p>基本模式直接访问网站并检查采集内容。真实搜索结果属于可选外部数据层。没有该层时不能从报告推断网址是否已被搜索引擎收录。</p></details><details><summary>把代码放到 GitHub，就能检查吗？</summary><p>需要输入实际部署后的网址，例如 GitHub Pages 的项目地址。输入 GitHub 仓库页只会获得仓库网站页面，不等于检查你开发的网站。</p></details><details><summary>能发现后端代码问题吗？</summary><p>能看到部分外部症状，比如 500、失效接口页面或异常跳转。不能从公开 HTML 判断数据库查询、权限检查或具体代码根因；这些需要源码、日志和业务测试。</p></details><details><summary>换成我们的模型，就等于原项目的能力了吗？</summary><p>可以复用采集、规则与评估流程。内容判断的准确率、稳定性、输出兼容与成本要重新验证。普通模型自报置信度不能替代 TypeSafe 的概率门槛，本次模型结论统一待复核。</p></details><details><summary>规则都修复了，排名会提高吗？</summary><p>报告可以减少明显问题，并帮助改善表达与可访问性；排名还取决于搜索系统、竞争、内容价值及更多因素。它不提供排名或流量保证，也不能替代 Search Console。</p></details></div>
+      </section>
+
+      <section id="sources" class="section sources">
+        <div class="section-heading"><div class="eyebrow">12 / SOURCES & REUSE</div><h2>带着来源继续研究，也可以直接取走标准。</h2><p>源码冻结在一个已记录版本。规则与网页上的中文解释分开维护，规则目录由实验代码导出，避免手工漏项。</p></div>
+        <div class="download-row"><a class="button primary" href="./catalog.json" download="jev-seo-rule-handbook.json">下载规则与评估标准 ↓</a><a class="button secondary" href="./review-prompt.txt" download="website-review-prompt.txt">下载审查提示词 ↓</a><a class="button secondary" href="./assets/04-jev-seo-understanding.png" download="jev-seo-understanding.png">下载理解总览原图 ↓</a><a class="text-link" href="./LICENSE.txt">MIT 许可证 ↗</a></div>
+        <p class="quiet">下载的规则手册是数据与解释，不是独立可执行扫描器。自动执行请使用仓库中的实验程序；提示词也需要配合网页材料与问题。</p>
+        <div class="source-columns"><div><h3>源码与本次实现</h3><ul><li><a href="https://github.com/AgriciDaniel/jev-seo/tree/55a184a3b0d09565a4c84268f725a47784e62528">上游固定版本 · v0.1.1 ↗</a></li><li><a href="https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/references/method.md">上游方法与公式 ↗</a></li><li><a href="https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/references/judgments.md">上游模型问题设计 ↗</a></li><li><a href="#models">本次实验的两种运行方式</a><br><small>本地源码目录：projects/006-jev-seo/experiments/；尚未发布公网。</small></li></ul></div><div><h3>基础概念依据</h3><ul><li><a href="https://developers.google.com/search/docs/crawling-indexing/robots/intro">Google：robots 控制抓取，不能当作隐藏网页机制 ↗</a></li><li><a href="https://developers.google.com/search/docs/crawling-indexing/block-indexing">Google：noindex 生效需允许抓取读取 ↗</a></li><li><a href="https://developers.google.com/search/docs/appearance/title-link">Google：标题没有固定长度限制 ↗</a></li><li><a href="https://developers.google.com/search/docs/appearance/ai-features">Google：AI 搜索无需特殊 AI 文件或标记 ↗</a></li></ul></div></div>
+        <div class="provenance"><p><b>上游：</b>AgriciDaniel/jev-seo · commit <code>55a184a3b0d09565a4c84268f725a47784e62528</code> · Copyright © 2026 Agrici Daniel · MIT。</p><p><b>本页：</b>本仓库整理的中文研究导读、规则说明与交互示意。参考资料核对日期 2026-10-13。页面自身的展示截图不能作为 SEO 或模型实测证据。</p></div>
+      </section>
+      <footer><span>006 / JEV SEO · 理解、提取、验证、复用</span><a href="#overview">回到顶部 ↑</a></footer>
+    </main>
+  </div>
+</body>
+</html>

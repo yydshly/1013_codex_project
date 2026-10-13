@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+<title id="title">用自己的模型审查网站</title><desc id="desc">本仓库绘制的流程：采集网页和固定规则，经当前聊天模型或自有模型接口，再做证据校验，生成整改报告。非真实截图。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#66768b"/></marker></defs>
+<rect width="1200" height="560" rx="24" fill="#f2f5fa"/>
+<g font-family="Microsoft YaHei, Noto Sans SC, sans-serif" fill="#1c2d43">
+<text x="54" y="74" font-size="32" font-weight="700">网站审查 · 模型可替换</text>
+<text x="54" y="113" font-size="18" fill="#59697d">先采集事实，再做规则检查与内容判断，保留证据。</text>
+<g stroke="#66768b" stroke-width="2.5" fill="none" marker-end="url(#arrow)">
+<path d="M253 294H310"/><path d="M498 294H542V236H598"/><path d="M542 294V366H598"/><path d="M822 236H868V294H914"/><path d="M822 366H868V294"/>
+</g>
+<g stroke="#d4deeb" fill="white"><rect x="54" y="239" width="200" height="110" rx="14"/><rect x="311" y="219" width="187" height="151" rx="14"/><rect x="598" y="183" width="224" height="106" rx="14"/><rect x="598" y="314" width="224" height="106" rx="14"/><rect x="914" y="226" width="232" height="137" rx="14"/></g>
+<g font-size="23" font-weight="600"><text x="91" y="282">输入网站地址</text><text x="346" y="262">网页采集</text><text x="632" y="226">当前聊天模型</text><text x="632" y="356">自有模型接口</text><text x="948" y="275">证据与整改报告</text></g>
+<g font-size="17" fill="#59697d"><text x="82" y="316">已部署、可公开访问</text><text x="341" y="298">提取页面事实</text><text x="341" y="333">检查固定规则</text><text x="630" y="263">导出材料 → 导入判断</text><text x="630" y="393">配置接口 → 自动判断</text><text x="949" y="312">校验引文、安排优先级</text><text x="949" y="339">模型建议需人工复核</text></g>
+<text x="54" y="489" font-size="17" fill="#59697d">本次不检查后端源码，也不验证真实搜索排名。</text>
+<text x="54" y="521" font-size="15" fill="#788699">来源：本仓库绘制的流程说明 · 非真实网站审查截图</text>
+</g></svg>

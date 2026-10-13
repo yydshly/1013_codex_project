@@ -1,0 +1,26 @@
+{
+  "repository": "https://github.com/AgriciDaniel/jev-seo",
+  "commit": "55a184a3b0d09565a4c84268f725a47784e62528",
+  "files": {
+    "crawl.py": {
+      "source": "jevseo/crawl.py",
+      "sha256_original": "22957ba9fe7004e5ba1e6a606e89ea98ff259f899da08f05bb6334b602ec2916"
+    },
+    "parse.py": {
+      "source": "jevseo/parse.py",
+      "sha256_original": "e17504ae2312bccd3258825e00175abe7d6fc232de988f288bb58c69a1ed518d"
+    },
+    "checks.py": {
+      "source": "jevseo/checks.py",
+      "sha256_original": "0a8f14a5ee3f156e87053ae03ab9b9ddf2add7f993ad95bd0790041b7648ce5b"
+    },
+    "psi.py": {
+      "source": "jevseo/psi.py",
+      "sha256_original": "564b15c02fed13c80640bfc8c792a7e4c4d74adaf739f1e104b4a14980b5474f"
+    },
+    "questions.py": {
+      "source": "jevseo/jev.py (question definitions and state builders only)",
+      "sha256_original": "cadf26045463f4df99affe54537f1bfa8588ce5194c0222fe9c0756af8f56b7d"
+    }
+  }
+}

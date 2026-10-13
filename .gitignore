@@ -23,6 +23,7 @@ build/
 .vite/
 coverage/
 site-dist/
+site-*/
 .vercel/
 
 # Local logs and OS files
