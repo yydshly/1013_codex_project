@@ -14,6 +14,19 @@
 | 编号 | 项目 / 研究摘要 | 目标源库 | 研究状态 | 相关入口 |
 | --- | --- | --- | --- | --- |
 | **001** | **[Infinite Bookshelf：写书流程、能力与价值研究](./projects/001-infinite-bookshelf/README.md)**<br><br>**能力：** 把主题展开为目录、书名和分节长文初稿，顺序生成并汇总展示。<br>**原理：** 代码组织多次模型请求，先目录、再书名、逐节正文；写作方法与手动让模型先出大纲再写细节相同。<br>**输入：** 主题；可补充读者、目标、范围和风格要求，高级模式可加入笔记或 TXT 资料。<br>**输出：** 书名、目录、各节正文，以及可导出的 TXT/PDF 初稿，供人工编辑和审核。<br>**价值：** 减少重复请求与整理，复用写作流程，并可修改接口接入自有模型；没有提高模型本身能力。<br>**意义与场景：** 适合重复起草较独立的教程和培训材料；偶尔写作额外价值有限，复杂小说需补前文与人工审核。<br>**边界与验证：** 不能自动保证质量。本研究提供源码证据、总览图与摄影等可读样稿；样稿是保存内容，未验证真实模型 API 的质量、速度和费用优势。<br><br>AI 写作 · 长文生成 · 模型可替换 · 源码研究 | [infinite-bookshelf](https://github.com/Bklieger/infinite-bookshelf)<br>Bklieger | 已完成 | [研究文档](./projects/001-infinite-bookshelf/README.md)<br>[在线演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) |
+
+## 项目引导图
+
+引导图独立展示在索引表外。点击图片进入研究文档，图片说明保留其内容与来源。
+
+### 001 · Infinite Bookshelf：写书流程、能力与价值研究
+
+[![本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图](./projects/001-infinite-bookshelf/assets/03-understanding-overview.png)](./projects/001-infinite-bookshelf/README.md)
+
+图片说明与来源：本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图
+
+[查看原图](./projects/001-infinite-bookshelf/assets/03-understanding-overview.png) · [研究文档](./projects/001-infinite-bookshelf/README.md) · [在线演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/)
+
 <!-- PROJECT_INDEX:END -->
 
 ## 收录与阅读方式

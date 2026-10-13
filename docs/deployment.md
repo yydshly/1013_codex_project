@@ -2,7 +2,7 @@
 
 ## 站点结构
 
-多个子项目的静态 Web 演示统一发布到仓库的 GitHub Pages 项目站点，每个项目使用独立路径。首页使用无图索引表，单列“目标源库”，以源库名称链接到研究目标。元信息含 `summary_sections` 时，按能力、原理、输入、输出、价值、意义与场景、边界与验证分项展示；旧项目仍完整展示 `summary`，不截断、不折叠摘要。手机按项目纵向排列，详情页保留总览图和样稿。依据：[GitHub Pages 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)。
+多个子项目的静态 Web 演示统一发布到仓库的 GitHub Pages 项目站点，每个项目使用独立路径。首页索引表单列“目标源库”，以源库名称链接到研究目标；引导图在表格下方的独立图片区展示，每图附名称、说明、来源与原图入口。元信息含 `summary_sections` 时，按能力、原理、输入、输出、价值、意义与场景、边界与验证分项展示；旧项目仍完整展示 `summary`，不截断、不折叠摘要。手机按项目纵向排列，详情页也保留总览图和样稿。依据：[GitHub Pages 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)。
 
 ```text
 https://yydshly.github.io/1013_codex_project/
@@ -28,10 +28,10 @@ https://yydshly.github.io/1013_codex_project/
 
 ```text
 site-dist/                   # 临时构建目录，不提交到 Git
-├── index.html               # 无图索引、源库栏、分项摘要与研究链接
+├── index.html               # 索引表、源库栏、分项摘要与表格外的引导图区
 ├── .nojekyll
 ├── site-build.json          # 生成标记及本次包含的项目目录
-├── previews/               # 保留已发布图片地址；首页索引不嵌入图片
+├── previews/               # 首页表格外展示的各项目引导图
 ├── 001-infinite-bookshelf/  # 该项目 web/ 的公开静态文件
 └── ...
 ```
@@ -63,7 +63,7 @@ python -m http.server 8767 --bind 127.0.0.1 --directory site-dist
 - 仅复制 `web/` 内的 HTML、CSS、JavaScript、JSON、公开 TXT、常用图像、字体、音视频和 PDF。Markdown 研究文档与 Python 等源码不作为网页产物复制；导航链接指向 GitHub 研究文档。
 - 隐藏文件、`.env`、密钥文件、依赖目录、后端与私有目录、源码映射、已知凭据文件被排除。`experiments/`、`references/` 和其他项目文件完全不进入网页产物。
 - `web/` 是公开前端目录；不得把任何私密内容放在其中。静态白名单不是对任意文件内容的自动密钥审计。
-- 预览资源只从项目元信息的 `preview` 取一张明确图片，不将整个项目 `assets/` 目录发布；首页索引不显示该图片，保留资源地址以兼容已有链接。总览图与截图在项目详情页展示，其网页资源应放在 `web/assets/`。
+- 引导图资源只从项目元信息的 `preview` 取一张明确图片，不将整个项目 `assets/` 目录发布；在首页索引表外独立展示，并保留 `preview_caption` 作为替代文本和来源说明。说明包含“占位”或“待添加”的图片不作为实际引导图展示。详情页自身所需总览图与截图资源应放在 `web/assets/`。
 - 资源和项目链接使用相对路径，例如 `./app.js`、`./data/book.json`、`./assets/image.png`，适配 `/1013_codex_project/001-infinite-bookshelf/` 的仓库名前缀。
 - 项目跳回站点总览使用 `../`；客户端路由使用 hash 或查询参数，避免静态托管刷新深层路径返回 404。
 - 当前构建器直接汇集原生静态文件，不运行框架安装或打包。需要 React、Vite 等构建时，应先在明确的构建步骤产出经过审核的公开文件，再扩展汇集约定，不能把依赖和源码一并上传。

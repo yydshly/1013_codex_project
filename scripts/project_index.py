@@ -139,6 +139,17 @@ def link_url(value: str) -> str:
     return quote(value, safe="/:?=&%#@+;,$!~.-_")
 
 
+def has_guide_image(project: dict) -> bool:
+    """Display validated previews outside the table, excluding labeled placeholders."""
+    preview = project.get("preview", "")
+    caption = project.get("preview_caption", "")
+    return (
+        isinstance(preview, str) and bool(preview.strip())
+        and isinstance(caption, str) and bool(caption.strip())
+        and not any(marker in caption for marker in ("占位", "待添加"))
+    )
+
+
 def render_index(projects: list[dict]) -> str:
     lines = [f"当前收录 **{len(projects)}** 个项目，按三位编号升序排列。", ""]
     if not projects:
@@ -174,6 +185,25 @@ def render_index(projects: list[dict]) -> str:
         lines.append(
             f"| **{project['id']}** | {intro} | {source} | {STATUSES[project['status']]} | {entries} |"
         )
+    guides = [project for project in projects if has_guide_image(project)]
+    if guides:
+        lines.extend([
+            "", "## 项目引导图", "",
+            "引导图独立展示在索引表外。点击图片进入研究文档，图片说明保留其内容与来源。", "",
+        ])
+        for project in guides:
+            path = f"./projects/{project['directory']}"
+            image_url = link_url(f"{path}/{project['preview']}")
+            readme_url = link_url(f"{path}/README.md")
+            caption = markdown_text(project["preview_caption"])
+            entries = f"[查看原图]({image_url}) · [研究文档]({readme_url})"
+            if project["demo_url"]:
+                entries += f" · [在线演示]({link_url(project['demo_url'])})"
+            lines.extend([
+                f"### {project['id']} · {markdown_text(project['name'])}", "",
+                f"[![{caption}]({image_url})]({readme_url})", "",
+                f"图片说明与来源：{caption}", "", entries, "",
+            ])
     return "\n".join(lines)
 
 

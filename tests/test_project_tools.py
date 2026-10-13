@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from new_project import create_project
 from project_index import (
-    END, START, load_projects, render_index, replace_index, source_repository_name,
+    END, START, has_guide_image, load_projects, render_index, replace_index, source_repository_name,
     update_readme, validate_summary_sections,
 )
 
@@ -60,6 +60,7 @@ class ProjectToolsTests(unittest.TestCase):
         index = (self.root / "README.md").read_text(encoding="utf-8")
         self.assertNotIn("<img", index)
         self.assertNotIn("图片预览", index)
+        self.assertNotIn("## 项目引导图", index)
         self.assertIn("| 目标源库 |", index)
         self.assertIn("[source](https://github.com/example/source)<br>example", index)
         self.assertIn("摘要含 \\| 表格符号", index)
@@ -143,7 +144,10 @@ class ProjectToolsTests(unittest.TestCase):
             {"label": "原理", "text": "先生成目录，再分节生成正文。"},
             {"label": "价值", "text": "复用流程，减少重复操作与整理。"},
         ]
-        self.modify_metadata(target, summary_sections=sections)
+        self.modify_metadata(
+            target, summary_sections=sections,
+            preview_caption="研究流程图，来源：本次研究",
+        )
         project = load_projects(self.root)[0]
         self.assertEqual(project["summary"], "保留原始摘要作为兼容字段")
         self.assertEqual(project["summary_sections"], sections)
@@ -153,7 +157,10 @@ class ProjectToolsTests(unittest.TestCase):
             "**原理：** 先生成目录，再分节生成正文。<br>"
             "**价值：** 复用流程，减少重复操作与整理。", rendered,
         )
-        self.assertNotIn("<img", rendered)
+        table, guides = rendered.split("\n## 项目引导图\n", 1)
+        self.assertNotIn("![", table)
+        self.assertNotIn("<img", table)
+        self.assertIn("[![研究流程图，来源：本次研究]", guides)
         self.assertFalse(update_readme(self.root, check=True))
         update_readme(self.root)
         self.assertTrue(update_readme(self.root, check=True))
@@ -208,6 +215,66 @@ class ProjectToolsTests(unittest.TestCase):
             "https://github.com/Bklieger/infinite-bookshelf/",
         ):
             self.assertEqual(source_repository_name(url), "infinite-bookshelf")
+
+    def test_guide_images_follow_table_and_preserve_summary_and_source_columns(self):
+        target = self.create(summary="完整摘要保留")
+        self.modify_metadata(
+            target,
+            preview_caption="本次研究流程图，来源：本地研究；非原版运行截图",
+            demo_url="https://example.com/research/",
+        )
+        rendered = render_index(load_projects(self.root))
+        table, guides = rendered.split("\n## 项目引导图\n", 1)
+        self.assertNotIn("![", table)
+        self.assertNotIn("<img", table)
+        self.assertIn("完整摘要保留", table)
+        self.assertIn("| 目标源库 |", table)
+        self.assertIn("[source](https://github.com/example/source)", table)
+        self.assertIn("### 001 · 示例研究", guides)
+        self.assertIn(
+            "[![本次研究流程图，来源：本地研究；非原版运行截图]"
+            "(./projects/001-sample-project/assets/cover.svg)]"
+            "(./projects/001-sample-project/README.md)", guides,
+        )
+        self.assertIn("图片说明与来源：本次研究流程图", guides)
+        self.assertIn("[查看原图](./projects/001-sample-project/assets/cover.svg)", guides)
+        self.assertIn("[研究文档](./projects/001-sample-project/README.md)", guides)
+        self.assertIn("[在线演示](https://example.com/research/)", guides)
+        update_readme(self.root)
+        self.assertTrue(update_readme(self.root, check=True))
+
+    def test_guide_images_escape_caption_and_encode_image_path(self):
+        target = self.create(name="名称 | [样例]")
+        image_path = target / "assets/导图 [1] (样本).svg"
+        shutil.copyfile(target / "assets/cover.svg", image_path)
+        self.modify_metadata(
+            target,
+            preview="assets/导图 [1] (样本).svg",
+            preview_caption="<画面> [说明] *来源* | 本地研究",
+        )
+        rendered = render_index(load_projects(self.root))
+        table, guides = rendered.split("\n## 项目引导图\n", 1)
+        self.assertNotIn("![", table)
+        self.assertIn("### 001 · 名称 \\| \\[样例\\]", guides)
+        self.assertIn("&lt;画面&gt; \\[说明\\] \\*来源\\* \\| 本地研究", guides)
+        self.assertIn("assets/%E5%AF%BC%E5%9B%BE%20%5B1%5D%20%28%E6%A0%B7%E6%9C%AC%29.svg", guides)
+        self.assertNotIn("<画面>", guides)
+
+    def test_placeholder_images_are_excluded_without_changing_legacy_metadata(self):
+        target = self.create()
+        metadata = load_projects(self.root)[0]
+        self.assertFalse(has_guide_image(metadata))
+        self.assertNotIn("## 项目引导图", render_index([metadata]))
+        for caption in ("图片占位，等待研究", "待添加真实截图"):
+            self.modify_metadata(target, preview_caption=caption)
+            project = load_projects(self.root)[0]
+            self.assertFalse(has_guide_image(project))
+            self.assertNotIn("![", render_index([project]))
+        self.modify_metadata(target, preview_caption="本地复现截图，来源：本次研究")
+        project = load_projects(self.root)[0]
+        self.assertNotIn("summary_sections", project)
+        self.assertTrue(has_guide_image(project))
+        self.assertIn("## 项目引导图", render_index([project]))
 
 
 if __name__ == "__main__":

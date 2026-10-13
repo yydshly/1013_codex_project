@@ -117,7 +117,8 @@ class BuildSiteTests(unittest.TestCase):
         self.assertIn('./001-sample/', home)
         self.assertIn('<th scope="col">目标源库</th>', home)
         self.assertIn('href="https://github.com/example/upstream">upstream ↗</a>', home)
-        self.assertNotIn('<img', home)
+        self.assertNotIn('<img', home.split('</table>', 1)[0])
+        self.assertIn('<img src="./previews/001-sample.svg"', home.split('</table>', 1)[1])
         self.assertTrue((self.root / "site-dist" / "previews" / "001-sample.svg").is_file())
         self.assertIn('https://github.com/example/research/blob/main/projects/001-sample/README.md', home)
         self.assertNotIn('line-clamp', home)
@@ -130,7 +131,7 @@ class BuildSiteTests(unittest.TestCase):
             {"label": "边界与验证", "text": "未实测真实 API。" * 100},
         ]
         project = self.create_project(summary_sections=sections)
-        # The research explanation image belongs to the project page, not the index.
+        # The image appears outside the index table and remains on the project page.
         detail = '<h1>项目详情</h1><img src="./assets/overview.svg" alt="理解总览图">'
         (project / "web" / "index.html").write_text(detail, encoding="utf-8")
         asset = project / "web" / "assets" / "overview.svg"
@@ -141,12 +142,33 @@ class BuildSiteTests(unittest.TestCase):
         for section in sections:
             self.assertIn(f'<dt>{html.escape(section["label"])}</dt>', home)
             self.assertIn(f'<dd>{html.escape(section["text"])}</dd>', home)
-        self.assertNotIn('<img', home)
+        self.assertNotIn('<img', home.split('</table>', 1)[0])
+        self.assertIn('id="project-guides"', home.split('</table>', 1)[1])
+        self.assertIn('id="guide-001"', home)
+        self.assertIn('href="#guide-001"', home)
+        self.assertIn('<img src="./previews/001-sample.svg"', home.split('</table>', 1)[1])
         self.assertNotIn('preview-caption', home)
         self.assertNotIn('line-clamp', home)
         self.assertNotIn('text-overflow', home)
         self.assertEqual((self.root / "site-dist" / "001-sample" / "index.html").read_text(encoding="utf-8"), detail)
         self.assertTrue((self.root / "site-dist" / "001-sample" / "assets" / "overview.svg").is_file())
+
+    def test_guide_gallery_keeps_caption_escaping_and_skips_placeholder_images(self):
+        caption = '源码理解图 <研究绘制> & "非实测"'
+        self.create_project(tracked=True, preview_caption=caption)
+        self.create_project('002-placeholder', tracked=True, preview_caption='待添加实际截图（占位图）')
+        build_site(self.root)
+        home = (self.root / 'site-dist' / 'index.html').read_text(encoding='utf-8')
+        table, outside = home.split('</table>', 1)
+        self.assertNotIn('<img', table)
+        self.assertIn('id="guide-001"', outside)
+        self.assertNotIn('id="guide-002"', outside)
+        self.assertNotIn('href="#guide-002"', table)
+        self.assertIn(f'alt="{html.escape(caption, quote=True)}"', outside)
+        self.assertIn(f'<figcaption>{html.escape(caption)}</figcaption>', outside)
+        self.assertNotIn('<研究绘制>', outside)
+        self.assertTrue((self.root / 'site-dist' / 'previews' / '001-sample.svg').is_file())
+        self.assertIn('002-placeholder', table)
 
     def test_invalid_structured_summaries_fail_before_replacing_previous_site(self):
         project = self.create_project()
