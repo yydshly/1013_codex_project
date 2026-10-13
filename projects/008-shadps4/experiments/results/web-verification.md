@@ -2,7 +2,7 @@
 
 日期：2026-10-14。结果：passed。浏览器：Chromium 151.0.7922.34。
 
-预览：http://127.0.0.1:8858/008-shadps4/，通过聚合站点独立子路径测试。
+访问地址：https://yydshly.github.io/1013_codex_project/008-shadps4/，通过独立静态子路径测试。
 
 | 检查 | 结果 | 实际证据 |
 | --- | --- | --- |
@@ -20,12 +20,12 @@
 
 截图为实际浏览器内容，保存于子项目 assets/；不是模板或上游游戏素材。
 
-- [assets/01-web-overview.jpg](../../assets/01-web-overview.jpg)：本地静态子路径的实际浏览器截图。
-- [assets/05-web-diagram.jpg](../../assets/05-web-diagram.jpg)：本地静态子路径的实际浏览器截图。
-- [assets/02-web-demonstration.jpg](../../assets/02-web-demonstration.jpg)：本地静态子路径的实际浏览器截图。
-- [assets/03-web-runtime.jpg](../../assets/03-web-runtime.jpg)：本地静态子路径的实际浏览器截图。
+- [assets/01-web-overview.jpg](../../assets/01-web-overview.jpg)：静态子路径的实际浏览器截图。
+- [assets/05-web-diagram.jpg](../../assets/05-web-diagram.jpg)：静态子路径的实际浏览器截图。
+- [assets/02-web-demonstration.jpg](../../assets/02-web-demonstration.jpg)：静态子路径的实际浏览器截图。
+- [assets/03-web-runtime.jpg](../../assets/03-web-runtime.jpg)：静态子路径的实际浏览器截图。
 - [assets/04-web-mobile.jpg](../../assets/04-web-mobile.jpg)：390 像素宽手机布局的实际浏览器截图。
 
-验证网页教学、证据加载和静态子路径；原生模拟器执行另见 runtime-verification。未验证公网部署和商业游戏。
+验证当前访问地址的网页教学、证据加载和静态子路径；原生模拟器执行另见 runtime-verification。未验证商业游戏或浏览器原生 PS4 执行。
 
-复现脚本：[verify_web.cjs](../verify_web.cjs)。需要 Playwright 与对应 Chromium；在静态预览服务运行后执行。
+复现脚本：[verify_web.cjs](../verify_web.cjs)。需要 Playwright 与对应 Chromium；以 SHAD_WEB_URL 指定待检查的本地或公网地址。

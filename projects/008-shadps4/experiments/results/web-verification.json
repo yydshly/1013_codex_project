@@ -1,9 +1,9 @@
 {
   "date": "2026-10-14",
   "status": "passed",
-  "method": "Playwright Chromium / 静态聚合站点实际浏览器",
+  "method": "Playwright Chromium / 公网 GitHub Pages",
   "browser": "151.0.7922.34",
-  "url": "http://127.0.0.1:8858/008-shadps4/",
+  "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/",
   "checks": [
     {
       "name": "静态子路径与资源",
@@ -64,19 +64,19 @@
   "screenshots": [
     {
       "path": "assets/01-web-overview.jpg",
-      "description": "本地静态子路径的实际浏览器截图"
+      "description": "静态子路径的实际浏览器截图"
     },
     {
       "path": "assets/05-web-diagram.jpg",
-      "description": "本地静态子路径的实际浏览器截图"
+      "description": "静态子路径的实际浏览器截图"
     },
     {
       "path": "assets/02-web-demonstration.jpg",
-      "description": "本地静态子路径的实际浏览器截图"
+      "description": "静态子路径的实际浏览器截图"
     },
     {
       "path": "assets/03-web-runtime.jpg",
-      "description": "本地静态子路径的实际浏览器截图"
+      "description": "静态子路径的实际浏览器截图"
     },
     {
       "path": "assets/04-web-mobile.jpg",
@@ -84,5 +84,5 @@
     }
   ],
   "errors": [],
-  "scope": "验证网页教学、证据加载和静态子路径；原生模拟器执行另见 runtime-verification。未验证公网部署和商业游戏。"
+  "scope": "验证当前访问地址的网页教学、证据加载和静态子路径；原生模拟器执行另见 runtime-verification。未验证商业游戏或浏览器原生 PS4 执行。"
 }

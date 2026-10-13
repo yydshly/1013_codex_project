@@ -23,7 +23,7 @@ python scripts/build_site.py --project 008-shadps4 --output site-shadps4-preview
 python -m http.server 8773 --bind 127.0.0.1 --directory site-shadps4-preview
 ```
 
-访问 http://127.0.0.1:8773/008-shadps4/，返回索引为 ../。正式汇集收集全部已跟踪项目，遵循 [部署约定](../../../docs/deployment.md)。公网尚未部署，demo_url 为空。
+访问 http://127.0.0.1:8773/008-shadps4/，返回索引为 ../。正式汇集收集全部已跟踪项目，遵循 [部署约定](../../../docs/deployment.md)。[公网网页](https://yydshly.github.io/1013_codex_project/008-shadps4/)于 2026-10-14 发布并验证，正式地址已写入 demo_url；[发布记录](../experiments/results/publication-2026-10-14.md)记录资源、完整摘要与引导图检查。
 
 页面无后端、模型、外部字体和脚本。全部资源为相对路径，统一子路径为 /1013_codex_project/008-shadps4/。原生程序、系统模块、配置和缓存完全不在 web/ 内。
 

@@ -17,7 +17,7 @@
   ],
   "preview": "assets/comprehensive-map.svg",
   "preview_caption": "本仓库整理的 shadPS4 全面理解图：资源控制边界、能力、加载与执行原理、价值、扩展方向、个人意义及公开样例实测范围；非上游截图。",
-  "demo_url": "",
+  "demo_url": "https://yydshly.github.io/1013_codex_project/008-shadps4/",
   "summary_sections": [
     {
       "label": "定位",
@@ -65,7 +65,7 @@
     },
     {
       "label": "网页状态",
-      "text": "本地中文网页已制作；统一静态子路径为 008-shadps4。公网尚未部署，在线地址保持为空，验证结果记录在子项目中。"
+      "text": "GitHub Pages 中文网页已发布并核验：十九个公网地址可访问，首页十二项摘要完整保留并沿用指定总览图，十一项浏览器检查通过；原生公开样例结果与网页教学分别记录。"
     }
   ]
 }

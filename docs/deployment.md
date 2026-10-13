@@ -33,6 +33,8 @@ https://yydshly.github.io/1013_codex_project/
 
 项目 006 于 2026-10-14 随提交 `8edf844d3830a0994805c5d57db461bdf8f8f492` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38436528319)成功。[Jev SEO 规则与模型审查导读](https://yydshly.github.io/1013_codex_project/006-jev-seo/)明确定位为网页质量检查的基础框架，并说明还需补充实际交互、手机布局、无障碍、业务功能和后端检查。完整展示 52 条规则、19 个模型维度、参考提取、定制方法、8 类场景、能力与价值；首页与详情页沿用本次生成的理解总览图。15 个公开地址均 HTTP 200，9 个项目资源与提交 blob 一致，公网规则检索、清除、回跳及图片加载已验证，全部已有演示入口保留。静态网页发布不证明真实审查或模型效果；详见 [项目 006 发布记录](../projects/006-jev-seo/experiments/results/publication-2026-10-14.md)。
 
+项目 008 于 2026-10-14 随提交 `1cda73485ccfe63e7862403387ae5b5d3363c478` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38443817551)成功。[shadPS4 理解网页](https://yydshly.github.io/1013_codex_project/008-shadps4/)完整说明能力、加载与执行原理、资源控制边界、学习与工程价值、个人意义及可扩展方向。首页完整保留十二项摘要，并沿用本次讨论整理的完整总览图；19 个公网地址均 HTTP 200，项目资源与对应提交一致，11 项公网浏览器检查通过，已有五个演示入口保留。公开样例的本机原生执行与网页教学分别记录，商业游戏与完整 3D 渲染尚未验证；详见 [项目 008 发布记录](../projects/008-shadps4/experiments/results/publication-2026-10-14.md)。
+
 子项目静态源文件保存在 `projects/编号-slug/web/`。`scripts/build_site.py` 使用 Python 标准库，将可发布的原生静态项目汇集为一个完整站点：
 
 ```text

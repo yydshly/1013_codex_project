@@ -24,7 +24,7 @@ python projects/008-shadps4/experiments/run_public_example.py --sample graphics 
 
 下载包、转换产物、可执行程序、配置和新日志全部放在被忽略的 `runtime/`；它们不属于入库研究素材。上游样例的准确源码、版权和完整 GPL-3.0 文本保留在 [third_party/OpenOrbis/](third_party/OpenOrbis/)，来源详见 NOTICE.md。运行包许可与研究源码版本在各结果记录中分别说明。
 
-## 验证本地中文网页
+## 验证中文网页
 
 目标：在实际静态子路径检查完整交互、实测证据展示、CSV 下载与手机布局。
 
@@ -43,7 +43,15 @@ node projects/008-shadps4/experiments/verify_web.cjs
 
 浏览器验证需要 Node.js、Playwright 和对应 Chromium。脚本默认从现有依赖查找 `playwright`；也可用 `SHAD_PLAYWRIGHT_MODULE` 指定已有 Playwright 的绝对路径，用 `SHAD_WEB_URL` 指定包含末尾 `/` 的预览地址。依赖与浏览器不入库。
 
-脚本检查 9 条请求 / 条件路径、失败停止、后退与重播、缓存复用、答题反馈、22 列 UTF-8 BOM CSV、实测 JSON 和截图、11 个目录目标、静态资源、返回索引及 320–1440 像素布局。实际截图保存在项目 assets/，结果见 [网页运行记录](results/web-verification.md) / [JSON](results/web-verification.json)。静态文件不提供原生模拟器启动服务，公网未部署。
+脚本检查 9 条请求 / 条件路径、失败停止、后退与重播、缓存复用、答题反馈、22 列 UTF-8 BOM CSV、实测 JSON 和截图、11 个目录目标、静态资源、返回索引及 320–1440 像素布局。实际截图保存在项目 assets/，结果见 [网页运行记录](results/web-verification.md) / [JSON](results/web-verification.json)。静态文件不提供原生模拟器启动服务。
+
+[公网网页](https://yydshly.github.io/1013_codex_project/008-shadps4/)已发布。2026-10-14 实际公网浏览器的 11 项检查通过，截图来源记录使用公开地址。资源与摘要另外通过以下脚本检查；commit 使用已部署的网页内容提交，而非本地未提交状态：
+
+```powershell
+python projects/008-shadps4/experiments/verify_publication.py --commit 1cda73485ccfe63e7862403387ae5b5d3363c478 --run-url https://github.com/yydshly/1013_codex_project/actions/runs/38443817551
+```
+
+检查 19 个地址的 HTTP 状态、项目资源的 Git blob 摘要、首页完整十二项摘要、指定完整引导图和已有五个项目入口。记录见[发布报告](results/publication-2026-10-14.md) / [JSON](results/publication-2026-10-14.json)。
 
 ## 文件用途
 
@@ -53,6 +61,7 @@ node projects/008-shadps4/experiments/verify_web.cjs
 | --- | --- |
 | run_public_example.py | 下载校验、准备并运行公开 PS4 样例 |
 | verify_web.cjs | 实际浏览器完整流程验证与截图 |
+| verify_publication.py | 公网静态资源、Git blob 摘要、完整摘要、指定引导图与已有入口核验 |
 | create_comprehensive_map.py / render_comprehensive_map.cjs | 完整总览图生成、高清输出与实际文字边界检查 |
 | results/ | 可入库的版本、环境、日志和结果，记录验证边界 |
 | third_party/OpenOrbis/ | 引用的原始样例源码、来源和许可证 |

@@ -2,7 +2,7 @@
 
 > 执行共同的指令，补齐不同的运行环境。结合源码、中文导读和公开 PS4 自制程序的本机运行证据，理解 shadPS4 的能力、机制、价值与局限。
 
-[返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/shadps4-emu/shadPS4) · [网页源文件](./web/index.html) · [网页运行说明](./web/README.md) · [实际运行报告](./experiments/results/runtime-verification.md)
+[返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/shadps4-emu/shadPS4) · [在线理解网页](https://yydshly.github.io/1013_codex_project/008-shadps4/) · [网页运行说明](./web/README.md) · [实际运行报告](./experiments/results/runtime-verification.md)
 
 ## 研究对象与版本
 
@@ -15,7 +15,7 @@
 | 上游许可证 | 源码 SPDX 为 GPL-2.0-or-later，根 LICENSE 提供 GPL v2 文本 |
 | 公开样例 | OpenOrbis v0.5.3 hello_world / graphics，commit `6929bafac0b565692ed61e66032a79185ee9cf65`，GPL-3.0 |
 | 状态 | 研究中；公开自制程序完成最小本机复现，商业游戏与完整渲染尚未验证 |
-| 网页 | 原生静态 HTML / CSS / JavaScript；公网尚未部署，demo_url 为空 |
+| 网页 | 原生静态 HTML / CSS / JavaScript；2026-10-14 已发布到 GitHub Pages，公网资源与交互核验通过 |
 
 ## 总览图与真实运行画面
 
@@ -148,7 +148,7 @@ graphics 持续运行，关闭窗口或 Ctrl+C 停止；可加 `--seconds 10`。
 - 原生截图、实际日志节选、运行条件与复现步骤；上游官方游戏案例保留来源。
 - 键盘、手机、减少动画与打印支持；相对资源路径适配独立静态子路径。
 
-网页无后端和模型接口，不能在浏览器里启动原生模拟器。公网尚未部署，demo_url 保持空。[运行说明](./web/README.md)。
+网页无后端和模型接口，不能在浏览器里启动原生模拟器。[在线网页](https://yydshly.github.io/1013_codex_project/008-shadps4/)已发布并经过实际公网浏览器验证；[运行说明](./web/README.md)与[发布记录](./experiments/results/publication-2026-10-14.md)保留复现方式和验证证据。
 
 ## 价值与对你的意义
 
@@ -186,9 +186,9 @@ graphics 持续运行，关闭窗口或 Ctrl+C 停止；可加 `--seconds 10`。
 
 已核对固定源码；公开 Hello World 与 graphics 本机成功。网页完整流程、下载、响应式、资源与截图分别记于 [网页验证](./experiments/results/web-verification.md) / [JSON](./experiments/results/web-verification.json)。总索引按 project.json 自动生成。
 
-完整总览图已输出 SVG 与 1800×3290 PNG；实际渲染检查了 116 处文字和 24 个内容区域，没有文字越界，见 [图的验证](./experiments/results/diagram-verification.json)。网页 11 项检查通过。本次发布从远端已提交状态单独准备，仅收录本项目研究文件与已跟踪项目，避免把其他尚未完成的本地研究一起发布。
+完整总览图已输出 SVG 与 1800×3290 PNG；实际渲染检查了 116 处文字和 24 个内容区域，没有文字越界，见 [图的验证](./experiments/results/diagram-verification.json)。公网网页 11 项浏览器检查通过；19 个公开地址可访问，项目资源与提交内容一致，首页完整保留十二项摘要并使用同一张完整总览图，现有五个网页入口保留，见[发布记录](./experiments/results/publication-2026-10-14.md)。本次发布从远端已提交状态单独准备，仅收录本项目研究文件与已跟踪项目，避免把其他尚未完成的本地研究一起发布。
 
-未验证：商业游戏、GCN 重编译、3D 性能、声音、手柄、存档、联网、实体 PS4 对照、跨 GPU 和长时间稳定性；尚未公网部署。一次简单样例成功不能替代这些验证。
+未验证：商业游戏、GCN 重编译、3D 性能、声音、手柄、存档、联网、实体 PS4 对照、跨 GPU 和长时间稳定性。一次简单样例成功不能替代这些验证。
 
 ## 来源与许可
 

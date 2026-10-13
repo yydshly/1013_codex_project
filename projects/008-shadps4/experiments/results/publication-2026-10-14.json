@@ -1,0 +1,172 @@
+{
+  "date": "2026-10-14",
+  "commit": "1cda73485ccfe63e7862403387ae5b5d3363c478",
+  "site_url": "https://yydshly.github.io/1013_codex_project/",
+  "project_url": "https://yydshly.github.io/1013_codex_project/008-shadps4/",
+  "workflow_url": "https://github.com/yydshly/1013_codex_project/actions/runs/38443817551",
+  "status": "passed",
+  "resources": [
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/index.html",
+      "status": 200,
+      "sha256": "9063a1affb3fd206693f8b9055785604d598c8eb92f2cf6baee84b37e5fe45f1",
+      "source": "projects/008-shadps4/web/index.html",
+      "expected_sha256": "9063a1affb3fd206693f8b9055785604d598c8eb92f2cf6baee84b37e5fe45f1",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/styles.css",
+      "status": 200,
+      "sha256": "b56d93891ec470d9c9e4d9dec926ee3354d56d0767242ce39855c02c11eb7217",
+      "source": "projects/008-shadps4/web/styles.css",
+      "expected_sha256": "b56d93891ec470d9c9e4d9dec926ee3354d56d0767242ce39855c02c11eb7217",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/app.js",
+      "status": 200,
+      "sha256": "610acbc4b7016e246ad11b3f473812aa80907509fd93edefbf34590f7e3ec28c",
+      "source": "projects/008-shadps4/web/app.js",
+      "expected_sha256": "610acbc4b7016e246ad11b3f473812aa80907509fd93edefbf34590f7e3ec28c",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/assets/comprehensive-map.svg",
+      "status": 200,
+      "sha256": "4d681db551996d1a43afef70bc640fc764752116c3bae2287264f3ecad352a4c",
+      "source": "projects/008-shadps4/web/assets/comprehensive-map.svg",
+      "expected_sha256": "4d681db551996d1a43afef70bc640fc764752116c3bae2287264f3ecad352a4c",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/assets/comprehensive-map.png",
+      "status": 200,
+      "sha256": "ce768197da0e9af2e0c26773d991b670c38c2de84783fb5b1914253264eedfa7",
+      "source": "projects/008-shadps4/web/assets/comprehensive-map.png",
+      "expected_sha256": "ce768197da0e9af2e0c26773d991b670c38c2de84783fb5b1914253264eedfa7",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/assets/comprehensive-map.source.json",
+      "status": 200,
+      "sha256": "c1067a044ecff2c6fcbfe5ad9a8ef503eb1f7c773dbc944eda358d646072204c",
+      "source": "projects/008-shadps4/web/assets/comprehensive-map.source.json",
+      "expected_sha256": "c1067a044ecff2c6fcbfe5ad9a8ef503eb1f7c773dbc944eda358d646072204c",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/assets/understanding-map.svg",
+      "status": 200,
+      "sha256": "22ef6f972e1091575829b8a2a8a0edfe036464f3e78be5cfb727441763a39dc7",
+      "source": "projects/008-shadps4/web/assets/understanding-map.svg",
+      "expected_sha256": "22ef6f972e1091575829b8a2a8a0edfe036464f3e78be5cfb727441763a39dc7",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/assets/favicon.svg",
+      "status": 200,
+      "sha256": "bd5d0010f27411ae59c74bb52234a23f2de5e2cff5a1f6eb4e6e990fed74271c",
+      "source": "projects/008-shadps4/web/assets/favicon.svg",
+      "expected_sha256": "bd5d0010f27411ae59c74bb52234a23f2de5e2cff5a1f6eb4e6e990fed74271c",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/assets/runtime-verification.json",
+      "status": 200,
+      "sha256": "c04caeefd7dea4874d5f44064b38715d73ac099349864faa8450241225968f97",
+      "source": "projects/008-shadps4/web/assets/runtime-verification.json",
+      "expected_sha256": "c04caeefd7dea4874d5f44064b38715d73ac099349864faa8450241225968f97",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/assets/openorbis-graphics-live.jpg",
+      "status": 200,
+      "sha256": "9b6c09b2560a31072ef95f590d6a7b226eba71f9f588ae520a0a6fe2df023254",
+      "source": "projects/008-shadps4/web/assets/openorbis-graphics-live.jpg",
+      "expected_sha256": "9b6c09b2560a31072ef95f590d6a7b226eba71f9f588ae520a0a6fe2df023254",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/assets/openorbis-graphics-live.source.json",
+      "status": 200,
+      "sha256": "270b3151448d3b1f49bc4f45c430669d8632c6db1035c88dc241cddf20f162c5",
+      "source": "projects/008-shadps4/web/assets/openorbis-graphics-live.source.json",
+      "expected_sha256": "270b3151448d3b1f49bc4f45c430669d8632c6db1035c88dc241cddf20f162c5",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/previews/008-shadps4.svg",
+      "status": 200,
+      "sha256": "4d681db551996d1a43afef70bc640fc764752116c3bae2287264f3ecad352a4c",
+      "source": "projects/008-shadps4/assets/comprehensive-map.svg",
+      "expected_sha256": "4d681db551996d1a43afef70bc640fc764752116c3bae2287264f3ecad352a4c",
+      "matches_commit": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/",
+      "status": 200,
+      "sha256": "81cfb3297e7a544b0c62853a86aca40977a6a75d7f8fd4e3e3f0dab4a9c4cfdf"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/site-build.json",
+      "status": 200,
+      "sha256": "d3f930f02bf9188c4aba15e8fe48c3eacf116c82607d687f0b28a356ce4fc47d"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/",
+      "status": 200,
+      "sha256": "5c746e81e4163cd8b97d457511e049b67d5d67a287fe23ca03b703210d98f9b6"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/",
+      "status": 200,
+      "sha256": "883a2a525a526a79a20c30762f684cf4c25c1cfd87c173c30f3e474472ff6edd"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/005-wireguard-install/",
+      "status": 200,
+      "sha256": "e09e362d6e1ca044de1743c462599b8b2bcc01e4dc49a6b6e024b9d5c7f18bbb"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/006-jev-seo/",
+      "status": 200,
+      "sha256": "5ec202fb45140d10af636e5ec8bd1893b9310a343599015654b6f6ed9b364166"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/",
+      "status": 200,
+      "sha256": "e84fdf06174327131e092974a8a9412ae335157396e2dc1509818f1827029d88"
+    }
+  ],
+  "checks": [
+    {
+      "name": "项目公开资源",
+      "result": "pass",
+      "evidence": "11 项静态资源 HTTP 200，SHA-256 与对应提交 Git blob 完全一致。"
+    },
+    {
+      "name": "指定完整引导图",
+      "result": "pass",
+      "evidence": "首页引导图与本次 1800×3290 总览 SVG 的提交内容一致。"
+    },
+    {
+      "name": "能力、原理、价值与意义摘要",
+      "result": "pass",
+      "evidence": "首页完整保留 12 项摘要，未截断或折叠，并在表格外展示完整总览图。"
+    },
+    {
+      "name": "保留现有网页",
+      "result": "pass",
+      "evidence": "构建清单包含本项目与已有五个静态项目；五个原有入口均返回 HTTP 200。"
+    }
+  ],
+  "scope": "公网静态网页、完整摘要、指定引导图、文件内容与已有入口。网页交互另见 web-verification；原生程序另见 runtime-verification。未验证商业游戏或浏览器原生 PS4 执行。",
+  "published_projects": [
+    "001-infinite-bookshelf",
+    "002-production-agentic-rag-course",
+    "005-wireguard-install",
+    "006-jev-seo",
+    "007-hermes-jev-skills",
+    "008-shadps4"
+  ]
+}
