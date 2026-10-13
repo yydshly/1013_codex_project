@@ -1,0 +1,98 @@
+来源：本次研究基于上游固定 commit 400b272175945d35eaefa68aefe9106fa9d7e467 整理，由内置 image_gen 工具生成中文信息图。日期：2026-10-13。
+图片是研究解释图，不是应用截图，不是模型 API 成稿质量或性能测试结果。上游项目 MIT，版权记录见 upstream-LICENSE.md。
+原图存于 assets/03-understanding-overview.png；网页使用内容相同的 web/assets/understanding-overview.png。
+以下为最终生成提示词：
+
+Use case: infographic-diagram.
+Asset type: ONE complete Chinese educational infographic, a high-resolution portrait poster for reading and saving, intended for a research webpage. Create a crisp, polished 2160 × 3840-style tall composition; use enough canvas height to preserve ALL text and readable Chinese typography.
+
+Primary request: Explain Infinite Bookshelf completely and candidly. The central takeaway must dominate: its essence is code + multiple model requests controlling the writing workflow, using the same outline-then-detail writing method a person can ask GPT to follow. Its extra value is workflow automation and organization, not a stronger writing model.
+
+Style: restrained editorial information design, ivory background, dark forest-green titles, sage-green workflow cards, warm amber limitation cards, charcoal body text, thin rules, rounded panels, clean vector-like line icons. No photos, no decorative scenery, no invented claims. Chinese sans-serif body font with clear bold headings, large readable text. Keep generous margins, consistent alignment, no overlaps or cut-off text. One connected flow diagram, not a random mind map. Use bold hierarchy and concise labels. All supplied wording must be legible and semantically exact.
+
+Composition:
+A full-width top title and strong essence statement.
+Then inputs → controlled workflow → outputs, with clearly directed arrows. Workflow can run vertically in a central strip while input/output cards flank it; do not draw arrows implying book title receives the outline.
+Below, well-aligned two-column explanation cards covering ability, GPT comparison, value, limitations, and two examples.
+A full-width final judgment and a small evidence footer.
+Use text below verbatim, wrapping appropriately; add no extra copy. Do not duplicate sections.
+
+TEXT:
+Title: “Infinite Bookshelf 理解总览”
+Subtitle: “能力 · 输入 · 原理 · 输出 · 价值 · 局限”
+
+TOP CENTRAL TAKEAWAY:
+“本质：用代码和多次模型请求，控制写书步骤。”
+“写作方法与我们让模型「先写大纲，再写细节」基本相同。”
+“代码安排流程，提示词描述任务，模型生成内容。”
+“没有增加新的模型写作能力，也不自动保证全书质量。”
+
+INPUT CARD:
+“01 你可以给什么？”
+“主题或想法：说明想写什么，无需先准备整本书。原版主题至少 10 个字符。”
+“附加要求：读者、目的、范围、文风、篇幅期待、案例、练习、禁写内容。”
+“已有思路或目录：可写进要求；原版仍会重新生成目录，没有严格导入目录的专用功能。”
+“参考资料：高级模式可粘贴笔记、上传 UTF-8 TXT，直接放进提示词。”
+“资料进入提示词，不等于知识库检索、训练或来源核验。”
+
+WORKFLOW:
+“02 代码如何执行？”
+“接收主题与要求”
+“请求① 生成 JSON 目录”
+“请求② 生成书名（只接收主题）”
+“代码解析并遍历目录”
+“后续请求：逐节扩写，写完一节再写下一节”
+“代码累积、展示，用户点击下载”
+“正常 N 节正文＝N＋2 次模型请求”
+“顺序由代码强制；「准确、连贯、不重复」只是提示词要求。”
+
+OUTPUT CARD:
+“03 最后得到什么？”
+“书名＋目录与描述＋分节正文”
+“汇总成可编辑的长文初稿”
+“原版支持流式显示、Groq 推理统计、TXT / PDF 下载。”
+“不是已经审定的出版成稿。”
+“篇幅大、有章节，不代表事实正确或全书连贯。”
+
+ABILITY CARD:
+“04 它实际具备的能力”
+“自动规划目录、取书名、逐节扩写、汇总展示和导出。”
+“可写教程、知识指南、培训手册、技术说明，也可尝试小说。”
+“题材由输入与模型决定，没有内置摄影、电商或小说专用知识。”
+“原版更适合章节相对独立的初稿。”
+
+COMPARISON CARD:
+“05 与直接使用 GPT 的关系”
+“方法相同：先大纲，再细节。”
+“直接对话：方便讨论、反馈、修改局部。”
+“这个库：自动连续执行固定流程、整理长稿。”
+“同样模型不会因为套了这个库就更会写。”
+“没有证据证明成稿更好、速度更快或成本更低。”
+
+VALUE CARD:
+“06 对我们的实际价值”
+“省去逐节发指令、等待和复制整理的重复操作。”
+“经常做同类长稿：可复用流程，统一入口，接入我们的模型。”
+“偶尔写文章、讨论构思、精修小说：额外收益有限，直接使用模型通常够用。”
+“应衡量得到合格稿件的总耗时，包括审核与改稿。”
+
+LIMITATIONS CARD:
+“07 主要局限”
+“原版每节只接收本节标题、描述和要求，没有完整目录与已写前文。”
+“同一个模型不会自动记得上一次 API 请求。”
+“没有资料检索、引用核验、全书审稿或自动重写。”
+“没有目标字数、页数和完整性验收；没有断点续写。”
+“不是 SKILL.md 机制；agents 主要是三个固定生成函数。”
+
+EXAMPLES:
+“摄影：能写构图、光线和练习教材，不负责拍照或验证学习效果。”
+“《水浒传》式小说：能自动逐章写，人物、时间线和伏笔的一致性仍需另外管理。”
+
+FINAL JUDGMENT:
+“值得复用的是流程。是否部署，取决于要省掉多少重复工作。”
+“模型可以替换；记忆、检索、审稿仍需按用途补齐，可由人工完成。”
+“本地摄影样稿来自本次对话 GPT；网页回放不是模型 API 实测。”
+
+FOOTER:
+“依据固定源码版本 400b272 · 研究日期 2026-10-13 · MIT 上游项目”
+Constraints: Chinese text must be correct and complete. Do not exaggerate independent expertise or quality. No made-up benchmarks. No claim of genuine model generation in the saved demo. One infographic only, opaque background.

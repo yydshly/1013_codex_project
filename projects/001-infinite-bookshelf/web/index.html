@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f2">
+  <meta name="description" content="输入主题与读者、目标、范围、风格要求，高级模式可加入笔记或 TXT 资料；Infinite Bookshelf 用代码组织多次模型请求，生成目录、书名与分节正文，汇总为 TXT/PDF 初稿。方法与手动先大纲后细节相同，价值是减少重复请求与整理、复用流程并接入自有模型，没有提升模型本身能力或自动保证质量。研究结合源码、一图总览与摄影等完整样稿，说明教程培训的适用性、小说上下文局限、输入输出及部署意义。">
+  <title>Infinite Bookshelf · 代码控制流程，模型生成内容</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workbench">跳到交互演示</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./" aria-label="Infinite Bookshelf 研究首页"><span class="brand-mark" aria-hidden="true">▥</span><span>Infinite Bookshelf<span class="brand-sub">开源项目研究 / 001</span></span></a>
+    <div class="header-links"><a class="source-link" href="../">项目总览</a><a class="source-link" href="https://github.com/Bklieger/infinite-bookshelf/tree/400b272175945d35eaefa68aefe9106fa9d7e467" target="_blank" rel="noopener noreferrer">查看原项目 <span aria-hidden="true">↗</span></a></div>
+  </header>
+
+  <main class="wrap">
+    <section class="intro principle-intro" aria-labelledby="page-title">
+      <div class="intro-main"><div class="eyebrow"><span></span> 先说清楚它的实现原理</div><h1 id="page-title">它只是用<span class="accent">代码和多次模型请求，</span><br>控制写书流程。</h1><p class="intro-copy"><strong>目录 → 书名 → 逐节正文 → 汇总展示与下载。</strong><br>模型负责生成内容，程序负责按顺序调用、循环执行和整理结果。它没有增加新的模型写作能力，也没有自动保证全书质量。</p></div>
+      <aside class="insight"><span class="insight-kicker">我们讨论后形成的判断</span><p>主要省掉的是<br><strong>重复发指令与整理结果</strong><br>这些操作。</p><span class="insight-footer">是否值得用，取决于重复工作有多少。</span></aside>
+    </section>
+
+    <details id="understanding-overview" class="overview-figure" open>
+      <summary>一张图看完：能力、输入、输出、原理、价值与局限</summary>
+      <div class="overview-actions"><p>点击图片可打开原图。它是本次研究的解释图，依据固定源码整理。</p><a href="./assets/understanding-overview.png" target="_blank" rel="noopener noreferrer">打开原图 ↗</a><a href="./assets/understanding-overview.png" download="Infinite-Bookshelf-理解总览.png">下载 PNG ↓</a></div>
+      <a class="overview-image-link" href="./assets/understanding-overview.png" target="_blank" rel="noopener noreferrer" aria-label="打开 Infinite Bookshelf 理解总览原图"><img src="./assets/understanding-overview.png" width="941" height="1672" alt="Infinite Bookshelf 理解总览：代码与多次模型请求控制写书流程，方法与先大纲后细节相同；输入主题、要求、思路和 TXT 资料，输出书名、目录与分节初稿；价值是减少重复操作，局限是缺少完整前文、检索和审稿。详细文字可在本页下方各节阅读。"></a>
+      <p class="overview-caption">来源：本次研究依据上游 commit 400b272 整理，使用 imagegen 生成，2026-10-13。解释图不代表原版运行截图或模型质量实测。</p>
+    </details>
+
+    <div class="role-grid" aria-label="三者各自负责什么">
+      <div><span class="role-index">01 / 代码</span><h2>控制执行过程</h2><p>先调用谁、何时写下一节、如何累积正文、怎样展示和下载。</p></div>
+      <div><span class="role-index">02 / 提示词</span><h2>描述本次任务</h2><p>写什么、面向谁、用什么文风，以及要求模型按什么格式返回。</p></div>
+      <div><span class="role-index">03 / 模型</span><h2>生成实际内容</h2><p>目录怎么设计、书名怎么取、每一节怎么写，都依靠调用的模型。</p></div>
+    </div>
+
+    <nav class="report-nav" aria-label="理解汇总目录">
+      <span>阅读目录</span><a href="#understanding-overview">一图总览</a><a href="#principle">执行原理</a><a href="#prompts">提示词与控制</a><a href="#input-output">输入与输出</a><a href="#workbench">实际样稿</a><a href="#gpt-comparison">与 GPT 比较</a><a href="#scenarios">适用场景</a><a href="#deployment">部署与换模型</a><a href="#evidence">证据与边界</a>
+    </nav>
+
+    <section class="explanation" aria-label="项目理解">
+      <div class="understanding-tabs" role="tablist" aria-label="了解项目">
+        <button type="button" id="tab-principle" class="understanding-tab active" role="tab" aria-selected="true" aria-controls="understanding-panel" tabindex="0" data-explain="principle">01 <span>原理</span></button>
+        <button type="button" id="tab-capability" class="understanding-tab" role="tab" aria-selected="false" aria-controls="understanding-panel" tabindex="-1" data-explain="capability">02 <span>能力</span></button>
+        <button type="button" id="tab-contents" class="understanding-tab" role="tab" aria-selected="false" aria-controls="understanding-panel" tabindex="-1" data-explain="contents">03 <span>内容</span></button>
+        <button type="button" id="tab-effect" class="understanding-tab" role="tab" aria-selected="false" aria-controls="understanding-panel" tabindex="-1" data-explain="effect">04 <span>效果与边界</span></button>
+      </div>
+      <div id="understanding-panel" class="explanation-body" role="tabpanel" aria-labelledby="tab-principle" tabindex="0"><p><strong>代码组织多次模型请求，顺序生成长稿。</strong> 提示词提出内容要求，代码安排调用和数据传递，模型写出目录与正文。没有新增模型能力，也没有全书质量自动验收。</p><div class="output-tags"><span>固定流程</span><span>多次调用</span><span>逐节组装</span><span>人工审核</span></div></div>
+    </section>
+
+    <section id="principle" class="report-section" aria-labelledby="principle-title">
+      <div class="report-heading"><span class="report-number">01</span><div><div class="eyebrow quiet">程序到底做了什么</div><h2 id="principle-title">将“先出大纲，再逐节写”变成自动执行的代码。</h2></div></div>
+      <p class="report-lead">你说“我要写一本手机摄影入门书”，它不会获得摄影专长。程序把这个任务拆成几种请求，套入固定提示词，交给模型生成，再把返回的文字组装成书稿。</p>
+      <ol class="execution-list">
+        <li><span>1</span><div><h3>接收主题和写作要求</h3><p>原版基础入口检查主题至少 10 个字符，然后准备模型客户端。读者、目的、文风等可以写在附加要求里。</p></div></li>
+        <li><span>2</span><div><h3>第一次请求：生成目录</h3><p>要求模型返回 JSON：每个标题对应一段描述，或对应下一层小节。模型决定具体标题、描述与顺序。</p></div></li>
+        <li><span>3</span><div><h3>第二次请求：生成书名</h3><p>只把主题交给书名模板。这次请求不读取前一步目录，也不接收附加要求或参考笔记。</p></div></li>
+        <li><span>4</span><div><h3>解析目录，建立书稿</h3><p>原版在书名返回之后才解析目录 JSON。它按返回的键顺序遍历；遇到子目录就继续向下，遇到最末级小节就准备正文请求。</p></div></li>
+        <li><span>5</span><div><h3>后续请求：一节一节扩写</h3><p>每节发送“本节标题＋描述＋附加要求”，收到正文就追加并显示。完成这一节，再写下一节；原版没有并行生成。</p></div></li>
+        <li><span>6</span><div><h3>汇总显示，用户点击下载</h3><p>目录与正文保存在书稿对象里。点击按钮时汇总文本，或把 Markdown 转为 HTML 再转 PDF；整理和导出不需要模型再写一次。</p></div></li>
+      </ol>
+      <div class="formula-note"><strong>N 个最末级小节，正常情况下就是 N＋2 次模型请求。</strong><p>例如：3 节正文＝1 次目录＋1 次书名＋3 次正文＝5 次请求。各节分开生成，让总稿长度可以超过单次输出限制；这不等于自动保证内容完整或连贯。</p></div>
+      <p class="source-note">精确流程依据固定版本的 <a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/main.py#L80" target="_blank" rel="noopener noreferrer">基础入口与递归调用</a>。这是源码分析，原版应用未完整运行。</p>
+    </section>
+
+    <section id="prompts" class="report-section" aria-labelledby="prompts-title">
+      <div class="report-heading"><span class="report-number">02</span><div><div class="eyebrow quiet">提示词规定要求，代码规定顺序</div><h2 id="prompts-title">它如何控制每一步？</h2></div></div>
+      <p>原版使用三类固定提示词，把用户输入填进模板后分别调用模型。下面是源码内容的意译，便于理解；没有把提示词的要求当作模型一定做到的结果。</p>
+      <div class="table-scroll" role="region" aria-label="三个阶段的提示词与输入" tabindex="0"><table class="research-table"><thead><tr><th scope="col">阶段</th><th scope="col">固定要求的主要意思</th><th scope="col">本次输入</th><th scope="col">返回什么</th></tr></thead><tbody>
+        <tr><th scope="row">目录</th><td>设计全面目录，省略前言、作者说明、总结等开头结尾内容；基础模式要求最多一层嵌套，标题和描述清晰、内容不重叠。</td><td>主题＋附加要求</td><td>嵌套 JSON 对象</td></tr>
+        <tr><th scope="row">书名</th><td>给出一个吸引人的书名，只输出书名，不解释、不加装饰。系统模板要求 7–25 个 words（词）。</td><td>只有主题</td><td>书名文本</td></tr>
+        <tr><th scope="row">正文</th><td>以专业作者身份扩写这一节，内容长、全面、有结构，遵守附加要求，只返回正文。</td><td>本节标题＋描述＋附加要求</td><td>流式正文，可含 Markdown</td></tr>
+      </tbody></table></div>
+      <p class="source-note">查看 <a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/infinite_bookshelf/agents/structure_writer.py#L19" target="_blank" rel="noopener noreferrer">目录模板</a>、<a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/infinite_bookshelf/agents/title_writer.py#L8" target="_blank" rel="noopener noreferrer">书名模板</a>、<a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/infinite_bookshelf/agents/section_writer.py#L8" target="_blank" rel="noopener noreferrer">正文模板</a>。书名的用户模板对 7 和 25 词表述有歧义，程序没有词数检查，也不能直接换算成中文字符数。</p>
+      <h3>“提出要求”与“强制执行”是两回事。</h3>
+      <div class="table-scroll" role="region" aria-label="程序强制控制与提示词要求" tabindex="0"><table class="research-table"><thead><tr><th scope="col">控制方式</th><th scope="col">实际能控制什么</th><th scope="col">没有保证什么</th></tr></thead><tbody>
+        <tr><th scope="row">代码调用与循环</th><td>先目录、再书名、再正文；逐个小节完成；决定每次发送哪些数据。</td><td>代码不会判断哪种章节安排最好，也不能指定模型内部如何思考。</td></tr>
+        <tr><th scope="row">JSON 模式与解析</th><td>请求结构化目录，用 JSON 解析结果。</td><td>没有验证嵌套深度、章节是否重复、教学顺序是否合理。</td></tr>
+        <tr><th scope="row">提示词中的语义要求</th><td>让模型尝试写得准确、全面、连贯，符合文风与难度。</td><td>没有事实核查、全书审稿、自动评分或根据问题重写的循环。</td></tr>
+        <tr><th scope="row">单次输出上限</th><td>目录和每节最多 8,000 tokens，书名最多 100 tokens。</td><td>不是目标字数或全书页数；可能在写完之前达到上限。</td></tr>
+      </tbody></table></div>
+      <div class="context-note"><h3>原版最大的上下文限制：每节不知道完整前文。</h3><p>正文请求没有完整目录、之前写过的正文或对话历史；原始主题也没有作为独立变量直接传入，主要通过本节标题、描述与要求体现。即使用同一个模型，它也不会自动记得上一次 API 请求写了什么。</p><p>因此，“第一章定义了某个术语，第二章必须沿用”“前面埋下的伏笔，后面必须回收”没有得到程序层面的保障。</p></div>
+      <h3>所以，它算不算 Skill？</h3><p>可以把固定模板理解为一套写作指令，但<strong>原仓库没有 SKILL.md 技能机制</strong>。三个文件放在 <code>agents/</code> 目录里，实际是目录、书名和正文生成函数。流程由程序预先规定，没有独立研究员去查资料、编辑审稿，也没有模型自主决定下一步的机制。</p>
+      <details class="research-detail"><summary>高级模式、参数与仓库组成</summary><p>高级模式增加文风、难度、已有笔记和 UTF-8 TXT 上传。参考文本直接拼进目录与正文提示词；没有分块检索、资料库匹配、引用溯源或模型训练。目录模板提出“300 页以上”的要求，程序不计算页数，也不按不足页数自动补写。书名仍只接收主题。</p><p>目录与正文的 temperature 为 0.3，书名为 0.7。这些参数影响生成变化程度，不能保证每次结果相同，更不能保证事实正确。</p><p>仓库主要包含 Python＋Streamlit 界面、Groq 模型调用、三个提示词函数、书稿对象、推理统计和 TXT/PDF 下载工具。它没有内置模型权重、数据库持久保存、断点续写或出版编辑系统。</p><p class="source-note">依据 <a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/pages/advanced.py#L84" target="_blank" rel="noopener noreferrer">高级入口</a>、<a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/infinite_bookshelf/ui/book.py#L8" target="_blank" rel="noopener noreferrer">书稿存储</a> 与各阶段模板。</p></details>
+    </section>
+
+    <section id="input-output" class="report-section" aria-labelledby="input-output-title">
+      <div class="report-heading"><span class="report-number">03</span><div><div class="eyebrow quiet">你给什么，它交付什么</div><h2 id="input-output-title">一个主题就能启动，更明确的要求能减少偏离。</h2></div></div>
+      <div class="input-output-grid"><div><h3>最低输入：写作主题</h3><p>例如“给零基础读者写一份手机摄影入门指南”。原版基础模式主题至少 10 个字符；不是必须先提供现成大纲或资料。</p><h3>建议补充：读者、目的与范围</h3><p>谁来读？读完能做什么？涵盖哪些内容？不要涉及什么？用什么文风、案例和练习？有已有笔记时，可在高级模式传入。</p><p>指定资料能让生成围绕资料展开，但项目不会自动证明资料或生成结论正确。</p></div><div><h3>主要输出：可编辑的长文初稿</h3><ul><li>一个书名。</li><li>标题和描述组成的目录。</li><li>按最末级小节生成的正文。</li><li>页面中的整份稿件，及 TXT/PDF 下载入口。</li></ul><p>它没有把你输入的“思路”训练成新模型。输出的内容水平依然来自模型；篇幅大、有章节，也不等于达到出版质量。</p></div></div>
+      <div class="example-task"><span>摄影任务示例</span><p>主题：给零基础读者写一份手机摄影入门指南。<br>要求：中文；无需购买器材；用杯子和窗边自然光练习；给出操作步骤、问题排查和复盘方法；不同手机的操作要注明差异。</p><p>得到：构图与主体 → 自然光与清晰度 → 拍摄练习与复盘，共三节文字教材。下面可以直接读到这份保存好的样稿。</p></div>
+      <p class="source-note">三节是本地示例的安排，原版没有固定三节限制。摄影样稿生成了教材和练习设计；本次没有拍摄照片，也没有验证读者的实际进步。</p>
+    </section>
+
+    <section id="workbench" class="workbench" aria-labelledby="demo-title">
+      <div class="section-heading"><div><div class="eyebrow quiet">04 / 阅读实际产物</div><h2 id="demo-title">你输入什么，最后拿到什么？</h2></div><span class="mode-badge" id="mode-badge"><span></span> 对话 GPT 样稿</span></div>
+      <div class="demo-grid">
+        <aside class="input-card">
+          <div class="card-topline"><span class="small-number">A</span><h3>写作任务</h3></div>
+          <div class="mode-switch" role="group" aria-label="演示模式"><button type="button" id="sample-mode" class="selected" aria-pressed="true">看 GPT 样稿</button><button type="button" id="live-mode" aria-pressed="false">接入模型 API</button></div>
+          <p class="mode-description" id="mode-description">阅读本次对话 GPT 已写好的样稿，回放从目录到正文的过程。</p>
+          <div class="sample-picker" id="sample-picker"><label for="sample-select">选择样稿 <span>对话 GPT 输出</span></label><select id="sample-select" disabled><option value="commerce">电商运营入门</option><option value="photography">手机摄影入门</option></select></div>
+          <form id="generation-form">
+            <label for="topic">主题 <span id="input-label-note">样稿固定</span></label>
+            <textarea id="topic" name="topic" rows="3" maxlength="2000" readonly required>给新员工看的电商运营入门手册</textarea>
+            <label for="instructions">写作要求</label>
+            <textarea id="instructions" name="instructions" rows="4" maxlength="8000" readonly>面向没有运营经验的新员工。用日常语言解释，加入可执行的检查清单和一个简单案例；不要编造平台规则。</textarea>
+            <div class="task-summary"><span>输出范围</span><strong>3 节正文 + 目录 + 文件</strong></div>
+            <button id="generate-button" class="primary-button" type="submit" disabled><span aria-hidden="true">▶</span> 回放写作流程</button>
+            <button id="cancel-button" class="secondary-button hidden" type="button">停止本次生成</button>
+          </form>
+          <div class="model-status" id="model-status"><span class="status-dot"></span><span>正在检查本地模型配置…</span></div>
+          <p class="sample-disclosure" id="sample-disclosure"><strong>本次对话 GPT 生成样稿</strong><br>流程回放 · 未通过项目 API 调用。<br>回放延时只为展示顺序，不代表模型速度。</p>
+          <details class="configuration-note"><summary>怎样换成我们的模型？</summary><p>启动本地配套服务，在服务端配置模型地址、名称和密钥。本页面通过本地服务发起请求，不在浏览器保存密钥。</p><p>当前适配 OpenAI 兼容的 Chat Completions 接口。子项目 experiments/.env.example 提供配置模板：BOOKSHELF_BASE_URL 填接口地址，BOOKSHELF_MODEL 填模型标识，BOOKSHELF_API_KEY 填密钥（无认证的本地接口可留空）。</p><p>具体启动步骤在 experiments/README.md 中。配置后重启服务并刷新页面；静态托管时只能查看 GPT 样稿。</p></details>
+        </aside>
+
+        <div class="output-card">
+          <div class="output-header"><div class="card-topline"><span class="small-number">B</span><h3>拿到的长文初稿</h3></div><button id="restore-button" class="text-button" type="button">恢复 GPT 样稿 <span aria-hidden="true">↺</span></button></div>
+          <div class="workflow" aria-label="生成步骤">
+            <div class="workflow-step" data-step="outline"><span class="step-number">1</span><div><strong>规划目录</strong><span>决定每节写什么</span></div></div>
+            <div class="workflow-step" data-step="title"><span class="step-number">2</span><div><strong>生成书名</strong><span>给初稿命名</span></div></div>
+            <div class="workflow-step" data-step="sections"><span class="step-number">3</span><div><strong>逐节扩写</strong><span>分别请求模型</span></div></div>
+            <div class="workflow-step" data-step="done"><span class="step-number">4</span><div><strong>汇总导出</strong><span>合成完整文件</span></div></div>
+          </div>
+          <div class="progress-row" aria-live="polite" aria-atomic="true"><span class="progress-indicator" id="progress-indicator"></span><span id="progress-status">正在载入 GPT 样稿…</span><span id="progress-detail" class="progress-detail"></span></div>
+          <div id="error-panel" class="error-panel hidden" role="alert"></div>
+          <div class="reader-layout">
+            <nav class="chapter-nav" aria-label="初稿目录"><span class="nav-label">目录</span><div id="chapter-links"></div><p id="chapter-nav-note">点击章节，阅读对应正文。</p></nav>
+            <article class="book-reader" id="book-reader" tabindex="0" aria-label="生成的书稿"><div class="book-heading"><span class="book-eyebrow" id="book-provenance">本次对话 GPT 生成样稿</span><h2 id="book-title">从商品到复盘：电商运营新员工上手手册</h2><p class="book-meta" id="book-meta"></p></div><div id="book-sections"></div><div id="empty-preview" class="empty-preview hidden"><span aria-hidden="true">▥</span><p>正文会在这里逐节出现。</p><small>先看目录，再看内容如何组装成一份初稿。</small></div></article>
+          </div>
+          <div class="export-row"><span id="export-note">完整样稿可直接下载</span><div class="export-buttons"><button type="button" id="export-md" disabled>下载 Markdown <span aria-hidden="true">↓</span></button><button type="button" id="export-txt" disabled>下载 TXT <span aria-hidden="true">↓</span></button><button type="button" id="print-book" disabled>打印 / 存为 PDF</button></div></div>
+          <details class="experiment-record"><summary>展开实验记录与来源</summary><div id="experiment-record-content">载入中…</div></details>
+        </div>
+      </div>
+    </section>
+
+    <section id="gpt-comparison" class="report-section" aria-labelledby="gpt-comparison-title">
+      <div class="report-heading"><span class="report-number">05</span><div><div class="eyebrow quiet">与你直接让模型写书相比</div><h2 id="gpt-comparison-title">流程可以自动化，写作能力没有因此增加。</h2></div></div>
+      <p class="report-lead">你直接说“先给大纲，确认后再逐章写”，已经能使用相同的方法。这个库把后面的反复调用与整理交给程序执行。相同模型、相同资料、相同指令和上下文下，目前没有证据证明它能写出更好的内容。</p>
+      <div class="table-scroll" role="region" aria-label="直接使用模型与此库的比较" tabindex="0"><table class="research-table"><thead><tr><th scope="col">你关心的事</th><th scope="col">直接使用 ChatGPT / 模型</th><th scope="col">这个项目增加了什么</th></tr></thead><tbody>
+        <tr><th scope="row">构思与大纲</th><td>可以先讨论题材、人物或教学目标，多轮修改大纲。</td><td>用固定模板一次生成目录，原流程没有等待你逐章审定的步骤。</td></tr>
+        <tr><th scope="row">逐节写正文</th><td>可以反复要求“继续写下一节”，并插入具体反馈。</td><td>程序顺序调用各节，减少逐节发指令的操作。</td></tr>
+        <tr><th scope="row">共享前文</th><td>可在对话中提供前文与反馈，仍受上下文长度限制。</td><td>原版每节只拿本节标题、描述与要求，没有完整前文。</td></tr>
+        <tr><th scope="row">修改和精修</th><td>容易针对一句话、一个人物或某段结构来回修改。</td><td>原版主要完成一轮生成，缺少全书编辑与自动重写循环。</td></tr>
+        <tr><th scope="row">统一整理和下载</th><td>视所用产品功能而定，也可以自己整理成文档。</td><td>已接好流式显示、稿件累积、统计和 TXT/PDF 下载。</td></tr>
+        <tr><th scope="row">内容质量与成本</th><td>取决于模型、资料、上下文与修改次数。</td><td>没有质量或成本优势的实测结论。自动执行连续发起多次请求；使用按量收费接口时，会累积用量与费用。</td></tr>
+      </tbody></table></div>
+      <div class="judgment-note"><h3>对你目前的用途，我们的判断</h3><p>如果只是偶尔写文章、讨论大纲、尝试摄影教材或精修小说，额外收益确实有限。直接和模型交流已经可以完成主要工作。只有当重复操作与统一整理变成明显负担时，这套流程的便利才更突出。</p><p>衡量价值应该看“得到一份合格稿件，总共省了多少时间”，包括生成后的核查、删改与重写。自动生成的字数多，不能直接当作价值高。</p></div>
+    </section>
+
+    <section id="scenarios" class="report-section" aria-labelledby="scenarios-title">
+      <div class="report-heading"><span class="report-number">06</span><div><div class="eyebrow quiet">是只适合特定领域吗</div><h2 id="scenarios-title">题材可以更换，适用性主要取决于文章的组织方式。</h2></div></div>
+      <p>它没有摄影、电商或编程专用知识。换一个主题，仍由所接模型根据已有能力生成内容；固定的是“目录后分节扩写”的方法。我们判断，章节相对独立、可以先分解再展开的非虚构初稿更适合这种原版流程。这个判断来自流程结构，尚未做跨题材质量对照实验。</p>
+      <div class="table-scroll" role="region" aria-label="适用场景与需要补充的能力" tabindex="0"><table class="research-table"><thead><tr><th scope="col">内容方向</th><th scope="col">可以提供的帮助</th><th scope="col">实际使用前还缺什么</th></tr></thead><tbody>
+        <tr><th scope="row">入门指南、知识介绍</th><td>分解概念，生成解释、例子与练习，形成第一稿。</td><td>核对知识、修正重复，验证步骤能否执行。</td></tr>
+        <tr><th scope="row">内部培训、操作手册</th><td>把已有笔记组织成章节，减少重复扩写和整理。</td><td>提供真实业务流程与规则，审核案例和适用条件。</td></tr>
+        <tr><th scope="row">技术教程</th><td>生成概念说明、示例代码和教学结构。</td><td>运行代码，核对版本、依赖与结果；原版没有执行验证。</td></tr>
+        <tr><th scope="row">资料型研究报告</th><td>有足够资料时，可辅助组织与表达。</td><td>检索、来源引用、数据核查、论证检查，原版均未实现。</td></tr>
+        <tr><th scope="row">复杂长篇小说</th><td>生成章节与局部正文，自动减少逐章操作。</td><td>人物设定、时间线、伏笔、长期记忆和全书审稿。</td></tr>
+      </tbody></table></div>
+      <div class="case-grid"><article><span class="case-label">摄影例子</span><h3>能写一本入门文字教材。</h3><p>把“手机摄影”拆成构图、光线、拍摄练习，再逐节解释。目录、例子、清单和练习来自模型，程序负责连续生成和汇总。</p><p>它不会因此拥有新的摄影判断能力，也不负责拍照、审片或验证课程效果。页面中的概念人工核对，是本次研究另外做的工作。</p><a class="inline-action" href="?sample=photography#workbench">阅读手机摄影样稿 →</a></article><article><span class="case-label">《水浒传》式小说例子</span><h3>能逐章写，难以自动统筹全书。</h3><p>你给时代、人物、冲突和章节要求，模型可以出目录与正文。若有 100 个需扩写的小节，原流程正常会安排 102 次模型请求。</p><p>但写后面的章节时，原版没有完整前文。比如某人物前面已经离场、某个秘密尚未揭开，后文仍可能矛盾。这是说明风险的假设例子，没有实际生成百章小说做测评。</p><p>它节省逐章操作，人物塑造和情节一致性仍要靠额外上下文设计与编辑。</p></article></div>
+    </section>
+
+    <section id="deployment" class="report-section" aria-labelledby="deployment-title">
+      <div class="report-heading"><span class="report-number">07</span><div><div class="eyebrow quiet">怎么决定值不值得用</div><h2 id="deployment-title">先确认你需要自动化多少重复工作。</h2></div></div>
+      <div class="decision-grid"><div><h3>额外收益有限</h3><p>偶尔写一篇文章、边聊边改大纲、精修小说、做个别教材。你需要频繁反馈与调整，直接使用模型通常已经够用，不必为这些需求专门部署原项目。</p></div><div><h3>可以复用流程或代码</h3><p>经常制作结构类似的长文初稿，希望一次启动后顺序完成；需要自有模型、统一输入与下载入口。此时省下的是调用、等待与整理工作。</p></div><div><h3>要补齐相应工作</h3><p>资料型内容需要检索与引用核验；复杂小说需要人物设定、前文记忆和一致性检查。正式使用还需要审稿与重写，这些工作也可以由人工完成。</p></div></div>
+      <h3>内部模型可以替换。</h3><p>这套流程不依赖某个模型的权重。将各阶段接到我们的模型接口，仍可执行“目录 → 书名 → 正文”。模型更换会影响内容、速度与费用，但不会自动补齐缺失的检索、记忆和审核。</p><p>原版绑定 Groq 客户端、模型 ID 和专属统计字段。书名函数虽然接收模型参数，实际写死 Maverick；只改界面选项不够。我们的配套服务已经独立适配 OpenAI 兼容的 Chat Completions 接口，地址、模型名和密钥在本地服务端配置。</p>
+      <p>当前对话 GPT 可以直接写出并保存样稿。网页每次点击都自动生成新主题，需要程序可访问的模型接口；当前演示没有连接到这次聊天的模型会话。</p>
+      <details class="research-detail"><summary>为什么不建议原样照搬部署？</summary><p>截至研究日期 2026-10-13，原版模型列表已过时。Groq 官方记录 Maverick 于 2026-03-09 停用；Scout 于 2026-07-17 对免费和开发者账户停用，部分企业合同账户例外。原版列表中的 DeepSeek R1 Distill 与旧 Kimi K2 也已停用。</p><p>基础入口与书名函数写死 Maverick，普通账户原样运行预计会失败，需要先替换实际接口与模型。这是依据源码和停用记录的判断，本次没有向停用模型发请求。</p><p class="source-note">依据 <a href="https://console.groq.com/docs/deprecations" target="_blank" rel="noopener noreferrer">Groq 官方模型停用记录</a>、<a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/infinite_bookshelf/agents/title_writer.py#L8" target="_blank" rel="noopener noreferrer">书名函数</a>。可用模型以实际服务清单为准。</p></details>
+    </section>
+
+    <section id="evidence" class="report-section" aria-labelledby="evidence-title">
+      <div class="report-heading"><span class="report-number">08</span><div><div class="eyebrow quiet">哪些看过源码，哪些实际验证过</div><h2 id="evidence-title">原版、本地适配和保存样稿分别说明。</h2></div></div>
+      <div class="table-scroll" role="region" aria-label="原版与本次演示的区别" tabindex="0"><table class="research-table"><thead><tr><th scope="col">项目</th><th scope="col">上游原版</th><th scope="col">本次研究演示</th></tr></thead><tbody>
+        <tr><th scope="row">界面与接口</th><td>Python＋Streamlit，调用 Groq。</td><td>独立 HTML 页面＋本地 Python 服务，适配自己的兼容模型接口。</td></tr>
+        <tr><th scope="row">正文上下文</th><td>本节标题、描述和附加要求，没有完整前文。</td><td>API 适配版额外传完整目录，以及各已写章节开头 600 字符的摘录；不是模型摘要，效果未实测。</td></tr>
+        <tr><th scope="row">展示进度</th><td>正文按模型 token 流逐步显示。</td><td>真实接口按阶段与整节返回；保存样稿按人为延时回放。</td></tr>
+        <tr><th scope="row">文件输出</th><td>用户点击下载 TXT/PDF，PDF 由 WeasyPrint 转换。</td><td>Markdown/TXT 下载，浏览器打印存 PDF；本次未实际验证 PDF 输出。</td></tr>
+        <tr><th scope="row">摄影与电商样稿</th><td>不是原版这次运行的结果。</td><td>本次对话 GPT 生成后保存；网页回放不执行模型 API 请求。</td></tr>
+      </tbody></table></div>
+      <h3>当前能作为证据的结果</h3><ul><li>固定版本源码已核对：调用顺序、提示词、每节输入、统计与下载路径。</li><li>原作者公开了两份历史长稿：大语言模型基础 75,136 字符、Java 数据结构与算法 175,125 字符。字符含空格换行，不能换算成章数或页数；未重新生成，也未全面核验质量。</li><li>本次摄影样稿 3 节、3,280 个正文字符；电商样稿 3 节、2,987 个正文字符，可直接阅读。</li><li>此前页面已验证回放、停止恢复、样稿切换和 MD/TXT 下载；本地接口 16 项测试使用伪模型服务验证调用合约。</li></ul>
+      <div class="context-note"><h3>尚未验证的部分</h3><p>没有完整运行原版 Streamlit 应用；没有配置并实测我们的真实模型 API；没有证明比直接使用相同模型更好；没有测原版速度、费用、PDF 排版或“300 页”；没有真实拍摄和教学效果实验。</p><p>这份网页展示的是对机制与价值的研究结论，加上可阅读的对话样稿。静态版本可阅读与回放保存内容，生成新主题需另接模型服务。保存样稿、假服务测试和源码要求，都不能当作真实模型 API 性能或成稿质量的证明。</p></div>
+      <div class="source-library"><h3>研究版本与一手资料</h3><p>研究日期：2026-10-13。固定 commit：<code>400b272175945d35eaefa68aefe9106fa9d7e467</code>。上游 MIT License，Copyright (c) 2024 Benjamin Klieger。</p><div class="source-links"><a href="https://github.com/Bklieger/infinite-bookshelf/tree/400b272175945d35eaefa68aefe9106fa9d7e467" target="_blank" rel="noopener noreferrer">固定版本源码 ↗</a><a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/README.md#L120" target="_blank" rel="noopener noreferrer">作者对错误与占位内容的说明 ↗</a><a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/Example_1.md" target="_blank" rel="noopener noreferrer">原作者 LLM 长稿 ↗</a><a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/Example_2.md" target="_blank" rel="noopener noreferrer">原作者 Java 长稿 ↗</a><a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/LICENSE.md" target="_blank" rel="noopener noreferrer">MIT 许可证 ↗</a></div><p class="source-note">摄影基础概念另由本次研究人工核对：<a href="https://support.apple.com/guide/iphone/use-camera-tools-iph3dc593597/ios" target="_blank" rel="noopener noreferrer">Apple 相机操作</a>、<a href="https://www.adobe.com/creativecloud/photography/discover/rule-of-thirds.html" target="_blank" rel="noopener noreferrer">Adobe 三分构图</a>、<a href="https://www.nikon.co.uk/en_GB/learn-and-explore/magazine/tips-and-tricks/the-beginners-guide-to-light" target="_blank" rel="noopener noreferrer">Nikon 光线说明</a>。这些核查不是原版自动完成的功能。</p></div>
+    </section>
+    <div class="final-understanding"><strong>它优化的是调用与整理流程，模型本身的写作能力没有因此增加。</strong><p>是否有价值，取决于你能省下多少重复操作，以及生成后还要花多少时间审核与改稿。</p><a href="#page-title">回到顶部 ↑</a></div>
+  </main>
+  <footer class="site-footer wrap"><span>001 / Infinite Bookshelf 能力研究</span><span>上游版本 <a href="https://github.com/Bklieger/infinite-bookshelf/commit/400b272175945d35eaefa68aefe9106fa9d7e467" target="_blank" rel="noopener noreferrer">400b272</a> · MIT License</span></footer>
+</body>
+</html>

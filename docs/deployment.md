@@ -2,46 +2,85 @@
 
 ## 站点结构
 
-GitHub Pages 为每个仓库提供一个项目站点。多个子项目的静态 Web 演示统一汇集到这个站点下，使用各自的路径。依据：[GitHub Pages 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)。
-
-本仓库预期的发布路径如下，**当前尚未部署**：
+多个子项目的静态 Web 演示统一发布到仓库的 GitHub Pages 项目站点，每个项目使用独立路径。首页完整展示元信息中的摘要，介绍能力、原理、价值与输入输出；不对摘要做字数截断。依据：[GitHub Pages 官方说明](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)。
 
 ```text
 https://yydshly.github.io/1013_codex_project/
-├── 001-example-project/
+├── index.html
+├── 001-infinite-bookshelf/
 ├── 002-another-project/
 └── ...
 ```
 
-子项目的源代码保存在 `projects/编号-slug/web/`。各项目可独立选择框架和构建方式；未来发布时，将构建结果汇集成一个完整的静态站点：
+这是地址约定。某个项目是否实际发布，以它的 `project.json` 中经过验证的 `demo_url` 和发布记录为准；部署脚本或工作流的存在不等于发布成功。
+
+子项目静态源文件保存在 `projects/编号-slug/web/`。`scripts/build_site.py` 使用 Python 标准库，将可发布的原生静态项目汇集为一个完整站点：
 
 ```text
 site-dist/                   # 临时构建目录，不提交到 Git
-├── index.html               # 演示导航首页
+├── index.html               # 导航、完整摘要、截图与研究链接
 ├── .nojekyll
-├── 001-example-project/
-│   └── index.html
-└── 002-another-project/
-    └── index.html
+├── site-build.json          # 生成标记及本次包含的项目目录
+├── previews/               # 每个项目明确指定的预览图
+├── 001-infinite-bookshelf/  # 该项目 web/ 的公开静态文件
+└── ...
 ```
 
-## 子项目需要记录什么
+## 构建与发布范围
 
-在每个 `web/README.md` 中说明依赖、安装命令、启动命令、构建命令、输出目录、访问前缀和已验证的功能。选定技术栈后再添加对应依赖和构建配置。
+默认构建只读取 Git 已跟踪的 `projects/*/project.json`，只复制其中已跟踪的 `web/` 静态文件和元信息明确指定的预览图片。工作区中新建但尚未提交的其他研究项目不会被意外收录。Git 暂存区中的新增文件也属于本地已跟踪文件；GitHub Actions 运行时只有实际提交并检出的文件。
 
-- 静态资源的访问前缀应包含仓库名和子项目名，例如 `/1013_codex_project/001-example-project/`。
-- 子项目内部的跳转和图片路径应适配该前缀；跨项目跳转回到站点总览。
-- 客户端路由需适配静态托管，例如使用 hash 路由，避免刷新深层路径后返回 404。
-- 需要服务端、数据库或私密凭据的功能，需使用外部后端；GitHub Pages 用于静态前端。
-- 每次发布应汇集所有已部署子项目，保持其入口可访问。
-- 首页 `demo_url` 只填写部署并验证后的实际地址。
+```powershell
+# 正式发布使用此默认方式：收集全部已跟踪的静态演示
+python scripts/build_site.py
 
-## 有首个可部署项目后
+# 新项目尚未提交时，显式选择本地预演；可重复 --project
+python scripts/build_site.py --project 001-infinite-bookshelf
 
-1. 为子项目配置适当的构建命令和资源前缀，并在本地验证导航、资源加载与刷新。
-2. 添加 GitHub Actions 工作流，将各子项目产物汇集到 `site-dist/` 并生成导航页。
-3. 在仓库 `Settings → Pages → Build and deployment` 中选择 `GitHub Actions`。
-4. 按官方工作流使用 `configure-pages`、`upload-pages-artifact` 和 `deploy-pages`；部署任务配置 `pages: write`、`id-token: write` 及 `github-pages` 环境。
-5. 访问发布地址确认演示可用，再更新子项目 `demo_url` 和总索引。
+# 可另建一个仓库内的 site-* 临时产物目录
+python scripts/build_site.py --project 001-infinite-bookshelf --output site-preview
 
-当前初始化包含索引校验工作流；发布工作流将在选定具体演示与技术栈后添加。参考：[GitHub Pages 自定义工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
+# 本地查看构建产物；静态服务不提供模型 API
+python -m http.server 8767 --bind 127.0.0.1 --directory site-dist
+```
+
+`--project` 用于本地验证，正式 Pages 工作流不使用该筛选参数。每次发布都重新收集全部已跟踪静态演示，保持其他项目入口；已有 `demo_url` 的项目缺少可发布的 `web/index.html` 时，构建会失败，避免悄悄丢失入口。未部署且没有静态页面的研究项目保留在仓库索引中，不加入网页演示列表。归档项目若仍保留静态文件，也继续发布。
+
+构建只允许替换仓库内直接命名为 `site-*` 的生成目录。已有非空目录必须带有 `site-build.json` 生成标记，脚本才会替换；构建成功前不会删除上次产物。
+
+## 公开文件与资源路径
+
+- 仅复制 `web/` 内的 HTML、CSS、JavaScript、JSON、公开 TXT、常用图像、字体、音视频和 PDF。Markdown 研究文档与 Python 等源码不作为网页产物复制；导航链接指向 GitHub 研究文档。
+- 隐藏文件、`.env`、密钥文件、依赖目录、后端与私有目录、源码映射、已知凭据文件被排除。`experiments/`、`references/` 和其他项目文件完全不进入网页产物。
+- `web/` 是公开前端目录；不得把任何私密内容放在其中。静态白名单不是对任意文件内容的自动密钥审计。
+- 预览图只从项目元信息的 `preview` 取一张明确图片，不将整个项目 `assets/` 目录发布。网页自身需要的图片应放在 `web/assets/`。
+- 资源和项目链接使用相对路径，例如 `./app.js`、`./data/book.json`、`./assets/image.png`，适配 `/1013_codex_project/001-infinite-bookshelf/` 的仓库名前缀。
+- 项目跳回站点总览使用 `../`；客户端路由使用 hash 或查询参数，避免静态托管刷新深层路径返回 404。
+- 当前构建器直接汇集原生静态文件，不运行框架安装或打包。需要 React、Vite 等构建时，应先在明确的构建步骤产出经过审核的公开文件，再扩展汇集约定，不能把依赖和源码一并上传。
+
+在 `web/README.md` 中记录依赖、运行方式、静态部署前缀、已验证功能和服务端限制。GitHub Pages 不运行 Python 后端、不存放模型密钥；真实模型请求需使用另外部署的后端。Infinite Bookshelf 的静态网页可展示研究说明、两份保存的 GPT 样稿、步骤回放和前端导出；回放不等于现场模型生成。
+
+## GitHub Actions 工作流
+
+`.github/workflows/pages.yml` 在 `main` 推送或手动触发时：
+
+1. 检出已提交的仓库文件，使用 Python 3.12。
+2. 校验 `project.json` 与根 README 自动索引，运行项目工具和静态发布隔离测试。
+3. 构建任务使用 `contents: read` 与 `pages: read`，运行 `actions/configure-pages@v5` 读取已启用的 Pages 配置。
+4. 默认收集全部已跟踪静态演示到 `site-dist/`。
+5. 使用 `actions/upload-pages-artifact@v4` 上传站点产物。
+6. 在依赖构建任务的 `deploy` 任务中，使用 `actions/deploy-pages@v4` 发布。该任务拥有 `pages: write`、`id-token: write` 权限，并使用 `github-pages` 环境。
+
+首次发布前需在仓库 `Settings → Pages → Build and deployment` 将发布来源设为 `GitHub Actions`。Pages 专用上传动作 v4 不接受 `include-hidden-files`，会排除隐藏文件；本地产物中的 `.nojekyll` 不进入上传包也不影响本流程，因为 Actions 直接部署已经生成的静态产物，不再运行 Jekyll。动作定义依据：[upload-pages-artifact v4](https://github.com/actions/upload-pages-artifact/blob/v4/action.yml)。
+
+本流程不在构建任务中自动创建 Pages 站点。`configure-pages` 默认 `enablement: false`，只读取站点配置；首次创建需仓库管理员事先完成。读取权限依据：[Pages REST API](https://docs.github.com/en/rest/pages/pages#get-a-github-pages-site)；动作默认参数依据：[configure-pages v5](https://github.com/actions/configure-pages/blob/v5/action.yml)。
+
+工作流完成后，还应实际访问导航首页、项目页、样稿 JSON 和图片资源，确认子路径、资源和刷新可用，再填写 `demo_url` 并执行：
+
+```powershell
+python scripts/update_index.py
+python scripts/update_index.py --check
+python -m unittest discover -s tests -v
+```
+
+摘要与公开入口更新需要提交后重新发布，不能在尚未验证成功时预填“已部署”。GitHub 官方工作流说明和版本依据：[使用自定义工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
