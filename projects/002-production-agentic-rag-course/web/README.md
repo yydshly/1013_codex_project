@@ -54,7 +54,7 @@ python -m http.server 8766 --bind 127.0.0.1 --directory projects/002-production-
 
 无需安装前端依赖或框架构建。网页发布文件包括 HTML、CSS、JavaScript 和 web/assets/ 内的总览 PNG / SVG。CSS、脚本与图片使用相对路径，导航使用页内锚点，适配独立子路径。仓库汇集器不发布本 README、references/ 中的制作代码或复现材料。
 
-尚未提交的本项目可在仓库根目录进行独立静态发布预演：
+首次新增或后续修改时，可在仓库根目录进行独立静态发布预演：
 
 ```powershell
 python scripts/build_site.py --project 002-production-agentic-rag-course --output site-rag-guide-preview
@@ -63,7 +63,7 @@ python -m http.server 8766 --bind 127.0.0.1 --directory site-rag-guide-preview
 
 随后打开 <http://127.0.0.1:8766/002-production-agentic-rag-course/#understanding>。这个带编号的子路径及图像资源已经本地验证；正式发布按部署约定收集全部已跟踪项目。临时预演产物不提交。
 
-规划访问前缀：/1013_codex_project/002-production-agentic-rag-course/。统一汇集与发布按 [部署约定](../../../docs/deployment.md) 执行。当前未公开部署，project.json 的 demo_url 为空；本地预览不填入 demo_url。
+访问前缀：/1013_codex_project/002-production-agentic-rag-course/。统一汇集与发布按 [部署约定](../../../docs/deployment.md) 执行。2026-10-13 已公开发布并验证 [在线导读](https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/#understanding)，project.json 的 demo_url 已登记正式入口；本地预览地址不填入 demo_url。
 
 ## 首次导读页验证记录
 
@@ -103,7 +103,7 @@ python -m http.server 8766 --bind 127.0.0.1 --directory site-rag-guide-preview
 | 索引与仓库测试 | 新分项摘要和总览预览图的索引同步通过；32 项测试中 31 项通过，1 项因当前 Windows 用户无法创建符号链接跳过 |
 | 运行日志 | 本次网页检查期间未发现 error / warn 日志 |
 
-上述构建是本地发布预演。本项目尚未公开部署，demo_url 保持为空；浏览器打印 / PDF 与上游实际采集、检索、模型问答仍未验收。
+上述构建是本地发布预演。随后已完成 [公网静态发布验证](../experiments/results/publication-2026-10-13.md)：完整 12 项摘要、理解图、项目网页及静态资源可访问，发布内容与提交 blob 一致。浏览器打印 / PDF 与上游实际采集、检索、模型问答仍未验收。
 
 ## 截图与来源说明
 

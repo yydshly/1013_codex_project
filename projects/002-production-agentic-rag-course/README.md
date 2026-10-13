@@ -4,7 +4,7 @@
 
 本研究关注它实际具备的能力、可复用的架构与尚未闭合的实现。当前已完成核心源码阅读、复现计划与可交互中文导读页，**尚未启动上游服务，也未验证回答质量、性能或稳定性**。
 
-[返回总索引](../../README.md#项目索引) · [共识与一图总览](./web/index.html#understanding) · [中文导读网页](./web/index.html) · [原仓库](https://github.com/jamwithai/production-agentic-rag-course) · [固定版本源码证据](./references/source-map.md) · [复现与验收清单](./experiments/README.md) · [网页使用说明](./web/README.md)
+[返回总索引](../../README.md#项目索引) · [在线导读与理解图](https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/#understanding) · [共识与一图总览源文件](./web/index.html#understanding) · [原仓库](https://github.com/jamwithai/production-agentic-rag-course) · [固定版本源码证据](./references/source-map.md) · [复现与验收清单](./experiments/README.md) · [网页使用说明](./web/README.md)
 
 ## 我们的共同理解
 
@@ -44,7 +44,7 @@
 | 研究日期 | 2026-10-13（Asia/Shanghai） |
 | 当前状态 | 研究中；元信息为 researching，未达到“已复现” |
 | 本次范围 | 课程与核心源码分析、架构说明、交互导读页及前端验证、后续验收计划 |
-| 在线演示 | 未部署；demo_url 为空 |
+| 在线导读 | [已发布并验证](https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/)；静态理解展示，未连接真实 RAG 后端 |
 
 ![本仓库中文导读页面实拍，展示项目概览、知识索引示意与章节导航](./assets/01-guide-overview.jpg)
 
@@ -64,7 +64,7 @@
 python -m http.server 8766 --bind 127.0.0.1 --directory projects/002-production-agentic-rag-course/web
 ```
 
-随后访问 <http://127.0.0.1:8766/>。页面无第三方运行依赖；构建与部署说明、具体前端检查记录见 [web/README.md](./web/README.md)。当前只完成本地页面验证，demo_url 保持为空。
+随后访问 <http://127.0.0.1:8766/>。页面无第三方运行依赖；构建与部署说明、前端检查记录见 [web/README.md](./web/README.md)。静态导读已在 GitHub Pages 发布，并验证网页、脚本、总览 PNG / SVG 与首页引导图；详见 [公网发布验证](./experiments/results/publication-2026-10-13.md)。
 
 ![导读页流程实拍，选中“建立知识库”，展示 PostgreSQL、Jina 和 OpenSearch 的职责](./assets/02-guide-pipeline.jpg)
 
@@ -234,7 +234,7 @@ flowchart TD
 | 本仓库中文导读页 | 前端已验证 | 六步切换、三种场景、搜索 / 问答示意、清单保存与 Markdown 下载、手机布局；详见网页说明 |
 | 本仓库理解总览图 | 展示已验证 | PNG / SVG、图像下载、文字版展开、共同理解路线导出、桌面和手机布局、静态子路径资源检查通过；不是上游运行证据 |
 | 本仓库项目与索引 | 已通过 | 2026-10-13：索引同步与文档链接检查；32 项仓库测试中 31 项通过，1 项因 Windows 符号链接权限跳过；不代表上游运行通过 |
-| 在线演示 | 未部署 | demo_url 保持空字符串 |
+| 在线导读 | 静态页面已发布 | 公网页面、脚本、总览图和索引验证通过；源码 commit 81f224c，运行记录与范围见公网发布验证；未连接真实 RAG 服务 |
 
 ## 7. 后续复现与验收安排
 
@@ -260,7 +260,8 @@ flowchart TD
 - [ ] 完成采集、索引、普通与 Agentic 问答验收
 - [ ] 比较质量、性能、缓存和故障恢复
 - [ ] 添加实际截图、结果记录与研究结论
-- [ ] 按需要制作并部署演示，验证后更新元信息
+- [x] 发布静态中文导读，验证公网入口、完整摘要与总览图，并更新元信息
+- [ ] 后续接入真实 RAG 服务，并分别验收检索、回答与应用效果
 
 ## 来源与致谢
 

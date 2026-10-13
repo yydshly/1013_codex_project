@@ -24,5 +24,5 @@
   "tags": ["RAG", "LangGraph", "混合检索", "AI 工程"],
   "preview": "assets/04-rag-understanding.png",
   "preview_caption": "本仓库理解总览图：定位、价值、能力、原理与架构、场景、使用路线、扩展与验证；直接绘制，非上游运行截图",
-  "demo_url": ""
+  "demo_url": "https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/"
 }
