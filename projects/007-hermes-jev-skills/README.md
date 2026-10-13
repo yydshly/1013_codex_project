@@ -2,7 +2,7 @@
 
 > 这个库把 Agent 工作中的有限判断接入 Jev：Jev 按给定问题判断，本地策略选择动作，主模型和工具完成任务。对我们的启发是按能力拆分工作，并用结果验证分工是否值得。
 
-[返回总索引](../../README.md) · [原仓库](https://github.com/kerpopule/hermes-jev-skills) · [中文网页](./web/index.html) · [运行说明](./web/README.md)
+[返回总索引](../../README.md) · [原仓库](https://github.com/kerpopule/hermes-jev-skills) · [在线理解网页](https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/#understanding) · [网页源码](./web/index.html) · [运行说明](./web/README.md)
 
 ## 版本与范围
 
@@ -11,9 +11,9 @@
 | 研究 commit | `31f476cac49713b6bf88c00d42382542e1c36965` |
 | 上游许可证 | MIT；Copyright (c) 2026 Steve Darlow |
 | 整理日期 | 2026-10-13 至 2026-10-14 |
-| 环境 | Windows、Python 静态服务、原生 HTML/CSS/JavaScript |
+| 环境 | Windows、Python 3.10.11、Node.js 22.15.0 语法检查、原生 HTML/CSS/JavaScript；Pages 构建为 Ubuntu / Python 3.12 |
 | 状态 | 源码研究与理解网页；未接入真实 Jev 或执行模型 |
-| 部署 | 本地网页；`demo_url` 保持为空 |
+| 部署 | 2026-10-14 已发布 GitHub Pages，网页、资源与交互实际验证；详见 [发布记录](./experiments/results/publication-2026-10-14.md) |
 
 ## 先把库、Jev 与我们的扩展分清楚
 
@@ -206,7 +206,9 @@ Jev 正确应用标准而 A 做不好，是标准或模型映射问题；标准�
 
 网页包含库的能力、Jev 所在位置、上游架构与个人扩展、机制、四类任务与三种判断方式对比、标准设置、价值验证、个人场景和扩展基础，并提供理解总览 PNG 与空白评测表下载。交互全部在浏览器本地完成，没有真实模型请求和现场代码修改；初始策略与示例均标为教学模拟。实际检查记录见 [web/README.md](./web/README.md)。
 
-待验证：真实 Jev / 小模型接入、A/B 配对执行、概率与阈值、费用和返工、公网部署。
+已验证：本地与公网静态网页、十二项索引摘要、图片与脚本资源、示例交互、评测表下载及现有项目入口。首次内容部署提交为 `cc171f4bf3b096b4c4d45930b856af049d9ba5a0`，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38428497187)成功；HTTP 内容与该提交对应，详情见 [发布记录](./experiments/results/publication-2026-10-14.md)。
+
+待验证：真实 Jev / 小模型接入、A/B 配对执行、概率与阈值、费用和返工。静态发布成功不等于真实路由效果通过评测。
 
 ## 来源
 

@@ -1,0 +1,84 @@
+{
+  "checked_at_utc": "2026-10-13T16:13:50.258220+00:00",
+  "commit": "cc171f4bf3b096b4c4d45930b856af049d9ba5a0",
+  "project_directories": [
+    "001-infinite-bookshelf",
+    "002-production-agentic-rag-course",
+    "007-hermes-jev-skills"
+  ],
+  "checks": [
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/",
+      "status": 200,
+      "bytes": 19639,
+      "matches_commit": true,
+      "sha256": "803f69ee9b335a0383db55554b8efcba9224730f7602cde5b5f2fed64afe06a9",
+      "expected_sha256": "803f69ee9b335a0383db55554b8efcba9224730f7602cde5b5f2fed64afe06a9"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/",
+      "status": 200,
+      "bytes": 36875,
+      "matches_commit": true,
+      "sha256": "e84fdf06174327131e092974a8a9412ae335157396e2dc1509818f1827029d88",
+      "expected_sha256": "e84fdf06174327131e092974a8a9412ae335157396e2dc1509818f1827029d88"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/styles.css",
+      "status": 200,
+      "bytes": 22470,
+      "matches_commit": true,
+      "sha256": "a4ea301c4d3e44994908554f84e26c5a36cd37a41fe0643555307ebfe10d3be9",
+      "expected_sha256": "a4ea301c4d3e44994908554f84e26c5a36cd37a41fe0643555307ebfe10d3be9"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/app.js",
+      "status": 200,
+      "bytes": 10865,
+      "matches_commit": true,
+      "sha256": "2431753879d789b07ca90caa1f39e79225b2af48baccc5aa8cac411fcf11e9c4",
+      "expected_sha256": "2431753879d789b07ca90caa1f39e79225b2af48baccc5aa8cac411fcf11e9c4"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/assets/understanding-overview.png",
+      "status": 200,
+      "bytes": 2249534,
+      "matches_commit": true,
+      "sha256": "6ea71ab4edaf4ab727c4fa260e35ea56d18246800c0d9b00afe349096b89db0b",
+      "expected_sha256": "6ea71ab4edaf4ab727c4fa260e35ea56d18246800c0d9b00afe349096b89db0b"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/previews/007-hermes-jev-skills.png",
+      "status": 200,
+      "bytes": 2249534,
+      "matches_commit": true,
+      "sha256": "6ea71ab4edaf4ab727c4fa260e35ea56d18246800c0d9b00afe349096b89db0b",
+      "expected_sha256": "6ea71ab4edaf4ab727c4fa260e35ea56d18246800c0d9b00afe349096b89db0b"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/",
+      "status": 200,
+      "bytes": 37527,
+      "matches_commit": true,
+      "sha256": "5c746e81e4163cd8b97d457511e049b67d5d67a287fe23ca03b703210d98f9b6",
+      "expected_sha256": "5c746e81e4163cd8b97d457511e049b67d5d67a287fe23ca03b703210d98f9b6"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/",
+      "status": 200,
+      "bytes": 29930,
+      "matches_commit": true,
+      "sha256": "883a2a525a526a79a20c30762f684cf4c25c1cfd87c173c30f3e474472ff6edd",
+      "expected_sha256": "883a2a525a526a79a20c30762f684cf4c25c1cfd87c173c30f3e474472ff6edd"
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/site-build.json",
+      "status": 200,
+      "bytes": 209,
+      "matches_commit": true,
+      "sha256": "475eb452959445ffc574ae21f305d7701600d8dd5117aa975188a59ecc387a1a",
+      "expected_sha256": null
+    }
+  ],
+  "all_passed": true
+}

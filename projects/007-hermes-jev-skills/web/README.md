@@ -20,7 +20,9 @@
 python -m http.server 8771 --bind 127.0.0.1 --directory projects/007-hermes-jev-skills/web
 ```
 
-访问 `http://127.0.0.1:8771/`；Ctrl+C 停止。内置浏览器只允许 HTTP / HTTPS，本次未验证直接打开文件的方式。预览结束后停止临时服务；重新访问时需再次启动。全部资源为相对路径，章节用 hash，统一部署前缀为 `/1013_codex_project/007-hermes-jev-skills/`。遵循 [部署约定](../../../docs/deployment.md)。当前交付本地网页，尚未部署公网，`demo_url` 为空。
+访问 `http://127.0.0.1:8771/`；Ctrl+C 停止。内置浏览器只允许 HTTP / HTTPS，本次未验证直接打开文件的方式。预览结束后停止临时服务；重新访问时需再次启动。全部资源为相对路径，章节用 hash，统一部署前缀为 `/1013_codex_project/007-hermes-jev-skills/`。遵循 [部署约定](../../../docs/deployment.md)。
+
+2026-10-14 已发布：[在线理解网页](https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/#understanding) · [站点索引](https://yydshly.github.io/1013_codex_project/)。构建与部署成功，页面、CSS、JS、两处 PNG、原有项目入口实际返回 HTTP 200，并核对资源与提交一致。公网浏览器确认联动示例、33 列 CSV 下载、十二项首页摘要和返回项目入口，未发现 JavaScript 错误或警告。见 [发布验证记录](../experiments/results/publication-2026-10-14.md)。
 
 本地构建预演：
 
@@ -57,3 +59,7 @@ python scripts/build_site.py --project 007-hermes-jev-skills --output site-jev-p
 ![上游接入链路与我们扩展的架构分工实拍](../assets/05-web-architecture.jpg)
 
 来源：2026-10-14 新版本地浏览器截图。研究 commit `31f476cac49713b6bf88c00d42382542e1c36965`。真实判断效果、模型能力、总费用与返工收益待实测。
+
+![2026-10-14 GitHub Pages 已发布网页的架构区实拍](../assets/06-published-web.jpg)
+
+来源：实际公开项目 URL 的浏览器截图；展示 Jev 的接入位置与个人扩展分工。

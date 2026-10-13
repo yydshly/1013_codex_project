@@ -27,6 +27,8 @@ https://yydshly.github.io/1013_codex_project/
 
 项目 002 于 2026-10-13 随提交 81f224c 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38418966428)成功。首页完整保留 12 项摘要并使用本次生成的理解总览图；项目页、CSS、JavaScript、PNG、SVG、首页引导图和项目 001 入口均 HTTP 200，资源与对应提交 blob 一致。验证详情见 [项目 002 公网发布记录](../projects/002-production-agentic-rag-course/experiments/results/publication-2026-10-13.md)。
 
+项目 007 于 2026-10-14 随提交 `cc171f4bf3b096b4c4d45930b856af049d9ba5a0` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38428497187)成功。[Hermes Jev Skills 理解网页](https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/#understanding)说明库的能力、Jev 的判断作用与位置、默认路由机制、个人扩展、判断标准、规则与小模型选择、使用价值及扩展基础。首页保留十二项完整摘要与表外引导图。项目页、CSS、JS、PNG、首页、已有 001 / 002 入口和构建清单均 HTTP 200，内容与提交一致；公网示例、CSV 下载与返回入口已实际验证。教学网页未接入真实 Jev 或执行模型。详见 [项目 007 发布记录](../projects/007-hermes-jev-skills/experiments/results/publication-2026-10-14.md)。
+
 子项目静态源文件保存在 `projects/编号-slug/web/`。`scripts/build_site.py` 使用 Python 标准库，将可发布的原生静态项目汇集为一个完整站点：
 
 ```text
