@@ -36,7 +36,8 @@ projects/001-example-project/
 | --- | --- |
 | `id` / `slug` | 三位编号和英文短名，必须与目录名一致 |
 | `name` | 对外展示名称 |
-| `summary` | 一句话介绍项目价值与本次研究重点 |
+| `summary` | 完整单行摘要，介绍项目能力、原理、输入输出、价值与本次研究重点；作为兼容字段保留 |
+| `summary_sections` | 可选的分项摘要数组，格式为 `[{"label": "能力", "text": "具体说明"}, ...]`；标签加粗并逐项换行显示，旧项目未填写时仍展示 `summary` |
 | `source_url` | 原 GitHub 仓库地址 |
 | `source_ref` | 实际研究的 tag 或 commit；暂未选定时留空 |
 | `source_license` | 查证后的上游许可证；未知时留空 |
@@ -46,7 +47,9 @@ projects/001-example-project/
 | `preview_caption` | 图片展示内容的简短说明；占位图须明确标注 |
 | `demo_url` | 已部署、可访问的完整地址；未部署时留空 |
 
-`project.json` 管理首页展示，子项目 README 记录详细研究。更改名称、来源或截图时，同时检查 README 中的对应内容。单行字段不要写多行 Markdown。
+`project.json` 管理首页展示，子项目 README 记录详细研究。更改名称、来源或截图时，同时检查 README 中的对应内容。单行字段不要写多行 Markdown。`summary_sections` 若填写，必须是非空数组，每项 `label` 和 `text` 为非空单行字符串，标签不重复；无需手写 HTML 换行。建议按能力、原理、输入、输出、价值、场景、边界与验证分别描述，内容完整保留，避免以长段文字挤在一起。
+
+总索引使用独立“目标源库”栏，链接名称自动取自 `source_url` 的仓库名，并标明作者。索引不展示引导图，图片留在子项目导读与演示页中。
 
 ## 3. 记录研究
 
@@ -58,7 +61,7 @@ projects/001-example-project/
 
 - 图片放在子项目 `assets/` 中，推荐 `cover.png`、`01-overview.png`、`02-workflow.png` 等名称。
 - 为图片写清楚替代文本和说明：画面展示什么、来自上游还是本地复现、对应哪个研究版本。
-- 首页预览使用 `preview` 和 `preview_caption`；子项目 README 放更多截图与解释。
+- `preview` 和 `preview_caption` 保留图片来源与说明；总索引不展示图片，子项目 README 和演示页放截图与解释。
 - 模板的 `cover.svg` 是明确标注的占位图，替换时同步更新元信息和 README 路径。
 - 图片优先压缩后提交；运行缓存、依赖目录、密钥和构建产物不入库。
 

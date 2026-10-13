@@ -12,7 +12,10 @@ import tempfile
 from pathlib import Path
 from urllib.parse import quote
 
-from project_index import DIRECTORY_PATTERN, ROOT, STATUSES, validate_url
+from project_index import (
+    DIRECTORY_PATTERN, ROOT, STATUSES, source_repository_name,
+    validate_summary_sections, validate_url,
+)
 
 STATIC_EXTENSIONS = {
     ".html", ".css", ".js", ".mjs", ".json", ".txt", ".svg", ".png",
@@ -63,6 +66,7 @@ def read_metadata(root: Path, directory: str) -> dict:
     if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag.strip() for tag in tags):
         raise ValueError(f"{directory}: tags must be a list of nonempty strings")
     validate_url(metadata["source_url"], github=True)
+    validate_summary_sections(metadata, directory)
     for field in ("source_ref", "source_license", "demo_url"):
         value = metadata.get(field, "")
         if not isinstance(value, str) or "\n" in value or "\r" in value:
@@ -118,41 +122,54 @@ def demo_files(root: Path, project: dict, tracked: set[str] | None) -> list[Path
 
 
 def render_home(projects: list[dict], repository: str) -> str:
-    cards = []
+    rows = []
     for project in projects:
         directory = quote(project["directory"], safe="-_")
         research_url = f"https://github.com/{repository}/blob/main/projects/{directory}/README.md"
-        preview = f"./previews/{directory}{Path(project['preview']).suffix.lower()}"
-        name, summary = html.escape(project["name"]), html.escape(project["summary"])
-        caption = html.escape(project["preview_caption"], quote=True)
+        name = html.escape(project["name"])
+        sections = validate_summary_sections(project, project["directory"])
+        if sections:
+            summary = '<dl class="summary-sections">' + "".join(
+                f'<div><dt>{html.escape(section["label"])}</dt>'
+                f'<dd>{html.escape(section["text"])}</dd></div>'
+                for section in sections
+            ) + '</dl>'
+        else:
+            summary = f'<p class="summary">{html.escape(project["summary"])}</p>'
         tags = "".join(f"<span>{html.escape(tag)}</span>" for tag in project["tags"])
         source = html.escape(project["source_url"], quote=True)
-        cards.append(f'''<article class="project-card">
-  <a class="preview" href="./{directory}/"><img src="{preview}" alt="{caption}" loading="lazy"></a>
-  <div class="project-content"><div class="project-meta">项目 {project['id']} · {STATUSES[project['status']]}</div>
-    <h2><a href="./{directory}/">{name}</a></h2><p class="summary">{summary}</p>
-    <div class="tags">{tags}</div><p class="preview-caption">{html.escape(project['preview_caption'])}</p>
-    <div class="links"><a class="primary" href="./{directory}/">查看理解与演示 →</a>
-      <a href="{research_url}">研究文档 ↗</a><a href="{source}">原仓库 ↗</a></div>
-  </div>
-</article>''')
-    content = "\n".join(cards) or '<p class="empty">暂无已提交的静态演示。</p>'
+        source_name = html.escape(source_repository_name(project["source_url"]))
+        owner = html.escape(project["source_url"].rstrip("/").split("/")[-2])
+        rows.append(f'''<tr>
+  <td data-label="编号" class="number">{project['id']}</td>
+  <th scope="row" data-label="研究项目" class="project-name"><h2><a href="./{directory}/">{name}</a></h2><div class="tags">{tags}</div></th>
+  <td data-label="目标源库" class="source"><a href="{source}">{source_name} ↗</a><span class="owner">{owner}</span></td>
+  <td data-label="研究摘要" class="project-summary">{summary}</td>
+  <td data-label="状态与入口" class="entries"><span class="status">{STATUSES[project['status']]}</span>
+    <div class="links"><a class="primary" href="./{directory}/">理解与演示 →</a><a href="{research_url}">研究文档 ↗</a></div></td>
+</tr>''')
+    content = ('''<table class="project-index"><caption>研究项目索引</caption><colgroup><col class="col-number"><col class="col-name"><col class="col-source"><col class="col-summary"><col class="col-entries"></colgroup>
+<thead><tr><th scope="col">编号</th><th scope="col">研究项目</th><th scope="col">目标源库</th><th scope="col">研究摘要</th><th scope="col">状态与入口</th></tr></thead>
+<tbody>''' + "\n".join(rows) + '</tbody></table>') if rows else '<p class="empty">暂无已提交的静态演示。</p>'
     return f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="开源项目研究：能力、实现原理、输入输出、实际效果、价值与局限，附源码证据和可交互演示。">
 <title>开源项目研究 · 能力、原理与价值</title>
 <style>
 *{{box-sizing:border-box}}body{{margin:0;color:#202a32;background:#f5f6f2;font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.75}}
-.wrap{{max-width:1120px;margin:auto;padding:42px 24px}}header{{border-bottom:1px solid #dce2da;margin-bottom:32px;padding-bottom:26px}}
-.eyebrow,.project-meta{{color:#50765d;font-size:13px;letter-spacing:.05em}}h1{{font-size:clamp(26px,4vw,40px);line-height:1.3;margin:12px 0}}header p{{color:#53636a;max-width:850px}}
-a{{color:#2b6343;text-underline-offset:4px}}.project-card{{display:grid;grid-template-columns:285px 1fr;background:#fff;border:1px solid #dce2da;border-radius:16px;overflow:hidden;margin:0 0 24px}}
-.preview{{display:flex;align-items:center;padding:18px;background:#edf0ea}}.preview img{{width:100%;height:auto;border-radius:9px}}.project-content{{padding:26px}}h2{{font-size:22px;line-height:1.45;margin:8px 0 12px}}h2 a{{text-decoration:none}}
-.summary{{margin:0 0 16px;overflow-wrap:anywhere}}.tags{{display:flex;flex-wrap:wrap;gap:7px}}.tags span{{font-size:12px;background:#eef4ed;border-radius:20px;padding:3px 10px}}
-.preview-caption{{font-size:12px;color:#748078}}.links{{display:flex;flex-wrap:wrap;gap:16px;font-size:14px}}.primary{{font-weight:650}}footer{{color:#748078;font-size:13px;margin-top:32px}}.empty{{padding:28px;background:white;border-radius:12px}}
-@media(max-width:700px){{.wrap{{padding:28px 16px}}.project-card{{grid-template-columns:1fr}}.preview img{{max-height:230px;object-fit:contain}}.project-content{{padding:21px}}}}
+.wrap{{max-width:1440px;margin:auto;padding:42px 28px}}header{{border-bottom:1px solid #dce2da;margin-bottom:28px;padding-bottom:24px}}
+.eyebrow{{color:#50765d;font-size:13px;letter-spacing:.05em}}h1{{font-size:clamp(26px,4vw,40px);line-height:1.3;margin:12px 0}}header p{{color:#53636a;max-width:950px;margin:12px 0}}
+a{{color:#2b6343;text-underline-offset:4px}}a:focus-visible{{outline:3px solid #4f9566;outline-offset:4px}}.project-index{{width:100%;border-spacing:0;border:1px solid #dce2da;border-radius:12px;background:#fff;table-layout:fixed;overflow:hidden}}
+caption{{text-align:left;font-size:20px;font-weight:700;padding:0 0 14px}}.col-number{{width:5%}}.col-name{{width:19%}}.col-source{{width:15%}}.col-summary{{width:47%}}.col-entries{{width:14%}}
+thead th{{background:#edf2ea;color:#3e5745;font-size:14px;text-align:left;padding:13px 16px;border-bottom:1px solid #dce2da}}tbody td,tbody th{{text-align:left;vertical-align:top;padding:22px 16px;border-bottom:1px solid #e4e9e1;font-weight:400;overflow-wrap:anywhere}}tbody tr:last-child>*{{border-bottom:0}}
+.number{{color:#597363;font-weight:700;font-variant-numeric:tabular-nums}}h2{{font-size:20px;line-height:1.5;margin:0 0 14px}}h2 a{{text-decoration:none}}.source a{{font-weight:650;font-size:15px}}.owner{{display:block;color:#69776e;font-size:13px;margin-top:6px}}
+.summary{{margin:0;white-space:normal}}.summary-sections{{margin:0}}.summary-sections>div{{display:grid;grid-template-columns:6em minmax(0,1fr);gap:12px;padding:9px 0;border-bottom:1px solid #edf0ea}}.summary-sections>div:first-child{{padding-top:0}}.summary-sections>div:last-child{{border-bottom:0;padding-bottom:0}}.summary-sections dt{{font-weight:650;color:#3e5745;font-size:14px}}.summary-sections dd{{margin:0;font-size:15px;line-height:1.75}}
+.tags{{display:flex;flex-wrap:wrap;gap:6px}}.tags span{{font-size:12px;background:#eef4ed;border-radius:20px;padding:2px 9px}}.status{{display:inline-block;font-size:12px;color:#32593d;background:#eaf2e6;padding:3px 10px;border-radius:20px;margin-bottom:13px}}.links{{display:flex;flex-direction:column;align-items:flex-start;gap:10px;font-size:14px}}.primary{{font-weight:650}}footer{{color:#748078;font-size:13px;margin-top:32px}}.empty{{padding:28px;background:white;border-radius:12px}}
+@media(max-width:1000px){{.wrap{{padding:28px 20px}}.project-index,.project-index tbody{{display:block;border:0;background:transparent}}.project-index colgroup,.project-index thead{{display:none}}.project-index caption{{display:block}}.project-index tr{{display:grid;grid-template-columns:1fr 1fr;background:#fff;border:1px solid #dce2da;border-radius:12px;padding:20px;margin:0 0 20px;gap:20px}}tbody td,tbody th{{display:block;padding:0;border:0}}tbody [data-label]::before{{content:attr(data-label);display:block;font-size:12px;color:#69776e;margin-bottom:7px}}.number{{grid-column:1/-1;display:flex;gap:8px;align-items:center}}tbody .number::before{{margin:0}}.project-name,.project-summary{{grid-column:1/-1}}.project-name{{grid-row:2}}.project-summary{{grid-row:4}}.source{{grid-column:1}}.entries{{grid-column:2}}.status{{margin-bottom:9px}}h2{{margin-bottom:10px}}}}
+@media(max-width:520px){{.wrap{{padding:24px 14px}}.project-index tr{{padding:18px;gap:18px}}.source,.entries{{grid-column:1/-1}}.project-summary{{grid-row:5}}.summary-sections>div{{grid-template-columns:1fr;gap:3px;padding:12px 0}}h2{{font-size:21px}}}}
 </style></head><body><main class="wrap"><header><div class="eyebrow">GITHUB 开源项目研究</div><h1>理解能力、原理与实际价值。</h1>
 <p>从源码和演示出发，说明项目能做什么、如何执行、接受什么输入、产生什么输出，以及它对我们有什么用。区分验证结果、研究判断与尚未验证的事项。</p>
-<p>当前有 {len(projects)} 个静态研究演示。摘要完整保留，进入项目可查看详细说明与示例。</p></header>
+<p>当前有 {len(projects)} 个静态研究演示。点击源库名称查看研究目标；按分项摘要快速判断能力和价值，进入项目查看总览图、详细说明与示例。</p></header>
 {content}<footer><a href="https://github.com/{repository}">查看研究仓库 ↗</a> · 静态页面公开展示；模型密钥和本地实验后端不随站点发布。</footer></main></body></html>
 '''
 

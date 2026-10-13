@@ -11,7 +11,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from new_project import create_project
-from project_index import END, START, load_projects, render_index, replace_index, update_readme
+from project_index import (
+    END, START, load_projects, render_index, replace_index, source_repository_name,
+    update_readme, validate_summary_sections,
+)
 
 
 class ProjectToolsTests(unittest.TestCase):
@@ -55,7 +58,10 @@ class ProjectToolsTests(unittest.TestCase):
         self.assertEqual(metadata["name"], '名称含 "引号"')
         self.assertNotIn("{{", (target / "README.md").read_text(encoding="utf-8"))
         index = (self.root / "README.md").read_text(encoding="utf-8")
-        self.assertIn('width="180"', index)
+        self.assertNotIn("<img", index)
+        self.assertNotIn("图片预览", index)
+        self.assertIn("| 目标源库 |", index)
+        self.assertIn("[source](https://github.com/example/source)<br>example", index)
         self.assertIn("摘要含 \\| 表格符号", index)
         self.assertIn("演示未部署", index)
         self.assertTrue(update_readme(self.root, check=True))
@@ -129,6 +135,79 @@ class ProjectToolsTests(unittest.TestCase):
                 self.modify_metadata(target, **change)
                 with self.assertRaises(ValueError):
                     load_projects(self.root)
+
+    def test_optional_sections_preserve_legacy_summary_and_render_labeled_lines(self):
+        target = self.create(summary="保留原始摘要作为兼容字段")
+        sections = [
+            {"label": "能力", "text": "输入主题，生成长文初稿。"},
+            {"label": "原理", "text": "先生成目录，再分节生成正文。"},
+            {"label": "价值", "text": "复用流程，减少重复操作与整理。"},
+        ]
+        self.modify_metadata(target, summary_sections=sections)
+        project = load_projects(self.root)[0]
+        self.assertEqual(project["summary"], "保留原始摘要作为兼容字段")
+        self.assertEqual(project["summary_sections"], sections)
+        rendered = render_index([project])
+        self.assertIn(
+            "**能力：** 输入主题，生成长文初稿。<br>"
+            "**原理：** 先生成目录，再分节生成正文。<br>"
+            "**价值：** 复用流程，减少重复操作与整理。", rendered,
+        )
+        self.assertNotIn("<img", rendered)
+        self.assertFalse(update_readme(self.root, check=True))
+        update_readme(self.root)
+        self.assertTrue(update_readme(self.root, check=True))
+
+    def test_optional_sections_escape_markdown_and_html_without_truncation(self):
+        target = self.create()
+        long_text = "完整内容 " * 100
+        self.modify_metadata(target, summary_sections=[
+            {"label": "能力|边界", "text": "<script> *不是链接* [示例] " + long_text},
+        ])
+        rendered = render_index(load_projects(self.root))
+        self.assertIn("**能力\\|边界：**", rendered)
+        self.assertIn("&lt;script&gt; \\*不是链接\\* \\[示例\\]", rendered)
+        self.assertIn(long_text, rendered)
+        self.assertNotIn("<script>", rendered)
+
+    def test_missing_optional_sections_are_backward_compatible(self):
+        self.assertEqual(validate_summary_sections({}, "001-example"), [])
+        self.create(summary="已有项目完整单段摘要")
+        project = load_projects(self.root)[0]
+        self.assertNotIn("summary_sections", project)
+        self.assertIn("已有项目完整单段摘要", render_index([project]))
+
+    def test_invalid_summary_sections_are_rejected(self):
+        target = self.create()
+        metadata_path = target / "project.json"
+        original = metadata_path.read_text(encoding="utf-8")
+        invalid_sections = (
+            None, "能力", {}, [], ["能力"], [{}],
+            [{"label": "", "text": "说明"}],
+            [{"label": " \t ", "text": "说明"}],
+            [{"label": "能力\n原理", "text": "说明"}],
+            [{"label": 1, "text": "说明"}],
+            [{"label": "能力"}],
+            [{"label": "能力", "text": ""}],
+            [{"label": "能力", "text": " \t "}],
+            [{"label": "能力", "text": "第一行\r第二行"}],
+            [{"label": "能力", "text": 1}],
+            [{"label": "能力", "text": "一"}, {"label": "能力", "text": "二"}],
+            [{"label": "能力", "text": "一"}, {"label": " 能力 ", "text": "二"}],
+        )
+        for sections in invalid_sections:
+            with self.subTest(sections=sections):
+                metadata_path.write_text(original, encoding="utf-8")
+                self.modify_metadata(target, summary_sections=sections)
+                with self.assertRaisesRegex(ValueError, "summary[_ ]section"):
+                    load_projects(self.root)
+
+    def test_repository_name_handles_optional_trailing_slash(self):
+        for url in (
+            "https://github.com/Bklieger/infinite-bookshelf",
+            "https://github.com/Bklieger/infinite-bookshelf/",
+        ):
+            self.assertEqual(source_repository_name(url), "infinite-bookshelf")
 
 
 if __name__ == "__main__":

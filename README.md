@@ -11,9 +11,9 @@
 <!-- PROJECT_INDEX:START -->
 当前收录 **1** 个项目，按三位编号升序排列。
 
-| 编号 | 项目 / 研究摘要 | 图片预览 | 研究状态 | 相关入口 |
+| 编号 | 项目 / 研究摘要 | 目标源库 | 研究状态 | 相关入口 |
 | --- | --- | --- | --- | --- |
-| **001** | **[Infinite Bookshelf：写书流程、能力与价值研究](./projects/001-infinite-bookshelf/README.md)**<br>输入主题与读者、目标、范围、风格要求，高级模式可加入笔记或 TXT 资料；代码组织多次模型请求，依次生成目录、书名和分节正文，再汇总展示、导出 TXT/PDF 初稿。方法与手动让模型先出大纲再写细节相同，价值是减少重复请求与整理，可复用流程并接入自有模型；并未提高模型本身能力或自动保证质量。适合较独立的教程、培训材料初稿，复杂小说需补前文与人工审核。研究提供源码证据、一图总览与摄影等可阅读样稿，区分保存样稿、原版能力和未验证效果。<br>AI 写作 · 长文生成 · 模型可替换 · 源码研究 | <img src="./projects/001-infinite-bookshelf/assets/03-understanding-overview.png" alt="本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图" width="180"><br>本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图 | 已完成 | [研究文档](./projects/001-infinite-bookshelf/README.md) · [原仓库](https://github.com/Bklieger/infinite-bookshelf) · [在线演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) |
+| **001** | **[Infinite Bookshelf：写书流程、能力与价值研究](./projects/001-infinite-bookshelf/README.md)**<br><br>**能力：** 把主题展开为目录、书名和分节长文初稿，顺序生成并汇总展示。<br>**原理：** 代码组织多次模型请求，先目录、再书名、逐节正文；写作方法与手动让模型先出大纲再写细节相同。<br>**输入：** 主题；可补充读者、目标、范围和风格要求，高级模式可加入笔记或 TXT 资料。<br>**输出：** 书名、目录、各节正文，以及可导出的 TXT/PDF 初稿，供人工编辑和审核。<br>**价值：** 减少重复请求与整理，复用写作流程，并可修改接口接入自有模型；没有提高模型本身能力。<br>**意义与场景：** 适合重复起草较独立的教程和培训材料；偶尔写作额外价值有限，复杂小说需补前文与人工审核。<br>**边界与验证：** 不能自动保证质量。本研究提供源码证据、总览图与摄影等可读样稿；样稿是保存内容，未验证真实模型 API 的质量、速度和费用优势。<br><br>AI 写作 · 长文生成 · 模型可替换 · 源码研究 | [infinite-bookshelf](https://github.com/Bklieger/infinite-bookshelf)<br>Bklieger | 已完成 | [研究文档](./projects/001-infinite-bookshelf/README.md)<br>[在线演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) |
 <!-- PROJECT_INDEX:END -->
 
 ## 收录与阅读方式
@@ -29,7 +29,7 @@
 
 ```text
 1013_codex_project/
-├── README.md                 # 对外总览：索引、摘要、预览和导航
+├── README.md                 # 对外总览：索引、分项摘要、源库和导航
 ├── AGENTS.md                 # 后续研究与维护的工作约定
 ├── projects/                 # 001-xxx、002-xxx…，每个目录一个研究项目
 ├── templates/project/        # 子项目文档、元信息和图片占位模板

@@ -115,10 +115,52 @@ class BuildSiteTests(unittest.TestCase):
         self.assertIn(html.escape(summary), home)
         self.assertNotIn('<script>alert("x")</script>', home)
         self.assertIn('./001-sample/', home)
-        self.assertIn('./previews/001-sample.svg', home)
+        self.assertIn('<th scope="col">目标源库</th>', home)
+        self.assertIn('href="https://github.com/example/upstream">upstream ↗</a>', home)
+        self.assertNotIn('<img', home)
+        self.assertTrue((self.root / "site-dist" / "previews" / "001-sample.svg").is_file())
         self.assertIn('https://github.com/example/research/blob/main/projects/001-sample/README.md', home)
         self.assertNotIn('line-clamp', home)
         self.assertEqual((self.root / "site-dist" / "001-sample" / "app.js").read_text(encoding="utf-8"), 'fetch("./data/book.json")')
+
+    def test_structured_summary_has_complete_separate_labels_without_index_images(self):
+        sections = [
+            {"label": "能力", "text": "长文初稿 <需审核> & 编辑。"},
+            {"label": "原理", "text": "代码组织多次请求。"},
+            {"label": "边界与验证", "text": "未实测真实 API。" * 100},
+        ]
+        project = self.create_project(summary_sections=sections)
+        # The research explanation image belongs to the project page, not the index.
+        detail = '<h1>项目详情</h1><img src="./assets/overview.svg" alt="理解总览图">'
+        (project / "web" / "index.html").write_text(detail, encoding="utf-8")
+        asset = project / "web" / "assets" / "overview.svg"
+        asset.parent.mkdir()
+        asset.write_text('<svg xmlns="http://www.w3.org/2000/svg"/>', encoding="utf-8")
+        build_site(self.root, projects=["001-sample"])
+        home = (self.root / "site-dist" / "index.html").read_text(encoding="utf-8")
+        for section in sections:
+            self.assertIn(f'<dt>{html.escape(section["label"])}</dt>', home)
+            self.assertIn(f'<dd>{html.escape(section["text"])}</dd>', home)
+        self.assertNotIn('<img', home)
+        self.assertNotIn('preview-caption', home)
+        self.assertNotIn('line-clamp', home)
+        self.assertNotIn('text-overflow', home)
+        self.assertEqual((self.root / "site-dist" / "001-sample" / "index.html").read_text(encoding="utf-8"), detail)
+        self.assertTrue((self.root / "site-dist" / "001-sample" / "assets" / "overview.svg").is_file())
+
+    def test_invalid_structured_summaries_fail_before_replacing_previous_site(self):
+        project = self.create_project()
+        build_site(self.root, projects=["001-sample"])
+        original_home = (self.root / "site-dist" / "index.html").read_bytes()
+        metadata_path = project / "project.json"
+        original = json.loads(metadata_path.read_text(encoding="utf-8"))
+        for sections in (None, [], {}, [{"label": "能力", "text": ""}],
+                         [{"label": "能力\n原理", "text": "内容"}],
+                         [{"label": "能力", "text": "一"}, {"label": "能力", "text": "二"}]):
+            metadata_path.write_text(json.dumps({**original, "summary_sections": sections}), encoding="utf-8")
+            with self.subTest(sections=sections), self.assertRaises(ValueError):
+                build_site(self.root, projects=["001-sample"])
+            self.assertEqual((self.root / "site-dist" / "index.html").read_bytes(), original_home)
 
     def test_output_directory_must_be_generated_and_inside_repository(self):
         self.create_project()

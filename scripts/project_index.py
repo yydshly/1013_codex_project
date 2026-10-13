@@ -39,6 +39,38 @@ def validate_url(value: str, *, github: bool = False) -> None:
         raise ValueError("source_url must be https://github.com/owner/repository")
 
 
+def validate_summary_sections(metadata: dict, directory: str) -> list[dict]:
+    """Validate optional labeled summary lines without changing legacy metadata."""
+    if "summary_sections" not in metadata:
+        return []
+    sections = metadata["summary_sections"]
+    if not isinstance(sections, list) or not sections:
+        raise ValueError(f"{directory}: summary_sections must be a nonempty list")
+    seen_labels = set()
+    for section in sections:
+        if not isinstance(section, dict):
+            raise ValueError(f"{directory}: each summary section must be an object")
+        for field in ("label", "text"):
+            value = section.get(field)
+            if (
+                not isinstance(value, str) or not value.strip()
+                or "\n" in value or "\r" in value
+            ):
+                raise ValueError(
+                    f"{directory}: summary section {field} must be a nonempty single-line string"
+                )
+        label = section["label"].strip()
+        if label in seen_labels:
+            raise ValueError(f"{directory}: duplicate summary section label: {label}")
+        seen_labels.add(label)
+    return sections
+
+
+def source_repository_name(source_url: str) -> str:
+    """Return the repository name from an already validated source URL."""
+    return urlsplit(source_url).path.rstrip("/").rsplit("/", 1)[-1]
+
+
 def load_projects(root: Path = ROOT) -> list[dict]:
     """Validate real project folders; templates and directory documentation are excluded."""
     projects = []
@@ -77,6 +109,7 @@ def load_projects(root: Path = ROOT) -> list[dict]:
             for tag in tags
         ):
             raise ValueError(f"{directory.name}: tags must be a list of nonempty strings")
+        validate_summary_sections(metadata, directory.name)
         validate_url(metadata["source_url"], github=True)
         if metadata["demo_url"]:
             validate_url(metadata["demo_url"])
@@ -110,32 +143,36 @@ def render_index(projects: list[dict]) -> str:
     lines = [f"当前收录 **{len(projects)}** 个项目，按三位编号升序排列。", ""]
     if not projects:
         lines.append(
-            "暂无研究项目。首个项目将从 **001** 开始；添加后，这里会展示项目摘要、预览图片、研究状态和相关入口。"
+            "暂无研究项目。首个项目将从 **001** 开始；添加后，这里会展示项目摘要、目标源库、研究状态和相关入口。"
         )
         return "\n".join(lines)
     lines.extend([
-        "| 编号 | 项目 / 研究摘要 | 图片预览 | 研究状态 | 相关入口 |",
+        "| 编号 | 项目 / 研究摘要 | 目标源库 | 研究状态 | 相关入口 |",
         "| --- | --- | --- | --- | --- |",
     ])
     for project in projects:
         path = f"./projects/{project['directory']}"
         name = markdown_text(project["name"])
-        summary = markdown_text(project["summary"])
+        sections = validate_summary_sections(project, project["directory"])
+        summary = "<br>".join(
+            f"**{markdown_text(section['label'])}：** {markdown_text(section['text'])}"
+            for section in sections
+        ) if sections else markdown_text(project["summary"])
         tags = " · ".join(markdown_text(tag) for tag in project["tags"])
-        intro = f"**[{name}]({path}/README.md)**<br>{summary}"
+        intro = f"**[{name}]({path}/README.md)**<br><br>{summary}"
         if tags:
-            intro += f"<br>{tags}"
-        caption = markdown_text(project["preview_caption"])
-        image_src = link_url(f"{path}/{project['preview']}")
-        alt = html.escape(project["preview_caption"], quote=True).replace("|", "&#124;")
-        preview = f'<img src="{image_src}" alt="{alt}" width="180"><br>{caption}'
-        entries = f"[研究文档]({path}/README.md) · [原仓库]({link_url(project['source_url'])})"
+            intro += f"<br><br>{tags}"
+        source_url = project["source_url"]
+        source_name = markdown_text(source_repository_name(source_url))
+        source_owner = markdown_text(urlsplit(source_url).path.strip("/").split("/")[0])
+        source = f"[{source_name}]({link_url(source_url)})<br>{source_owner}"
+        entries = f"[研究文档]({path}/README.md)"
         if project["demo_url"]:
-            entries += f" · [在线演示]({link_url(project['demo_url'])})"
+            entries += f"<br>[在线演示]({link_url(project['demo_url'])})"
         else:
             entries += "<br>演示未部署"
         lines.append(
-            f"| **{project['id']}** | {intro} | {preview} | {STATUSES[project['status']]} | {entries} |"
+            f"| **{project['id']}** | {intro} | {source} | {STATUSES[project['status']]} | {entries} |"
         )
     return "\n".join(lines)
 
