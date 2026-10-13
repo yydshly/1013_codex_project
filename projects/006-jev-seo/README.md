@@ -6,7 +6,7 @@
 
 最值得复用的不只是规则名称，而是“检查什么、需要哪些材料、如何触发或评分、怎样解释和处理”的方法。价值在于形成可复用、可定制、可核对的检查清单，将审查标准与模型供应商分开。对我们而言，可用于自己网页的发布复核、内容改进和模型比较，再逐步形成更完整的质量检查流程；真实效果、复核时间和成本仍需验证。
 
-[返回项目索引](../../README.md) · [上游仓库](https://github.com/AgriciDaniel/jev-seo) · [中文导读网页](web/index.html) · [使用说明](experiments/README.md) · [来源与改动](experiments/SOURCE.md)
+[返回项目索引](../../README.md) · [上游仓库](https://github.com/AgriciDaniel/jev-seo) · [在线导读与规则手册](https://yydshly.github.io/1013_codex_project/006-jev-seo/) · [网页源码](web/index.html) · [使用说明](experiments/README.md) · [来源与改动](experiments/SOURCE.md)
 
 ## 完整理解网页
 
@@ -14,7 +14,7 @@
 
 规则可搜索、按领域和性质筛选、展开条件与说明。每条规则解释“检查什么、怎样触发、如何处理、什么时候需要结合上下文”，并链接固定版本源码；模型维度保留选项、评分档位和未知状态。场景明确输入、检查重点、输出、建议路线与限制。提供 [规则与标准 JSON](web/catalog.json)、[审查提示词](web/review-prompt.txt)，以及浏览器打印入口。
 
-网页是研究导读与交互示意，不现场执行扫描或模型调用。实际审查用 `experiments/`。网页交互和响应布局已本地检查，尚未部署公网；运行方式见 [网页说明](web/README.md)，证据见 [展示验证记录](experiments/results/web-verification.md)。
+网页是研究导读与交互示意，不现场执行扫描或模型调用。实际审查用 `experiments/`。2026-10-14 已发布到 GitHub Pages，首页、下载文件与图片均 HTTP 200，资源与提交一致；公网规则检索及回跳已验证，手机布局已本地检查。运行方式见 [网页说明](web/README.md)，证据见 [展示验证记录](experiments/results/web-verification.md) 与 [公网发布记录](experiments/results/publication-2026-10-14.md)。
 
 ### 一张图汇总理解
 
@@ -123,7 +123,7 @@ flowchart LR
 | 环境 | Windows，Python 3.10.11 |
 | 已用依赖 | requests 2.33.1、beautifulsoup4 4.14.3、lxml 6.1.1 |
 | 可选依赖 | 当前有 Playwright 1.59.0；采集器的真实网站动态渲染未验证 |
-| 状态 | 研究中；实验已完成离线验证，未部署在线演示 |
+| 状态 | 研究中；实验已完成离线验证，静态导读已发布；真实网站审查与模型效果仍待验证 |
 
 ## 已验证与未验证
 

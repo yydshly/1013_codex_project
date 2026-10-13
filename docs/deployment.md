@@ -31,6 +31,8 @@ https://yydshly.github.io/1013_codex_project/
 
 项目 005 于 2026-10-14 随提交 `393ea14b713595e994fe5a3ed46bcfab08d91e34` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38433870276)成功。[WireGuard Install 理解网页](https://yydshly.github.io/1013_codex_project/005-wireguard-install/)明确说明自建 VPN 的能力、UDP 加密 IP 隧道与网关转发原理、两端职责、部署方法、个人价值、使用场景及扩展方向。首页保留九项完整摘要并使用本次研究生成的完整原理图；10 项公开资源均 HTTP 200，内容与提交或构建快照一致，公网交互已验证。静态网页发布不等于真实 VPN 服务部署，详细范围见 [项目 005 发布记录](../projects/005-wireguard-install/experiments/results/publication-2026-10-14.md)。
 
+项目 006 于 2026-10-14 随提交 `8edf844d3830a0994805c5d57db461bdf8f8f492` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38436528319)成功。[Jev SEO 规则与模型审查导读](https://yydshly.github.io/1013_codex_project/006-jev-seo/)明确定位为网页质量检查的基础框架，并说明还需补充实际交互、手机布局、无障碍、业务功能和后端检查。完整展示 52 条规则、19 个模型维度、参考提取、定制方法、8 类场景、能力与价值；首页与详情页沿用本次生成的理解总览图。15 个公开地址均 HTTP 200，9 个项目资源与提交 blob 一致，公网规则检索、清除、回跳及图片加载已验证，全部已有演示入口保留。静态网页发布不证明真实审查或模型效果；详见 [项目 006 发布记录](../projects/006-jev-seo/experiments/results/publication-2026-10-14.md)。
+
 子项目静态源文件保存在 `projects/编号-slug/web/`。`scripts/build_site.py` 使用 Python 标准库，将可发布的原生静态项目汇集为一个完整站点：
 
 ```text
