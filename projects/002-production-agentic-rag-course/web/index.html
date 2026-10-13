@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f0">
+  <meta name="description" content="用一张总览图理解论文 RAG 的能力、价值、原理、架构、使用场景与扩展方向，再从自己的资料开始构建知识库。">
+  <title>从资料到知识库 · RAG 项目中文导读</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#overview">跳到正文</a>
+  <header class="site-header">
+    <a class="brand" href="#overview" aria-label="RAG 项目导读首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M5 6h7v16H5zM16 6h7v16h-7z" stroke="currentColor" stroke-width="1.6"/><path d="M8 10h2M8 14h2M19 10h2M19 14h2M12 22l2-2 2 2" stroke="currentColor" stroke-width="1.6"/></svg></span><span>项目研究室<small>GITHUB PROJECT NOTES</small></span></a>
+    <div class="header-right"><span class="project-number">研究项目 <b>002</b></span><a class="source-link" href="https://github.com/jamwithai/production-agentic-rag-course/tree/424a0eb99edf841994f2a9a053912b489d2a94ff" target="_blank" rel="noopener noreferrer">原项目 <span aria-hidden="true">↗</span></a></div>
+  </header>
+
+  <div class="page-shell">
+    <aside class="sidebar">
+      <div class="sidebar-heading">阅读导航 <span>GUIDE</span></div>
+      <nav aria-label="章节导航">
+        <a class="nav-link active" href="#overview"><span>01</span>先认识这个项目</a>
+        <a class="nav-link" href="#understanding"><span>02</span>共识与一图总览</a>
+        <a class="nav-link" href="#value"><span>03</span>能力与价值</a>
+        <a class="nav-link" href="#pipeline"><span>04</span>从资料到 RAG</a>
+        <a class="nav-link" href="#scenarios"><span>05</span>适用场景</a>
+        <a class="nav-link" href="#architecture"><span>06</span>架构与配置</a>
+        <a class="nav-link" href="#use-plan"><span>07</span>我们的使用路线</a>
+        <a class="nav-link" href="#evidence"><span>08</span>边界与研究依据</a>
+      </nav>
+      <div class="sidebar-note"><span class="status-dot"></span><strong>源码已分析</strong><p>普通问答与 Agentic<br>均待实际复现。</p><small>研究日期 · 2026.10.13</small></div>
+    </aside>
+
+    <main>
+      <section id="overview" class="hero page-section">
+        <div class="eyebrow"><span></span> PRODUCTION AGENTIC RAG COURSE</div>
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <h1>让资料可以被找到，<br>让回答<span>有据可查。</span></h1>
+            <p class="hero-description">把论文与文档整理成知识库。先检索相关内容，<br class="desktop-break">再让模型依据资料回答，并回到原文核对。</p>
+            <div class="hero-actions"><a class="button primary" href="#understanding">一图看懂我们的理解 <span aria-hidden="true">↗</span></a><a class="button quiet" href="#use-plan">如何开始使用 <span aria-hidden="true">→</span></a></div>
+            <div class="hero-meta"><span>课程 + 应用参考</span><span>arXiv 论文为默认资料</span><span>可适配其他领域</span></div>
+          </div>
+          <div class="hero-visual" role="img" aria-label="结构示意：已有论文与文档进入知识索引，再检索出相关片段供模型回答">
+            <div class="visual-label">你的资料，成为回答的依据</div>
+            <div class="paper-stack"><div class="paper paper-back"></div><div class="paper paper-middle"></div><div class="paper paper-front"><span class="paper-tag">资料 / DOCUMENT</span><i></i><i></i><i></i><i></i><div class="paper-highlight"></div><i></i></div></div>
+            <div class="visual-connector"><span></span><b aria-hidden="true">↓</b></div>
+            <div class="index-visual"><span class="index-icon" aria-hidden="true">⌘</span><div><strong>知识索引</strong><small>原文片段 · 来源 · 语义向量</small></div><span class="index-signal" aria-hidden="true"></span></div>
+            <div class="visual-answer"><span class="answer-dot" aria-hidden="true"></span><span>检索相关片段，再生成回答</span><b aria-hidden="true">↗</b></div>
+            <span class="visual-footnote">流程示意 · 非真实查询结果</span>
+          </div>
+        </div>
+        <div class="overview-strip"><span class="strip-label">一句话理解</span><p><strong>论文是它的默认应用场景，搭建完整 RAG 的方法和架构是我们主要参考的价值。</strong>以此为基础，逐步把自己的资料变成能查询、能回答、能追溯依据的知识系统。</p></div>
+      </section>
+
+      <section id="understanding" class="page-section understanding-section">
+        <div class="section-heading"><div><div class="eyebrow">02 / OUR SHARED UNDERSTANDING</div><h2>论文是案例，<br>我们参考完整的 RAG 工程。</h2></div><p>把我们的讨论归纳成一张图，<br>从项目定位一直看到使用与扩展。</p></div>
+        <ol class="understanding-principles">
+          <li><span>01 / 上游做什么</span><h3>围绕论文实现完整 RAG</h3><p>默认收集 arXiv AI 论文，处理文档、建立索引，再检索片段供模型回答。当前能力来自源码分析，运行效果待验证。</p></li>
+          <li><span>02 / 我们参考什么</span><h3>完整链路与工程分工</h3><p>学习资料、数据库、搜索索引、模型、追踪和缓存如何衔接。个人价值需要通过检索质量、核查时间与成本来衡量。</p></li>
+          <li><span>03 / 我们如何使用</span><h3>从自己的问题与资料开始</h3><p>先确定主题并获取可靠资料，再整理、解析、建库、查询与核对。农业等新领域需适配资料入口、字段和领域规则。</p></li>
+        </ol>
+        <figure class="understanding-figure">
+          <a class="understanding-image-link" href="./assets/rag-understanding.png" target="_blank" rel="noopener noreferrer" aria-label="打开 RAG 理解总览原图，可放大查看所有文字"><img src="./assets/rag-understanding.png" width="2400" height="3500" alt="论文 RAG 与我们的知识库理解总览：定位、能力、价值；先建库再问答的原理与组件；AI 论文、农业、技术资料、项目研究四类场景；准备资料、跑通普通 RAG、验证后扩展的路线；资料更新、中文表格、本地部署、权限、Agentic 与报告写作等方向；解析、检索、回答与工程验收。详细文字版在图下。" loading="lazy" decoding="async"></a>
+          <figcaption><strong>一张图，串起我们对这个项目的理解。</strong><span>本仓库整理并直接绘制 · 2026-10-13 · 依据固定上游版本；图中适配与扩展方向均待实现和验证。</span></figcaption>
+        </figure>
+        <div class="understanding-actions"><a class="button primary" href="./assets/rag-understanding.png" download="论文-RAG-理解总览.png">下载高清 PNG <span aria-hidden="true">↓</span></a><a class="button quiet" href="./assets/rag-understanding.png" target="_blank" rel="noopener noreferrer">打开原图放大看 <span aria-hidden="true">↗</span></a><a class="button quiet" href="./assets/rag-understanding.svg" download="论文-RAG-理解总览.svg">下载矢量 SVG <span aria-hidden="true">↓</span></a></div>
+        <details class="understanding-transcript"><summary>阅读文字版：价值、原理、能力与扩展 <span aria-hidden="true">＋</span></summary>
+          <div class="understanding-text-grid">
+            <article><h3>定位与价值</h3><p>这是以 arXiv AI 论文为默认资料的课程与参考工程。论文是示例领域，采集、文档处理、检索、模型问答和维护的方法可用于构建自己的知识系统。它的实际收益需要用我们的资料和问题验证。</p></article>
+            <article><h3>原理与架构</h3><p>建库：收集整理 → Docling 解析 → PostgreSQL 保存正文与元信息 → 切块 → Jina 向量化 → OpenSearch 索引。问答：用户问题 → BM25 与向量检索 → RRF 融合排名 → 相关片段与问题一起交给 Ollama → 回答与来源。</p><p>RAG 把资料放进本次模型输入，无需为这条链路重新训练模型。知识覆盖范围取决于已入库资料，原文用于核对模型结论。</p></article>
+            <article><h3>能力与边界</h3><p>源码包含论文采集、解析切块、混合检索、普通问答和来源链接，以及追踪、普通问答缓存与多个入口。Agentic 增加领域判断、相关性检查、查询改写和重试，默认最多检索两次；参数、模型接入、来源与追踪闭环仍需复现核对。</p><p>Airflow 负责采集调度，Redis 缓存普通问答，Langfuse 追踪过程；FastAPI、Gradio 和 Telegram 提供使用入口。</p></article>
+            <article><h3>场景与适配</h3><p>上游默认用于 AI 论文研究。农业可接入论文、种植手册和试验记录，保留作物、地区、土壤、气候与实验条件；技术资料要区分型号、版本与权限；项目研究要保留仓库、commit 和验证状态。新领域需要调整资料入口、解析规则、检索字段与领域判断。</p></article>
+            <article><h3>我们的使用路线</h3><p>选择一个明确主题，准备一批可靠文档与 10 个真实问题，记录来源和期待找到的依据。跑通整理、解析、索引、搜索与普通问答，逐条核查引用。保存基线和验证记录后，再扩展 Agentic、交互入口或报告生成。</p><p>最终积累的是资料集合、可检索知识库、问答接口和验证记录，可继续作为后续应用的基础。</p></article>
+            <article><h3>可扩展方向</h3><p>新资料入口和定期更新；中文、扫描件、表格与 OCR；本地向量模型和私有部署；权限、版本与领域筛选；Agentic 与普通 RAG 对比评测；知识库问答、专题报告和与项目 001 长文写作的衔接。以上均为后续实现和验证方向。</p></article>
+            <article class="understanding-verification"><h3>如何判断是否真的有用</h3><p>解析是否完整？检索是否找到正确资料与版本？回答结论是否得到引用支持，资料不足时是否说明？新资料更新、缓存失效、耗时、成本与故障恢复是否可接受？当前已完成源码研究与导读，尚未运行上游；本页未连接真实论文库或模型。</p></article>
+          </div>
+        </details>
+      </section>
+
+      <section id="value" class="page-section">
+        <div class="section-heading"><div><div class="eyebrow">03 / CAPABILITY & VALUE</div><h2>它能做什么，<br>对我们有什么用？</h2></div><p>把资料处理和模型调用连成流程，<br>让研究成果更容易积累与复用。</p></div>
+        <div class="capability-list">
+          <article><span class="list-number">01</span><div><h3>准备可搜索的资料</h3><p>自动采集论文、解析 PDF、切分内容并建立索引。</p></div><span class="row-result">从文件到知识库</span></article>
+          <article><span class="list-number">02</span><div><h3>找到相关内容并回答</h3><p>结合关键词与语义检索，把相关片段提供给模型。</p></div><span class="row-result">从问题到资料依据</span></article>
+          <article><span class="list-number">03</span><div><h3>检查结果，改善检索</h3><p>Agentic 流程评估资料相关性，必要时改写问题再检索。</p></div><span class="row-result">默认最多检索两次</span></article>
+          <article><span class="list-number">04</span><div><h3>观察与维护整个过程</h3><p>已有追踪、普通问答缓存，以及网页和 Telegram 入口。</p></div><span class="row-result">质量与性能仍需实测</span></article>
+        </div>
+        <div class="value-grid">
+          <article><span class="value-symbol" aria-hidden="true">↗</span><h3>积累自己的知识资料</h3><p>把研究笔记、论文、技术文档放进持续维护的知识库，按问题找到有用内容。</p></article>
+          <article><span class="value-symbol" aria-hidden="true">◎</span><h3>形成判断 AI 项目的方法</h3><p>检查资料是否找对、引用是否支持回答、重试是否有效，而不只观察是否生成了文字。</p></article>
+          <article><span class="value-symbol" aria-hidden="true">⤴</span><h3>作为后续应用的基础</h3><p>适配后可探索资料助手、专题报告、研究对比，以及检索依据与长文生成的衔接。</p></article>
+        </div>
+        <p class="section-note">当前价值判断来自源码研究；实际节省的时间、回答质量与运行成本，需要用我们的资料和问题验证。</p>
+      </section>
+
+      <section id="pipeline" class="page-section pipeline-section">
+        <div class="section-heading"><div><div class="eyebrow">04 / FROM RESOURCES TO RAG</div><h2>一条路径，<br>把资源变成可以使用的知识。</h2></div><p>点击每一步，查看准备内容、处理过程<br>和这一阶段应该拿到的结果。</p></div>
+        <div class="pipeline-board">
+          <div class="stage-list" role="group" aria-label="资料到 RAG 的六个步骤">
+            <button class="stage-button selected" type="button" data-stage="0" aria-pressed="true" aria-controls="stage-detail"><span>01</span><strong>获取资料</strong><small>确定范围与来源</small></button>
+            <button class="stage-button" type="button" data-stage="1" aria-pressed="false" aria-controls="stage-detail"><span>02</span><strong>整理文档</strong><small>保留来源与版本</small></button>
+            <button class="stage-button" type="button" data-stage="2" aria-pressed="false" aria-controls="stage-detail"><span>03</span><strong>解析切块</strong><small>提取可用的内容</small></button>
+            <button class="stage-button" type="button" data-stage="3" aria-pressed="false" aria-controls="stage-detail"><span>04</span><strong>建立知识库</strong><small>保存与建立索引</small></button>
+            <button class="stage-button" type="button" data-stage="4" aria-pressed="false" aria-controls="stage-detail"><span>05</span><strong>检索与回答</strong><small>根据资料处理问题</small></button>
+            <button class="stage-button" type="button" data-stage="5" aria-pressed="false" aria-controls="stage-detail"><span>06</span><strong>持续验证</strong><small>更新与核对效果</small></button>
+          </div>
+          <div id="stage-detail" class="stage-detail" aria-live="polite" aria-atomic="true">
+            <div class="stage-detail-main"><span id="stage-kicker" class="detail-kicker">第一步 / 获取资料</span><h3 id="stage-title">先确定要研究什么，再收集资料。</h3><p id="stage-description">围绕明确主题收集论文、研究笔记或技术文档。上游自带 arXiv AI 论文采集，其他领域需要适配来源或增加文件导入入口。</p><div class="stage-handoff"><span>下一步拿到</span><strong id="stage-output">一批有来源、可读取的资料文件</strong></div></div>
+            <div class="stage-detail-side"><div><span>我们要准备</span><p id="stage-input">研究主题、资源入口、资料范围与文件。</p></div><div><span>这一阶段核对</span><p id="stage-check">文件是否完整？资料是否覆盖想问的问题？来源能否回溯？</p></div><span id="stage-status" class="detail-status">上游有默认采集 · 新来源需适配</span></div>
+          </div>
+        </div>
+        <div class="principle-note"><span aria-hidden="true">↳</span><p><strong>RAG 的关键：</strong>把找到的资料作为本次模型输入。检索决定模型看到什么，原文与来源帮助我们核对回答。</p></div>
+      </section>
+
+      <section id="scenarios" class="page-section">
+        <div class="section-heading"><div><div class="eyebrow">05 / SCENARIOS</div><h2>从论文助手，<br>迁移到我们的实际问题。</h2></div><p>底层流程可复用。换领域时，<br>资料入口、文档结构和领域规则一起调整。</p></div>
+        <div class="scenario-tabs" role="group" aria-label="选择使用场景">
+          <button type="button" class="selected" data-scenario="agriculture" aria-pressed="true" aria-controls="scenario-panel"><span aria-hidden="true">❋</span>农业与种植研究</button>
+          <button type="button" data-scenario="documents" aria-pressed="false" aria-controls="scenario-panel"><span aria-hidden="true">▤</span>产品与技术资料</button>
+          <button type="button" data-scenario="research" aria-pressed="false" aria-controls="scenario-panel"><span aria-hidden="true">⌘</span>GitHub 项目研究</button>
+        </div>
+        <div id="scenario-panel" class="scenario-panel" aria-live="polite" aria-atomic="true">
+          <div class="scenario-story"><span id="scenario-eyebrow" class="detail-kicker">农业场景 / 适配方案</span><h3 id="scenario-title">建立一个农业论文资料助手。</h3><p id="scenario-description">围绕作物、地区和研究主题收集论文，保留实验条件。用检索辅助理解已有研究，再回到原文核对。</p><div class="scenario-adaptation"><strong>迁移时要做</strong><p id="scenario-adapt">接入农业资料或增加本地 PDF 导入；调整领域校验；验证中文、表格与实验条件提取。</p></div></div>
+          <div class="scenario-ingredients"><div><span>资料从哪里来</span><p id="scenario-resources">已获取的农业论文 PDF、研究笔记、可靠的技术资料。</p></div><div><span>文档保留什么</span><p id="scenario-metadata">题名、作者、年份、来源、作物、地区与原文位置；缺失信息明确标注。</p></div><div><span>使用时验证什么</span><p id="scenario-validation">回答能否找到原文支持？不同地区与实验条件是否被混淆？表格数据是否完整？</p></div></div>
+        </div>
+        <div class="example-box">
+          <div class="example-top"><span class="example-label">同一个问题，两种用法</span><span class="illustration-label">流程示意 · 未连接论文库或模型</span></div>
+          <p id="example-question" class="example-question">这些论文分别比较了哪些灌溉方式，实验条件有什么差异？</p>
+          <div class="example-bottom"><div class="mode-buttons" role="group" aria-label="选择搜索或 RAG 问答"><button type="button" class="selected" data-mode="search" aria-pressed="true" aria-controls="example-output">搜索资料</button><button type="button" data-mode="rag" aria-pressed="false" aria-controls="example-output">RAG 问答</button></div><div id="example-output" aria-live="polite" aria-atomic="true"><strong id="example-output-title">返回相关论文与原文片段</strong><p id="example-output-copy">找到灌溉试验相关内容，展示资料标题、章节和来源位置，由我们阅读与比较。</p></div></div>
+        </div>
+      </section>
+
+      <section id="architecture" class="page-section architecture-section">
+        <div class="section-heading"><div><div class="eyebrow">06 / SYSTEM & SETTINGS</div><h2>资料、索引、模型，<br>各自负责什么？</h2></div><p>知识库包含内容与搜索结构，<br>模型在查询时使用检索到的资料。</p></div>
+        <div class="architecture-layout">
+          <div class="architecture-map" role="img" aria-label="架构示意：文档经 Docling 解析并存入 PostgreSQL，片段经 Jina 向量化建立 OpenSearch 索引，问题检索索引后交给 Ollama 生成回答">
+            <div class="architecture-row"><div class="architecture-node"><small>资料处理</small><strong>Docling</strong><span>PDF → 文本与章节</span></div><span class="architecture-arrow" aria-hidden="true">→</span><div class="architecture-node"><small>内容存储</small><strong>PostgreSQL</strong><span>论文内容与元信息</span></div></div>
+            <div class="architecture-divider"><span>切成片段 · Jina 生成向量</span><b aria-hidden="true">↓</b></div>
+            <div class="architecture-row"><div class="architecture-node accent-node"><small>搜索索引</small><strong>OpenSearch</strong><span>片段 + 向量 + 来源</span></div><span class="architecture-arrow" aria-hidden="true">→</span><div class="architecture-node"><small>回答生成</small><strong>Ollama</strong><span>问题 + 相关片段 → 答案</span></div></div>
+            <div class="architecture-helpers"><span>Airflow：采集调度</span><span>Redis：普通问答缓存</span><span>Langfuse：过程追踪</span></div>
+          </div>
+          <div class="retrieval-explanation"><span class="detail-kicker">检索的两条路</span><h3>既匹配关键词，<br>也寻找相近的意思。</h3><dl><div><dt>BM25 关键词</dt><dd>寻找术语、缩写与名称的匹配。</dd></div><div><dt>向量语义搜索</dt><dd>寻找表达不同、语义接近的片段。</dd></div><div><dt>RRF 排名融合</dt><dd>合并两路排名，选取相关片段。</dd></div></dl></div>
+        </div>
+        <details class="configuration-details"><summary>展开：默认设置与 Agentic 工作流 <span aria-hidden="true">＋</span></summary><div class="configuration-body"><div class="table-scroll"><table><caption>固定研究版本的默认值与源码配置</caption><thead><tr><th>设置</th><th>当前配置</th><th>实际意义</th></tr></thead><tbody><tr><td>资料领域</td><td>arXiv / cs.AI</td><td>农业等领域需要适配来源与领域规则</td></tr><tr><td>切块</td><td>章节优先；词数回退 600 / 重叠 100</td><td>保留内容结构，中文处理需另行验证</td></tr><tr><td>向量化</td><td>Jina v3 / 1024 维</td><td>模型与索引维度匹配，更换后重新向量化</td></tr><tr><td>问答检索</td><td>默认 top_k = 3，混合检索</td><td>请求 3 个片段，可能来自同一篇论文</td></tr><tr><td>回答模型</td><td>Ollama / llama3.2:1b</td><td>生成质量取决于模型与检索资料</td></tr><tr><td>普通问答缓存</td><td>精确匹配 / 默认 6 小时</td><td>相同问题与参数可复用；更新资料后的失效待测</td></tr></tbody></table></div><div class="agent-flow"><strong>Agentic 增加了流程判断</strong><p>领域校验 → 检索 → 资料相关性检查 → 相关则回答；不相关则改写并重试。默认最多检索两次。</p><small>固定版本还有参数传递、来源返回与追踪关联缺口。Gradio 与 Telegram 当前走普通 RAG。上游功能均待实际复现。</small></div><a class="inline-link" href="https://github.com/jamwithai/production-agentic-rag-course/blob/424a0eb99edf841994f2a9a053912b489d2a94ff/src/config.py" target="_blank" rel="noopener noreferrer">查看固定版本配置 ↗</a></div></details>
+      </section>
+
+      <section id="use-plan" class="page-section">
+        <div class="section-heading"><div><div class="eyebrow">07 / OUR STARTING POINT</div><h2>先做一个小而可验证的知识库，<br>再把它作为应用基础。</h2></div><p>从我们真正要问的问题出发，<br>用一批资料验证检索与引用。</p></div>
+        <div class="roadmap">
+          <article><span>01 / 先准备</span><h3>主题与文档集合</h3><p>选择一个明确主题，准备一批真实资料与 10 个实际问题。整理来源、版本和原文位置，明确期待找到什么。</p><strong>产物：资料清单 + 问题清单</strong></article>
+          <article><span>02 / 跑通基础</span><h3>最小检索与问答</h3><p>在独立环境固定上游版本，适配资料入口，跑通解析、索引、搜索与普通问答。逐条核对回答和原文。</p><strong>产物：可重复的查询与验证记录</strong></article>
+          <article><span>03 / 再扩展</span><h3>成为后续应用的基础</h3><p>验证 Agentic 与运行维护后，再探索专题资料助手、研究报告，以及与项目 001 长文生成流程的衔接。</p><strong>产物：有依据、可核验的应用流程</strong></article>
+        </div>
+        <div class="plan-box"><div class="plan-intro"><span class="detail-kicker">我们的准备清单</span><h3>把理解变成下一步行动。</h3><p>勾选只是记录准备进度，不代表系统已通过验证。</p><div class="plan-progress" aria-live="polite"><span id="plan-count">0 / 6 项已准备</span><div class="progress-track"><span id="plan-progress-fill"></span></div></div></div><div class="plan-checklist"><label><input type="checkbox" data-plan="topic"><span>确定主题、使用人群与 10 个真实问题</span></label><label><input type="checkbox" data-plan="resources"><span>获取资料，整理来源与版本清单</span></label><label><input type="checkbox" data-plan="documents"><span>抽查解析结果、表格和文档结构</span></label><label><input type="checkbox" data-plan="index"><span>准备模型与索引配置，跑通检索</span></label><label><input type="checkbox" data-plan="answers"><span>验证回答依据、来源与无资料分支</span></label><label><input type="checkbox" data-plan="baseline"><span>保存运行基线，再做扩展与比较</span></label></div></div>
+        <div class="plan-actions"><p id="plan-storage-note">准备进度保存在当前浏览器；可以下载成文档。</p><button type="button" id="download-plan" class="button primary">下载我的使用路线 <span aria-hidden="true">↓</span></button></div>
+      </section>
+
+      <section id="evidence" class="page-section evidence-section">
+        <div class="section-heading"><div><div class="eyebrow">08 / BOUNDARIES & SOURCES</div><h2>看清它的基础，<br>也保留验证的空间。</h2></div><span class="evidence-badge"><span class="status-dot"></span>核心源码已核对</span></div>
+        <div class="faq-list">
+          <details><summary>收集 PDF 后，就能立即搜索吗？<span aria-hidden="true">＋</span></summary><p>资料经过解析、切块和索引后才进入搜索范围。新增资料也要走同样的处理流程；解析失败或未建立索引的内容不会自动可用。</p></details>
+          <details><summary>农业、种地相关资料可以使用吗？<span aria-hidden="true">＋</span></summary><p>可以沿用底层架构。默认采集与领域校验围绕 AI 论文，需要接入农业资料或增加文件导入，调整领域规则，并验证中文、表格和实验条件提取。这里展示的是适配方案，尚未构建农业知识库。</p></details>
+          <details><summary>它如何决定回答的范围？<span aria-hidden="true">＋</span></summary><p>检索范围取决于已入库并建立索引的资料。提示词要求依据提供的片段回答，但提示词本身不能证明引用正确，应回到原文核对。</p></details>
+          <details><summary>生成模型本地运行，整个过程都离线吗？<span aria-hidden="true">＋</span></summary><p>Ollama 在本地运行，当前 Jina 客户端把问题和论文文本发送到外部向量化 API。私有资料的部署方案需要同时考虑检索、模型和追踪服务。</p></details>
+          <details><summary>这个网页现在能查询真实论文吗？<span aria-hidden="true">＋</span></summary><p>当前是理解汇总与使用规划页。步骤、场景切换和准备清单可交互；没有接入数据库、真实论文检索或模型。真实系统需要完成独立环境复现与资料入库。</p></details>
+        </div>
+        <div class="source-grid"><a href="https://github.com/jamwithai/production-agentic-rag-course/blob/424a0eb99edf841994f2a9a053912b489d2a94ff/README.md" target="_blank" rel="noopener noreferrer"><span>课程与项目定位</span><strong>上游 README ↗</strong></a><a href="https://github.com/jamwithai/production-agentic-rag-course/blob/424a0eb99edf841994f2a9a053912b489d2a94ff/src/services/indexing/hybrid_indexer.py" target="_blank" rel="noopener noreferrer"><span>资料如何进入索引</span><strong>切块与向量化实现 ↗</strong></a><a href="https://github.com/jamwithai/production-agentic-rag-course/blob/424a0eb99edf841994f2a9a053912b489d2a94ff/src/routers/ask.py" target="_blank" rel="noopener noreferrer"><span>检索与普通问答</span><strong>问答接口源码 ↗</strong></a><a href="https://github.com/jamwithai/production-agentic-rag-course/blob/424a0eb99edf841994f2a9a053912b489d2a94ff/src/services/agents/agentic_rag.py" target="_blank" rel="noopener noreferrer"><span>决策与重试路径</span><strong>LangGraph 工作流 ↗</strong></a></div>
+        <div class="verification-note"><strong>目前已完成：源码研究与理解汇总。</strong><p>后续验证：环境与采集、解析与索引、检索质量、回答引用、Agentic 分支、缓存与故障恢复。仓库中已整理 16 项复现任务；上游运行效果尚未验证。</p></div>
+      </section>
+
+      <footer class="site-footer"><div><strong>002 / RAG 项目中文导读</strong><p>课程与原实现：Jam With AI · MIT License<br>本页：研究理解、流程示意与适配计划</p></div><div class="footer-right"><a href="https://github.com/jamwithai/production-agentic-rag-course/commit/424a0eb99edf841994f2a9a053912b489d2a94ff" target="_blank" rel="noopener noreferrer">固定研究版本 424a0eb ↗</a><button type="button" id="print-guide">打印 / 保存为 PDF</button><a href="#overview">回到顶部 ↑</a></div></footer>
+    </main>
+  </div>
+</body>
+</html>

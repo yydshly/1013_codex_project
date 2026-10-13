@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 3500" width="2400" height="3500" role="img" aria-labelledby="figure-title figure-desc">
+  <title id="figure-title">论文 RAG 与我们的知识库：理解总览</title>
+  <desc id="figure-desc">项目定位、能力、价值、建库与问答原理、组件职责、适用场景、使用路线、扩展和验收。依据上游 commit 424a0eb；所有上游运行效果尚未复现，新领域和扩展方向待实现验证。</desc>
+  <rect x="0" y="0" width="2400" height="3500" rx="0" fill="#f5f6f0" />
+  <text x="96" y="60" fill="#69756d" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">研究项目 002  /  PRODUCTION AGENTIC RAG COURSE</text>
+  <text x="96" y="125" fill="#243d34" font-size="76" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">一图看懂：论文 RAG 与我们的知识库</text>
+  <text x="96" y="231" fill="#264d3d" font-size="39" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">论文是案例  ·  RAG 工程是参考  ·  自有资料是基础</text>
+  <line x1="96" y1="310" x2="2304" y2="310" stroke="#d4deca" stroke-width="3" />
+  <rect x="96" y="342" width="68" height="58" rx="12" fill="#264d3d" />
+  <text x="108" y="351" fill="#d7e9b7" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">01</text>
+  <text x="186" y="345" fill="#243d34" font-size="44" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">定位、能力与价值</text>
+  <rect x="96" y="425" width="716" height="275" rx="16" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="123" y="449" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">项目定位</text>
+  <text x="123" y="512" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">以 arXiv AI 论文为默认资料</text>
+  <text x="123" y="555" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">课程＋应用参考工程</text>
+  <text x="123" y="598" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">串起资料处理、检索与问答</text>
+  <text x="123" y="641" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">学习完整 RAG 的搭建方法</text>
+  <rect x="842" y="425" width="716" height="275" rx="16" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="869" y="449" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">实现能力｜源码存在</text>
+  <text x="869" y="512" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">采集论文、解析切块、建索引</text>
+  <text x="869" y="555" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">关键词＋语义混合检索</text>
+  <text x="869" y="598" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">模型问答与论文来源链接</text>
+  <text x="869" y="641" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">追踪、普通问答缓存、多入口</text>
+  <rect x="1588" y="425" width="716" height="275" rx="16" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="1615" y="449" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">我们的价值｜待实测</text>
+  <text x="1615" y="512" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">理解数据、检索与模型的衔接</text>
+  <text x="1615" y="555" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">把自己的资料变成知识库</text>
+  <text x="1615" y="598" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">为研究对比与资料助手打基础</text>
+  <text x="1615" y="641" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">用质量、时间和成本衡量收益</text>
+  <rect x="96" y="747" width="68" height="58" rx="12" fill="#264d3d" />
+  <text x="108" y="756" fill="#d7e9b7" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">02</text>
+  <text x="186" y="750" fill="#243d34" font-size="44" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">核心原理与架构</text>
+  <text x="96" y="822" fill="#264d3d" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">先建库｜把获取到的资料变成可检索的知识</text>
+  <rect x="96" y="877" width="510" height="184" rx="16" fill="#e9eee5" stroke="#d4deca" stroke-width="2" />
+  <text x="118" y="900" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">收集与整理</text>
+  <text x="118" y="957" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">arXiv 或适配新来源</text>
+  <text x="118" y="999" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">保留原文、来源与版本</text>
+  <line x1="618" y1="969" x2="650" y2="969" stroke="#264d3d" stroke-width="4" />
+  <polyline points="638,958 650,969 638,980" stroke="#264d3d" stroke-width="4" fill="none" />
+  <rect x="662" y="877" width="510" height="184" rx="16" fill="#e9eee5" stroke="#d4deca" stroke-width="2" />
+  <text x="684" y="900" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">解析与保存</text>
+  <text x="684" y="957" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">Docling 提取内容</text>
+  <text x="684" y="999" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">PostgreSQL 存正文与元信息</text>
+  <line x1="1184" y1="969" x2="1216" y2="969" stroke="#264d3d" stroke-width="4" />
+  <polyline points="1204,958 1216,969 1204,980" stroke="#264d3d" stroke-width="4" fill="none" />
+  <rect x="1228" y="877" width="510" height="184" rx="16" fill="#e9eee5" stroke="#d4deca" stroke-width="2" />
+  <text x="1250" y="900" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">切块与向量化</text>
+  <text x="1250" y="957" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">保留片段及原文位置</text>
+  <text x="1250" y="999" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">Jina API 生成语义向量</text>
+  <line x1="1750" y1="969" x2="1782" y2="969" stroke="#264d3d" stroke-width="4" />
+  <polyline points="1770,958 1782,969 1770,980" stroke="#264d3d" stroke-width="4" fill="none" />
+  <rect x="1794" y="877" width="510" height="184" rx="16" fill="#e9eee5" stroke="#d4deca" stroke-width="2" />
+  <text x="1816" y="900" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">建立搜索索引</text>
+  <text x="1816" y="957" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">OpenSearch</text>
+  <text x="1816" y="999" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">片段＋向量＋来源</text>
+  <text x="96" y="1101" fill="#264d3d" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">再使用｜每次问题都先检索，再让模型依据资料回答</text>
+  <rect x="96" y="1155" width="510" height="160" rx="16" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="118" y="1177" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">用户问题</text>
+  <text x="118" y="1233" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">只检索已入库的资料</text>
+  <line x1="618" y1="1235" x2="650" y2="1235" stroke="#264d3d" stroke-width="4" />
+  <polyline points="638,1224 650,1235 638,1246" stroke="#264d3d" stroke-width="4" fill="none" />
+  <rect x="662" y="1155" width="510" height="160" rx="16" fill="#264d3d" />
+  <text x="684" y="1177" fill="#d7e9b7" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">检索相关片段</text>
+  <text x="684" y="1233" fill="#ffffff" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">BM25＋向量检索</text>
+  <text x="684" y="1274" fill="#ffffff" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">RRF 合并两路排名</text>
+  <line x1="1184" y1="1235" x2="1216" y2="1235" stroke="#264d3d" stroke-width="4" />
+  <polyline points="1204,1224 1216,1235 1204,1246" stroke="#264d3d" stroke-width="4" fill="none" />
+  <rect x="1228" y="1155" width="510" height="160" rx="16" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="1250" y="1177" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">模型生成回答</text>
+  <text x="1250" y="1233" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">问题＋相关片段</text>
+  <text x="1250" y="1274" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">一起交给 Ollama</text>
+  <line x1="1750" y1="1235" x2="1782" y2="1235" stroke="#264d3d" stroke-width="4" />
+  <polyline points="1770,1224 1782,1235 1770,1246" stroke="#264d3d" stroke-width="4" fill="none" />
+  <rect x="1794" y="1155" width="510" height="160" rx="16" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="1816" y="1177" fill="#243d34" font-size="36" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">回答＋来源</text>
+  <text x="1816" y="1233" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">阅读结论并回看原文</text>
+  <text x="1816" y="1274" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">核对依据是否支持回答</text>
+  <rect x="96" y="1353" width="2208" height="108" rx="16" fill="#e2eadb" />
+  <text x="121" y="1369" fill="#243d34" font-size="33" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">RAG 的核心</text>
+  <text x="121" y="1415" fill="#43534c" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">把检索片段放进本次模型输入；无需重新训练模型，知识覆盖范围由已入库资料决定。</text>
+  <rect x="96" y="1490" width="2208" height="149" rx="16" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="121" y="1507" fill="#243d34" font-size="33" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">Agentic｜增加检索过程的判断与重试</text>
+  <text x="121" y="1555" fill="#43534c" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">领域判断 → 检索 → 检查相关性 → 回答；不相关则改写并重新检索。</text>
+  <text x="121" y="1602" fill="#69756d" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">默认最多检索两次；参数、模型接入、来源与追踪闭环仍需复现核对。</text>
+  <text x="96" y="1674" fill="#69756d" font-size="27" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">Airflow：采集调度   Redis：普通问答缓存   Langfuse：追踪   FastAPI / Gradio / Telegram：入口</text>
+  <rect x="96" y="1736" width="68" height="58" rx="12" fill="#264d3d" />
+  <text x="108" y="1745" fill="#d7e9b7" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">03</text>
+  <text x="186" y="1739" fill="#243d34" font-size="44" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">适用场景与必要适配</text>
+  <rect x="96" y="1818" width="2208" height="78" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <rect x="111" y="1832" width="156" height="48" rx="8" fill="#264d3d" />
+  <text x="124" y="1841" fill="#ffffff" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">上游默认</text>
+  <text x="291" y="1840" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">AI 论文研究</text>
+  <text x="645" y="1842" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">查找方法、比较研究，回到论文核对依据</text>
+  <rect x="96" y="1907" width="2208" height="78" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <rect x="111" y="1921" width="156" height="48" rx="8" fill="#e9eee5" />
+  <text x="124" y="1930" fill="#264d3d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">适配方向</text>
+  <text x="291" y="1929" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">农业与种植</text>
+  <text x="645" y="1931" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">论文、手册、试验记录；保留作物、地区、土壤、气候与实验条件</text>
+  <rect x="96" y="1996" width="2208" height="78" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <rect x="111" y="2010" width="156" height="48" rx="8" fill="#e9eee5" />
+  <text x="124" y="2019" fill="#264d3d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">适配方向</text>
+  <text x="291" y="2018" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">产品与技术资料</text>
+  <text x="645" y="2020" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">产品手册、规范、操作文档；区分型号、版本与使用者权限</text>
+  <rect x="96" y="2085" width="2208" height="78" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <rect x="111" y="2099" width="156" height="48" rx="8" fill="#e9eee5" />
+  <text x="124" y="2108" fill="#264d3d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">适配方向</text>
+  <text x="291" y="2107" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">GitHub 项目研究</text>
+  <text x="645" y="2109" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">README、源码分析、复现记录；保留仓库、commit 与验证状态</text>
+  <rect x="96" y="2239" width="68" height="58" rx="12" fill="#264d3d" />
+  <text x="108" y="2248" fill="#d7e9b7" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">04</text>
+  <text x="186" y="2242" fill="#243d34" font-size="44" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">我们如何开始</text>
+  <rect x="96" y="2320" width="716" height="211" rx="16" fill="#e9eee5" stroke="#d4deca" stroke-width="2" />
+  <text x="120" y="2345" fill="#243d34" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">1  确定问题并准备资料</text>
+  <text x="120" y="2403" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">一个明确主题＋一批可靠文档</text>
+  <text x="120" y="2444" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">＋10 个真实问题</text>
+  <text x="120" y="2485" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">保留来源与期待找到的依据</text>
+  <rect x="842" y="2320" width="716" height="211" rx="16" fill="#e9eee5" stroke="#d4deca" stroke-width="2" />
+  <text x="866" y="2345" fill="#243d34" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">2  跑通最小普通 RAG</text>
+  <text x="866" y="2403" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">整理 → 解析 → 索引</text>
+  <text x="866" y="2444" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">搜索 → 问答 → 核对引用</text>
+  <text x="866" y="2485" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">保存运行基线和验证记录</text>
+  <rect x="1588" y="2320" width="716" height="211" rx="16" fill="#e9eee5" stroke="#d4deca" stroke-width="2" />
+  <text x="1612" y="2345" fill="#243d34" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">3  验证后再扩展应用</text>
+  <text x="1612" y="2403" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">先确认检索与回答有用</text>
+  <text x="1612" y="2444" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">再加 Agentic、交互入口</text>
+  <text x="1612" y="2485" fill="#43534c" font-size="30" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">或专题报告与写作流程</text>
+  <text x="96" y="2563" fill="#264d3d" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">最终积累：资料集合＋可检索知识库＋问答接口＋验证记录，作为后续应用基础。</text>
+  <rect x="96" y="2639" width="68" height="58" rx="12" fill="#264d3d" />
+  <text x="108" y="2648" fill="#d7e9b7" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">05</text>
+  <text x="186" y="2642" fill="#243d34" font-size="44" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">可扩展方向</text>
+  <text x="1280" y="2653" fill="#69756d" font-size="27" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">均需后续实现与验证</text>
+  <rect x="96" y="2720" width="716" height="107" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="119" y="2736" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">新资料入口与定期更新</text>
+  <text x="119" y="2781" fill="#69756d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">增加导入、去重和更新流程</text>
+  <rect x="842" y="2720" width="716" height="107" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="865" y="2736" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">中文、扫描件与表格</text>
+  <text x="865" y="2781" fill="#69756d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">验证 OCR 与实验条件提取</text>
+  <rect x="1588" y="2720" width="716" height="107" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="1611" y="2736" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">本地向量模型与私有部署</text>
+  <text x="1611" y="2781" fill="#69756d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">同时考虑向量化、生成与追踪</text>
+  <rect x="96" y="2843" width="716" height="107" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="119" y="2859" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">权限、版本与领域筛选</text>
+  <text x="119" y="2904" fill="#69756d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">回答使用正确且可访问的资料</text>
+  <rect x="842" y="2843" width="716" height="107" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="865" y="2859" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">Agentic 与质量评测</text>
+  <text x="865" y="2904" fill="#69756d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">比较重试的收益、耗时与成本</text>
+  <rect x="1588" y="2843" width="716" height="107" rx="10" fill="#ffffff" stroke="#d4deca" stroke-width="2" />
+  <text x="1611" y="2859" fill="#243d34" font-size="32" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">资料助手、报告与长文写作</text>
+  <text x="1611" y="2904" fill="#69756d" font-size="28" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">探索知识检索与项目 001 的衔接</text>
+  <rect x="96" y="3019" width="68" height="58" rx="12" fill="#264d3d" />
+  <text x="108" y="3028" fill="#d7e9b7" font-size="34" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">06</text>
+  <text x="186" y="3022" fill="#243d34" font-size="44" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">怎样判断是否真的有用</text>
+  <rect x="96" y="3105" width="1088" height="76" rx="10" fill="#e9eee5" />
+  <text x="116" y="3127" fill="#243d34" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">解析</text>
+  <text x="211" y="3127" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">原文、表格与实验条件是否完整？</text>
+  <rect x="1216" y="3105" width="1088" height="76" rx="10" fill="#e9eee5" />
+  <text x="1236" y="3127" fill="#243d34" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">检索</text>
+  <text x="1331" y="3127" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">相关资料是否找到，版本是否正确？</text>
+  <rect x="96" y="3202" width="1088" height="76" rx="10" fill="#e9eee5" />
+  <text x="116" y="3224" fill="#243d34" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">回答</text>
+  <text x="211" y="3224" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">结论有引用支持，缺资料时能说明？</text>
+  <rect x="1216" y="3202" width="1088" height="76" rx="10" fill="#e9eee5" />
+  <text x="1236" y="3224" fill="#243d34" font-size="31" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">工程</text>
+  <text x="1331" y="3224" fill="#43534c" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">更新、缓存、耗时、成本与故障恢复？</text>
+  <line x1="96" y1="3310" x2="2304" y2="3310" stroke="#d4deca" stroke-width="3" />
+  <text x="96" y="3339" fill="#264d3d" font-size="29" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="700" dominant-baseline="text-before-edge">当前：已读源码并完成导读，尚未运行上游；农业等领域需适配，网页未连接真实论文库或模型。</text>
+  <text x="96" y="3405" fill="#69756d" font-size="27" font-family="Microsoft YaHei, PingFang SC, Noto Sans CJK SC, sans-serif" font-weight="400" dominant-baseline="text-before-edge">依据：jamwithai/production-agentic-rag-course · commit 424a0eb · 2026-10-13</text>
+</svg>

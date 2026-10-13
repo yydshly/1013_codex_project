@@ -9,11 +9,12 @@
 ## 项目索引
 
 <!-- PROJECT_INDEX:START -->
-当前收录 **1** 个项目，按三位编号升序排列。
+当前收录 **2** 个项目，按三位编号升序排列。
 
 | 编号 | 项目 / 研究摘要 | 目标源库 | 研究状态 | 相关入口 |
 | --- | --- | --- | --- | --- |
 | **001** | **[Infinite Bookshelf：写书流程、能力与价值研究](./projects/001-infinite-bookshelf/README.md)**<br><br>**能力：** 把主题展开为目录、书名和分节长文初稿，顺序生成并汇总展示。<br>**原理：** 代码组织多次模型请求，先目录、再书名、逐节正文；写作方法与手动让模型先出大纲再写细节相同。<br>**输入：** 主题；可补充读者、目标、范围和风格要求，高级模式可加入笔记或 TXT 资料。<br>**输出：** 书名、目录、各节正文，以及可导出的 TXT/PDF 初稿，供人工编辑和审核。<br>**价值：** 减少重复请求与整理，复用写作流程，并可修改接口接入自有模型；没有提高模型本身能力。<br>**意义与场景：** 适合重复起草较独立的教程和培训材料；偶尔写作额外价值有限，复杂小说需补前文与人工审核。<br>**边界与验证：** 不能自动保证质量。本研究提供源码证据、总览图与摄影等可读样稿；样稿是保存内容，未验证真实模型 API 的质量、速度和费用优势。<br><br>AI 写作 · 长文生成 · 模型可替换 · 源码研究 | [infinite-bookshelf](https://github.com/Bklieger/infinite-bookshelf)<br>Bklieger | 已完成 | [研究文档](./projects/001-infinite-bookshelf/README.md)<br>[在线演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) |
+| **002** | **[Production Agentic RAG Course：论文助手与工程架构研究](./projects/002-production-agentic-rag-course/README.md)**<br><br>**定位：** 以 arXiv AI 论文为默认资料的课程与参考工程，展示从资料采集到检索问答、运行维护的完整 RAG 链路；论文是示例领域。<br>**能力：** 源码包含定时采集论文、PDF 解析、章节或词数切块、关键词与向量混合检索、普通流式问答和论文来源链接，以及普通问答缓存、追踪和多个入口；Agentic 增加领域判断、相关性检查、改写与重试。<br>**原理：** 先获取并整理文件，解析正文、切分片段、生成语义向量并建立搜索索引；提问时融合关键词与向量检索，把相关片段与问题一起交给模型，再回看原文核对。RAG 为本次请求补充资料，无需为这条链路重新训练模型。<br>**架构：** PostgreSQL 保存正文与元信息，OpenSearch 保存片段、向量和检索字段；Docling 解析 PDF，Jina API 生成向量，Ollama 生成回答。Airflow 调度采集，Redis 缓存普通问答，Langfuse 追踪；FastAPI、Gradio、Telegram 提供入口。<br>**输入：** 默认采集 arXiv 的 cs.AI 论文和 PDF，问答输入为问题与检索参数。自有农业资料、手册或研究笔记需要新增来源或导入入口，保留题名、作者、年份、来源、版本、原文位置和领域字段。<br>**输出：** 建库得到可检索的片段、向量与元信息；搜索返回相关资料，普通问答返回模型回答和论文来源链接，供人工核查。本研究另提供中文导读、完整理解图、可下载使用路线、源码证据与复现清单。<br>**价值：** 主要参考价值是完整 RAG 的搭建方法、组件分工、数据衔接和评测思路，可为自己的知识系统提供实现基础；减少重复找资料与整理的效果，需要通过检索质量、核查时间、耗时和成本验证。<br>**对你的意义：** 把你收集的论文、种植资料、试验记录与 GitHub 项目研究逐步积累为能查找、能回答、能追溯依据的知识系统；同时形成判断 AI 项目质量的方法，并为后续研究对比、专题报告和写作提供资料基础。<br>**可扩展场景：** 上游默认用于 AI 论文研究；适配后可用于农业论文与种植手册问答、产品手册与技术规范查询、固定版本的 GitHub 项目研究对比，再探索资料助手、专题报告和与项目 001 长文写作的衔接。<br>**扩展方向：** 新资料入口、去重与定期更新，中文、扫描件、表格和实验条件提取，本地向量模型与私有部署，权限、版本和领域筛选，以及普通 RAG 与 Agentic 的对比评测。以上均为后续实现与验证方向。<br>**使用路线：** 先选明确主题，准备一批可靠文档和 10 个真实问题；获取资源、保留来源、整理文档、解析切块、建索引、检索问答并核对引用。先跑通普通 RAG、保存运行基线和验证记录，再扩展 Agentic 或其他应用。<br>**边界与验证：** 已完成核心源码研究和导读页验证，尚未运行上游。知识覆盖由已入库资料决定，来源链接需核对是否支持结论；默认领域规则需调整，Jina 向量化调用外部 API。Agentic 参数、模型接入、来源与追踪闭环，以及解析、检索、回答、更新、缓存和故障恢复仍待复现。<br><br>RAG · LangGraph · 混合检索 · AI 工程 | [production-agentic-rag-course](https://github.com/jamwithai/production-agentic-rag-course)<br>jamwithai | 研究中 | [研究文档](./projects/002-production-agentic-rag-course/README.md)<br>演示未部署 |
 
 ## 项目引导图
 
@@ -26,6 +27,14 @@
 图片说明与来源：本次研究解释图：输入、流程、输出、能力、价值与局限；非原版运行截图
 
 [查看原图](./projects/001-infinite-bookshelf/assets/03-understanding-overview.png) · [研究文档](./projects/001-infinite-bookshelf/README.md) · [在线演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/)
+
+### 002 · Production Agentic RAG Course：论文助手与工程架构研究
+
+[![本仓库理解总览图：定位、价值、能力、原理与架构、场景、使用路线、扩展与验证；直接绘制，非上游运行截图](./projects/002-production-agentic-rag-course/assets/04-rag-understanding.png)](./projects/002-production-agentic-rag-course/README.md)
+
+图片说明与来源：本仓库理解总览图：定位、价值、能力、原理与架构、场景、使用路线、扩展与验证；直接绘制，非上游运行截图
+
+[查看原图](./projects/002-production-agentic-rag-course/assets/04-rag-understanding.png) · [研究文档](./projects/002-production-agentic-rag-course/README.md)
 
 <!-- PROJECT_INDEX:END -->
 
