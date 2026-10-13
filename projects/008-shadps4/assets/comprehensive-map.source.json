@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-14",
+  "kind": "authored-vector-explainer",
+  "source": "本仓库根据固定源码、已有研究文档及公开样例实测整理；不是上游截图或实际执行轨迹",
+  "research_commit": "23c41333822fe8eca4c609b43119180af63ae4ac",
+  "runtime_commit": "c7e065d1b415be16c23e260a21f1dd8bbfc4cb57",
+  "content": [
+    "设备与软件区别",
+    "资源控制层次",
+    "游戏加载与执行",
+    "系统兼容",
+    "图形转换",
+    "内存同步",
+    "能力与用途",
+    "工程和知识价值",
+    "扩展方向与验收",
+    "个人意义",
+    "验证边界"
+  ],
+  "sources": [
+    "https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/core/memory.cpp",
+    "https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/core/linker.cpp",
+    "https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/video_core/renderer_vulkan/vk_pipeline_cache.cpp",
+    "../README.md",
+    "../experiments/results/runtime-verification.json"
+  ],
+  "editable": "comprehensive-map.svg",
+  "rendered": "comprehensive-map.png",
+  "dimensions": [
+    1800,
+    3290
+  ]
+}

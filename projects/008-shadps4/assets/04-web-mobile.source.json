@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-14",
+  "source": "本仓库中文导读网页的实际 Playwright 浏览器截图",
+  "url": "http://127.0.0.1:8858/008-shadps4/",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "original_content": "本仓库撰写的解释、教学代码与实测记录；原生图片来源另见 openorbis-graphics-live.source.json",
+  "capture": "浏览器内容；长章节截图隐藏浮动顶部导航以避免遮挡；未修改研究内容"
+}

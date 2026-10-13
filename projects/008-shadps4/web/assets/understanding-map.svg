@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1200" viewBox="0 0 1440 1200" role="img" aria-labelledby="title desc">
+<title id="title">shadPS4：游戏如何跨过平台边界</title><desc id="desc">PS4 是包含硬件和操作系统的游戏机。shadPS4 在电脑上加载 PS4 游戏，利用 x86-64 主机原生执行能力，通过系统兼容层处理系统服务，通过 GPU 命令解析与着色器重编译组织 Vulkan 工作。制作时的 CPU 编译与运行时的 GPU 重编译处于不同阶段。</desc>
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8" fill="none" stroke="#63856e" stroke-width="1.7"/></marker></defs>
+<rect width="1440" height="1200" fill="#f8f7f2"/>
+<g font-family="Microsoft YaHei, Segoe UI, sans-serif" fill="#233b33">
+<text x="64" y="69" font-size="19" fill="#577460">008 / shadPS4 / 原理理解图</text><text x="64" y="124" font-size="39" font-weight="600">执行共同的指令，补齐不同的运行环境。</text>
+<text x="64" y="164" font-size="21" fill="#64736d">PS4 是整台游戏机；操作系统是其中的软件；shadPS4 是电脑上的模拟器。</text>
+<rect x="64" y="200" width="1312" height="116" rx="10" fill="#edf1e7"/><text x="89" y="236" font-size="18" fill="#577460">制作游戏时</text>
+<text x="105" y="279" font-size="24">游戏源代码</text><text x="422" y="279" font-size="24">编译器翻译 CPU 指令</text><text x="997" y="279" font-size="24">PS4 游戏程序</text>
+<path d="M272 270H385" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/><path d="M760 270H959" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<path d="M1132 317V346H720V373" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<text x="64" y="363" font-size="18" fill="#577460">在电脑上运行</text>
+<rect x="479" y="385" width="482" height="107" rx="9" fill="#163c31"/><text x="720" y="424" text-anchor="middle" fill="#dcf294" font-size="26">shadPS4 加载器与链接器</text><text x="720" y="462" text-anchor="middle" fill="#e2e9da" font-size="20">安排代码和数据、连接函数、找到入口</text>
+<path d="M720 492V537" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="479" y="550" width="482" height="112" rx="9" fill="#e2edda" stroke="#aec1a7"/><text x="720" y="592" text-anchor="middle" font-size="27">电脑 CPU 执行游戏代码</text><text x="720" y="630" text-anchor="middle" font-size="19" fill="#577460">x86-64 主机上大量原生执行 + 差异修补</text>
+<rect x="64" y="541" width="340" height="123" rx="9" fill="#edf1e7"/><text x="234" y="581" text-anchor="middle" font-size="25">系统兼容层</text><text x="234" y="618" text-anchor="middle" font-size="19">HLE：重新实现系统功能</text><text x="234" y="646" text-anchor="middle" font-size="17" fill="#64736d">部分模块可使用原始系统库（LLE）</text>
+<path d="M412 600H469" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<text x="232" y="513" text-anchor="middle" font-size="18" fill="#577460">请求与返回：文件、内存、线程、输入</text>
+<path d="M234 664V716" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<rect x="64" y="732" width="340" height="107" rx="9" fill="#edf1e7"/><text x="234" y="773" text-anchor="middle" font-size="25">电脑操作系统与资源</text><text x="234" y="811" text-anchor="middle" font-size="19" fill="#577460">真正读取文件、分配内存、接收输入</text>
+<path d="M720 662V706" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="479" y="719" width="482" height="110" rx="9" fill="#163c31"/><text x="720" y="760" text-anchor="middle" fill="#dcf294" font-size="26">shadPS4 GPU 命令处理</text><text x="720" y="799" text-anchor="middle" fill="#e2e9da" font-size="20">解析 PS4 绘图命令、状态与资源</text>
+<path d="M970 774H1021" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="1034" y="719" width="342" height="110" rx="9" fill="#edf1e7"/><text x="1205" y="759" text-anchor="middle" font-size="25">着色器重编译</text><text x="1205" y="798" text-anchor="middle" font-size="18" fill="#577460">GCN → IR / 优化 → SPIR-V</text>
+<path d="M720 829V879" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/><path d="M1205 829V920H974" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="479" y="892" width="482" height="90" rx="9" fill="#e2edda" stroke="#aec1a7"/><text x="720" y="929" text-anchor="middle" font-size="26">Vulkan / 主机驱动 / 显卡</text><text x="720" y="961" text-anchor="middle" font-size="18" fill="#577460">同步正确的数据，执行任务并生成画面</text>
+<path d="M720 982V1019" stroke="#63856e" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+<rect x="479" y="1032" width="482" height="60" rx="9" fill="#163c31"/><text x="720" y="1072" text-anchor="middle" fill="#dcf294" font-size="25">显示画面，继续下一轮</text>
+<text x="69" y="920" font-size="20" font-weight="600">兼容性：行为是否正确</text><text x="69" y="955" font-size="18" fill="#64736d">更强硬件不会自动补齐</text><text x="69" y="984" font-size="18" fill="#64736d">缺失接口、图形差异或同步错误。</text>
+<text x="1040" y="998" font-size="20" font-weight="600">缓存：复用已有结果</text><text x="1040" y="1033" font-size="18" fill="#64736d">首次需要准备；符合条件时复用。</text><text x="1040" y="1062" font-size="18" fill="#64736d">运行中的 GPU 编译不同于制作时编译。</text>
+<path d="M64 1125H1376" stroke="#dce3d8"/>
+<text x="64" y="1163" font-size="16" fill="#64736d">本仓库绘制的简化讲解图 · 非上游运行截图 · 固定源码 23c4133 · 2026-10-14</text>
+</g></svg>

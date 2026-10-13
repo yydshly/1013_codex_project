@@ -1,0 +1,85 @@
+{
+  "title": "公开 PS4 homebrew：真实 CPU/HLE 与图形呈现验证",
+  "summary": "在本机 Windows 上运行官方 shadPS4 v0.19.0，成功执行 OpenOrbis hello_world，并显示 graphics 样例的蓝色 Mandelbrot 分形。",
+  "status": "verified-public-homebrew",
+  "date": "2026-10-14",
+  "versions": {
+    "source_commit": "23c41333822fe8eca4c609b43119180af63ae4ac",
+    "runtime_version": "0.19.0",
+    "runtime_commit": "c7e065d1b415be16c23e260a21f1dd8bbfc4cb57",
+    "sample": "OpenOrbis-PS4-Toolchain v0.5.3, official samples-elf-llvm-18.zip: hello_world + graphics",
+    "sample_commit": "6929bafac0b565692ed61e66032a79185ee9cf65",
+    "converter": "Official v0.5.3 toolchain-llvm-18.2.zip / create-fself.exe"
+  },
+  "environment": {
+    "os": "Windows 11 家庭版 中文版 (64 bit)",
+    "cpu": "Intel Core i9-13980HX, 24 physical cores / 32 logical cores",
+    "ram": "16 GB",
+    "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU",
+    "driver": "NVIDIA 576.28.0.0",
+    "vulkan": "1.4.303",
+    "process_driver_filter": "VK_LOADER_DRIVERS_SELECT=*nv*",
+    "system_modules": "None: portable user/sys_modules contains zero files"
+  },
+  "checks": [
+    {
+      "name": "官方 Windows 发布包 SHA-256",
+      "result": "pass",
+      "evidence": "已计算下载包的 SHA-256；结果与固定记录一致。官方文件名：shadps4-win64-sdl-0.19.0.zip，完整摘要见下载记录。"
+    },
+    {
+      "name": "CLI --help",
+      "result": "pass",
+      "evidence": "帮助命令正常返回，退出码为 0；输出保存在 results/shadps4-help.txt。"
+    },
+    {
+      "name": "CLI --version",
+      "result": "unsupported",
+      "evidence": "此发布版未实现 --version 参数。这里的版本和提交号取自程序实际启动日志。"
+    },
+    {
+      "name": "OpenOrbis hello_world：真实 guest 代码与 HLE",
+      "result": "pass",
+      "evidence": "日志包含“Hello world! Waiting 2 seconds!”和两秒后的“Done. Infinitely looping...”。样例 CPU 代码与部分系统服务已执行；此例关闭图形后端。"
+    },
+    {
+      "name": "OpenOrbis graphics：VideoOut + Vulkan 实际呈现",
+      "result": "pass",
+      "evidence": "日志记录创建场景、打开 VideoOut、注册 1920×1080 帧缓冲及进入绘制循环；目标窗口截图显示蓝色 Mandelbrot 分形。"
+    },
+    {
+      "name": "仓库内复现脚本",
+      "result": "pass",
+      "evidence": "同一复现脚本已分别观察 hello_world 5 秒和 graphics 6 秒。本机使用 *nv* 进程级驱动筛选；过程和原始日志单独保留。"
+    },
+    {
+      "name": "初次未筛选驱动的 Vulkan 启动",
+      "result": "failed-initial-attempt",
+      "evidence": "初次日志含 vkCreateDevice ErrorOutOfHostMemory，另有 Mesa D3D12 报错。后续使用进程级 NVIDIA 筛选的组合成功，尚未独立隔离初次失败的根因。"
+    }
+  ],
+  "limit": "已验证的范围是公开 homebrew 的 guest CPU 执行、部分 HLE、帧缓冲注册及 Vulkan 呈现。Mandelbrot 的像素由样例 CPU 代码计算，不证明 GCN 着色器重编译、3D 游戏性能或商业 PS4 游戏兼容性。没有进行 PS4 主机实测，也没有下载 Sony 系统模块或商业游戏。",
+  "output": "[Loader] <Info> (shadPS4:Main) emulator.cpp:464 Run: Starting shadps4 emulator v0.19.0 \n[Loader] <Info> (shadPS4:Main) emulator.cpp:465 Run: Revision c7e065d1b415be16c23e260a21f1dd8bbfc4cb57\n[Loader] <Info> (shadPS4:Main) emulator.cpp:467 Run: Description c7e065d\n[Tty] <Info> (Game:Main) logger.cpp:62 log_flush: [stdin] main: Hello world! Waiting 2 seconds!\n[Tty] <Info> (Game:Main) logger.cpp:62 log_flush: [stdin] main: Done. Infinitely looping...\n[Loader] <Info> (shadPS4:Main) emulator.cpp:465 Run: Revision c7e065d1b415be16c23e260a21f1dd8bbfc4cb57\n[Loader] <Info> (shadPS4:Main) emulator.cpp:467 Run: Description c7e065d\n[Tty] <Info> (Game:Main) logger.cpp:62 log_flush: [stdin] main: Creating a scene\n[Lib.VideoOut] <Info> (Game:Main) video_out.cpp:300 sceVideoOutOpen: called\n[Lib.VideoOut] <Info> (Game:Main) driver.cpp:154 RegisterBuffers: startIndex = 0, bufferNum = 2, pixelFormat = A8R8G8B8Srgb, aspectRatio = 0, tilingMode = 1, width = 1920, height = 1080, pitchInPixel = 1920, option = 0x0\n[Tty] <Info> (Game:Main) logger.cpp:62 log_flush: [stdin] main: Entering draw loop...",
+  "media": [
+    {
+      "path": "assets/openorbis-graphics-live.jpg",
+      "caption": "本机 Windows：shadPS4 v0.19.0 实际运行 OpenOrbis v0.5.3 graphics。蓝色 Mandelbrot 分形由 guest CPU 写入帧缓冲，经 sceVideoOut 和 Vulkan 呈现；仅截取模拟器目标窗口。",
+      "kind": "actual-native-screenshot"
+    }
+  ],
+  "sources": [
+    "https://github.com/shadps4-emu/shadPS4/releases/tag/v.0.19.0",
+    "https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain/releases/tag/v0.5.3",
+    "https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain/blob/6929bafac0b565692ed61e66032a79185ee9cf65/samples/graphics/graphics/main.cpp",
+    "https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain/blob/6929bafac0b565692ed61e66032a79185ee9cf65/LICENSE"
+  ],
+  "licenses": {
+    "shadPS4": "GPL-2.0-or-later",
+    "OpenOrbis": "GPL-3.0; exact sample source and upstream license retained in experiments/third_party/OpenOrbis/"
+  },
+  "download_hashes": {
+    "shadps4-win64-sdl-0.19.0.zip": "b9600602a809b7cb4aaf29cbeb0917d32caecf27bc5a9232df76200fbf80c017",
+    "samples-elf-llvm-18.zip": "26e32c08ebdccd428a34cf9f22a89967bbac6359e411fbf73957b8d543c4ca68",
+    "toolchain-llvm-18.2.zip": "5006bb8629a40093b712fac971456fa4d5ad3fafaadb16d11c10b8a93b8b496f"
+  }
+}

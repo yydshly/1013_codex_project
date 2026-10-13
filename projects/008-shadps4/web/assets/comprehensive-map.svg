@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="3290" viewBox="0 0 1800 3290" role="img" aria-labelledby="title desc">
+<title id="title">shadPS4 全面理解总览：定位、资源控制、能力、原理、价值与扩展</title>
+<desc id="desc">PS4 是设备，操作系统是其中的软件，手柄是输入设备。shadPS4 是运行在电脑操作系统上的模拟器核心：管理游戏的内存布局和执行环境，利用主机 CPU，兼容系统接口，转换 GPU 命令和着色器，经 Vulkan 与驱动使用实际显卡。图中包含完整运行流程、控制权限边界、能力与使用场景、基础知识价值、六个扩展方向、对研究者的意义，以及公开样例实测与未验证范围。</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto-start-reverse"><path d="M1 1L8 5L1 9" fill="none" stroke="#698271" stroke-width="1.8"/></marker></defs>
+<rect width="1800" height="3290" fill="#f8f7f2"/>
+<g font-family="Microsoft YaHei, Noto Sans CJK SC, Segoe UI, sans-serif" fill="#233b33">
+<text x="64" y="69" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">008 / shadPS4 / 一张图整理我们的理解</text>
+<text x="64" y="135" font-size="58" fill="#163c31" font-weight="600" text-anchor="start">把 PS4 游戏的运行条件，搬到电脑上。</text>
+<rect x="64" y="168" width="1672" height="90" rx="12" fill="#163c31"/>
+<text x="96" y="205" font-size="30" fill="#f8f7f2" font-weight="500" text-anchor="start">核心价值：管理游戏的内存布局与执行环境，接通 CPU、GPU 和系统服务，</text>
+<text x="96" y="242" font-size="30" fill="#dcf294" font-weight="500" text-anchor="start">让部分 PS4 程序在另一台电脑上，获得它所期待的运行行为。</text>
+<text x="64" y="304" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">01</text>
+<text x="112" y="304" font-size="36" fill="#163c31" font-weight="600" text-anchor="start">先分清四个对象</text>
+<rect x="64" y="331" width="394" height="166" rx="12" fill="#edf1e7"/>
+<g data-bounds="86,343,350,141" data-label="PS4 = 一台游戏机">
+<text x="86" y="369" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">PS4 = 一台游戏机</text>
+<text x="86" y="407" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">CPU、GPU、内存、存储和操作系</text>
+<text x="86" y="437" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">统组成的设备，可理解为主要用于</text>
+<text x="86" y="467" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">游戏的电脑。</text>
+</g>
+<rect x="490" y="331" width="394" height="166" rx="12" fill="#edf1e7"/>
+<g data-bounds="512,343,350,141" data-label="PS4 操作系统 = 系统软件">
+<text x="512" y="369" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">PS4 操作系统 = 系统软件</text>
+<text x="512" y="407" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">管理资源、线程、文件和设备，并</text>
+<text x="512" y="437" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">通过系统接口为游戏提供服务。</text>
+</g>
+<rect x="916" y="331" width="394" height="166" rx="12" fill="#edf1e7"/>
+<g data-bounds="938,343,350,141" data-label="shadPS4 = 模拟器核心">
+<text x="938" y="369" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">shadPS4 = 模拟器核心</text>
+<text x="938" y="407" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">运行在电脑操作系统上的软件，加</text>
+<text x="938" y="437" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">载 PS4 程序、兼容系统行为、转</text>
+<text x="938" y="467" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">换图形工作。</text>
+</g>
+<rect x="1342" y="331" width="394" height="166" rx="12" fill="#edf1e7"/>
+<g data-bounds="1364,343,350,141" data-label="手柄 = 输入设备">
+<text x="1364" y="369" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">手柄 = 输入设备</text>
+<text x="1364" y="407" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">角色类似键盘和鼠标；使用手柄不</text>
+<text x="1364" y="437" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">会把一个软件变成操作系统。</text>
+</g>
+<text x="64" y="550" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">02</text>
+<text x="112" y="550" font-size="36" fill="#163c31" font-weight="600" text-anchor="start">“自己控制资源”，具体控制到哪一层？</text>
+<rect x="64" y="575" width="1672" height="316" rx="12" fill="#ffffff" stroke="#d5dfd1" stroke-width="1.5"/>
+<rect x="64" y="575" width="1672" height="56" rx="0" fill="#edf1e7"/>
+<text x="91" y="612" font-size="23" fill="#163c31" font-weight="600" text-anchor="start">资源</text>
+<text x="277" y="612" font-size="23" fill="#163c31" font-weight="600" text-anchor="start">shadPS4 自己安排的工作</text>
+<text x="1023" y="612" font-size="23" fill="#163c31" font-weight="600" text-anchor="start">主机操作系统、驱动与硬件承担的工作</text>
+<text x="91" y="666" font-size="24" fill="#163c31" font-weight="600" text-anchor="start">内存</text>
+<g data-bounds="277,639,705,57" data-label="内存 / 模拟器">
+<text x="277" y="661" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">安排游戏地址空间、映射代码和数据，管理缓冲与同步。</text>
+</g>
+<g data-bounds="1023,639,685,57" data-label="内存 / 主机">
+<text x="1023" y="661" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">操作系统提供内存分配与映射；硬件完成实际读写。</text>
+</g>
+<text x="91" y="728" font-size="24" fill="#163c31" font-weight="600" text-anchor="start">CPU</text>
+<g data-bounds="277,701,705,57" data-label="CPU / 模拟器">
+<text x="277" y="723" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">建立游戏线程与入口，连接函数，修补平台行为差异。</text>
+</g>
+<g data-bounds="1023,701,685,57" data-label="CPU / 主机">
+<text x="1023" y="723" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">操作系统调度线程；合适的 x86-64 CPU 执行大量游戏代码。</text>
+</g>
+<text x="91" y="790" font-size="24" fill="#163c31" font-weight="600" text-anchor="start">GPU</text>
+<g data-bounds="277,763,705,57" data-label="GPU / 模拟器">
+<text x="277" y="785" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">解析 PS4 命令，转换着色器、绘图状态和图形资源。</text>
+</g>
+<g data-bounds="1023,763,685,57" data-label="GPU / 主机">
+<text x="1023" y="785" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">经 Vulkan 和主机驱动提交任务，由真实显卡执行。</text>
+</g>
+<text x="91" y="852" font-size="24" fill="#163c31" font-weight="600" text-anchor="start">系统功能</text>
+<g data-bounds="277,825,705,57" data-label="系统功能 / 模拟器">
+<text x="277" y="847" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">重新实现文件、线程、输入等接口；部分可用原始模块。</text>
+</g>
+<g data-bounds="1023,825,685,57" data-label="系统功能 / 主机">
+<text x="1023" y="847" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">主机系统完成文件与设备操作，提供实际运行资源。</text>
+</g>
+<text x="64" y="929" font-size="24" fill="#163c31" font-weight="500" text-anchor="start">准确说法：它能加载并组织游戏运行；“直接执行 CPU 代码”不等于“绕过操作系统、独占硬件”。</text>
+<text x="64" y="984" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">03</text>
+<text x="112" y="984" font-size="36" fill="#163c31" font-weight="600" text-anchor="start">从游戏文件到一帧画面</text>
+<text x="1736" y="984" font-size="20" fill="#63746a" font-weight="400" text-anchor="end">简化工作关系，真实任务可以并发</text>
+<rect x="64" y="1008" width="1672" height="64" rx="12" fill="#edf1e7"/>
+<text x="91" y="1049" font-size="25" fill="#233b33" font-weight="400" text-anchor="start">制作游戏时：源代码 → 编译器 → PS4 CPU 机器码；图形程序包含 GPU 着色器。</text>
+<path d="M900 1077V1112" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="64" y="1125" width="1672" height="72" rx="12" fill="#e3ecd8"/>
+<text x="900" y="1170" font-size="27" fill="#163c31" font-weight="500" text-anchor="middle">输入：PS4 游戏转储 / 公开自制程序 + 资源与所需模块 + 配置 + 玩家输入</text>
+<path d="M900 1200V1233" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="64" y="1246" width="1672" height="484" rx="12" fill="#ffffff" stroke="#abc09e" stroke-width="1.5"/>
+<text x="92" y="1281" font-size="24" fill="#163c31" font-weight="600" text-anchor="start">shadPS4 运行引擎</text>
+<text x="1706" y="1281" font-size="20" fill="#63746a" font-weight="400" text-anchor="end">核心仓库：C++ · 常用图形启动器另在 QtLauncher</text>
+<rect x="100" y="1306" width="578" height="111" rx="12" fill="#163c31"/>
+<g data-bounds="122,1317,534,87" data-label="加载与链接">
+<text x="122" y="1348" font-size="29" fill="#dcf294" font-weight="600" text-anchor="start">① 加载与链接</text>
+<text x="122" y="1386" font-size="23" fill="#f8f7f2" font-weight="400" text-anchor="start">解析可执行文件 → 映射代码 / 数据 → 连接函数</text>
+</g>
+<path d="M684 1361H759" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="772" y="1306" width="928" height="111" rx="12" fill="#163c31"/>
+<g data-bounds="797,1317,878,87" data-label="CPU 执行">
+<text x="797" y="1348" font-size="29" fill="#dcf294" font-weight="600" text-anchor="start">② 进入游戏代码，CPU 执行规则和主循环</text>
+<text x="797" y="1386" font-size="23" fill="#f8f7f2" font-weight="400" text-anchor="start">x86-64 主机大量原生执行 + 差异修补；Apple Silicon 路线借助 Rosetta 2</text>
+</g>
+<path d="M1210 1420V1444H442V1464" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M1210 1444H1283V1464" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="100" y="1478" width="690" height="150" rx="12" fill="#edf1e7"/>
+<g data-bounds="124,1489,642,129" data-label="系统兼容">
+<text x="124" y="1520" font-size="27" fill="#163c31" font-weight="600" text-anchor="start">③ 系统兼容：接住游戏请求，再返回预期结果</text>
+<text x="124" y="1555" font-size="21" fill="#233b33" font-weight="400" text-anchor="start">HLE = 用自己的代码实现系统功能；部分原始模块可参与（LLE）。</text>
+<text x="124" y="1584" font-size="21" fill="#233b33" font-weight="400" text-anchor="start">例如文件、内存、线程、输入、声音；须匹配数据、句柄与错误码。</text>
+<text x="124" y="1612" font-size="21" fill="#63746a" font-weight="400" text-anchor="start">函数有名字或固定返回成功，仍可能只是占位实现。</text>
+</g>
+<rect x="864" y="1478" width="836" height="150" rx="12" fill="#edf1e7"/>
+<g data-bounds="888,1489,788,129" data-label="图形与着色器">
+<text x="888" y="1520" font-size="27" fill="#163c31" font-weight="600" text-anchor="start">④ GPU 命令与着色器转换</text>
+<text x="888" y="1555" font-size="23" fill="#233b33" font-weight="400" text-anchor="start">解析 PM4 命令 → 整理状态 / 资源 → 组织主机绘图任务</text>
+<text x="888" y="1584" font-size="23" fill="#233b33" font-weight="400" text-anchor="start">GCN 指令 → 内部表示 IR → 处理 / 优化 → SPIR-V</text>
+<text x="888" y="1612" font-size="23" fill="#63746a" font-weight="400" text-anchor="start">建立 Vulkan 着色器与管线；符合条件时复用缓存。</text>
+</g>
+<rect x="100" y="1650" width="1600" height="54" rx="12" fill="#e3ecd8"/>
+<text x="900" y="1686" font-size="24" fill="#163c31" font-weight="500" text-anchor="middle">贯穿全程：内存与纹理管理 · CPU / GPU 数据一致性 · 上传 / 下载 / 等待 · 缓存失效与复用</text>
+<path d="M445 1734V1770" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M1283 1734V1770" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="64" y="1784" width="808" height="82" rx="12" fill="#163c31"/>
+<text x="94" y="1819" font-size="28" fill="#dcf294" font-weight="500" text-anchor="start">电脑操作系统与资源服务</text>
+<text x="94" y="1851" font-size="23" fill="#f8f7f2" font-weight="400" text-anchor="start">提供内存、线程调度、文件、窗口、声音和输入等实际服务</text>
+<rect x="906" y="1784" width="830" height="82" rx="12" fill="#163c31"/>
+<text x="936" y="1819" font-size="28" fill="#dcf294" font-weight="500" text-anchor="start">Vulkan 渲染器 → 主机显卡驱动</text>
+<text x="936" y="1851" font-size="23" fill="#f8f7f2" font-weight="400" text-anchor="start">建立绘图工作、同步资源并提交给主机 GPU</text>
+<path d="M445 1870V1903" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M1283 1870V1903" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="64" y="1916" width="1672" height="75" rx="12" fill="#e3ecd8"/>
+<text x="900" y="1963" font-size="26" fill="#163c31" font-weight="500" text-anchor="middle">实际硬件：CPU 执行指令  |  内存保存代码与数据  |  GPU 完成图形 / 计算  |  显示与音频设备输出</text>
+<path d="M900 1995V2028" fill="none" stroke="#698271" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="64" y="2041" width="1672" height="75" rx="12" fill="#163c31"/>
+<text x="900" y="2088" font-size="29" fill="#dcf294" font-weight="500" text-anchor="middle">输出：画面、声音、运行状态与调试日志 → 游戏继续处理下一轮输入</text>
+<text x="64" y="2155" font-size="23" fill="#163c31" font-weight="400" text-anchor="start">两种“编译”：游戏 CPU 代码通常在制作时编译；模拟器运行中按需重编译 GPU 程序。性能与兼容性要分别验证。</text>
+<text x="64" y="2210" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">04</text>
+<text x="112" y="2210" font-size="36" fill="#163c31" font-weight="600" text-anchor="start">能力、使用场景与价值</text>
+<rect x="64" y="2237" width="808" height="239" rx="12" fill="#ffffff" stroke="#d5dfd1" stroke-width="1.5"/>
+<g data-bounds="90,2250,756,213" data-label="能力与用途">
+<text x="90" y="2284" font-size="29" fill="#163c31" font-weight="600" text-anchor="start">它能提供什么？</text>
+<text x="90" y="2321" font-size="24" fill="#233b33" font-weight="400" text-anchor="start">加载兼容内容；适配 CPU 执行、系统请求、图形与数据同步。</text>
+<text x="90" y="2356" font-size="24" fill="#233b33" font-weight="400" text-anchor="start">系统库、输入音视频、存档与调试功能的完整程度依游戏而异。</text>
+<text x="90" y="2391" font-size="24" fill="#233b33" font-weight="400" text-anchor="start">可用场景：兼容游戏体验、公开 homebrew、回归测试、源码学习。</text>
+<text x="90" y="2426" font-size="24" fill="#233b33" font-weight="400" text-anchor="start">输入内容不由模拟器自带；系统模块需按具体游戏与版本准备。</text>
+<text x="90" y="2457" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">能启动、能到菜单、能进玩法、能稳定玩，是不同层次。</text>
+</g>
+<rect x="906" y="2237" width="830" height="239" rx="12" fill="#ffffff" stroke="#d5dfd1" stroke-width="1.5"/>
+<g data-bounds="932,2250,778,213" data-label="项目价值">
+<text x="932" y="2284" font-size="29" fill="#163c31" font-weight="600" text-anchor="start">它为什么值得研究？</text>
+<text x="932" y="2321" font-size="24" fill="#233b33" font-weight="400" text-anchor="start">使用价值：为部分 PS4 内容提供在电脑上运行的路径。</text>
+<text x="932" y="2356" font-size="24" fill="#233b33" font-weight="400" text-anchor="start">知识价值：体系结构、操作系统、编译原理、图形、并发与缓存。</text>
+<text x="932" y="2391" font-size="24" fill="#233b33" font-weight="400" text-anchor="start">工程价值：把软件依赖的行为，映射到另一套系统和硬件。</text>
+<text x="932" y="2426" font-size="24" fill="#233b33" font-weight="400" text-anchor="start">研究价值：源码、日志、最小程序与回归结果可以互相核对。</text>
+<text x="932" y="2457" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">更强硬件无法自动补齐缺失接口、图形错误或同步问题。</text>
+</g>
+<text x="64" y="2530" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">05</text>
+<text x="112" y="2530" font-size="36" fill="#163c31" font-weight="600" text-anchor="start">可以怎样扩展？</text>
+<text x="1736" y="2530" font-size="20" fill="#63746a" font-weight="400" text-anchor="end">以下是研究提议，难度为相对判断</text>
+<rect x="64" y="2559" width="536" height="133" rx="12" fill="#edf1e7"/>
+<g data-bounds="84,2567,496,115" data-label="中文导读 / 知识索引 · 较低">
+<text x="84" y="2595" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">中文导读 / 知识索引 · 较低</text>
+<text x="84" y="2631" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">解释固定版本、接口与调用链。</text>
+<text x="84" y="2664" font-size="21" fill="#63746a" font-weight="400" text-anchor="start">验收：关键结论可追溯，初学者能分清对象。</text>
+</g>
+<rect x="632" y="2559" width="536" height="133" rx="12" fill="#edf1e7"/>
+<g data-bounds="652,2567,496,115" data-label="兼容性 / 回归工作台 · 中等">
+<text x="652" y="2595" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">兼容性 / 回归工作台 · 中等</text>
+<text x="652" y="2631" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">记录内容、版本、设备、场景与结果。</text>
+<text x="652" y="2664" font-size="21" fill="#63746a" font-weight="400" text-anchor="start">验收：条件一致、能够重复并发现退化。</text>
+</g>
+<rect x="1200" y="2559" width="536" height="133" rx="12" fill="#edf1e7"/>
+<g data-bounds="1220,2567,496,115" data-label="日志与源码助手 · 中等">
+<text x="1220" y="2595" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">日志与源码助手 · 中等</text>
+<text x="1220" y="2631" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">分阶段整理日志，辅助定位与提出假设。</text>
+<text x="1220" y="2664" font-size="21" fill="#63746a" font-weight="400" text-anchor="start">验收：人工核实问题集，评估误诊。</text>
+</g>
+<rect x="64" y="2711" width="536" height="133" rx="12" fill="#edf1e7"/>
+<g data-bounds="84,2719,496,115" data-label="着色器调试与补丁 · 较高">
+<text x="84" y="2747" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">着色器调试与补丁 · 较高</text>
+<text x="84" y="2783" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">导出、抓帧、修改并重新编译图形程序。</text>
+<text x="84" y="2816" font-size="21" fill="#63746a" font-weight="400" text-anchor="start">验收：同一帧效果正确，其他场景无回归。</text>
+</g>
+<rect x="632" y="2711" width="536" height="133" rx="12" fill="#edf1e7"/>
+<g data-bounds="652,2719,496,115" data-label="系统库 / 同步修复 · 很高">
+<text x="652" y="2747" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">系统库 / 同步修复 · 很高</text>
+<text x="652" y="2783" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">补接口契约、内存行为、等待与数据一致性。</text>
+<text x="652" y="2816" font-size="21" fill="#63746a" font-weight="400" text-anchor="start">验收：最小程序通过，再做游戏回归。</text>
+</g>
+<rect x="1200" y="2711" width="536" height="133" rx="12" fill="#edf1e7"/>
+<g data-bounds="1220,2719,496,115" data-label="图形兼容 / 性能优化 · 很高">
+<text x="1220" y="2747" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">图形兼容 / 性能优化 · 很高</text>
+<text x="1220" y="2783" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">改进指令转换、管线缓存、纹理与传输。</text>
+<text x="1220" y="2816" font-size="21" fill="#63746a" font-weight="400" text-anchor="start">验收：保持正确，分别测耗时和资源占用。</text>
+</g>
+<text x="64" y="2874" font-size="23" fill="#163c31" font-weight="400" text-anchor="start">新 CPU 架构、手机或浏览器运行属于重大工程，涉及执行方式、内存、线程与图形后端；教学网页只承担解释与证据展示。</text>
+<text x="64" y="2925" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">06</text>
+<text x="112" y="2925" font-size="36" fill="#163c31" font-weight="600" text-anchor="start">对你的意义：从“看功能”走向“看系统关系”</text>
+<rect x="64" y="2946" width="1672" height="109" rx="12" fill="#163c31"/>
+<text x="95" y="2984" font-size="27" fill="#dcf294" font-weight="500" text-anchor="start">学会识别项目解决哪一层；把“概念 → 调用链 → 源码 → 最小实测 → 局限”变成研究方法。</text>
+<text x="95" y="3027" font-size="23" fill="#f8f7f2" font-weight="400" text-anchor="start">适合补系统基础、做中文知识整理和研究工具；对日常 AI / 资料自动化的直接收益较少，深入程度按你的目标选择。</text>
+<rect x="64" y="3080" width="1672" height="119" rx="12" fill="#edf1e7"/>
+<text x="90" y="3115" font-size="25" fill="#163c31" font-weight="600" text-anchor="start">本机已验证</text>
+<text x="294" y="3115" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">shadPS4 v0.19.0：Hello World 真实执行；graphics 显示 CPU 算出的蓝色分形，经 VideoOut / Vulkan 呈现。</text>
+<text x="90" y="3150" font-size="25" fill="#966627" font-weight="600" text-anchor="start">仍未验证</text>
+<text x="294" y="3150" font-size="22" fill="#233b33" font-weight="400" text-anchor="start">商业游戏、完整 GCN 重编译 / 3D 性能、声音、手柄、存档、联网、跨设备与长期稳定性；无实体 PS4 对照。</text>
+<text x="90" y="3181" font-size="22" fill="#63746a" font-weight="400" text-anchor="start">这次样例成功，证明的是一条有限的执行与显示路径；具体游戏兼容性必须单独实测。</text>
+<text x="64" y="3237" font-size="19" fill="#63746a" font-weight="400" text-anchor="start">本仓库整理的概念图 · 2026-10-14 · 研究源码 23c4133 · 运行包 c7e065d · shadPS4 GPL-2.0-or-later / 公开样例 GPL-3.0</text>
+<text x="64" y="3269" font-size="19" fill="#63746a" font-weight="400" text-anchor="start">来源：</text>
+<a href="https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/core/memory.cpp" target="_blank">
+<text x="132" y="3269" font-size="19" fill="#163c31" font-weight="400" text-anchor="start">内存与映射</text>
+</a>
+<a href="https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/core/linker.cpp" target="_blank">
+<text x="328" y="3269" font-size="19" fill="#163c31" font-weight="400" text-anchor="start">加载与执行</text>
+</a>
+<a href="https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/video_core/renderer_vulkan/vk_pipeline_cache.cpp" target="_blank">
+<text x="524" y="3269" font-size="19" fill="#163c31" font-weight="400" text-anchor="start">图形与着色器</text>
+</a>
+<text x="760" y="3269" font-size="19" fill="#63746a" font-weight="400" text-anchor="start">详细依据与公开样例实测见子项目 README 和 experiments/results/。箭头为简化依赖关系。</text>
+</g></svg>

@@ -1,0 +1,13 @@
+{
+  "date": "2026-10-14",
+  "renderer": "Chromium 151.0.7922.34",
+  "status": "passed",
+  "issues": [],
+  "texts": 116,
+  "boundedGroups": 24,
+  "dimensions": [
+    1800,
+    3290
+  ],
+  "scope": "SVG 的实际文字边界与输出图尺寸；研究结论依据另见 README 与运行记录。"
+}

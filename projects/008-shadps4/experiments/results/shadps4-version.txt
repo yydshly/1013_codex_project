@@ -1,0 +1,1 @@
+--version is not an implemented CLI flag in v0.19.0. Runtime version and commit were read from the startup log instead.

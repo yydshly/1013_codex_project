@@ -1,0 +1,13 @@
+{
+  "file": "openorbis-graphics-live.jpg",
+  "alt": "shadPS4 v0.19.0 在 Windows 上实际运行 OpenOrbis graphics，模拟器窗口中呈现蓝色 Mandelbrot 分形",
+  "source": "Local native target-window capture, 2026-10-14 (Asia/Shanghai)",
+  "sample_source": "https://github.com/OpenOrbis/OpenOrbis-PS4-Toolchain/blob/6929bafac0b565692ed61e66032a79185ee9cf65/samples/graphics/graphics/main.cpp",
+  "runtime_version": "0.19.0",
+  "runtime_commit": "c7e065d1b415be16c23e260a21f1dd8bbfc4cb57",
+  "sample_version": "OpenOrbis v0.5.3",
+  "licenses": ["OpenOrbis sample: GPL-3.0", "shadPS4 UI: GPL-2.0-or-later"],
+  "capture": "Only the returned shadPS4 graphics target window; no composite or image editing",
+  "dimensions": "1282x752",
+  "scope": "Public homebrew CPU framebuffer and VideoOut/Vulkan presentation; not commercial game or GCN recompiler evidence"
+}
