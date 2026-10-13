@@ -1,0 +1,98 @@
+{
+  "content_commit": "393ea14b713595e994fe5a3ed46bcfab08d91e34",
+  "verified_at_utc": "2026-10-13T16:52:20.695443+00:00",
+  "workflow_url": "https://github.com/yydshly/1013_codex_project/actions/runs/38433870276",
+  "scope": "Static website publication, not VPN runtime verification",
+  "resources": [
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/",
+      "status": 200,
+      "bytes": 24179,
+      "source": "generated site snapshot",
+      "expected_sha256": "e881c334304ec208ea160ff651534ea9abb31f813f1e13a33ffa795db59aadb6",
+      "actual_sha256": "e881c334304ec208ea160ff651534ea9abb31f813f1e13a33ffa795db59aadb6",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/005-wireguard-install/",
+      "status": 200,
+      "bytes": 44962,
+      "source": "projects/005-wireguard-install/web/index.html",
+      "expected_sha256": "e09e362d6e1ca044de1743c462599b8b2bcc01e4dc49a6b6e024b9d5c7f18bbb",
+      "actual_sha256": "e09e362d6e1ca044de1743c462599b8b2bcc01e4dc49a6b6e024b9d5c7f18bbb",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/005-wireguard-install/styles.css",
+      "status": 200,
+      "bytes": 32221,
+      "source": "projects/005-wireguard-install/web/styles.css",
+      "expected_sha256": "fd7d42c199e9e5c8db25c323d7d8dd5b60dabb938d41d2212a130aa5dd0b69b4",
+      "actual_sha256": "fd7d42c199e9e5c8db25c323d7d8dd5b60dabb938d41d2212a130aa5dd0b69b4",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/005-wireguard-install/app.js",
+      "status": 200,
+      "bytes": 6092,
+      "source": "projects/005-wireguard-install/web/app.js",
+      "expected_sha256": "ddbe1cdff9bd587464c604538017ca511c8fd07f3d1a326b2eeb9ac18969c009",
+      "actual_sha256": "ddbe1cdff9bd587464c604538017ca511c8fd07f3d1a326b2eeb9ac18969c009",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/005-wireguard-install/assets/understanding-map.svg",
+      "status": 200,
+      "bytes": 9048,
+      "source": "projects/005-wireguard-install/web/assets/understanding-map.svg",
+      "expected_sha256": "69601d6697a22ee3847f3dfd5fc102f3bf90403b1d59290b52e4558355dc42b6",
+      "actual_sha256": "69601d6697a22ee3847f3dfd5fc102f3bf90403b1d59290b52e4558355dc42b6",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/previews/005-wireguard-install.svg",
+      "status": 200,
+      "bytes": 9048,
+      "source": "projects/005-wireguard-install/assets/understanding-map.svg",
+      "expected_sha256": "69601d6697a22ee3847f3dfd5fc102f3bf90403b1d59290b52e4558355dc42b6",
+      "actual_sha256": "69601d6697a22ee3847f3dfd5fc102f3bf90403b1d59290b52e4558355dc42b6",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/",
+      "status": 200,
+      "bytes": 37527,
+      "source": "projects/001-infinite-bookshelf/web/index.html",
+      "expected_sha256": "5c746e81e4163cd8b97d457511e049b67d5d67a287fe23ca03b703210d98f9b6",
+      "actual_sha256": "5c746e81e4163cd8b97d457511e049b67d5d67a287fe23ca03b703210d98f9b6",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/",
+      "status": 200,
+      "bytes": 29930,
+      "source": "projects/002-production-agentic-rag-course/web/index.html",
+      "expected_sha256": "883a2a525a526a79a20c30762f684cf4c25c1cfd87c173c30f3e474472ff6edd",
+      "actual_sha256": "883a2a525a526a79a20c30762f684cf4c25c1cfd87c173c30f3e474472ff6edd",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/",
+      "status": 200,
+      "bytes": 36875,
+      "source": "projects/007-hermes-jev-skills/web/index.html",
+      "expected_sha256": "e84fdf06174327131e092974a8a9412ae335157396e2dc1509818f1827029d88",
+      "actual_sha256": "e84fdf06174327131e092974a8a9412ae335157396e2dc1509818f1827029d88",
+      "matches": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/site-build.json",
+      "status": 200,
+      "bytes": 238,
+      "source": "generated site snapshot",
+      "expected_sha256": "28ec611a559afa445b6b0ddaafe153cd7b27a8eb90137bdbcfc7e29596e678ab",
+      "actual_sha256": "28ec611a559afa445b6b0ddaafe153cd7b27a8eb90137bdbcfc7e29596e678ab",
+      "matches": true
+    }
+  ]
+}

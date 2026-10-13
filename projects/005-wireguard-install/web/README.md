@@ -1,6 +1,6 @@
 # Web 演示说明
 
-本目录提供 WireGuard Install 的中文研究导读网页，已完成本地 HTTP 预览验证，尚未发布线上站点，`demo_url` 保持为空。
+本目录提供 WireGuard Install 的中文研究导读网页，已于 2026-10-14 [公开部署](https://yydshly.github.io/1013_codex_project/005-wireguard-install/)，验证页面资源与公网交互后填写 `demo_url`。详见 [发布验证](../experiments/results/publication-2026-10-14.md)。
 
 ## 内容与交互
 
@@ -30,7 +30,7 @@ python -m http.server 8769 --bind 127.0.0.1 --directory projects/005-wireguard-i
 
 正式发布遵循 [Web 部署约定](../../../docs/deployment.md)，访问前缀为 `/1013_codex_project/005-wireguard-install/`。
 
-本页全部资源使用相对路径，章节使用 hash 锚点；`../` 返回站点总览。仓库 GitHub Actions 将上述文件与 `assets/` 中的原理图收集至临时 `site-dist/005-wireguard-install/`，无需框架构建；临时站点产物不入库。发布并验证实际地址后才更新 `demo_url`。
+本页全部资源使用相对路径，章节使用 hash 锚点；`../` 返回站点总览。仓库 GitHub Actions 将上述文件与 `assets/` 中的原理图收集至临时 `site-dist/005-wireguard-install/`，无需框架构建；临时站点产物不入库。正式入口、CSS、JS、原理图和首页引导图均已验证 HTTP 200。
 
 ## 已执行验证
 
@@ -54,6 +54,8 @@ python -m http.server 8769 --bind 127.0.0.1 --directory projects/005-wireguard-i
 
 本轮补充沿用固定研究 commit；引用项目源码、WireGuard 官方概念、协议和工具手册。使用场景、个人价值、NAT 后可见范围与代理对照属于工程解释，页面中标明与运行实测的区别。
 
+2026-10-14 发布版补充自建 VPN 的六项开篇摘要与六个扩展方向，共 12 个章节；索引展示九项完整摘要和表外原理图。本地 1280px、390px 和 320px 检查通过；公网第三步通信、UDP 示例、返回总览与详情入口、九项摘要、扩展章节和 SVG 加载已验证，浏览器日志未发现 JavaScript 错误或警告。首次部署的 10 项公开资源与提交 / 构建快照哈希一致；完整原始记录见发布验证。
+
 ## 截图
 
 ![本地中文导读网页桌面实拍，展示项目本质与架构示意；非 VPN 实测](../assets/01-web-overview.png)
@@ -63,3 +65,7 @@ python -m http.server 8769 --bind 127.0.0.1 --directory projects/005-wireguard-i
 ![本地网页新增总览图实拍，展示两端职责、UDP 封装、TLS 加密边界、能力与个人价值；非 VPN 运行实测](../assets/03-web-understanding.png)
 
 来源：本次本地网页预览的浏览器截图，2026-10-13；对应安装脚本研究版本 `3f428774e61c95bca60d1e7b80f0c768ca2c6137`。架构图和通信流程为本次研究整理。
+
+![公开网页实拍：明确说明自建 VPN 的能力与六项理解摘要](../assets/04-published-web.png)
+
+来源：2026-10-14 的正式项目网址实拍；页面解释源码与协议，未产生真实 VPN 流量。

@@ -13,7 +13,7 @@
 | 使用场景是什么 | 个人集中出口、多设备密钥接入、实验室；内网访问和网段分流需要额外配置 |
 | 可扩展什么 | 分流、访问策略、配置分发、管理面板 / API、观测和多网关；均为需要后续实现与验证的方向 |
 
-[返回总索引](../../README.md#项目索引) · [原 GitHub 仓库](https://github.com/hwdsl2/wireguard-install) · [中文网页导读](./web/index.html) · [实验计划](./experiments/) · [网页运行说明](./web/README.md)
+[返回总索引](../../README.md#项目索引) · [原 GitHub 仓库](https://github.com/hwdsl2/wireguard-install) · [在线理解网页](https://yydshly.github.io/1013_codex_project/005-wireguard-install/) · [本地网页源码](./web/index.html) · [实验计划](./experiments/) · [网页运行说明](./web/README.md) · [发布验证](./experiments/results/publication-2026-10-14.md)
 
 ## 1. 研究范围与来源
 
@@ -26,7 +26,7 @@
 | 研究日期 | 2026-10-13，Asia/Shanghai |
 | 本地研究环境 | Windows / PowerShell，Python 3.10.11；读取源码、整理文档和检查索引 |
 | 状态 | 研究中：完成静态分析，未进行 Linux 部署、客户端连接或性能实测 |
-| 演示与截图 | 已制作并验证本地中文网页；未发布线上站点。下图为原创架构示意，网页实拍见后文 |
+| 演示与截图 | 2026-10-14 已发布中文网页并验证资源与交互。下图为原创架构示意，网页实拍见后文 |
 
 本次阅读固定版本的 README、核心安装脚本、客户端配置说明和许可证，并参照 WireGuard 官方协议、白皮书及工具手册。安装脚本的许可与 WireGuard 内核、各平台客户端的许可需分别理解。[项目说明][readme]、[WireGuard 官方来源][wg-overview]
 
@@ -267,7 +267,7 @@ WireGuard 是三层 IP 隧道，不会自动形成支持以太网广播发现的
 | 性能 | 识别源码对 sysctl / BBR 的修改 | 未测吞吐、延迟、资源消耗和并发容量 |
 | 研究仓库 | 更新元信息与索引，运行索引检查和现有单元测试，解析架构 SVG | 验证记录以本次检查输出为准；这些检查不验证 VPN 运行 |
 
-完整运行验收方案见 [实验计划](./experiments/README.md)。目前未安装 VPN、未修改本机网络、未生成真实密钥或二维码。已制作并验证本地网页，未发布线上站点；VPN 研究状态保持 `researching`。
+完整运行验收方案见 [实验计划](./experiments/README.md)。目前未安装 VPN、未修改本机网络、未生成真实密钥或二维码。中文网页已部署并验证公开资源与交互；VPN 研究状态保持 `researching`。部署网页不等于部署 VPN 服务。
 
 ### 中文网页导读
 
@@ -278,6 +278,12 @@ WireGuard 是三层 IP 隧道，不会自动形成支持以太网广播发现的
 来源：2026-10-13 本次根据固定版本源码与 WireGuard 官方文档原创绘制的矢量原理图，不是 VPN 运行截图。可 [打开完整 SVG](./web/assets/understanding-map.svg) 查看；窄屏网页支持图内横向滚动。
 
 仓库索引的引导图使用同一份完整 SVG 的 `assets/understanding-map.svg` 副本。首页在摘要表外展示，详情页使用 `web/assets/understanding-map.svg`；两份内容保持一致，不以网页截图替代完整图。
+
+2026-10-14 发布至 [GitHub Pages](https://yydshly.github.io/1013_codex_project/005-wireguard-install/)。[首次内容部署](https://github.com/yydshly/1013_codex_project/actions/runs/38433870276)成功，页面、CSS、JavaScript、两处总览 SVG、首页与既有项目入口均 HTTP 200，内容与发布提交一致。公网通信步骤、协议切换、首页九项完整摘要与详情入口已验证；记录见 [发布验证](./experiments/results/publication-2026-10-14.md)。
+
+![公开理解网页实拍：自建 VPN 的能力、原理、部署、价值、使用场景与扩展方向摘要](./assets/04-published-web.png)
+
+来源：2026-10-14 访问正式公开项目网址的浏览器截图，非 VPN 运行画面。
 
 ![本地中文导读网页实拍，展示项目本质与架构示意，非 VPN 运行实测](./assets/01-web-overview.png)
 
