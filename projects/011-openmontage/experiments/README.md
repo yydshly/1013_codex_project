@@ -39,3 +39,7 @@ node projects/011-openmontage/experiments/verify_web.cjs http://127.0.0.1:8791/0
 - `results/web-verification.json`：浏览器检查的机器可读结果。
 
 本地网页通过不等于上游可安装、工具可用或真实成片质量通过。
+
+## 公网发布验证
+
+`verify_publication.py` 用公开地址检查项目文件、完整图、首页、构建清单和旧项目入口；项目文件按已提交 Git blob 逐字节核对，避免 Windows 换行差异。`verify_web.cjs` 加 `--public` 可验证公网交互并保存独立的结果和截图。入口实际验证后才写入 `demo_url`。本次发布范围与证据见 `results/publication-2026-10-14.md`，不涉及上游真实视频或模型服务部署。

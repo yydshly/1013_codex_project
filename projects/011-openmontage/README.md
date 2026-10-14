@@ -2,7 +2,7 @@
 
 > OpenMontage 为 AI 编程助手提供视频制作技能、流程、工具和状态管理。最值得研究的是阶段职责与结构化成果交接；生成模型、真实素材检索和程序化画面是可组合的制作路径。
 
-[返回总索引](../../README.md#项目索引) · [上游仓库](https://github.com/calesthio/OpenMontage) · [中文导读网页](./web/index.html) · [网页运行说明](./web/README.md) · [实验与验证](./experiments/README.md)
+[返回总索引](../../README.md#项目索引) · [上游仓库](https://github.com/calesthio/OpenMontage) · [在线理解网页](https://yydshly.github.io/1013_codex_project/011-openmontage/#brief) · [发布验证记录](./experiments/results/publication-2026-10-14.md) · [网页源文件](./web/index.html) · [实验与验证](./experiments/README.md)
 
 ## 能力、原理、价值与扩展摘要
 
@@ -27,7 +27,7 @@
 | 上游许可证 | GNU AGPL v3，元信息记录为 `AGPL-3.0` |
 | 状态 | `researching`：源码与文档研究、本地教学网页；上游完整制作尚未复现 |
 | 实际研究环境 | Windows、Python 3.10.11、Node.js 22.15.0；网页仅使用 HTML、CSS、JavaScript |
-| 在线演示 | 未部署，`demo_url` 保持空字符串 |
+| 在线演示 | [已部署的完整中文导读](https://yydshly.github.io/1013_codex_project/011-openmontage/#brief)，公网资源和交互已验证；不连接上游制作或模型 |
 
 来源链接固定到该 commit。上游 README 和架构文档中的旧数量、早期规划，不能覆盖当前流程文件与具体代码。下面明确区分源码事实、研究判断、扩展设想和未验证事项。
 
@@ -315,7 +315,7 @@ python -m http.server 8791 --bind 127.0.0.1 --directory site-openmontage-preview
 | 仓库总索引 | 生成与校验通过 | 已更新完整图预览及摘要；此前其他项目编辑造成的暂时阻挡已解除，未改动其他项目来绕过校验 |
 | 上游完整安装与成片 | 未验证 | 没有执行上游制作流程 |
 | 模型、费用、性能、中文效果 | 未验证 | 未调用付费接口或本地 GPU 模型 |
-| 外部公开部署 | 未进行 | `demo_url` 为空，不预填推测地址 |
+| 外部公开部署 | 已发布并验证 | 首次内容提交 `ba8980a`、Actions 构建与部署成功，21个公网地址检查与20组公网交互通过；正式入口与证据见发布记录 |
 
 实际检查结果见 [本地网页验证](./experiments/results/verification.md) 与 [浏览器检查 JSON](./experiments/results/web-verification.json)。源码阅读范围与证据另见 [源码研究记录](./experiments/results/source-review.json)。
 
@@ -342,7 +342,7 @@ python -m http.server 8791 --bind 127.0.0.1 --directory site-openmontage-preview
 - [ ] 比较生成、真实素材和程序化画面的效果、时间、花费与返工。
 - [ ] 测试前置材料改动、失败重试、检查点继续与外部任务恢复。
 - [ ] 决定是否接入现有研究资料并形成栏目模板。
-- [ ] 若发布网页，记录实际部署与公网验证后再填写 `demo_url`。
+- [x] 发布中文导读网页，实际验证资源与交互后登记 `demo_url`，保留发布证据。
 
 ## 来源与致谢
 

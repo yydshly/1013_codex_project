@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-14T01:41:25.284Z",
+  "date": "2026-10-14T01:48:38.226Z",
   "url": "http://127.0.0.1:8792/011-openmontage/",
   "scope": "本仓库原创静态研究网页；不是上游视频制作验证",
   "browser": "C:/Program Files/Google/Chrome/Application/chrome.exe",
@@ -125,6 +125,7 @@
     "assets/05-web-comparison.png",
     "assets/06-web-baocut.png",
     "assets/01-web-overview.png",
+    "assets/08-web-core-summary.png",
     "assets/04-web-capabilities.png",
     "assets/02-web-workflow.png",
     "assets/03-web-mobile.png",

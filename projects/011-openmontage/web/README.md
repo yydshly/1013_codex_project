@@ -35,8 +35,8 @@ python -m http.server 8791 --bind 127.0.0.1 --directory site-openmontage-preview
 
 所有资源使用相对路径，兼容仓库 Pages 前缀 `/1013_codex_project/011-openmontage/`。返回索引用 `../`，章节使用 hash。公开 TXT、JSON 与 SVG 包含研究资料，不含凭据。Markdown 研究文档导航指向仓库。
 
-按 [仓库部署约定](../../../docs/deployment.md) 处理：尚未发布，`demo_url` 为空；默认正式构建只收录已跟踪项目。新建项目使用 `--project` 在本地预览，不修改其他项目发布状态。
+按 [仓库部署约定](../../../docs/deployment.md) 处理：已发布至 [OpenMontage 理解网页](https://yydshly.github.io/1013_codex_project/011-openmontage/#brief)，实际核对资源与交互后登记 `demo_url`。正式构建收集全部已跟踪静态项目，已有八个演示入口保留；工作区其他未发布研究未随此次提交上传。发布记录见 `../experiments/results/publication-2026-10-14.md`。
 
 ## 验证与限制
 
-本地浏览器验证范围见 [验证记录](../experiments/results/verification.md)。网页演示自己的教学状态，不执行 OpenMontage、模型调用、素材检索或视频渲染；示例 JSON 是非完整 schema 的教学片段。上游 API、真实中文效果、费用、制作效率及公网部署均未验证。
+本地浏览器验证范围见 [验证记录](../experiments/results/verification.md)，公网验证见 [发布记录](../experiments/results/publication-2026-10-14.md)。网页演示自己的教学状态，不执行 OpenMontage、模型调用、素材检索或视频渲染；示例 JSON 是非完整 schema 的教学片段。上游 API、真实中文效果、费用和制作效率仍未验证。

@@ -15,6 +15,8 @@ const executablePath = process.argv[3];
 const checks = [];
 const errors = [];
 const screenshots = [];
+const publicRun = process.argv.includes("--public");
+const shotName = name => publicRun ? "public-" + name : name;
 const record = (name, details) => checks.push({name, status:"passed", ...(details ? {details} : {})});
 const reportFile = path.join(__dirname, process.argv.includes("--public") ? "results/public-web-verification.json" : "results/web-verification.json");
 let browser;
@@ -117,15 +119,18 @@ async function main() {
 
   await page.locator('#comparison h2').scrollIntoViewIfNeeded();
   await page.evaluate(() => window.scrollTo(0,document.querySelector('#comparison').getBoundingClientRect().top + scrollY - 105));
-  await page.screenshot({path:path.join(project,"assets/05-web-comparison.png")});
-  screenshots.push("assets/05-web-comparison.png");
-  await page.locator(".two-product-table").screenshot({path:path.join(project,"assets/06-web-baocut.png")});
-  screenshots.push("assets/06-web-baocut.png");
+  await page.screenshot({path:path.join(project,"assets/",shotName("05-web-comparison.png"))});
+  screenshots.push("assets/"+shotName("05-web-comparison.png"));
+  await page.locator(".two-product-table").screenshot({path:path.join(project,"assets/",shotName("06-web-baocut.png"))});
+  screenshots.push("assets/"+shotName("06-web-baocut.png"));
 
   await noOverflow(page, 1440);
-  const overview = path.join(project, "assets/01-web-overview.png");
+  await page.evaluate(() => window.scrollTo(0,0));
+  const overview = path.join(project, "assets/",shotName("01-web-overview.png"));
   await page.screenshot({path:overview});
-  screenshots.push("assets/01-web-overview.png");
+  screenshots.push("assets/"+shotName("01-web-overview.png"));
+  await page.locator("#brief").screenshot({path:path.join(project,"assets/",shotName("08-web-core-summary.png"))});
+  screenshots.push("assets/"+shotName("08-web-core-summary.png"));
 
   for(const category of [...new Set(catalog.capabilities.map(item => item.category))]) {
     await page.locator(`[data-filter="${category}"]`).click();
@@ -144,8 +149,8 @@ async function main() {
   assert.equal(await page.locator("#capability-rows tr:visible").count(), catalog.capabilities.length);
   record("六类能力筛选、关键词、空结果、恢复全部");
   await page.locator("#capabilities").scrollIntoViewIfNeeded();
-  await page.screenshot({path:path.join(project, "assets/04-web-capabilities.png")});
-  screenshots.push("assets/04-web-capabilities.png");
+  await page.screenshot({path:path.join(project, "assets/",shotName("04-web-capabilities.png"))});
+  screenshots.push("assets/"+shotName("04-web-capabilities.png"));
 
   for(const [key, expected] of [["generated", "模型生成素材"], ["footage", "检索真实镜头"], ["code", "代码描述画面"]]) {
     await page.locator(`[data-path="${key}"]`).click();
@@ -179,8 +184,8 @@ async function main() {
 
   await page.locator('[data-stage="3"]').click();
   await page.locator(".workflow-demo").scrollIntoViewIfNeeded();
-  await page.locator(".workflow-demo").screenshot({path:path.join(project, "assets/02-web-workflow.png")});
-  screenshots.push("assets/02-web-workflow.png");
+  await page.locator(".workflow-demo").screenshot({path:path.join(project, "assets/",shotName("02-web-workflow.png"))});
+  screenshots.push("assets/"+shotName("02-web-workflow.png"));
   await page.locator("#stage-detail details summary").click();
   assert((await page.locator("#stage-detail pre").innerText()).includes("scene_plan"));
   record("交接材料示例展开");
@@ -197,12 +202,12 @@ async function main() {
     await page.locator('[data-filter="all"]').click();
     if(width === 390) {
       await page.evaluate(() => window.scrollTo(0,0));
-      await page.screenshot({path:path.join(project, "assets/03-web-mobile.png")});
-      screenshots.push("assets/03-web-mobile.png");
+      await page.screenshot({path:path.join(project, "assets/",shotName("03-web-mobile.png"))});
+      screenshots.push("assets/"+shotName("03-web-mobile.png"));
       await page.locator('#comparison h2').scrollIntoViewIfNeeded();
       await page.evaluate(() => window.scrollTo(0,document.querySelector('#comparison').getBoundingClientRect().top + scrollY - 128));
-      await page.screenshot({path:path.join(project,"assets/07-web-comparison-mobile.png")});
-      screenshots.push("assets/07-web-comparison-mobile.png");
+      await page.screenshot({path:path.join(project,"assets/",shotName("07-web-comparison-mobile.png"))});
+      screenshots.push("assets/"+shotName("07-web-comparison-mobile.png"));
     }
   }
   record("手机比较表逐项目显示、11 项完整可见且无横向溢出");
