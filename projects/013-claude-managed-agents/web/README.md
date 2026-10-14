@@ -29,8 +29,8 @@ python -m http.server 8793 --bind 127.0.0.1 --directory site-claude-agents-previ
 
 打开 `http://127.0.0.1:8793/013-claude-managed-agents/`。选择已有 001、002、007 是为了验证组合方向中的站内链接。临时构建目录已被仓库 `site-*` 规则忽略。
 
-资源均使用相对路径，导航使用锚点，部署前缀为 `/1013_codex_project/013-claude-managed-agents/`。无需后端、凭据或第三方 CDN。正式部署按 [部署约定](../../../docs/deployment.md) 收集已提交静态文件；本次未发布，`demo_url` 为空。
+资源均使用相对路径，导航使用锚点，部署前缀为 `/1013_codex_project/013-claude-managed-agents/`。无需后端、凭据或第三方 CDN。正式部署按 [部署约定](../../../docs/deployment.md) 收集已提交静态文件；[公开网址](https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/) 已发布并实际验证，`demo_url` 已登记。完整 18 项摘要及原 PNG 引导图同时保留在站点首页。
 
 ## 验证
 
-具体资源、布局和交互结果见 [本地验证记录](../experiments/results/verification.md)。本地网页验证与产品实测分别记录，不将教学模拟视为真实多 Agent 成果。
+具体资源、布局和交互结果见 [本地验证记录](../experiments/results/verification.md) 与 [公网发布记录](../experiments/results/publication-2026-10-14.md)。本地网页验证与产品实测分别记录，不将教学模拟视为真实多 Agent 成果。

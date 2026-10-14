@@ -55,6 +55,8 @@ site-dist/                   # 临时构建目录，不提交到 Git
 
 ## 构建与发布范围
 
+项目 013 于 2026-10-14 随内容提交 `42f8398f0db99b0f8870ff42ccbc9bc7ddcde1b1` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38514399743)成功。[Claude Managed Agents 理解网页](https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/)明确说明多 Agent 编排与运行管理的能力、模型规划与程序执行原理、核心价值、个人意义及八种扩展场景，包含拆分、下发、黑盒接口和海底世界案例。首页完整保留 18 项摘要，沿用本次讨论的完整高清总览图。19 个公开地址 HTTP 200 且内容一致，13 组公网浏览器检查通过，已有 10 个演示入口保留；网页不执行真实 Agent 或 3D 场景。正式入口登记与后续检查见 [项目 013 发布记录](../projects/013-claude-managed-agents/experiments/results/publication-2026-10-14.md)。
+
 项目 012 于 2026-10-14 随内容提交 `4d40a06c72d223dd60140e531f69a044744bcaca` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38512370698)成功。[tchMaterial Parser 理解网页](https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/)完整说明不同版本小学教材下载与整理能力、官方来源与节点、认证下载原理、操作便利、价值与场景、六项扩展场景及实现前提。首页完整保留 16 项摘要并沿用本次讨论的完整理解图；首次 18 个公网地址与 25 项浏览器检查通过，已有九个网页入口保留。网页不执行教材下载或模型请求；正式入口登记与最终证据见[项目 012 发布记录](../projects/012-tchmaterial-parser/experiments/results/publication-2026-10-14.md)。
 
 项目 012 正式入口登记提交为 `dd312b54a573d4d7b68a3ccd4b2d64c05b005a8a`，[登记后的工作流](https://github.com/yydshly/1013_codex_project/actions/runs/38512835233)成功。最终 18 个公开地址与内容一致性再次通过，完整 16 项摘要及原理解图保留，详见项目 012 发布记录。

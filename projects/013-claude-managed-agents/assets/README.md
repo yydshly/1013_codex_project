@@ -14,3 +14,10 @@
 | `undersea-mobile.png` | 手机布局的海底世界任务组织长截图，显示六个阶段、模块状态与任务接口 | 390 像素视口的元素长截图，阶段 5；含固定的跳转焦点提示，状态全部为教学数据 |
 
 网页正文和任务均为研究说明与固定教学数据，不是实际 Agent 或模型输出。`web/assets/` 中的总览 SVG / PNG 与这里的文件一致。`experiments/results/overview-top.png` 和 `overview-bottom.png` 用于检查解释图上下部分的文字和排版，不作为产品截图。截图保存日期为 2026-10-14（北京时间）。
+
+## 公网发布截图 · 2026-10-14
+
+- `publication-desktop.jpg`：公开理解网页的桌面首屏，浏览器默认视口 1280 × 720；展示主 Agent 规划、程序安排与验收。
+- `publication-mobile.jpg`：同一公开网页在 390 × 844 视口的手机首屏；实际截图不包含浏览器窗口边框。
+
+来源：[已部署的项目网页](https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/)；本仓库使用浏览器截图保存，没有引用上游产品界面。截图仅证明静态网页展示，不是多 Agent 运行或 3D 场景。

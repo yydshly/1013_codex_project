@@ -2,7 +2,7 @@
 
 > 本质是多 Agent 的编排与运行管理。单次工作流累计启动 Agent 上限为 1000；主 Agent 依靠模型规划拆分任务，程序安排执行。核心是做好任务拆分、接口、依赖和验收，适用于并行、大型和模块化任务；内部实现可黑盒，状态与成果证据应可检查。
 
-[返回总索引](../../README.md#项目索引) · [官方文档](https://platform.claude.com/docs/en/managed-agents/overview) · [网页源文件](./web/index.html) · [网页运行说明](./web/README.md) · [验证与实验](./experiments/README.md)
+[在线理解网页](https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/) · [返回总索引](../../README.md#项目索引) · [官方文档](https://platform.claude.com/docs/en/managed-agents/overview) · [网页源文件](./web/index.html) · [网页运行说明](./web/README.md) · [验证与实验](./experiments/README.md)
 
 ## 研究对象与结论
 
@@ -58,8 +58,8 @@
 | 功能时间点 | 官方记录动态工作流于 2026-10-09 进入 Beta |
 | 研究版本 | 官方资料的本次核对日期；未获取底层源码 commit |
 | 上游开源许可证 | 未确认；`source_ref` 与 `source_license` 保持为空 |
-| 状态 | `researching`：资料研究和本地导读，尚未运行服务 |
-| 公开网址 | 未部署；`demo_url` 保持为空 |
+| 状态 | `researching`：资料研究与已发布导读，尚未运行上游服务 |
+| 公开网址 | [多 Agent 编排与运行管理理解网页](https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/)，已经发布并实际访问验证 |
 
 ## 网页内容
 
@@ -110,9 +110,15 @@ python scripts/build_site.py --project 013-claude-managed-agents --project 001-i
 python -m http.server 8793 --bind 127.0.0.1 --directory site-claude-agents-preview
 ```
 
-访问 `http://127.0.0.1:8793/013-claude-managed-agents/`。统一部署子路径为 `/1013_codex_project/013-claude-managed-agents/`。当前仅本地制作与验证，公网入口为空；实际发布遵循 [部署约定](../../docs/deployment.md)。
+访问 `http://127.0.0.1:8793/013-claude-managed-agents/`。统一部署子路径为 `/1013_codex_project/013-claude-managed-agents/`。已按统一站点发布，[公网入口](https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/) 已验证；实际发布遵循 [部署约定](../../docs/deployment.md)。
 
 也可直接用浏览器打开 `web/index.html` 阅读和操作教学演示；“全部项目”和跨项目链接需要上述静态构建与本地服务。
+
+## 公网发布
+
+2026-10-14，内容提交 `42f8398f0db99b0f8870ff42ccbc9bc7ddcde1b1` 的 [GitHub Pages 工作流](https://github.com/yydshly/1013_codex_project/actions/runs/38514399743) 成功。首次 19 个公开地址全部 HTTP 200，内容与提交或构建输出一致，18 项摘要和原高清引导图保留，已有 10 个静态演示入口仍可访问。
+
+已在公开网页操作机制切换、六阶段海底世界、六份任务接口、三种研究流程、问答、文件下载、手机键盘控制和首页回跳，并检查六种宽度。网页为静态教学展示，不执行真实托管任务。完整范围与正式入口登记后的结果见 [发布验证](./experiments/results/publication-2026-10-14.md)。
 
 ## 验证范围与后续实验
 

@@ -19,7 +19,7 @@
   ],
   "preview": "assets/understanding-overview.png",
   "preview_caption": "沿用本次讨论整理的完整理解总览图（2400 × 5200）：1000 累计启动上限、主 Agent 规划拆分、任务接口、黑盒边界、下发控制、海底世界与参考价值。本仓库原创解释图，非产品运行截图。",
-  "demo_url": "",
+  "demo_url": "https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/",
   "summary_sections": [
     {
       "label": "定位",

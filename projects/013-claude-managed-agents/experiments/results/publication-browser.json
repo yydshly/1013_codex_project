@@ -1,0 +1,297 @@
+{
+  "checked_at": "2026-10-14T05:08:01.313Z",
+  "source_commit": "42f8398f0db99b0f8870ff42ccbc9bc7ddcde1b1",
+  "url": "https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/",
+  "scope": "Public static teaching page only; no real Agent execution.",
+  "checks": [
+    {
+      "check": "mode switching",
+      "passed": true
+    },
+    {
+      "check": "six undersea phases",
+      "passed": true,
+      "states": [
+        {
+          "done": 0,
+          "failed": 0,
+          "label": "阶段 1 / 6",
+          "selected": 1,
+          "title": "先明确玩法、接口与完成标准"
+        },
+        {
+          "done": 0,
+          "failed": 0,
+          "label": "阶段 2 / 6",
+          "selected": 1,
+          "title": "先做好共享的场景基座"
+        },
+        {
+          "done": 1,
+          "failed": 0,
+          "label": "阶段 3 / 6",
+          "selected": 1,
+          "title": "环境、玩家与鱼群按接口开发"
+        },
+        {
+          "done": 4,
+          "failed": 0,
+          "label": "阶段 4 / 6",
+          "selected": 1,
+          "title": "接入互动，再组织探索任务"
+        },
+        {
+          "done": 3,
+          "failed": 1,
+          "label": "阶段 5 / 6",
+          "selected": 1,
+          "title": "集成时发现鱼群穿过珊瑚"
+        },
+        {
+          "done": 6,
+          "failed": 0,
+          "label": "阶段 6 / 6",
+          "selected": 1,
+          "title": "修复后重测完整的小区域"
+        }
+      ]
+    },
+    {
+      "check": "six module contracts",
+      "passed": true,
+      "contracts": [
+        {
+          "module": "foundation",
+          "title": "场景基座",
+          "fields": [
+            "能力",
+            "输入",
+            "输出",
+            "依赖与约束",
+            "验收",
+            "失败处理"
+          ]
+        },
+        {
+          "module": "environment",
+          "title": "海床、珊瑚与水体",
+          "fields": [
+            "能力",
+            "输入",
+            "输出",
+            "依赖与约束",
+            "验收",
+            "失败处理"
+          ]
+        },
+        {
+          "module": "player",
+          "title": "移动与视角",
+          "fields": [
+            "能力",
+            "输入",
+            "输出",
+            "依赖与约束",
+            "验收",
+            "失败处理"
+          ]
+        },
+        {
+          "module": "fish",
+          "title": "鱼群游动与避障",
+          "fields": [
+            "能力",
+            "输入",
+            "输出",
+            "依赖与约束",
+            "验收",
+            "失败处理"
+          ]
+        },
+        {
+          "module": "interaction",
+          "title": "观察与地标互动",
+          "fields": [
+            "能力",
+            "输入",
+            "输出",
+            "依赖与约束",
+            "验收",
+            "失败处理"
+          ]
+        },
+        {
+          "module": "objectives",
+          "title": "探索任务与界面",
+          "fields": [
+            "能力",
+            "输入",
+            "输出",
+            "依赖与约束",
+            "验收",
+            "失败处理"
+          ]
+        }
+      ]
+    },
+    {
+      "check": "three study flows and resets",
+      "passed": true,
+      "results": [
+        {
+          "scenario": "normal",
+          "steps": 5,
+          "finished": true,
+          "title": "由一个步骤统一汇总",
+          "intermediateIssue": true
+        },
+        {
+          "scenario": "retry",
+          "steps": 7,
+          "finished": true,
+          "title": "由一个步骤统一汇总",
+          "intermediateIssue": true
+        },
+        {
+          "scenario": "evidence",
+          "steps": 7,
+          "finished": true,
+          "title": "由一个步骤统一汇总",
+          "intermediateIssue": true
+        }
+      ],
+      "evidenceIntermediate": "项目 A\t待复核\t示例：结论＋源码位置＋实验记录＋未验证项\n项目 B\t待补证据\t示例：宣称已复现，但未提供实验记录\n项目 C\t待复核\t示例：结论＋源码位置＋实验记录＋未验证项"
+    },
+    {
+      "check": "FAQ expansion",
+      "passed": true
+    },
+    {
+      "check": "extension anchor and 8 scenarios",
+      "passed": true
+    },
+    {
+      "check": "SVG PNG JSON downloads",
+      "passed": true,
+      "downloads": [
+        {
+          "name": "下载 SVG ↓",
+          "bytes": 12122,
+          "sha256": "e8b8058f8c677fb0c767bb7fd021b939f77aadd4b3f40dd368961f41970019b3"
+        },
+        {
+          "name": "下载 PNG ↓",
+          "bytes": 1185705,
+          "sha256": "136537eb21199cb206756c9f8ac7928debf1dbc60afc95fb788900d815c494e4"
+        },
+        {
+          "name": "下载 JSON ↓",
+          "bytes": 2421,
+          "sha256": "b0225217a5cd1c0bad6345dbbac4dafe8e8725281070983ba789b2341326f6e8"
+        }
+      ]
+    },
+    {
+      "check": "responsive page and extension table",
+      "passed": true,
+      "viewports": [
+        {
+          "briefCards": 4,
+          "documentWidth": 305,
+          "tableScroll": true,
+          "width": 320
+        },
+        {
+          "briefCards": 4,
+          "documentWidth": 375,
+          "tableScroll": true,
+          "width": 390
+        },
+        {
+          "briefCards": 4,
+          "documentWidth": 745,
+          "tableScroll": false,
+          "width": 760
+        },
+        {
+          "briefCards": 4,
+          "documentWidth": 753,
+          "tableScroll": true,
+          "width": 768
+        },
+        {
+          "briefCards": 4,
+          "documentWidth": 1009,
+          "tableScroll": false,
+          "width": 1024
+        },
+        {
+          "briefCards": 4,
+          "documentWidth": 1425,
+          "tableScroll": false,
+          "width": 1440
+        }
+      ]
+    },
+    {
+      "check": "mobile keyboard module and phase controls",
+      "passed": true,
+      "state": {
+        "docWidth": 375,
+        "failed": 1,
+        "fields": 6,
+        "phase": "阶段 5 / 6",
+        "task": "鱼群游动与避障",
+        "width": 390
+      }
+    },
+    {
+      "check": "home full summary and guide",
+      "passed": true,
+      "state": {
+        "summaryCount": 18,
+        "summaryLabels": [
+          "定位",
+          "能力",
+          "原理",
+          "输入",
+          "输出",
+          "核心价值",
+          "对我们的意义",
+          "适用场景",
+          "规模上限",
+          "拆分判断",
+          "任务接口",
+          "黑盒边界",
+          "下发与控制",
+          "可扩展场景",
+          "扩展前提",
+          "自建路线",
+          "资料深度",
+          "边界与验证"
+        ],
+        "guideSource": "./previews/013-claude-managed-agents.png",
+        "sourceLabel": "Claude Managed Agents 官方文档 ↗\n产品网站 · 公开资料研究"
+      }
+    },
+    {
+      "check": "home guide and return navigation",
+      "passed": true
+    },
+    {
+      "check": "browser console",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "check": "home original guide renders",
+      "passed": true,
+      "state": {
+        "complete": true,
+        "height": 5200,
+        "top": 1486.229248046875,
+        "width": 2400
+      }
+    }
+  ]
+}
