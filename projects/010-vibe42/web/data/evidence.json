@@ -1,0 +1,243 @@
+{
+  "date": "2026-10-14",
+  "scope": "公开资料研究与原创教学网页；未连接真实产品",
+  "version_observation": "下载元数据0.11.0；无源码commit",
+  "records": [
+    {
+      "level": "official",
+      "claim": "电脑运行Companion",
+      "note": "安装说明明确电脑端服务及systemd/supervisor管理。",
+      "source": "https://vibe42.ai/install.md"
+    },
+    {
+      "level": "official",
+      "claim": "Linux要求tmux 3.0+",
+      "note": "这是安装前提；Mac实现不能由此直接推定。",
+      "source": "https://vibe42.ai/install.md"
+    },
+    {
+      "level": "official",
+      "claim": "完整PTY与会话接续",
+      "note": "开发者应用说明；尚未实际运行。",
+      "source": "https://play.google.com/store/apps/details?id=ai.vibecafe.x"
+    },
+    {
+      "level": "official",
+      "claim": "直连或加密中继",
+      "note": "官网公开产品路径；穿透细节未公开。",
+      "source": "https://vibe42.ai/"
+    },
+    {
+      "level": "official",
+      "claim": "Noise与设备端密钥",
+      "note": "官网说明握手框架；具体模式未知。",
+      "source": "https://vibe42.ai/"
+    },
+    {
+      "level": "official",
+      "claim": "内容不留存、运营元数据存在",
+      "note": "隐私政策分别列出内容与账号/连接记录。",
+      "source": "https://vibe42.ai/privacy"
+    },
+    {
+      "level": "official",
+      "claim": "Mac/Linux主机、Windows浏览器控制",
+      "note": "官方安装说明区分Computer与Device。",
+      "source": "https://vibe42.ai/install.md"
+    },
+    {
+      "level": "official",
+      "claim": "OSC7501状态协议",
+      "note": "状态语义有官网及协议文档依据；完整通知管道未知。",
+      "source": "https://www.superlogical.com/rex/docs/build/program-status"
+    },
+    {
+      "level": "official",
+      "claim": "下载元数据标注0.11.0",
+      "note": "只读元数据响应，不代表源码commit或安装验证。",
+      "source": "https://vibe42.ai/downloads/api/meta"
+    },
+    {
+      "level": "inference",
+      "claim": "控制面与数据面逻辑拆分",
+      "note": "依据公开职责整理；不是内部服务目录。",
+      "source": "https://vibe42.ai/privacy"
+    },
+    {
+      "level": "inference",
+      "claim": "桌面采集、编码与逆向输入",
+      "note": "依据Mac权限和展示推导；具体接口/编码未知。",
+      "source": "https://vibe42.ai/install.md"
+    },
+    {
+      "level": "inference",
+      "claim": "恢复时应先查看再重发",
+      "note": "通用网络与任务执行语义分析；不是产品默认策略证明。",
+      "source": "https://man7.org/linux/man-pages/man7/pty.7.html"
+    },
+    {
+      "level": "proposal",
+      "claim": "自己的最小远程工作系统",
+      "note": "本研究提出的阶段路线，尚未实现后端。",
+      "source": "https://github.com/tmux/tmux"
+    },
+    {
+      "level": "proposal",
+      "claim": "原生Adapter与通用终端共存",
+      "note": "借鉴Agenvo形成的集成建议。",
+      "source": "https://github.com/Xuanwo/agenvo/blob/68e046a5d8691054f8c134d85ae051988bae3dff/design/architecture.zh-CN.md"
+    },
+    {
+      "level": "unverified",
+      "claim": "NAT穿透、路径选择和浏览器回退",
+      "note": "无公开核心源码或完整协议细节；未测。",
+      "source": "https://github.com/vibe42-ai"
+    },
+    {
+      "level": "unverified",
+      "claim": "每种Agent的状态适配",
+      "note": "通用兼容不自动说明原生状态准确性。",
+      "source": "https://vibe42.ai/"
+    },
+    {
+      "level": "unverified",
+      "claim": "运行、安全与性能效果",
+      "note": "未安装配对、抓包、测量延迟或耗电。",
+      "source": "https://vibe42.ai/install.md"
+    },
+    {
+      "level": "unverified",
+      "claim": "完整源码许可证与自托管方案",
+      "note": "官方GitHub本次无公开仓库；未知保持未知。",
+      "source": "https://github.com/vibe42-ai"
+    }
+  ],
+  "sources": [
+    {
+      "id": "home",
+      "title": "Vibe42 官网",
+      "url": "https://vibe42.ai/",
+      "note": "产品定位、Ghostty、直连/中继、Noise 与状态协议；属于官方说明。"
+    },
+    {
+      "id": "install",
+      "title": "官方安装与故障排查说明",
+      "url": "https://vibe42.ai/install.md",
+      "note": "Companion、Mac/Linux 条件、tmux、systemd/supervisor、设备配对、权限与网络排查。"
+    },
+    {
+      "id": "bootstrap",
+      "title": "官方安装入口脚本",
+      "url": "https://get.vibe42.app/install.sh",
+      "note": "只读检查下载、安装入口、用户 shell 文件和 PATH；未执行安装。"
+    },
+    {
+      "id": "privacy",
+      "title": "Vibe42 隐私政策",
+      "url": "https://vibe42.ai/privacy",
+      "note": "工作内容、设备密钥、账号与连接元数据、授权和推送令牌的边界。"
+    },
+    {
+      "id": "meta",
+      "title": "官方客户端下载元数据",
+      "url": "https://vibe42.ai/downloads/api/meta",
+      "note": "本次响应标注 macOS/iOS/Android 0.11.0；没有安装或验证其发布包。"
+    },
+    {
+      "id": "github",
+      "title": "Vibe42 官方 GitHub 组织",
+      "url": "https://github.com/vibe42-ai",
+      "note": "本次查看没有公开仓库；不能据此确认内部源码、全部依赖或开源许可证。"
+    },
+    {
+      "id": "store",
+      "title": "Google Play 开发者应用说明",
+      "url": "https://play.google.com/store/apps/details?id=ai.vibecafe.x",
+      "note": "完整 PTY、文件浏览/编辑、会话接续与设备授权的产品声明。"
+    },
+    {
+      "id": "pty",
+      "title": "Linux PTY 手册",
+      "url": "https://man7.org/linux/man-pages/man7/pty.7.html",
+      "note": "伪终端两端、双向输入输出、控制字符与前台进程组。"
+    },
+    {
+      "id": "tmux",
+      "title": "tmux 官方仓库",
+      "url": "https://github.com/tmux/tmux",
+      "note": "终端复用、分离后持续运行与重新附着；是机制说明，不是 Vibe42 内部源码。"
+    },
+    {
+      "id": "noise",
+      "title": "Noise Protocol Framework",
+      "url": "https://noiseprotocol.org/noise.html",
+      "note": "握手、公钥协商与加密传输；具体模式和算法组合需另行确认。"
+    },
+    {
+      "id": "osc",
+      "title": "OSC 7501 Program Status Protocol",
+      "url": "https://www.superlogical.com/rex/docs/build/program-status",
+      "note": "idle/working/done/blocked/error、用户介入类型与上报语义。"
+    },
+    {
+      "id": "kitty",
+      "title": "Kitty 图片协议",
+      "url": "https://sw.kovidgoyal.net/kitty/graphics-protocol/",
+      "note": "终端图片传送与显示的协议机制。"
+    },
+    {
+      "id": "agenvo",
+      "title": "Agenvo 固定版本架构",
+      "url": "https://github.com/Xuanwo/agenvo/blob/68e046a5d8691054f8c134d85ae051988bae3dff/design/architecture.zh-CN.md",
+      "note": "对应以前研究的 68e046a：Relay、Connector、Adapter 与原生运行时。"
+    },
+    {
+      "id": "agenvo-security",
+      "title": "Agenvo 固定版本安全说明",
+      "url": "https://github.com/Xuanwo/agenvo/blob/68e046a5d8691054f8c134d85ae051988bae3dff/SECURITY.zh-CN.md",
+      "note": "自托管边界、Relay 的内容可见性与原生权限。"
+    },
+    {
+      "id": "cmux",
+      "title": "cmux 固定版本 README",
+      "url": "https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/README.md",
+      "note": "工作区、终端、浏览器与 Agent 控制；本次补充对比。"
+    },
+    {
+      "id": "cmux-mobile",
+      "title": "cmux 官方移动入口",
+      "url": "https://cmux.com/",
+      "note": "本次官网提供 iOS/iPadOS companion beta，不能把 cmux 简化成纯本地工具。"
+    },
+    {
+      "id": "cmux-tmux",
+      "title": "cmux local-tmux 说明",
+      "url": "https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/docs/local-tmux.md",
+      "note": "UI 恢复、tmux 活进程与原生 Agent session 的不同生命周期。"
+    },
+    {
+      "id": "cmux-transport",
+      "title": "cmux 移动传输架构文档",
+      "url": "https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/docs/iroh-app-transport-architecture.md",
+      "note": "文档说明 Iroh/QUIC、端点身份与账户配对；未进行运行验证。"
+    },
+    {
+      "id": "cmux-license",
+      "title": "cmux 根许可证",
+      "url": "https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/LICENSE",
+      "note": "主体 GPL-3.0-or-later；列出的服务器目录另受 BUSL-1.1 条件约束。"
+    },
+    {
+      "id": "wireguard",
+      "title": "WireGuard 官方协议",
+      "url": "https://www.wireguard.com/protocol/",
+      "note": "IP 包的认证、握手、UDP 加密封装；不提供 Agent 业务界面。"
+    },
+    {
+      "id": "wg-install",
+      "title": "WireGuard Install 固定脚本",
+      "url": "https://github.com/hwdsl2/wireguard-install/blob/3f428774e61c95bca60d1e7b80f0c768ca2c6137/wireguard-install.sh",
+      "note": "以前研究的部署、peer 配置、转发、NAT 和防火墙。"
+    }
+  ]
+}

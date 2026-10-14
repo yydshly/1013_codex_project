@@ -74,6 +74,35 @@ class ProjectToolsTests(unittest.TestCase):
         rendered = render_index(load_projects(self.root))
         self.assertLess(rendered.index("z-first"), rendered.index("a-second"))
 
+    def test_product_website_requires_explicit_type_and_renders_honest_source(self):
+        with self.assertRaises(ValueError):
+            create_project("product", "产品", "https://vibe42.ai/", "公开资料研究", root=self.root)
+        target = create_project("product", "产品", "https://vibe42.ai/", "公开资料研究",
+                                root=self.root, source_type="website")
+        self.modify_metadata(target, source_name="Vibe42 官网")
+        self.create("code-project")
+        projects = load_projects(self.root)
+        index = render_index(projects)
+        self.assertIn("| 研究来源 |", index)
+        self.assertIn("[Vibe42 官网](https://vibe42.ai/)<br>产品网站 · 公开资料研究", index)
+        self.assertIn("[source](https://github.com/example/source)<br>example", index)
+        self.assertIn("官方产品网站", (target / "README.md").read_text(encoding="utf-8"))
+
+    def test_website_source_rejects_credentials_unsafe_urls_and_invalid_metadata(self):
+        target = create_project("product", "产品", "https://vibe42.ai/", "公开资料研究",
+                                root=self.root, source_type="website")
+        path = target / "project.json"
+        original = path.read_text(encoding="utf-8")
+        for change in ({"source_url": "javascript:alert(1)"},
+                       {"source_url": "https://name:secret@example.com/"},
+                       {"source_type": "unknown"}, {"source_type": []},
+                       {"source_name": ""}, {"source_name": "多行\n名称"}):
+            with self.subTest(change=change):
+                path.write_text(original, encoding="utf-8")
+                self.modify_metadata(target, **change)
+                with self.assertRaises(ValueError):
+                    load_projects(self.root)
+
     def test_duplicate_slug_is_rejected_without_changing_index(self):
         self.create()
         original = (self.root / "README.md").read_text(encoding="utf-8")

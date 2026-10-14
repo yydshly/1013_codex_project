@@ -14,6 +14,8 @@ python scripts/new_project.py example-project --name "项目名称" --source "ht
 - 同一 `slug` 不重复收录。相关研究优先补充到已有子项目。
 - 模板仅用于创建项目，不计入研究索引。
 
+对于没有公开源码仓库的产品研究，显式使用 `--source-type website --source "https://产品官网/"`，登记真实官网，不填写虚构的 GitHub 仓库。元信息的 `source_type` 缺省为 `repository`，旧项目继续严格校验 GitHub 仓库地址；网站研究可用 `source_name` 填写展示名称。此类项目需明确区分公开文档、协议机制、实现推导与运行验证，未知源码版本和许可证保持为空。
+
 创建后形成：
 
 ```text
@@ -38,7 +40,8 @@ projects/001-example-project/
 | `name` | 对外展示名称 |
 | `summary` | 完整单行摘要，介绍项目能力、原理、输入输出、价值与本次研究重点；作为兼容字段保留 |
 | `summary_sections` | 可选的分项摘要数组，格式为 `[{"label": "能力", "text": "具体说明"}, ...]`；标签加粗并逐项换行显示，旧项目未填写时仍展示 `summary` |
-| `source_url` | 原 GitHub 仓库地址 |
+| `source_url` | 原 GitHub 仓库地址；显式网站研究填写官网 |
+| `source_type` / `source_name` | 可选来源类型与展示名称；类型缺省为 `repository`，无公开源库的产品使用 `website` |
 | `source_ref` | 实际研究的 tag 或 commit；暂未选定时留空 |
 | `source_license` | 查证后的上游许可证；未知时留空 |
 | `status` | `planned`、`researching`、`reproduced`、`completed` 或 `archived` |
@@ -49,7 +52,7 @@ projects/001-example-project/
 
 `project.json` 管理首页展示，子项目 README 记录详细研究。更改名称、来源或截图时，同时检查 README 中的对应内容。单行字段不要写多行 Markdown。`summary_sections` 若填写，必须是非空数组，每项 `label` 和 `text` 为非空单行字符串，标签不重复；无需手写 HTML 换行。建议按能力、原理、输入、输出、价值、场景、边界与验证分别描述，内容完整保留，避免以长段文字挤在一起。
 
-总索引使用独立“目标源库”栏，链接名称自动取自 `source_url` 的仓库名，并标明作者。表格内保留分项摘要与相关入口；引导图在表格下方独立的“项目引导图”区展示，同时保留在子项目导读与演示页中。图片标题按项目编号与名称排列，点击图片进入研究文档，图片下方提供说明、来源和原图入口。
+总索引使用独立来源栏；全部为仓库时标题为“目标源库”，包含网站研究时为“研究来源”。仓库链接名称自动取自 `source_url` 的仓库名并标明作者；产品官网使用 `source_name` 或域名并标记公开资料研究。表格内保留分项摘要与相关入口；引导图在表格下方独立的“项目引导图”区展示，同时保留在子项目导读与演示页中。图片标题按项目编号与名称排列，点击图片进入研究文档，图片下方提供说明、来源和原图入口。
 
 ## 3. 记录研究
 

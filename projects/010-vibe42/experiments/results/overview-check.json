@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-14T01:15:12.649Z",
+  "browser": "Chromium 151.0.7922.34",
+  "scope": "原创理解图与教学交互；未运行真实产品",
+  "checks": [
+    {
+      "viewport": 1440,
+      "name": "完整图/原理区域切换、7节点与证据边界",
+      "status": "passed"
+    },
+    {
+      "viewport": 1440,
+      "name": "3条路径逐步追踪与首尾边界",
+      "steps": [
+        6,
+        5,
+        5
+      ],
+      "status": "passed"
+    },
+    {
+      "viewport": 1440,
+      "name": "直连/中继、Enter/Space与自由查看后重新追踪",
+      "status": "passed"
+    },
+    {
+      "viewport": 1440,
+      "name": "视图恢复与页面无横向溢出",
+      "width": {
+        "viewport": 1440,
+        "document": 1440
+      },
+      "status": "passed"
+    },
+    {
+      "name": "SVG与PNG实际下载",
+      "status": "passed"
+    },
+    {
+      "name": "原理视图打印仍显示完整静态图",
+      "status": "passed"
+    },
+    {
+      "viewport": 390,
+      "name": "完整图/原理区域切换、7节点与证据边界",
+      "status": "passed"
+    },
+    {
+      "viewport": 390,
+      "name": "3条路径逐步追踪与首尾边界",
+      "steps": [
+        6,
+        5,
+        5
+      ],
+      "status": "passed"
+    },
+    {
+      "viewport": 390,
+      "name": "直连/中继、Enter/Space与自由查看后重新追踪",
+      "status": "passed"
+    },
+    {
+      "viewport": 390,
+      "name": "视图恢复与页面无横向溢出",
+      "width": {
+        "viewport": 390,
+        "document": 390
+      },
+      "status": "passed"
+    },
+    {
+      "name": "320px布局",
+      "measured": {
+        "viewport": 320,
+        "document": 320
+      },
+      "status": "passed"
+    },
+    {
+      "name": "关闭JavaScript保留完整理解图",
+      "status": "passed"
+    }
+  ],
+  "errors": []
+}

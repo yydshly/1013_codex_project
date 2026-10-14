@@ -1,0 +1,191 @@
+{
+  "date": "2026-10-14T01:15:09.217Z",
+  "browser": "Chromium 151.0.7922.34",
+  "scope": "长章节导航修复后的定向复验；其他交互见browser-check.json",
+  "navigation": [
+    {
+      "width": 1440,
+      "href": "#understanding",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#essence",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#capabilities",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#architecture",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#lifecycle",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#terminals",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#network",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#security",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#notifications",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#desktop",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#comparison",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#meaning",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#implementation",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#boundaries",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#verification",
+      "current": true
+    },
+    {
+      "width": 1440,
+      "href": "#sources",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#understanding",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#essence",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#capabilities",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#architecture",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#lifecycle",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#terminals",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#network",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#security",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#notifications",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#desktop",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#comparison",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#meaning",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#implementation",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#boundaries",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#verification",
+      "current": true
+    },
+    {
+      "width": 390,
+      "href": "#sources",
+      "current": true
+    }
+  ],
+  "widths": [
+    {
+      "viewport": 1440,
+      "document": 1440
+    },
+    {
+      "viewport": 1024,
+      "document": 1024
+    },
+    {
+      "viewport": 768,
+      "document": 768
+    },
+    {
+      "viewport": 390,
+      "document": 390
+    },
+    {
+      "viewport": 320,
+      "document": 320
+    }
+  ],
+  "errors": [],
+  "faviconStatus": 200
+}

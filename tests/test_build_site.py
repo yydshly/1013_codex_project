@@ -67,6 +67,24 @@ class BuildSiteTests(unittest.TestCase):
         self.assertEqual(len(published), 1)
         self.assertFalse((self.root / "site-dist" / "002-unrelated").exists())
 
+    def test_product_website_survives_build_with_safe_source_label(self):
+        project = self.create_project()
+        path = project / "project.json"
+        metadata = json.loads(path.read_text(encoding="utf-8"))
+        metadata.update(source_type="website", source_url="https://vibe42.ai/",
+                        source_name='Vibe42 <官网>')
+        path.write_text(json.dumps(metadata, ensure_ascii=False), encoding="utf-8")
+        build_site(self.root, projects=["001-sample"])
+        home = (self.root / "site-dist" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('<th scope="col">研究来源</th>', home)
+        self.assertIn('href="https://vibe42.ai/">Vibe42 &lt;官网&gt; ↗</a>', home)
+        self.assertIn('产品网站 · 公开资料研究', home)
+        self.assertIn('<title>项目与产品研究 · 能力、原理与价值</title>', home)
+        metadata["source_url"] = "https://name:secret@example.com/"
+        path.write_text(json.dumps(metadata), encoding="utf-8")
+        with self.assertRaises(ValueError):
+            build_site(self.root, projects=["001-sample"])
+
     def test_all_tracked_demos_remain_and_are_ordered(self):
         self.create_project("005-later", tracked=True, demo_url="https://example.com/005-later/")
         self.create_project("001-sample", tracked=True)

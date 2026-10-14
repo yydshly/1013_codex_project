@@ -1,0 +1,74 @@
+{
+  "research_date": "2026-10-14",
+  "timezone": "Asia/Shanghai",
+  "scope": "公开资料核对；没有下载发布包、执行安装、登录配对或复制完整第三方文档",
+  "source_repository": null,
+  "source_commit": null,
+  "source_license": null,
+  "hash_method": "SHA-256 of UTF-8 encoding of the response Content text returned by PowerShell Invoke-WebRequest; not raw wire bytes or signed package verification",
+  "response_records": [
+    {
+      "url": "https://vibe42.ai/install.md",
+      "http_status": 200,
+      "text_characters": 31803,
+      "sha256_utf8_response_text": "2ab885ebc9befe2aa6f5a06bb10b17107a042692c3cdcbd2ec605262927ac397",
+      "observations": [
+        "Mac/Linux host vs browser controller",
+        "Linux tmux >= 3.0",
+        "user systemd and supervisor paths",
+        "outbound HTTPS/QUIC troubleshooting"
+      ]
+    },
+    {
+      "url": "https://get.vibe42.app/install.sh",
+      "http_status": 200,
+      "text_characters": 12174,
+      "sha256_utf8_response_text": "66b811f3873273969239cf8c2809d827e2ee753dfc8b1ea6704e6e38c87843ad",
+      "observations": [
+        "read only; never executed",
+        "installation directory and shell PATH changes"
+      ]
+    },
+    {
+      "url": "https://vibe42.ai/downloads/api/meta",
+      "http_status": 200,
+      "text_characters": 651,
+      "sha256_utf8_response_text": "a0a2004d4d87e7032408b3dc376262adf090e95e72d5e00a5c8eda1d75968860",
+      "observations": [
+        "macOS Apple Silicon and Intel, iOS and Android version fields: 0.11.0",
+        "metadata observation only; not installed version or source commit"
+      ]
+    }
+  ],
+  "prior_project_baselines": [
+    {
+      "product": "Agenvo",
+      "source_url": "https://github.com/Xuanwo/agenvo",
+      "commit": "68e046a5d8691054f8c134d85ae051988bae3dff",
+      "release_observation": "v0.2.0",
+      "method": "existing local research records and fixed official architecture/security",
+      "release_tag_commit": "a89415e557c415faf5626354f8e87233eb69d877",
+      "version_note": "The source analysis commit is distinct from the release tag commit."
+    },
+    {
+      "product": "WireGuard Install",
+      "source_url": "https://github.com/hwdsl2/wireguard-install",
+      "commit": "3f428774e61c95bca60d1e7b80f0c768ca2c6137",
+      "method": "project 005 and fixed installer / official protocol"
+    },
+    {
+      "product": "cmux",
+      "source_url": "https://github.com/manaflow-ai/cmux",
+      "commit": "cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb",
+      "method": "fixed README, transport and tmux docs, root LICENSE, current official mobile entry; not runtime tested"
+    }
+  ],
+  "full_source_register": "../web/data/evidence.json",
+  "limitations": [
+    "public documents can change after the research date",
+    "hashes do not authenticate the product",
+    "official claims are distinct from independently observed behavior",
+    "no public Vibe42 core source repository was found at the research date"
+  ],
+  "requested_url": "https://vibe42.ai/zh-HANS#features"
+}

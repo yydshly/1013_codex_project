@@ -14,6 +14,8 @@ https://yydshly.github.io/1013_codex_project/
 
 这是地址约定。某个项目是否实际发布，以它的 `project.json` 中经过验证的 `demo_url` 和发布记录为准；部署脚本或工作流的存在不等于发布成功。
 
+没有公开源码的产品可显式登记 `source_type: "website"` 与真实官网。混合索引的来源栏使用“研究来源”，网站项目标记为公开资料研究，首页也不把整个列表概括为开源产品。此来源类型不会改变发布范围、独立子路径或 `demo_url` 的验证要求。
+
 ## 当前已验证发布
 
 2026-10-13，已启用仓库 GitHub Pages 的 Actions 发布方式，首次部署提交为 `8d12bcc46c753c9ddc30c8b95f32fa92ecd29013`，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38393707526)以及索引检查均成功。

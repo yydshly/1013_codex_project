@@ -13,8 +13,8 @@ from pathlib import Path
 from urllib.parse import quote
 
 from project_index import (
-    DIRECTORY_PATTERN, ROOT, STATUSES, has_guide_image, source_repository_name,
-    validate_summary_sections, validate_url,
+    DIRECTORY_PATTERN, ROOT, STATUSES, has_guide_image, source_details,
+    validate_source, validate_summary_sections, validate_url,
 )
 
 STATIC_EXTENSIONS = {
@@ -65,7 +65,7 @@ def read_metadata(root: Path, directory: str) -> dict:
     tags = metadata.get("tags")
     if not isinstance(tags, list) or any(not isinstance(tag, str) or not tag.strip() for tag in tags):
         raise ValueError(f"{directory}: tags must be a list of nonempty strings")
-    validate_url(metadata["source_url"], github=True)
+    validate_source(metadata)
     validate_summary_sections(metadata, directory)
     for field in ("source_ref", "source_license", "demo_url"):
         value = metadata.get(field, "")
@@ -124,6 +124,11 @@ def demo_files(root: Path, project: dict, tracked: set[str] | None) -> list[Path
 def render_home(projects: list[dict], repository: str) -> str:
     rows = []
     guides = []
+    has_website = any(p.get("source_type") == "website" for p in projects)
+    source_heading = "研究来源" if has_website else "目标源库"
+    catalog_title = "项目与产品研究" if has_website else "开源项目研究"
+    catalog_eyebrow = "GITHUB 项目与产品公开资料研究" if has_website else "GITHUB 开源项目研究"
+    source_basis = "从源码、官方资料和演示出发" if has_website else "从源码和演示出发"
     for project in projects:
         directory = quote(project["directory"], safe="-_")
         research_url = f"https://github.com/{repository}/blob/main/projects/{directory}/README.md"
@@ -139,8 +144,9 @@ def render_home(projects: list[dict], repository: str) -> str:
             summary = f'<p class="summary">{html.escape(project["summary"])}</p>'
         tags = "".join(f"<span>{html.escape(tag)}</span>" for tag in project["tags"])
         source = html.escape(project["source_url"], quote=True)
-        source_name = html.escape(source_repository_name(project["source_url"]))
-        owner = html.escape(project["source_url"].rstrip("/").split("/")[-2])
+        source_title, source_byline = source_details(project)
+        source_name = html.escape(source_title)
+        owner = html.escape(source_byline)
         guide_link = ""
         if has_guide_image(project):
             preview = f"./previews/{directory}{Path(project['preview']).suffix.lower()}"
@@ -156,21 +162,21 @@ def render_home(projects: list[dict], repository: str) -> str:
         rows.append(f'''<tr>
   <td data-label="编号" class="number">{project['id']}</td>
   <th scope="row" data-label="研究项目" class="project-name"><h2><a href="./{directory}/">{name}</a></h2><div class="tags">{tags}</div></th>
-  <td data-label="目标源库" class="source"><a href="{source}">{source_name} ↗</a><span class="owner">{owner}</span></td>
+  <td data-label="{source_heading}" class="source"><a href="{source}">{source_name} ↗</a><span class="owner">{owner}</span></td>
   <td data-label="研究摘要" class="project-summary">{summary}</td>
   <td data-label="状态与入口" class="entries"><span class="status">{STATUSES[project['status']]}</span>
     <div class="links"><a class="primary" href="./{directory}/">理解与演示 →</a><a href="{research_url}">研究文档 ↗</a>{guide_link}</div></td>
 </tr>''')
     content = ('''<table class="project-index"><caption>研究项目索引</caption><colgroup><col class="col-number"><col class="col-name"><col class="col-source"><col class="col-summary"><col class="col-entries"></colgroup>
-<thead><tr><th scope="col">编号</th><th scope="col">研究项目</th><th scope="col">目标源库</th><th scope="col">研究摘要</th><th scope="col">状态与入口</th></tr></thead>
+<thead><tr><th scope="col">编号</th><th scope="col">研究项目</th><th scope="col">''' + source_heading + '''</th><th scope="col">研究摘要</th><th scope="col">状态与入口</th></tr></thead>
 <tbody>''' + "\n".join(rows) + '</tbody></table>') if rows else '<p class="empty">暂无已提交的静态演示。</p>'
     gallery = ('<section class="project-guides" id="project-guides" aria-labelledby="guides-heading">'
                '<h2 id="guides-heading">项目引导图</h2><p class="guide-intro">按项目编号阅读整体思路、架构或导读页面。每张图保留来源说明，点击图片可查看原图。</p>'
                + "\n".join(guides) + '</section>') if guides else ""
     return f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="开源项目研究：能力、实现原理、输入输出、实际效果、价值与局限，附源码证据和可交互演示。">
-<title>开源项目研究 · 能力、原理与价值</title>
+<meta name="description" content="{catalog_title}：能力、实现原理、输入输出、实际效果、价值与局限，附研究依据和可交互演示。">
+<title>{catalog_title} · 能力、原理与价值</title>
 <style>
 *{{box-sizing:border-box}}body{{margin:0;color:#202a32;background:#f5f6f2;font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.75}}
 .wrap{{max-width:1440px;margin:auto;padding:42px 28px}}header{{border-bottom:1px solid #dce2da;margin-bottom:28px;padding-bottom:24px}}
@@ -184,9 +190,9 @@ thead th{{background:#edf2ea;color:#3e5745;font-size:14px;text-align:left;paddin
 .project-guides{{margin-top:44px;scroll-margin-top:24px}}.project-guides>h2{{font-size:26px;margin-bottom:8px}}.guide-intro{{color:#53636a;margin:0 0 22px}}.project-guide{{background:#fff;border:1px solid #dce2da;border-radius:12px;padding:26px;margin-bottom:24px;scroll-margin-top:24px}}.project-guide h3{{font-size:20px;line-height:1.5;margin:0 0 20px}}.project-guide figure{{margin:0}}.project-guide figure>a{{display:block;text-align:center;background:#f3f5f0;border-radius:8px;padding:18px}}.project-guide img{{display:block;width:100%;max-width:760px;height:auto;margin:0 auto;border-radius:6px}}.project-guide figcaption{{color:#62736a;font-size:14px;margin:14px 0 18px;overflow-wrap:anywhere}}.guide-links{{display:flex;flex-wrap:wrap;gap:12px 24px;font-size:14px}}
 @media(max-width:1000px){{.wrap{{padding:28px 20px}}.project-index,.project-index tbody{{display:block;border:0;background:transparent}}.project-index colgroup,.project-index thead{{display:none}}.project-index caption{{display:block}}.project-index tr{{display:grid;grid-template-columns:1fr 1fr;background:#fff;border:1px solid #dce2da;border-radius:12px;padding:20px;margin:0 0 20px;gap:20px}}tbody td,tbody th{{display:block;padding:0;border:0}}tbody [data-label]::before{{content:attr(data-label);display:block;font-size:12px;color:#69776e;margin-bottom:7px}}.number{{grid-column:1/-1;display:flex;gap:8px;align-items:center}}tbody .number::before{{margin:0}}.project-name,.project-summary{{grid-column:1/-1}}.project-name{{grid-row:2}}.project-summary{{grid-row:4}}.source{{grid-column:1}}.entries{{grid-column:2}}.status{{margin-bottom:9px}}h2{{margin-bottom:10px}}}}
 @media(max-width:520px){{.wrap{{padding:24px 14px}}.project-index tr{{padding:18px;gap:18px}}.source,.entries{{grid-column:1/-1}}.project-summary{{grid-row:5}}.summary-sections>div{{grid-template-columns:1fr;gap:3px;padding:12px 0}}h2{{font-size:21px}}}}
-</style></head><body><main class="wrap"><header><div class="eyebrow">GITHUB 开源项目研究</div><h1>理解能力、原理与实际价值。</h1>
-<p>从源码和演示出发，说明项目能做什么、如何执行、接受什么输入、产生什么输出，以及它对我们有什么用。区分验证结果、研究判断与尚未验证的事项。</p>
-<p>当前有 {len(projects)} 个静态研究演示。点击源库名称查看研究目标，按分项摘要快速判断能力和价值；引导图在索引表下方独立展示，详细说明与示例见项目页。</p></header>
+</style></head><body><main class="wrap"><header><div class="eyebrow">{catalog_eyebrow}</div><h1>理解能力、原理与实际价值。</h1>
+<p>{source_basis}，说明项目能做什么、如何执行、接受什么输入、产生什么输出，以及它对我们有什么用。区分验证结果、研究判断与尚未验证的事项。</p>
+<p>当前有 {len(projects)} 个静态研究演示。点击{source_heading}名称查看研究目标，按分项摘要快速判断能力和价值；引导图在索引表下方独立展示，详细说明与示例见项目页。</p></header>
 {content}{gallery}<footer><a href="https://github.com/{repository}">查看研究仓库 ↗</a> · 静态页面公开展示；模型密钥和本地实验后端不随站点发布。</footer></main></body></html>
 '''
 

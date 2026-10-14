@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="2250" viewBox="0 0 1400 2250" role="img" aria-labelledby="overview-title overview-desc">
+<title id="overview-title">Vibe42理解总览：远程控制Agent的能力、本质、原理、场景、扩展和意义</title>
+<desc id="overview-desc">人从手机或浏览器输入，经授权与加密连接到电脑Companion，再到PTY会话和原生Agent；Agent自行执行工具，输出返回并由人验收。图含七个原理模块、使用条件、建议扩展、产品分工与证据边界。网页原理视图支持点击节点；下载图为静态原创解释。</desc>
+<defs><marker id="ov-green-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#356954"/></marker><marker id="ov-gold-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#9b8153"/></marker></defs>
+<style>.ov-heading{font-size:24px;font-weight:700}.ov-title{font-size:40px;font-weight:750}.ov-text{font-size:18px}.ov-small{font-size:17px}.ov-note{font-size:16px;fill:#697a6e}.ov-label{font-size:21px;font-weight:650}.ov-white{font-size:20px;fill:#f3f5e8;font-weight:550}.ov-flow{fill:none;stroke:#356954;stroke-width:2.7;marker-end:url(#ov-green-arrow)}.ov-state{fill:none;stroke:#9b8153;stroke-width:2;marker-end:url(#ov-gold-arrow)}.ov-control{fill:none;stroke:#91a396;stroke-width:1.8;stroke-dasharray:6 6}.ov-principle-node rect{transition:stroke .15s}.ov-number{font-size:13px;fill:#708578;letter-spacing:1px}</style>
+<rect width="1400" height="2250" fill="#f6f6ee"/><g font-family="Microsoft YaHei,PingFang SC,system-ui,sans-serif" fill="#23473c">
+<text x="56" y="55" class="ov-note"><tspan x="56" dy="0">010 / VIBE42 · 我们的理解总览 · 2026.10.14</tspan></text>
+<text x="56" y="121" class="ov-title"><tspan x="56" dy="0">远程控制 Agent：从手机接手电脑上的工作</tspan></text>
+<text x="56" y="165" class="ov-text"><tspan x="56" dy="0">人发出操作，连接送达输入，Agent在原有环境中理解并执行，结果回到人手里。</tspan></text>
+<rect x="56" y="196" width="1288" height="76" rx="12" fill="#254f40" stroke="#254f40"/>
+<text x="80" y="229" class="ov-white"><tspan x="80" dy="0">本质：已有开发环境的远程交互入口</tspan></text>
+<text x="80" y="255" class="ov-white"><tspan x="80" dy="0">远控提供操作与观察能力；模型能力、工具执行和业务成功分别属于其他层。</tspan></text>
+<text x="56" y="306" class="ov-heading"><tspan x="56" dy="0">01  能力：能远程做什么</tspan></text><text x="56" y="337" class="ov-note"><tspan x="56" dy="0">官方产品说明的能力；完整支持范围与实际行为尚未运行验收。</tspan></text>
+<rect x="56" y="356" width="298" height="145" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="76" y="392" class="ov-label"><tspan x="76" dy="0">终端交互</tspan></text>
+<text x="76" y="427" class="ov-text"><tspan x="76" dy="0">发送文字、按键和确认操作</tspan></text>
+<text x="76" y="466" class="ov-note"><tspan x="76" dy="0">查看输出、光标、颜色与图片</tspan></text>
+<rect x="386" y="356" width="298" height="145" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="406" y="392" class="ov-label"><tspan x="406" dy="0">会话接续</tspan></text>
+<text x="406" y="427" class="ov-text"><tspan x="406" dy="0">手机离开，会话可继续运行</tspan></text>
+<text x="406" y="466" class="ov-note"><tspan x="406" dy="0">前提是电脑和相应进程仍运行</tspan></text>
+<rect x="716" y="356" width="298" height="145" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="736" y="392" class="ov-label"><tspan x="736" dy="0">文件与成果</tspan></text>
+<text x="736" y="427" class="ov-text"><tspan x="736" dy="0">浏览、预览、编辑与传输文件</tspan></text>
+<text x="736" y="466" class="ov-note"><tspan x="736" dy="0">冲突、大小和权限细节待实测</tspan></text>
+<rect x="1046" y="356" width="298" height="145" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="1066" y="392" class="ov-label"><tspan x="1066" dy="0">桌面与通知</tspan></text>
+<text x="1066" y="427" class="ov-text"><tspan x="1066" dy="0">Mac桌面控制、状态提醒</tspan></text>
+<text x="1066" y="466" class="ov-note"><tspan x="1066" dy="0">多设备/团队访问；权限粒度待验</tspan></text>
+<text x="56" y="540" class="ov-note"><tspan x="56" dy="0">兼容终端程序 ≠ 原生任务接口。多设备 / 团队授权与Mac桌面有公开说明，权限和体验需另验。</tspan></text>
+<rect x="28" y="570" width="1344" height="565" rx="12" fill="#edf1e5" stroke="#cbd6c8"/>
+<text x="56" y="610" class="ov-heading"><tspan x="56" dy="0">02  原理：远程交互如何接入真实执行</tspan></text><text x="56" y="641" class="ov-note"><tspan x="56" dy="0">下面是逻辑职责图。点击网页中的节点可放大、查看机制和逐步追踪；内部组件划分未公开。</tspan></text>
+<g class="ov-principle-node" data-principle="control">
+<rect x="319" y="662" width="750" height="58" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="340" y="699" class="ov-label"><tspan x="340" dy="0">设备配对 / 授权 / 在线与路由 · 必要元数据</tspan></text>
+</g>
+<path d="M319 690H168V743M946 722V743" class="ov-control"/>
+<g class="ov-principle-node" data-principle="client">
+<rect x="56" y="746" width="236" height="150" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="73" y="774" class="ov-number"><tspan x="73" dy="0">01 / 控制端</tspan></text>
+<text x="73" y="816" class="ov-label"><tspan x="73" dy="0">手机 / 浏览器</tspan></text>
+<text x="73" y="857" class="ov-text"><tspan x="73" dy="0">人输入与查看</tspan></text>
+</g>
+<path data-edge="client" d="M295 825H314" class="ov-flow"/>
+<g class="ov-principle-node" data-principle="transport">
+<rect x="319" y="746" width="236" height="150" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="336" y="774" class="ov-number"><tspan x="336" dy="0">02 / 连接路径</tspan></text>
+<text x="336" y="816" class="ov-label"><tspan x="336" dy="0">加密连接</tspan></text>
+<text x="336" y="857" class="ov-text"><tspan x="336" dy="0">直连 / 密文中继</tspan></text>
+</g>
+<path data-edge="transport" d="M558 825H577" class="ov-flow"/>
+<g class="ov-principle-node" data-principle="companion">
+<rect x="582" y="746" width="236" height="150" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="599" y="774" class="ov-number"><tspan x="599" dy="0">03 / 电脑服务</tspan></text>
+<text x="599" y="816" class="ov-label"><tspan x="599" dy="0">Companion</tspan></text>
+<text x="599" y="857" class="ov-text"><tspan x="599" dy="0">持续接入本机资源</tspan></text>
+</g>
+<path data-edge="companion" d="M821 825H840" class="ov-flow"/>
+<g class="ov-principle-node" data-principle="session">
+<rect x="845" y="746" width="236" height="150" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="862" y="774" class="ov-number"><tspan x="862" dy="0">04 / Linux要求tmux</tspan></text>
+<text x="862" y="816" class="ov-label"><tspan x="862" dy="0">PTY / 会话</tspan></text>
+<text x="862" y="857" class="ov-text"><tspan x="862" dy="0">程序双向输入输出</tspan></text>
+</g>
+<path data-edge="session" d="M1084 825H1103" class="ov-flow"/>
+<g class="ov-principle-node" data-principle="agent">
+<rect x="1108" y="746" width="236" height="150" rx="12" fill="#dce8d6" stroke="#cbd6c8"/>
+<text x="1125" y="774" class="ov-number"><tspan x="1125" dy="0">05 / 已有开发环境</tspan></text>
+<text x="1125" y="816" class="ov-label"><tspan x="1125" dy="0">Agent / 工具</tspan></text>
+<text x="1125" y="857" class="ov-text"><tspan x="1125" dy="0">决定动作并实际执行</tspan></text>
+</g>
+<path d="M82 919H1320" class="ov-flow" data-trace="input"/>
+<text x="376" y="907" class="ov-note"><tspan x="376" dy="0">输入送达 → Agent依自身配置调用模型与工具</tspan></text>
+<path d="M1316 959H82" class="ov-flow" data-trace="output"/>
+<text x="340" y="947" class="ov-note"><tspan x="340" dy="0">← 终端输出 / 文件 / 画面返回；人检查实际成果</tspan></text>
+<g class="ov-principle-node" data-principle="notify">
+<rect x="581" y="994" width="763" height="91" rx="12" fill="#f4efe1" stroke="#d7c9a8"/>
+<text x="603" y="1028" class="ov-label"><tspan x="603" dy="0">状态报告 → 通知交付 → 手机系统推送</tspan></text>
+<text x="603" y="1060" class="ov-note"><tspan x="603" dy="0">OSC7501、APNs/FCM有依据；完整管道为推导。done仍须验收。</tspan></text>
+</g>
+<path d="M1226 899V989" class="ov-state" data-trace="notice"/>
+<text x="56" y="1021" class="ov-small"><tspan x="56" dy="0">手机App关闭可收到提醒；电脑需持续运行。</tspan></text>
+<text x="56" y="1074" class="ov-note"><tspan x="56" dy="0">终端显示、活进程与Agent历史分开恢复。</tspan></text>
+<text x="56" y="1115" class="ov-note"><tspan x="56" dy="0">信任边界：官方称工作内容设备间加密；账号与连接元数据仍存在。Agent模型调用的数据流另看自身配置。</tspan></text>
+<text x="56" y="1184" class="ov-heading"><tspan x="56" dy="0">03  场景：在哪些时候有用</tspan></text><text x="56" y="1215" class="ov-note"><tspan x="56" dy="0">目标是让人及时观察和接手；这些场景需要真实主机、授权、网络与会话条件。</tspan></text>
+<rect x="56" y="1240" width="630" height="126" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="76" y="1273" class="ov-label"><tspan x="76" dy="0">外出接手开发</tspan></text>
+<text x="76" y="1305" class="ov-text"><tspan x="76" dy="0">查看电脑里的编程任务，处理等待回答或审批的请求。</tspan></text>
+<text x="76" y="1338" class="ov-note"><tspan x="76" dy="0">主机在线；选对会话；对具体操作作确认。</tspan></text>
+<rect x="714" y="1240" width="630" height="126" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="734" y="1273" class="ov-label"><tspan x="734" dy="0">长任务观察</tspan></text>
+<text x="734" y="1305" class="ov-text"><tspan x="734" dy="0">测试、构建或研究继续运行，手机查看进度与结果。</tspan></text>
+<text x="734" y="1338" class="ov-note"><tspan x="734" dy="0">断网、休眠、重启要分别测试；通知不代替验收。</tspan></text>
+<rect x="56" y="1384" width="630" height="126" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="76" y="1417" class="ov-label"><tspan x="76" dy="0">多电脑入口</tspan></text>
+<text x="76" y="1449" class="ov-text"><tspan x="76" dy="0">从一个设备切换已有工作电脑和开发环境。</tspan></text>
+<text x="76" y="1482" class="ov-note"><tspan x="76" dy="0">授权、会话身份、路径与目录必须明确。</tspan></text>
+<rect x="714" y="1384" width="630" height="126" rx="12" fill="#fffefa" stroke="#cbd6c8"/>
+<text x="734" y="1417" class="ov-label"><tspan x="734" dy="0">成果核查与协作</tspan></text>
+<text x="734" y="1449" class="ov-text"><tspan x="734" dy="0">阅读日志、浏览文件，按权限共享访问或通过Mac桌面接手。</tspan></text>
+<text x="734" y="1482" class="ov-note"><tspan x="734" dy="0">真实编辑冲突、团队权限和桌面体验尚未验证。</tspan></text>
+<text x="56" y="1583" class="ov-heading"><tspan x="56" dy="0">04  扩展：我们可以在此基础上探索什么</tspan></text><text x="56" y="1614" class="ov-note"><tspan x="56" dy="0">以下为本研究提出的方向；不是Vibe42已发布功能或已完成的复刻。</tspan></text>
+<rect x="56" y="1638" width="410" height="111" rx="12" fill="#f0eee8" stroke="#d8d2c7"/>
+<text x="74" y="1669" class="ov-label"><tspan x="74" dy="0">结构化 Agent 适配</tspan></text>
+<text x="74" y="1701" class="ov-small"><tspan x="74" dy="0">增加任务/历史/审批ID、事件和精确中断；借鉴</tspan><tspan x="74" dy="25">Agenvo。</tspan></text>
+<rect x="495" y="1638" width="410" height="111" rx="12" fill="#f0eee8" stroke="#d8d2c7"/>
+<text x="513" y="1669" class="ov-label"><tspan x="513" dy="0">恢复与故障对账</tspan></text>
+<text x="513" y="1701" class="ov-small"><tspan x="513" dy="0">稳定会话ID、输出补齐、重连后先查状态，避免</tspan><tspan x="513" dy="25">重复写操作。</tspan></text>
+<rect x="934" y="1638" width="410" height="111" rx="12" fill="#f0eee8" stroke="#d8d2c7"/>
+<text x="952" y="1669" class="ov-label"><tspan x="952" dy="0">授权与可观察性</tspan></text>
+<text x="952" y="1701" class="ov-small"><tspan x="952" dy="0">设备撤销、访问范围、脱敏日志和诊断；明确内容</tspan><tspan x="952" dy="25">与元数据边界。</tspan></text>
+<rect x="56" y="1766" width="410" height="111" rx="12" fill="#f0eee8" stroke="#d8d2c7"/>
+<text x="74" y="1797" class="ov-label"><tspan x="74" dy="0">任务与产物验收</tspan></text>
+<text x="74" y="1829" class="ov-small"><tspan x="74" dy="0">连接测试报告、代码改动、研究文件与人的验收记</tspan><tspan x="74" dy="25">录。</tspan></text>
+<rect x="495" y="1766" width="410" height="111" rx="12" fill="#f0eee8" stroke="#d8d2c7"/>
+<text x="513" y="1797" class="ov-label"><tspan x="513" dy="0">研究工作流衔接</tspan></text>
+<text x="513" y="1829" class="ov-small"><tspan x="513" dy="0">探索接入RAG、cmux工作区与统一模型入口，各层</tspan><tspan x="513" dy="25">独立验收。</tspan></text>
+<rect x="934" y="1766" width="410" height="111" rx="12" fill="#f0eee8" stroke="#d8d2c7"/>
+<text x="952" y="1797" class="ov-label"><tspan x="952" dy="0">平台与部署扩展</tspan></text>
+<text x="952" y="1829" class="ov-small"><tspan x="952" dy="0">探索自建主机与中继，更多平台、权限和移动体验。</tspan></text>
+<text x="56" y="1928" class="ov-heading"><tspan x="56" dy="0">05  意义：选择合适层次，形成自己的工作流</tspan></text><text x="56" y="1959" class="ov-note"><tspan x="56" dy="0">Vibe42是人的跨设备入口；Agenvo是原生接口桥接；cmux是工作台；WireGuard是网络通道。</tspan></text>
+<text x="56" y="2000" class="ov-label"><tspan x="56" dy="0">直接价值</tspan></text>
+<text x="56" y="2031" class="ov-small"><tspan x="56" dy="0">人在外面也能接手电脑任务，减少回到电脑前的等待。</tspan></text>
+<text x="714" y="2000" class="ov-label"><tspan x="714" dy="0">工程参考</tspan></text>
+<text x="714" y="2031" class="ov-small"><tspan x="714" dy="0">学习身份、连接、会话、渲染、通知与执行的职责划分。</tspan></text>
+<text x="56" y="2080" class="ov-label"><tspan x="56" dy="0">对我们的意义</tspan></text>
+<text x="56" y="2111" class="ov-small"><tspan x="56" dy="0">让GitHub研究与长任务有移动入口，并保留可追溯成果。</tspan></text>
+<text x="714" y="2080" class="ov-label"><tspan x="714" dy="0">实际收益条件</tspan></text>
+<text x="714" y="2111" class="ov-small"><tspan x="714" dy="0">依赖在线主机、连接质量与正确会话；效率、费用与可靠性须测量。</tspan></text>
+<path d="M56 2150H1344" stroke="#cbd6c8"/>
+<text x="56" y="2181" class="ov-note"><tspan x="56" dy="0">来源：Vibe42官网、安装与隐私资料；PTY、tmux、Noise、OSC7501；已有Agenvo、cmux和WireGuard研究。</tspan></text>
+<text x="56" y="2221" class="ov-note"><tspan x="56" dy="0">证据边界：原创解释图，非产品截图；未取得核心源码，未安装配对、抓包或测性能。0.11.0仅为下载版本观察。</tspan></text>
+</g></svg>

@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-14T01:15:12.668Z",
+  "browser": "Chromium 151.0.7922.34",
+  "baseUrl": "http://127.0.0.1:8786/010-vibe42/",
+  "scope": "静态研究页面；不验证真实Vibe42",
+  "checks": [
+    {
+      "name": "完整正文、来源、锚点和七个模块",
+      "details": "理解总览+14专题+来源；12对比维度；21来源；18证据",
+      "status": "passed"
+    },
+    {
+      "name": "六步示意与边界",
+      "details": "首尾禁用、前后切换、模拟输出标签",
+      "status": "passed"
+    },
+    {
+      "name": "故障条件、路由与键盘",
+      "details": "4种生命周期；2种路径；Space键可操作",
+      "status": "passed"
+    },
+    {
+      "name": "证据筛选",
+      "details": "4层证据与全部恢复，数量一致",
+      "status": "passed"
+    },
+    {
+      "name": "静态资源与真实下载",
+      "details": "HTTP 200；TXT下载成功且保留研究边界",
+      "status": "passed"
+    },
+    {
+      "name": "构建索引与独立子路径",
+      "details": "首页网站来源标签与010-vibe42往返成功",
+      "status": "passed"
+    },
+    {
+      "name": "章节导航与阅读位置",
+      "details": "点击锚点后长章节的当前导航同步",
+      "status": "passed"
+    },
+    {
+      "name": "完整正文、来源、锚点和七个模块",
+      "details": "理解总览+14专题+来源；12对比维度；21来源；18证据",
+      "status": "passed"
+    },
+    {
+      "name": "六步示意与边界",
+      "details": "首尾禁用、前后切换、模拟输出标签",
+      "status": "passed"
+    },
+    {
+      "name": "故障条件、路由与键盘",
+      "details": "4种生命周期；2种路径；Space键可操作",
+      "status": "passed"
+    },
+    {
+      "name": "证据筛选",
+      "details": "4层证据与全部恢复，数量一致",
+      "status": "passed"
+    },
+    {
+      "name": "桌面/平板/手机布局",
+      "details": [
+        {
+          "viewport": 1440,
+          "document": 1440
+        },
+        {
+          "viewport": 1024,
+          "document": 1024
+        },
+        {
+          "viewport": 768,
+          "document": 768
+        },
+        {
+          "viewport": 390,
+          "document": 390
+        },
+        {
+          "viewport": 320,
+          "document": 320
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "name": "打印样式",
+      "details": "完整比较表保留，交互导航隐藏；未导出PDF",
+      "status": "passed"
+    },
+    {
+      "name": "关闭JavaScript阅读",
+      "details": "完整正文、来源与实现路线可见",
+      "status": "passed"
+    },
+    {
+      "name": "浏览器错误与请求",
+      "details": "无pageerror/console error/failed request；观察到本项目资源均200",
+      "status": "passed"
+    }
+  ],
+  "localResponses": [
+    {
+      "url": "http://127.0.0.1:8786/010-vibe42/",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8786/010-vibe42/assets/understanding-overview.svg",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8786/010-vibe42/styles.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8786/010-vibe42/data/interaction.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8786/010-vibe42/app.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:8786/010-vibe42/assets/architecture.svg",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "failedRequests": [],
+  "screenshots": [
+    "01-web-desktop.png",
+    "02-web-architecture.png",
+    "03-web-comparison.png",
+    "04-web-mobile.png"
+  ]
+}

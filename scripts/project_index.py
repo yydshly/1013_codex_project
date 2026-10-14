@@ -71,6 +71,26 @@ def source_repository_name(source_url: str) -> str:
     return urlsplit(source_url).path.rstrip("/").rsplit("/", 1)[-1]
 
 
+def validate_source(metadata: dict) -> None:
+    """Keep repository validation by default; explicitly allow product websites."""
+    source_type = metadata.get("source_type", "repository")
+    if source_type not in ("repository", "website"):
+        raise ValueError("source_type must be repository or website")
+    validate_url(metadata["source_url"], github=source_type == "repository")
+    if "source_name" in metadata:
+        name = metadata["source_name"]
+        if not isinstance(name, str) or not name.strip() or "\n" in name or "\r" in name:
+            raise ValueError("source_name must be a nonempty single-line string")
+
+
+def source_details(metadata: dict) -> tuple[str, str]:
+    """Return an honest source label for either code or a documented product."""
+    url = urlsplit(metadata["source_url"])
+    if metadata.get("source_type", "repository") == "website":
+        return metadata.get("source_name", url.hostname), "产品网站 · 公开资料研究"
+    return source_repository_name(metadata["source_url"]), url.path.strip("/").split("/")[0]
+
+
 def load_projects(root: Path = ROOT) -> list[dict]:
     """Validate real project folders; templates and directory documentation are excluded."""
     projects = []
@@ -110,7 +130,7 @@ def load_projects(root: Path = ROOT) -> list[dict]:
         ):
             raise ValueError(f"{directory.name}: tags must be a list of nonempty strings")
         validate_summary_sections(metadata, directory.name)
-        validate_url(metadata["source_url"], github=True)
+        validate_source(metadata)
         if metadata["demo_url"]:
             validate_url(metadata["demo_url"])
         preview = metadata["preview"]
@@ -157,8 +177,9 @@ def render_index(projects: list[dict]) -> str:
             "暂无研究项目。首个项目将从 **001** 开始；添加后，这里会展示项目摘要、目标源库、研究状态和相关入口。"
         )
         return "\n".join(lines)
+    source_heading = "研究来源" if any(p.get("source_type") == "website" for p in projects) else "目标源库"
     lines.extend([
-        "| 编号 | 项目 / 研究摘要 | 目标源库 | 研究状态 | 相关入口 |",
+        f"| 编号 | 项目 / 研究摘要 | {source_heading} | 研究状态 | 相关入口 |",
         "| --- | --- | --- | --- | --- |",
     ])
     for project in projects:
@@ -174,8 +195,9 @@ def render_index(projects: list[dict]) -> str:
         if tags:
             intro += f"<br><br>{tags}"
         source_url = project["source_url"]
-        source_name = markdown_text(source_repository_name(source_url))
-        source_owner = markdown_text(urlsplit(source_url).path.strip("/").split("/")[0])
+        source_title, source_byline = source_details(project)
+        source_name = markdown_text(source_title)
+        source_owner = markdown_text(source_byline)
         source = f"[{source_name}]({link_url(source_url)})<br>{source_owner}"
         entries = f"[研究文档]({path}/README.md)"
         if project["demo_url"]:
