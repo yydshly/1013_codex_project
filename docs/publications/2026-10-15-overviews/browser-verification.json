@@ -1,0 +1,233 @@
+{
+  "verified_at": "2026-10-14T23:42:51.106Z",
+  "url": "https://yydshly.github.io/1013_codex_project/",
+  "desktop": {
+    "clip": {
+      "height": 1202,
+      "width": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "count": 15,
+    "horizontalOverflow": false,
+    "ids": [
+      "001",
+      "002",
+      "004",
+      "005",
+      "006",
+      "007",
+      "008",
+      "009",
+      "010",
+      "011",
+      "012",
+      "013",
+      "014",
+      "015",
+      "016"
+    ],
+    "overviewBeforeTable": true,
+    "rows": [
+      {
+        "id": "001",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "002",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "004",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "005",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "006",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "007",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "008",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "009",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "010",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "011",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "012",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "013",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "014",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "015",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "016",
+        "textFits": true,
+        "visible": true
+      }
+    ],
+    "text": "一句话速览\n\n每句概括能力、核心机制与我们的扩展；“拟”表示后续方向，详细依据与验证范围见下方索引。\n\n001\n\nInfinite Bookshelf：按“目录→书名→分节正文”多次调用模型生成长文初稿，我们已补可替换模型接口与中文样稿回放。\n\n002\n\nProduction Agentic RAG Course：通过文档切块、关键词与向量混合检索及模型回答构建论文助手，我们拟扩展为农业资料与项目研究知识库。\n\n004\n\nLeak Check：在已有 SQLite 数据中精确查询、一轮关联并脱敏返回个人信息，我们仅保留查询机制参考，暂不扩展。\n\n005\n\nWireGuard Install：自动生成密钥和配置，借助 WireGuard 的 UDP 加密隧道与 Linux 转发搭建自有 VPN，我们拟扩展分流和管理面板。\n\n006\n\nJev SEO：以网页采集、固定规则和模型判断生成网站整改报告，我们已提取审查流程，支持当前聊天模型与自有模型接口。\n\n007\n\nHermes Jev Skills：让 Jev 做有限判断、本地策略选模型或技能、主模型与工具执行，我们拟扩展个人判断标准与规则或小模型替代方案。\n\n008\n\nshadPS4：通过 x86-64 原生执行、系统兼容与 Vulkan 图形转换运行兼容 PS4 程序，我们已补公开自制程序实测与原理教学。\n\n009\n\ncmux：用终端分屏、会话定位与定向控制让一个人管理多个 Agent，我们已补交互教学，拟扩展任务编排与成果验收。\n\n010\n\nVibe42：通过电脑端 Companion、配对加密连接与终端会话从手机远程操作 Agent，我们拟衔接研究任务与产物验收。\n\n011\n\nOpenMontage：让助手按技能与阶段流程交接脚本、分镜和素材，再调用媒体工具制作视频，我们拟衔接知识库解说与栏目模板。\n\n012\n\ntchMaterial Parser：解析国家中小学智慧教育平台资源，按需认证、批量下载并分类保存教材与配套资料，我们拟扩展版本追溯、正文检索与 RAG。\n\n013\n\nClaude Managed Agents：由主 Agent 用模型规划、编排程序按依赖分派和汇总多 Agent 任务，我们拟借鉴其机制建设批量研究与验收流水线。\n\n014\n\nBaoCut：结合视频引擎、可视化编辑与模型工具调用完成剪辑、字幕和配音，人和 AI 共改同一作品，我们拟扩展项目解说与栏目模板。\n\n015\n\nREA：以 CLI／MCP 统一调用反编译、代码解析和运行观察工具并返回可追溯证据，我们拟衔接研究证据库与 RAG。\n\n016\n\nFree Claude Code：在 Agent 与云端或本地模型间用统一网关转换协议、按配置路由与切换备用服务，我们拟扩展任务判断路由与模型评测。",
+    "viewport": {
+      "height": 720,
+      "width": 1280
+    }
+  },
+  "mobile": {
+    "clip": {
+      "height": 2536,
+      "width": 390,
+      "x": 0,
+      "y": 0
+    },
+    "count": 15,
+    "horizontalOverflow": false,
+    "ids": [
+      "001",
+      "002",
+      "004",
+      "005",
+      "006",
+      "007",
+      "008",
+      "009",
+      "010",
+      "011",
+      "012",
+      "013",
+      "014",
+      "015",
+      "016"
+    ],
+    "overviewBeforeTable": true,
+    "rows": [
+      {
+        "id": "001",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "002",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "004",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "005",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "006",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "007",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "008",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "009",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "010",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "011",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "012",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "013",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "014",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "015",
+        "textFits": true,
+        "visible": true
+      },
+      {
+        "id": "016",
+        "textFits": true,
+        "visible": true
+      }
+    ],
+    "viewport": {
+      "height": 844,
+      "width": 390
+    }
+  },
+  "original_entry_urls_preserved": true,
+  "navigation_checks": [
+    {
+      "path": "016-free-claude-code/",
+      "opened_from_overview": true,
+      "project_heading": "Agent 与模型，通过网关解耦。",
+      "return_via_project_link": true
+    }
+  ],
+  "content_commit": "cd85f2d0f3175ef813ee041d2a4034054b325203"
+}

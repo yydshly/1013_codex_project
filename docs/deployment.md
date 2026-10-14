@@ -20,6 +20,10 @@ https://yydshly.github.io/1013_codex_project/
 
 ## 当前已验证发布
 
+2026-10-15，一句话速览随提交 `cd85f2d0f3175ef813ee041d2a4034054b325203` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38655435783)成功。[站点首页](https://yydshly.github.io/1013_codex_project/)在索引表上方完整显示 15 条速览，逐条与项目元信息一致；004 无静态演示，链接到其研究文档。原有 14 个网页入口全部返回 HTTP 200，目录清单和页面内容与发布前一致。共核对 140 个公开地址，其中 139 项与构建快照逐字节一致；两次临时请求失败重试后通过，原始错误保留在记录中。
+
+桌面 1280 × 720 与手机 390 × 844 均检查全部 15 条：顺序、位置、可见性与文字完整，无横向溢出，并实际验证从速览打开 Free Claude Code 后返回索引。本地索引检查通过，39 项工具测试中 38 项通过、1 项因 Windows 符号链接权限跳过；云端发布成功。证据：[公开地址与内容核对](./publications/2026-10-15-overviews/http-verification.json)、[浏览器检查](./publications/2026-10-15-overviews/browser-verification.json)、[桌面截图](./publications/2026-10-15-overviews/desktop.jpg)、[手机截图](./publications/2026-10-15-overviews/mobile.jpg)。
+
 2026-10-13，已启用仓库 GitHub Pages 的 Actions 发布方式，首次部署提交为 `8d12bcc46c753c9ddc30c8b95f32fa92ecd29013`，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38393707526)以及索引检查均成功。
 
 - [站点总览](https://yydshly.github.io/1013_codex_project/)：完整展示已提交项目的能力、原理、输入输出、价值、意义与局限摘要。
