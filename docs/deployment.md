@@ -59,6 +59,8 @@ site-dist/                   # 临时构建目录，不提交到 Git
 
 项目 016 于 2026-10-14 随内容提交 `11260beec078ae0a45cfb535908d0eacb2e6b538` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38520473250)成功。[Free Claude Code 理解网页](https://yydshly.github.io/1013_codex_project/016-free-claude-code/)完整说明在 Agent 与真实模型之间增加网关的能力、统一 API / 配置路由 / 协议适配的原理、接入解耦的价值、个人意义及六类可扩展应用的建设前提与验收标准。总索引保留十五项详细摘要，沿用我们的完整高清引导图与底层图；23 个公开地址检查通过，11 项页面与资源逐字节一致，12 个已有演示入口保持可用。公网请求教学、大图阅读、下载和手机布局通过；网页不执行真实模型，详见 [项目 016 发布记录](../projects/016-free-claude-code/experiments/results/publication-2026-10-14.md)。
 
+项目 016 正式入口登记提交为 `69a61c3bb7e8550d3152c886d9603682d301278a`，[登记工作流](https://github.com/yydshly/1013_codex_project/actions/runs/38521108697)成功；扩展表格可读性提交为 `2fa29977fc45ef4ac83db03b2536544310c7e4b8`，[对应工作流](https://github.com/yydshly/1013_codex_project/actions/runs/38521405231)成功。最终 23 个地址与完整十五项摘要再次通过，引导图不变，表格正文对比度约 11.81:1，手机表格在自身容器滚动；证据和公开截图见项目 016 发布记录。
+
 ## 构建与发布范围
 
 项目 013 于 2026-10-14 随内容提交 `42f8398f0db99b0f8870ff42ccbc9bc7ddcde1b1` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38514399743)成功。[Claude Managed Agents 理解网页](https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/)明确说明多 Agent 编排与运行管理的能力、模型规划与程序执行原理、核心价值、个人意义及八种扩展场景，包含拆分、下发、黑盒接口和海底世界案例。首页完整保留 18 项摘要，沿用本次讨论的完整高清总览图。19 个公开地址 HTTP 200 且内容一致，13 组公网浏览器检查通过，已有 10 个演示入口保留；网页不执行真实 Agent 或 3D 场景。正式入口登记与后续检查见 [项目 013 发布记录](../projects/013-claude-managed-agents/experiments/results/publication-2026-10-14.md)。

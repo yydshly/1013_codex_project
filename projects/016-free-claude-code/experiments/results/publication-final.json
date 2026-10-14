@@ -1,0 +1,266 @@
+{
+  "verified_at": "2026-10-14T06:19:14.141410+00:00",
+  "base_url": "https://yydshly.github.io/1013_codex_project/",
+  "asset_commit": "2fa29977fc45ef4ac83db03b2536544310c7e4b8",
+  "projects": [
+    "001-infinite-bookshelf",
+    "002-production-agentic-rag-course",
+    "005-wireguard-install",
+    "006-jev-seo",
+    "007-hermes-jev-skills",
+    "008-shadps4",
+    "009-cmux",
+    "010-vibe42",
+    "011-openmontage",
+    "012-tchmaterial-parser",
+    "013-claude-managed-agents",
+    "014-baocut",
+    "016-free-claude-code"
+  ],
+  "checked": 23,
+  "byte_comparisons": 11,
+  "existing_entries": 12,
+  "all_passed": true,
+  "results": [
+    {
+      "path": "index.html",
+      "url": "https://yydshly.github.io/1013_codex_project/index.html",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 87048,
+      "sha256": "480daea7b1cf88acb516fe308b5abb9db23ee70183b44e6bc6bad501c2dbca1b",
+      "expected_sha256": "480daea7b1cf88acb516fe308b5abb9db23ee70183b44e6bc6bad501c2dbca1b",
+      "matches_snapshot": true,
+      "baseline": "generated-site-snapshot",
+      "passed": true
+    },
+    {
+      "path": "site-build.json",
+      "url": "https://yydshly.github.io/1013_codex_project/site-build.json",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 442,
+      "sha256": "38c7d65793d0212880769382fea4cb2d84ad7cf5a5406392ca21c6202b69fffc",
+      "expected_sha256": "38c7d65793d0212880769382fea4cb2d84ad7cf5a5406392ca21c6202b69fffc",
+      "matches_snapshot": true,
+      "baseline": "generated-site-snapshot",
+      "passed": true
+    },
+    {
+      "path": "previews/016-free-claude-code.png",
+      "url": "https://yydshly.github.io/1013_codex_project/previews/016-free-claude-code.png",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 478038,
+      "sha256": "34fa4a77cca03af798dc341abd2a054738cc2df08c26ede28638233f0966340d",
+      "expected_sha256": "34fa4a77cca03af798dc341abd2a054738cc2df08c26ede28638233f0966340d",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/assets/understanding-overview.png",
+      "passed": true
+    },
+    {
+      "path": "016-free-claude-code/app.js",
+      "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/app.js",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 11896,
+      "sha256": "32387ae135075551e31a08ccf3726d7986e125a38df9ba47567c616a109546b2",
+      "expected_sha256": "32387ae135075551e31a08ccf3726d7986e125a38df9ba47567c616a109546b2",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/web/app.js",
+      "passed": true
+    },
+    {
+      "path": "016-free-claude-code/assets/gateway-internals.png",
+      "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/assets/gateway-internals.png",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 241956,
+      "sha256": "28114da97442aa26142c2216f7769a9b7fef4087998978c1ac77c743d83fd9ea",
+      "expected_sha256": "28114da97442aa26142c2216f7769a9b7fef4087998978c1ac77c743d83fd9ea",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/web/assets/gateway-internals.png",
+      "passed": true
+    },
+    {
+      "path": "016-free-claude-code/assets/gateway-internals.svg",
+      "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/assets/gateway-internals.svg",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 10128,
+      "sha256": "83d4068ba634ab8efa99873583ab6fe06a638f641a3e956536ffc28dd276629e",
+      "expected_sha256": "83d4068ba634ab8efa99873583ab6fe06a638f641a3e956536ffc28dd276629e",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/web/assets/gateway-internals.svg",
+      "passed": true
+    },
+    {
+      "path": "016-free-claude-code/assets/understanding-overview.png",
+      "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/assets/understanding-overview.png",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 478038,
+      "sha256": "34fa4a77cca03af798dc341abd2a054738cc2df08c26ede28638233f0966340d",
+      "expected_sha256": "34fa4a77cca03af798dc341abd2a054738cc2df08c26ede28638233f0966340d",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/web/assets/understanding-overview.png",
+      "passed": true
+    },
+    {
+      "path": "016-free-claude-code/assets/understanding-overview.svg",
+      "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/assets/understanding-overview.svg",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 16411,
+      "sha256": "3cce6e72362b11e263f52ae162e85a387b4d33bc02c0766ad3cfb0a10c21209c",
+      "expected_sha256": "3cce6e72362b11e263f52ae162e85a387b4d33bc02c0766ad3cfb0a10c21209c",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/web/assets/understanding-overview.svg",
+      "passed": true
+    },
+    {
+      "path": "016-free-claude-code/data/evaluation-template.txt",
+      "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/data/evaluation-template.txt",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 528,
+      "sha256": "006596cf8301267ab05cc37db4c81548d98589ce6f5be763881337383517093c",
+      "expected_sha256": "006596cf8301267ab05cc37db4c81548d98589ce6f5be763881337383517093c",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/web/data/evaluation-template.txt",
+      "passed": true
+    },
+    {
+      "path": "016-free-claude-code/index.html",
+      "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/index.html",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 53934,
+      "sha256": "fa23157bf86f280da0b6acbdaabab8406598d6db9993072958fe8a91ef70b4ff",
+      "expected_sha256": "fa23157bf86f280da0b6acbdaabab8406598d6db9993072958fe8a91ef70b4ff",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/web/index.html",
+      "passed": true
+    },
+    {
+      "path": "016-free-claude-code/styles.css",
+      "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/styles.css",
+      "kind": "byte-comparison",
+      "status": 200,
+      "bytes": 30304,
+      "sha256": "dade9c9713a08ceb6cd6ecf79de46dce9228eb59293860dcbb953e4b427bb096",
+      "expected_sha256": "dade9c9713a08ceb6cd6ecf79de46dce9228eb59293860dcbb953e4b427bb096",
+      "matches_snapshot": true,
+      "baseline": "2fa29977fc45ef4ac83db03b2536544310c7e4b8:projects/016-free-claude-code/web/styles.css",
+      "passed": true
+    },
+    {
+      "path": "001-infinite-bookshelf/",
+      "url": "https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 37527,
+      "sha256": "5c746e81e4163cd8b97d457511e049b67d5d67a287fe23ca03b703210d98f9b6",
+      "passed": true
+    },
+    {
+      "path": "002-production-agentic-rag-course/",
+      "url": "https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 29930,
+      "sha256": "883a2a525a526a79a20c30762f684cf4c25c1cfd87c173c30f3e474472ff6edd",
+      "passed": true
+    },
+    {
+      "path": "005-wireguard-install/",
+      "url": "https://yydshly.github.io/1013_codex_project/005-wireguard-install/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 44962,
+      "sha256": "e09e362d6e1ca044de1743c462599b8b2bcc01e4dc49a6b6e024b9d5c7f18bbb",
+      "passed": true
+    },
+    {
+      "path": "006-jev-seo/",
+      "url": "https://yydshly.github.io/1013_codex_project/006-jev-seo/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 37580,
+      "sha256": "5ec202fb45140d10af636e5ec8bd1893b9310a343599015654b6f6ed9b364166",
+      "passed": true
+    },
+    {
+      "path": "007-hermes-jev-skills/",
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 36875,
+      "sha256": "e84fdf06174327131e092974a8a9412ae335157396e2dc1509818f1827029d88",
+      "passed": true
+    },
+    {
+      "path": "008-shadps4/",
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 33372,
+      "sha256": "9063a1affb3fd206693f8b9055785604d598c8eb92f2cf6baee84b37e5fe45f1",
+      "passed": true
+    },
+    {
+      "path": "009-cmux/",
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 46039,
+      "sha256": "9d33f2c060888589053e0eac4ec2d7f9ef3298e83eef1e7f5170dafb4c89d92d",
+      "passed": true
+    },
+    {
+      "path": "010-vibe42/",
+      "url": "https://yydshly.github.io/1013_codex_project/010-vibe42/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 98170,
+      "sha256": "7ad7270ab188c7d0b946450fbb12ee265788333d90f431bf0636e417b8ceb30b",
+      "passed": true
+    },
+    {
+      "path": "011-openmontage/",
+      "url": "https://yydshly.github.io/1013_codex_project/011-openmontage/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 85961,
+      "sha256": "437b28cf9942a398dd75b48ed35fe3b1900ea7adb0e46bccc0f266e1f246411e",
+      "passed": true
+    },
+    {
+      "path": "012-tchmaterial-parser/",
+      "url": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 35261,
+      "sha256": "51dc41f30f5549e4dc9270481c125bf795454fc22689c1b4c64bffa84d1d7c0a",
+      "passed": true
+    },
+    {
+      "path": "013-claude-managed-agents/",
+      "url": "https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 60365,
+      "sha256": "aab59270f581525302d628d268794fb5c9163eba83ed0caf3d3f73744a295710",
+      "passed": true
+    },
+    {
+      "path": "014-baocut/",
+      "url": "https://yydshly.github.io/1013_codex_project/014-baocut/",
+      "kind": "existing-entry",
+      "status": 200,
+      "bytes": 30603,
+      "sha256": "f1807d4750cecf85c26a77215f67f1356027edfa9774ed56f56c3c2314bdde88",
+      "passed": true
+    }
+  ]
+}

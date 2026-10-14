@@ -28,7 +28,21 @@
 
 独立发布工作区以远端最新 main 为基线，只提交本项目与自动生成的索引；正式构建保留 13 个静态演示：001、002、005、006、007、008、009、010、011、012、013、014、016。没有将当前共享工作区其他未提交项目混入发布。仓库本地测试 35 项，34 通过、1 项因当前 Windows 用户无法创建符号链接而跳过；Linux 发布工作流的测试步骤通过。
 
-在实际访问和内容一致性通过后，登记 `demo_url`，更新项目说明、总索引与部署记录。后续入口登记与最终验证会补充在本文件末尾。
+在实际访问和内容一致性通过后，登记 `demo_url`，更新项目说明、总索引与部署记录；登记与最终验证见下文。
+
+## 正式登记与最终复核
+
+入口登记提交：[69a61c3](https://github.com/yydshly/1013_codex_project/commit/69a61c3bb7e8550d3152c886d9603682d301278a)，[工作流 38521108697](https://github.com/yydshly/1013_codex_project/actions/runs/38521108697)为 success。
+
+扩展表格使用深色正文与浅色表格背景，避免继承深色章节的浅色文字；提交为 [2fa2997](https://github.com/yydshly/1013_codex_project/commit/2fa29977fc45ef4ac83db03b2536544310c7e4b8)，[工作流 38521405231](https://github.com/yydshly/1013_codex_project/actions/runs/38521405231)为 success。此调整没有改动任何引导图。
+
+[最终资源复核 JSON](./publication-final.json)再次确认 23 个公开地址全部通过，11 项内容与提交 / 快照一致、12 个已有入口保持可用。[公网索引与扩展章节 JSON](./publication-index-final.json)确认十五项摘要与元信息逐字一致，首页引导图、替代文本、来源说明和正式子路径正确；四问与六类组合完整展示，390px 手机表格在自身容器横向滚动，整页无横向溢出、无脚本错误。
+
+扩展表格正文测得对比度约 **11.81:1**，通过普通正文 4.5:1 的检查；公开截图已目视核对，见下图。
+
+![公开网页的六类应用扩展表，分别说明多模型编程、写作、资料问答、网页审查、任务选模与团队入口的网关基础、建设前提和验收标准](../../assets/07-public-extensions.png)
+
+来源：实际公开研究网页的桌面截图，1440 × 1050；非 FCC 或模型真实运行画面。
 
 ## 验证边界
 
@@ -42,3 +56,5 @@
 python scripts/build_site.py
 python projects/016-free-claude-code/experiments/verify_publication.py --site-dir site-dist --commit HEAD --output projects/016-free-claude-code/experiments/results/publication-final.json
 ```
+
+索引与扩展章节复核使用 `experiments/verify_index.cjs`，需要已有 Node / Playwright 运行环境，从仓库根目录运行。该脚本读取指定 commit 的元信息，访问公开页面，生成最终索引记录与扩展截图；不随静态网页运行。

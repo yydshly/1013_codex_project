@@ -1,0 +1,21 @@
+{
+  "asset_commit": "2fa29977fc45ef4ac83db03b2536544310c7e4b8",
+  "url": "https://yydshly.github.io/1013_codex_project/",
+  "checks": [
+    "十五项分段摘要逐字完整展示，与已提交元信息一致",
+    "首页沿用完整理解引导图，替代文本与来源说明完整",
+    "正式公开地址登记正确，索引入口指向对应子路径",
+    "四问摘要与六类应用组合完整显示；公开网页扩展章节实拍",
+    "扩展表格正文颜色对比度至少 4.5:1",
+    "390px 手机下扩展表格在自身容器滚动，整页无横向溢出"
+  ],
+  "checked_at": "2026-10-14T06:19:07.694Z",
+  "summary_sections": 15,
+  "table_contrast": {
+    "foreground": "rgb(23, 61, 56)",
+    "background": "rgb(255, 254, 249)",
+    "ratio": 11.80933307225084
+  },
+  "browser_errors": [],
+  "all_passed": true
+}

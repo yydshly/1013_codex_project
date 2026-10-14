@@ -20,3 +20,5 @@
 ```powershell
 python projects/016-free-claude-code/experiments/verify_publication.py --site-dir site-dist --output projects/016-free-claude-code/experiments/results/publication-content.json
 ```
+
+`verify_index.cjs` 使用已有 Playwright 环境核对公开索引的十五项摘要、原引导图、正式路径、四问与六类扩展、表格对比度和手机滚动。最终结果见 [publication-index-final.json](./results/publication-index-final.json)，最终资源一致性见 [publication-final.json](./results/publication-final.json)。

@@ -55,6 +55,7 @@
 - [gateway-internals.svg](../../assets/gateway-internals.svg) / [PNG](../../assets/gateway-internals.png)：原创底层概念模块图。
 - [05-gateway-internals-page.png](../../assets/05-gateway-internals-page.png)：网页底层章节实拍。
 - [06-mobile-diagram-reader.png](../../assets/06-mobile-diagram-reader.png)：手机放大阅读与滚动状态实拍。
+- [07-public-extensions.png](../../assets/07-public-extensions.png)：公开网页六类应用扩展表实拍，深色文字与浅色背景的对比度约 11.81:1；390px 表格滚动和整页布局均通过。
 
 图片最初来自本地研究页面或原创图示；发布时以同一检查脚本在实际公开网页重新捕获 01—06，图示内容保持一致。图为原创解释，页面截图不代表真实 FCC 或模型运行。
 
