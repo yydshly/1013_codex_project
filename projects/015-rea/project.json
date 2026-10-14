@@ -16,7 +16,7 @@
   ],
   "preview": "assets/toolchain-overview.png",
   "preview_caption": "本仓库原创完整工具与流程总图：REA 管理和适配逆向工具，18 模块覆盖 37 项阅读分类，汇总各工具原理、材料交接、AI 调查、Evidence、价值和边界；固定 ebaaa79c，非上游运行截图。",
-  "demo_url": "",
+  "demo_url": "https://yydshly.github.io/1013_codex_project/015-rea/",
   "summary_sections": [
     {
       "label": "本质与定位",

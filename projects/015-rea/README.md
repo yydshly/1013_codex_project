@@ -2,7 +2,7 @@
 
 > 宏观理解：把软件分析工具接到 AI 助手，统一调用和整理证据，再围绕具体问题逐步调查。反汇编是其中一部分，应用结构、资源、网络与运行行为也在研究范围内。
 
-[返回总索引](../../README.md#项目索引) · [原 GitHub 仓库](https://github.com/morluto/rea) · [网页源文件](./web/index.html) · [网页使用说明](./web/README.md) · [来源映射](./references/source-map.md) · [验证记录](./experiments/results/verification.md)
+[返回总索引](../../README.md#项目索引) · [原 GitHub 仓库](https://github.com/morluto/rea) · [公开理解网页](https://yydshly.github.io/1013_codex_project/015-rea/#brief) · [网页源文件](./web/index.html) · [网页使用说明](./web/README.md) · [来源映射](./references/source-map.md) · [验证记录](./experiments/results/verification.md)
 
 ## 研究版本与范围
 
@@ -675,7 +675,7 @@ experiments/build_guide.py 从能力 JSON 和教学内容生成重复条目及�
 
 网页已完成本地资源、搜索筛选、教学步骤、下载和 390 × 844 布局检查；公共工具 35 项测试完成，1 项跳过，其余通过。
 
-验证详情见 [verification.md](./experiments/results/verification.md)。截图是本仓库网页实拍，非 REA 或目标应用分析截图。公开发布并验证之前 demo_url 保持为空。
+验证详情见 [verification.md](./experiments/results/verification.md)。截图是本仓库网页实拍，非 REA 或目标应用分析截图。2026-10-14 已发布并验证公开网页，demo_url 已登记；完整范围见 [发布记录](./experiments/results/publication-2026-10-14.md)。
 
 ## 来源与后续事项
 
@@ -687,4 +687,4 @@ experiments/build_guide.py 从能力 JSON 和教学内容生成重复条目及�
 - [ ] 在满足要求的主机运行 REA
 - [ ] 用有源码可对照的目标评测真实收益
 - [ ] 验证选定引擎、场景与功能复现
-- [ ] 在统一站点公开发布并验证
+- [x] 在统一站点公开发布并验证

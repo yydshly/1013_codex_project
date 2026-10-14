@@ -75,6 +75,9 @@ site-dist/                   # 临时构建目录，不提交到 Git
 
 项目 011 于 2026-10-14 随内容提交 `ba8980a123bd00fed7d3fd98dbeafd1ee986555a` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38497224736)成功。[OpenMontage 理解网页](https://yydshly.github.io/1013_codex_project/011-openmontage/#brief)明确说明视频制作能力、助手/模型/检索/代码/规则分工、阶段成果交接、核心价值、适用与扩展场景，保留完整图、34项能力、12条流程、11项项目对比和教学交互。首页完整展示18项摘要；首轮21个公网地址及20组公网交互通过，已有八个演示入口保留。网页不执行上游制作或请求模型，正式入口登记和最终证据见[项目011发布记录](../projects/011-openmontage/experiments/results/publication-2026-10-14.md)。
 
+
+项目 015 于 2026-10-14 随内容提交 `92c8e975343b55a1e4033e4ff8d281703d3d3462` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38526444322)成功。[REA 完整理解网页](https://yydshly.github.io/1013_codex_project/015-rea/#brief)明确说明逆向工具管理与适配、自身解析与关系分析、统一证据接口，以及能力、原理、价值和可扩展场景。首页和项目页完整保留十四项摘要，继续使用本次讨论的 18 模块 / 37 分类完整 PNG / SVG 总图，并保留三组教学、十项产品对比和八种拟议扩展方案。首轮 27 个公网地址均 HTTP 200，11 项 REA 静态资源与提交一致，十三个已有演示入口保留；公网下载、筛选、比较、教学、首页引导图和手机摘要已实际检查。网页只交付静态研究内容，未运行 REA 或实现扩展整合，正式地址登记和最终证据见 [项目 015 发布记录](../projects/015-rea/experiments/results/publication-2026-10-14.md)。
+
 默认构建只读取 Git 已跟踪的 `projects/*/project.json`，只复制其中已跟踪的 `web/` 静态文件和元信息明确指定的预览图片。工作区中新建但尚未提交的其他研究项目不会被意外收录。Git 暂存区中的新增文件也属于本地已跟踪文件；GitHub Actions 运行时只有实际提交并检出的文件。
 
 ```powershell

@@ -134,3 +134,11 @@ assets/07-toolchain-web.jpg 为总图章节的实际网页截图。图文依据�
 | 仓库与构建 | 索引检查和 JavaScript 语法检查通过；默认汇集 14 个静态项目；35 项工具测试完成，34 通过、1 因 Windows 符号链接权限跳过 |
 
 机器记录见 publication-local-checks.json。公开发布是否完成，以后续 publication-2026-10-14.md 的实际部署、请求和浏览器记录为准。网页发布与 REA、分析引擎或模型服务的真实运行分别记录。
+
+## 2026-10-14 公网发布已验证
+
+内容提交 `92c8e975343b55a1e4033e4ff8d281703d3d3462` 已推送 main，[Pages 构建与部署](https://github.com/yydshly/1013_codex_project/actions/runs/38526444322)成功。公开地址为 https://yydshly.github.io/1013_codex_project/015-rea/ ，通过首轮验证后已登记 demo_url；公开状态以本节及 [publication-2026-10-14.md](./publication-2026-10-14.md) 为准。
+
+首轮 27 个公开地址均 HTTP 200，11 项 REA 静态资源与内容提交 blob 一致，首页和引导 PNG 与构建快照一致，十三个既有演示入口保留。公网实际检查了十四项摘要、八种扩展、SQLite 筛选、FCC 比较切换、教学下一步、摘要下载、返回总览与 guide-015 的原图加载，再由引导图进入项目页。390 × 844 公网摘要为单列，文档与滚动宽均 375；恢复默认视口后无 error / warn。
+
+发布实拍为 assets/08-public-summary.jpg、09-public-guide.jpg、10-public-mobile.jpg。网页公开不改变 REA、引擎、模型、案例、整合与收益未实测的范围；后续正式登记版本的资源一致性记录保存为 publication-public-checks-final.json。

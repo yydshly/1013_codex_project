@@ -170,6 +170,7 @@ def main():
     page = replace_region(page, "EXTENSION_SCENARIOS", extensions_html)
     brief_data = {key: metadata[key] for key in ["name", "summary", "source_url", "source_ref", "summary_sections"]}
     (PROJECT / "web/data/understanding.json").write_text(json.dumps(brief_data, ensure_ascii=False, indent=2)+"\n", encoding="utf-8", newline="\n")
+    page = "\n".join(line.rstrip() for line in page.splitlines())+"\n"
     index_path.write_text(page, encoding="utf-8", newline="\n")
     readme_path = PROJECT / "README.md"
     table = "| 能力 | 输入 | 输出 | 条件 | 边界 | 固定来源 |\n| --- | --- | --- | --- | --- | --- |\n" + "\n".join(rows)

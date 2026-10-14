@@ -57,7 +57,7 @@
       </div>
       <div class="statement"><strong>“把软件分析能力接到 AI，再围绕问题逐步调查。”</strong><p>“反汇编能力汇总整理”抓住了接入与整理的作用。更完整的范围还包括 JavaScript、.NET、网页、资源与运行信息；调查步骤由助手根据问题和证据推进。</p></div>
       <p class="note">REA 的价值在于增加可调用的工具和可核查的材料。模型本身的推理能力、完整源码恢复和功能正确性仍有各自边界。<a data-doc="README.md" href="https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/README.md">项目说明 ↗</a></p>
-      
+
       <div class="consensus-addition" id="shared-understanding">
         <div class="eyebrow">本次补充的共同理解</div><h3>接入与整理，要落实成可继续的调查。</h3>
         <p>REA 将软件分析能力组织成可调用的动作，让返回材料带上身份、来源、关系和未知项。助手从结果决定下一次查询，逐步解释，再通过实验核对。</p>
@@ -148,7 +148,7 @@
       <div class="mechanism-grid"><div><p class="lead">CLI 是人和脚本的入口，MCP 是 AI 助手的入口。二者调用共享的应用流程；不同提供者负责解析或引擎通信，结果进入证据记录与会话。</p><ol class="method-list"><li><span class="bullet">1</span><div><strong>确认身份与范围</strong><p>记录文件摘要、格式、研究版本与所选提供者；同名文件和不同版本不能随意混为一份目标。</p></div></li><li><span class="bullet">2</span><div><strong>读取、解析或捕获</strong><p>原生分析用引擎桥接；JavaScript 用语法树和产物结构；网页与运行场景通过各自接口取得观察材料。</p></div></li><li><span class="bullet">3</span><div><strong>构建关系并执行查询</strong><p>以模块、函数、路由、字符串、IPC 或原生导出为起点，追踪关系；动态目标和未覆盖信息保留未知。</p></div></li><li><span class="bullet">4</span><div><strong>保留证据，支持后续调查</strong><p>结果包含来源和限制，可保留在会话、分页查看、导出证据包，再被用于比较或其他查询。</p></div></li></ol><a class="text-link" data-doc="docs/architecture.mermaid" href="https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/architecture.mermaid">查看源库架构图 ↗</a></div>
       <div class="table-scroll"><table><thead><tr><th scope="col">源码层</th><th scope="col">作用</th></tr></thead><tbody><tr><th scope="row"><code>src/cli</code> / <code>src/main</code></th><td>命令行入口与 MCP 服务启动。</td></tr><tr><th scope="row"><code>src/server</code></th><td>注册工具、转换请求、生成返回结果。</td></tr><tr><th scope="row"><code>src/application</code></th><td>共享调查、应用分析、追踪和比较流程。</td></tr><tr><th scope="row"><code>src/ghidra</code> / <code>src/hopper</code> / <code>src/ida</code></th><td>引擎适配、桥接和生命周期。</td></tr><tr><th scope="row"><code>src/browser</code> / <code>src/artifacts</code> 等</th><td>浏览器观察、产物读取与各格式解析。</td></tr><tr><th scope="row"><code>src/domain</code> / <code>src/contracts</code></th><td>证据、关系、比较和输入输出契约。</td></tr></tbody></table></div></div>
       <div class="statement"><strong>REA 自身也有分析逻辑。</strong><p>它不只转发工具文本，还解析 JavaScript 产物、构建结构与语义图、归一化证据并比较结果。复杂机器码分析的深度仍主要由所选引擎提供。<a data-doc="src/application/javascript/JavaScriptApplicationService.ts" href="https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/src/application/javascript/JavaScriptApplicationService.ts">核心流程源码 ↗</a></p></div>
-    
+
       <div class="table-scroll prompt-table"><table><caption>六种 MCP 调查指引：帮助助手组织问题</caption><thead><tr><th>指引</th><th>用途</th><th>怎样组织工作</th></tr></thead><tbody><tr><th scope="row"><code>investigate_feature</code></th><td>调查一个功能</td><td>从候选入口继续寻找函数和支持依据。</td></tr><tr><th scope="row"><code>compare_application_versions</code></th><td>比较应用版本</td><td>对照发布产物，按需要补静态与运行材料。</td></tr><tr><th scope="row"><code>verify_reconstruction</code></th><td>核查局部复现</td><td>检查有限规格与保留的比较证据。</td></tr><tr><th scope="row"><code>trace_crash</code></th><td>追踪异常</td><td>将症状与静态路径及可选进程记录关联。</td></tr><tr><th scope="row"><code>audit_residual_unknowns</code></th><td>审核剩余未知</td><td>检查未知项及支持其解决的证据。</td></tr><tr><th scope="row"><code>prepare_bounded_process_capture</code></th><td>准备受控运行</td><td>先明确输入、交互、时间与捕获范围。</td></tr></tbody></table></div><p class="note">这些是 MCP prompts，不会自行增加、删除或调用工具。Skill 提供工作指引，MCP 连接公开接口，REA 与各引擎提供实现；实际调查仍需助手选择动作。<a href="https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/mcp-prompts.md">调查指引依据 ↗</a></p>
 </section>
 
@@ -240,7 +240,7 @@ npx rea-agents setup</pre><p>这是使用说明，本研究没有执行安装或
 
     <section class="section wrap" id="sources" aria-labelledby="sources-title">
       <div class="heading"><span class="section-no">13</span><div><div class="eyebrow">让每项理解可以回查</div><h2 id="sources-title">来源、研究版本与验证记录。</h2></div></div>
-      <div class="verification-banner"><div><h3>本次已完成</h3><p>固定 commit 的 README、专题文档与核心证据源码核对；中文理解、能力清单、交互网页和本地页面验证。逐项页面检查见下载研究文档。</p></div><div><h3>仍待验证</h3><p>尚未安装并运行 REA，也未逐项测试引擎、真实应用或复现案例；未验证节省时间、正确率和费用优势。网页尚未公开发布。</p></div></div>
+      <div class="verification-banner"><div><h3>本次已完成</h3><p>固定 commit 的 README、专题文档与核心证据源码核对；中文理解、能力清单、交互网页及本地 / 公网页面验证。完整摘要、原图、静态资源、下载和已有项目入口已检查；逐项记录见下载研究文档。</p></div><div><h3>仍待验证</h3><p>尚未安装并运行 REA，也未逐项测试引擎、真实应用或复现案例；未验证节省时间、正确率和费用优势；上述真实运行事项仍待验证。</p></div></div>
       <p class="note">研究版本：<code>ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4</code>；该源码的 package.json 标注 6.4.0。这不证明它与 npm 6.4.0 的文件相同。上游自身的发布核对记录日期为 2026-10-11，详见安装文档。</p>
       <div class="sources-list">
         <a data-doc="README.md" href="https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/README.md" target="_blank" rel="noopener"><span class="source-no">01</span><span>项目定位与目标范围<small>README · 能力总表与官方案例入口</small></span></a>
