@@ -1,0 +1,16 @@
+{
+  "size": [
+    2400,
+    3740
+  ],
+  "minimum_body_font": 28,
+  "text_lines": 138,
+  "bounds_check": "passed",
+  "source_ref": "7aa049e82e1367da013b7aba80f0b79033fa04ad",
+  "outputs": [
+    "assets/understanding-comprehensive.png",
+    "assets/understanding-comprehensive.svg",
+    "web/assets/understanding-comprehensive.png",
+    "web/assets/understanding-comprehensive.svg"
+  ]
+}

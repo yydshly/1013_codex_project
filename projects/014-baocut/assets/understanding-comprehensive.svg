@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="3740" viewBox="0 0 2400 3740" role="img" aria-labelledby="title desc">
+<title id="title">BaoCut 完整理解总览：能力、功能、人机协作、场景与价值</title>
+<desc id="desc">八部分中文研究图：人通过界面、AI 通过工具共同修改当前视频；原有视频功能、输入输出、模型入口、新增设计画布与设计系统、适用场景、个人研究价值以及未验证事项。</desc>
+<style>text{font-family:"Microsoft YaHei","PingFang SC",sans-serif}</style>
+<rect width="2400" height="3740" fill="#F6F5EF"/>
+<text x="68" y="65" font-size="27" font-weight="400" fill="#5A6D62">014 / BAOCUT · 完整理解总览 · 固定版本 7aa049e8 · 2026.10.14</text>
+<text x="68" y="153" font-size="68" font-weight="700" fill="#173C37">BaoCut：人和 AI，接着改同一份作品。</text>
+<text x="68" y="222" font-size="35" font-weight="700" fill="#C66A4E">底层视频能力 + 可视化 UI + 模型对话 → 可编辑、可接手、可持续优化的创作流程</text>
+<text x="68" y="307" font-size="29" font-weight="700" fill="#C66A4E">01</text>
+<text x="133" y="318" font-size="42" font-weight="700" fill="#173C37">它是什么？怎样让人和 AI 配合？</text>
+<text x="133" y="364" font-size="26" font-weight="400" fill="#5A6D62">以可编辑视频为中心的 AI 创作工作台。人决定要求与接受程度，模型组织工作，底层负责执行和保存。</text>
+<rect x="68" y="396" width="392" height="122" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="95" y="446" font-size="31" font-weight="700" fill="#173C37">人 → 可视化 UI</text>
+<text x="95" y="503" font-size="29" font-weight="400" fill="#5A6D62">预览 / 编辑 / 撤销</text>
+<rect x="68" y="544" width="392" height="122" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="95" y="594" font-size="31" font-weight="700" fill="#173C37">AI → 工具调用</text>
+<text x="95" y="650" font-size="29" font-weight="400" fill="#5A6D62">理解 / 执行 / 回执</text>
+<polyline points="472,456 510,456 510,531 548,531" fill="none" stroke="#5A6D62" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="534.0,524.0 548.0,531.0 534.0,538.0" fill="#5A6D62"/>
+<polyline points="472,604 510,604 510,531" fill="none" stroke="#5A6D62" stroke-width="3" stroke-linejoin="round"/>
+<rect x="560" y="459" width="460" height="155" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="587" y="510" font-size="32" font-weight="700" fill="#173C37">共同视频编辑入口</text>
+<text x="587" y="565" font-size="29" font-weight="400" fill="#5A6D62">命令 · 事务 · 撤销机制</text>
+<polyline points="1033,531 1080,531" fill="none" stroke="#5A6D62" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="1066.0,524.0 1080.0,531.0 1066.0,538.0" fill="#5A6D62"/>
+<rect x="1093" y="425" width="650" height="212" rx="20" fill="#173C37"/>
+<text x="1120" y="479" font-size="35" font-weight="700" fill="#FFFEF9">同一份可编辑视频项目</text>
+<text x="1120" y="533" font-size="29" font-weight="400" fill="#CEDCC8">时间线 · 文稿 · 字幕 · 音轨</text>
+<text x="1120" y="576" font-size="29" font-weight="400" fill="#CEDCC8">底层执行操作，保留当前工作稿</text>
+<polyline points="1757,531 1800,531" fill="none" stroke="#5A6D62" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="1786.0,524.0 1800.0,531.0 1786.0,538.0" fill="#5A6D62"/>
+<rect x="1813" y="459" width="519" height="155" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="1840" y="511" font-size="32" font-weight="700" fill="#173C37">人检查，再继续优化</text>
+<text x="1840" y="565" font-size="29" font-weight="400" fill="#5A6D62">通过 UI 调整，或提出下一轮要求</text>
+<polyline points="2070,650 2070,686 960,686 960,650" fill="none" stroke="#C66A4E" stroke-width="3" stroke-linejoin="round"/>
+<polygon points="953.0,664.0 960.0,650.0 967.0,664.0" fill="#C66A4E"/>
+<text x="1200" y="676" font-size="26" font-weight="400" fill="#C66A4E">查看 → 反馈 → 修改 → 再检查</text>
+<text x="68" y="740" font-size="29" font-weight="400" fill="#5A6D62">视频编辑的 UI 与 AI 修改共同进入当前项目；AI 主要调用工具接口，无需模拟鼠标点击。</text>
+<text x="68" y="822" font-size="29" font-weight="700" fill="#C66A4E">02</text>
+<text x="133" y="833" font-size="42" font-weight="700" fill="#173C37">源库原有视频能力与功能</text>
+<text x="133" y="880" font-size="26" font-weight="400" fill="#5A6D62">下列为固定版本文档描述的能力；具体精度、效果和可用性取决于模型、素材、配置与硬件。</text>
+<rect x="68" y="910" width="542" height="212" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="95" y="960" font-size="31" font-weight="700" fill="#173C37">① 转写与说话人</text>
+<text x="95" y="1017" font-size="29" font-weight="400" fill="#5A6D62">本地或在线语音转写</text>
+<text x="95" y="1060" font-size="29" font-weight="400" fill="#5A6D62">带时间信息，按模型区分说话人</text>
+<text x="95" y="1105" font-size="29" font-weight="400" fill="#5A6D62">可以核对与修订转写</text>
+<rect x="642" y="910" width="542" height="212" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="669" y="961" font-size="31" font-weight="700" fill="#173C37">② 字幕与翻译</text>
+<text x="669" y="1018" font-size="29" font-weight="400" fill="#5A6D62">原文、译文或双语字幕</text>
+<text x="669" y="1061" font-size="29" font-weight="400" fill="#5A6D62">修改具体句子与字幕样式</text>
+<text x="669" y="1105" font-size="29" font-weight="400" fill="#5A6D62">字幕结果保存在视频项目中</text>
+<rect x="1216" y="910" width="542" height="212" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="1243" y="960" font-size="31" font-weight="700" fill="#173C37">③ 声音与配音</text>
+<text x="1243" y="1017" font-size="29" font-weight="400" fill="#5A6D62">人声与背景分离</text>
+<text x="1243" y="1060" font-size="29" font-weight="400" fill="#5A6D62">预设或克隆音色，逐句合成</text>
+<text x="1243" y="1105" font-size="29" font-weight="400" fill="#5A6D62">跨语言配音与重新铺设音轨</text>
+<rect x="1790" y="910" width="542" height="212" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="1817" y="960" font-size="31" font-weight="700" fill="#173C37">④ 口播与时间线剪辑</text>
+<text x="1817" y="1016" font-size="29" font-weight="400" fill="#5A6D62">删除口头语、长停顿和重录</text>
+<text x="1817" y="1060" font-size="29" font-weight="400" fill="#5A6D62">调整镜头、剪辑点与顺序</text>
+<text x="1817" y="1106" font-size="29" font-weight="400" fill="#5A6D62">保留原始媒体文件</text>
+<rect x="68" y="1146" width="542" height="212" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="95" y="1196" font-size="31" font-weight="700" fill="#173C37">⑤ 从简报制作视频</text>
+<text x="95" y="1252" font-size="29" font-weight="400" fill="#5A6D62">组织脚本、合成旁白</text>
+<text x="95" y="1297" font-size="29" font-weight="400" fill="#5A6D62">按旁白编排画面与节奏</text>
+<text x="95" y="1340" font-size="29" font-weight="400" fill="#5A6D62">复用内置创作模板</text>
+<rect x="642" y="1146" width="542" height="212" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="669" y="1196" font-size="31" font-weight="700" fill="#173C37">⑥ 图片与动态图形</text>
+<text x="669" y="1252" font-size="29" font-weight="400" fill="#5A6D62">生成静态图片</text>
+<text x="669" y="1297" font-size="29" font-weight="400" fill="#5A6D62">HTML 代码动效烘焙后入时间线</text>
+<text x="669" y="1341" font-size="29" font-weight="400" fill="#5A6D62">字卡、数字、标注与品牌短动画</text>
+<rect x="1216" y="1146" width="542" height="212" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="1243" y="1197" font-size="31" font-weight="700" fill="#173C37">⑦ 内容衍生与整理</text>
+<text x="1243" y="1254" font-size="29" font-weight="400" fill="#5A6D62">按带时间文稿组织章节</text>
+<text x="1243" y="1298" font-size="29" font-weight="400" fill="#5A6D62">摘要、标题、文章与短视频</text>
+<text x="1243" y="1340" font-size="29" font-weight="400" fill="#5A6D62">可用时间戳核对资料来源</text>
+<rect x="1790" y="1146" width="542" height="212" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="1817" y="1197" font-size="31" font-weight="700" fill="#173C37">⑧ 导出与继续编辑</text>
+<text x="1817" y="1254" font-size="29" font-weight="400" fill="#5A6D62">MP4、SRT / WebVTT、文稿、音频</text>
+<text x="1817" y="1297" font-size="29" font-weight="400" fill="#5A6D62">便携 .baocut 项目包</text>
+<text x="1817" y="1341" font-size="29" font-weight="400" fill="#5A6D62">导出成片后仍可继续编辑项目</text>
+<text x="68" y="1412" font-size="29" font-weight="700" fill="#C66A4E">03</text>
+<text x="133" y="1422" font-size="42" font-weight="700" fill="#173C37">输入什么、得到什么、从哪里操作？</text>
+<rect x="68" y="1474" width="714" height="213" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="95" y="1527" font-size="34" font-weight="700" fill="#173C37">输入</text>
+<text x="95" y="1582" font-size="29" font-weight="400" fill="#5A6D62">视频、音频、图片、文稿或创作简报</text>
+<text x="95" y="1625" font-size="29" font-weight="400" fill="#5A6D62">自然语言目标、素材、样式与范围要求</text>
+<text x="95" y="1669" font-size="29" font-weight="400" fill="#5A6D62">人的 UI 修改；设计模块的位置标注</text>
+<rect x="811" y="1474" width="749" height="213" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="838" y="1527" font-size="34" font-weight="700" fill="#173C37">四种入口，共用本地 Runtime</text>
+<text x="838" y="1581" font-size="29" font-weight="400" fill="#5A6D62">桌面 UI：对话、查看和可视化编辑</text>
+<text x="838" y="1625" font-size="29" font-weight="400" fill="#5A6D62">CLI / MCP：脚本或外部智能体操作</text>
+<text x="838" y="1669" font-size="29" font-weight="400" fill="#5A6D62">Web：在浏览器查看与编辑项目</text>
+<rect x="1589" y="1474" width="743" height="213" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="1616" y="1527" font-size="34" font-weight="700" fill="#173C37">输出</text>
+<text x="1616" y="1581" font-size="29" font-weight="400" fill="#5A6D62">可编辑视频及 MP4 / 字幕 / 音频等</text>
+<text x="1616" y="1625" font-size="29" font-weight="400" fill="#5A6D62">新增设计稿、设计系统及 HTML / PDF</text>
+<text x="1616" y="1668" font-size="29" font-weight="400" fill="#5A6D62">回执与修改记录，供人检查与续改</text>
+<text x="68" y="1742" font-size="29" font-weight="400" fill="#5A6D62">智能体引擎可选；本地 / 在线模型按支持接入。智能体需安装登录；媒体处理依赖 FFmpeg / ffprobe。</text>
+<text x="68" y="1826" font-size="29" font-weight="700" fill="#C66A4E">04</text>
+<text x="133" y="1837" font-size="42" font-weight="700" fill="#173C37">本次新增设计模块：把协作扩展到视觉设计</text>
+<text x="133" y="1884" font-size="26" font-weight="400" fill="#5A6D62">视频时间线与对话协作原本已有。本次增加设计类作品、相应工具与指导，以及编辑器和会话的连接。</text>
+<rect x="68" y="1913" width="1117" height="300" rx="20" fill="#173C37"/>
+<text x="95" y="1967" font-size="36" font-weight="700" fill="#FFFEF9">设计画布 / Design Canvas</text>
+<text x="95" y="2020" font-size="29" font-weight="400" fill="#CEDCC8">界面、网页原型、海报、信息图：画板保留可编辑结构</text>
+<text x="95" y="2065" font-size="29" font-weight="400" fill="#CEDCC8">可视化修改文字、样式、画板位置；元素 / 区域标注</text>
+<text x="95" y="2108" font-size="29" font-weight="400" fill="#CEDCC8">标注随消息交给 AI，针对具体位置继续修改</text>
+<text x="95" y="2152" font-size="29" font-weight="400" fill="#CEDCC8">整份设计稿可导出 HTML / PDF</text>
+<rect x="1214" y="1913" width="1118" height="300" rx="20" fill="#173C37"/>
+<text x="1241" y="1967" font-size="36" font-weight="700" fill="#FFFEF9">设计系统 / Design System</text>
+<text x="1241" y="2020" font-size="29" font-weight="400" fill="#CEDCC8">集中管理颜色、字体、间距、圆角、阴影、组件与素材</text>
+<text x="1241" y="2065" font-size="29" font-weight="400" fill="#CEDCC8">按真实品牌或代码资料整理规范，预览组件与文档</text>
+<text x="1241" y="2108" font-size="29" font-weight="400" fill="#CEDCC8">针对具体条目标注，让 AI 继续修改</text>
+<text x="1241" y="2152" font-size="29" font-weight="400" fill="#CEDCC8">供后续设计稿引用，使视觉规则与素材可以复用</text>
+<text x="68" y="2267" font-size="29" font-weight="400" fill="#5A6D62">模块价值：可编辑结构 + 可视化反馈 + 规范复用。设计模块使用自己的文件与宿主桥接机制。</text>
+<text x="68" y="2349" font-size="29" font-weight="700" fill="#C66A4E">05</text>
+<text x="133" y="2360" font-size="42" font-weight="700" fill="#173C37">适用场景</text>
+<text x="1214" y="2349" font-size="29" font-weight="700" fill="#C66A4E">06</text>
+<text x="1279" y="2359" font-size="42" font-weight="700" fill="#173C37">对我们的价值</text>
+<rect x="68" y="2412" width="1117" height="439" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<rect x="1214" y="2412" width="1118" height="439" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="96" y="2466" font-size="32" font-weight="700" fill="#173C37">口播、教程与知识讲解</text>
+<text x="96" y="2511" font-size="28" font-weight="400" fill="#5A6D62">去停顿、校字幕、调镜头，人逐轮检查表达与节奏。</text>
+<text x="96" y="2567" font-size="32" font-weight="700" fill="#173C37">跨语言内容发布</text>
+<text x="96" y="2611" font-size="28" font-weight="400" fill="#5A6D62">翻译字幕、重做配音，并由人试听与核对。</text>
+<text x="96" y="2666" font-size="32" font-weight="700" fill="#173C37">产品或项目传播</text>
+<text x="96" y="2711" font-size="28" font-weight="400" fill="#5A6D62">制作解说视频、动态图形，以及配套视觉设计稿。</text>
+<text x="96" y="2767" font-size="32" font-weight="700" fill="#173C37">个人创作与品牌整理</text>
+<text x="96" y="2811" font-size="28" font-weight="400" fill="#5A6D62">保存可编辑成果，维护设计规范与常用素材。</text>
+<text x="1242" y="2466" font-size="32" font-weight="700" fill="#173C37">把学习与项目研究做成作品</text>
+<text x="1242" y="2511" font-size="28" font-weight="400" fill="#5A6D62">探索视频化笔记、项目解说和可持续修改的展示。</text>
+<text x="1242" y="2566" font-size="32" font-weight="700" fill="#173C37">借鉴人机协作的方法</text>
+<text x="1242" y="2610" font-size="28" font-weight="400" fill="#5A6D62">学习 UI 接手、当前状态共享、范围控制与反馈定位。</text>
+<text x="1242" y="2666" font-size="32" font-weight="700" fill="#173C37">学习工程组织方式</text>
+<text x="1242" y="2711" font-size="28" font-weight="400" fill="#5A6D62">研究执行工具、任务调度、事务撤销及多模型入口。</text>
+<text x="1242" y="2767" font-size="32" font-weight="700" fill="#173C37">积累可复用的创作资产</text>
+<text x="1242" y="2811" font-size="28" font-weight="400" fill="#5A6D62">保留时间线、结构化设计稿、规范和素材。</text>
+<text x="68" y="2905" font-size="29" font-weight="400" fill="#C66A4E">场景与个人价值为我们的适配判断。是否减少返工、提高质量或节约成本，需要真实任务对照验证。</text>
+<text x="68" y="2991" font-size="29" font-weight="700" fill="#C66A4E">07</text>
+<text x="133" y="3001" font-size="42" font-weight="700" fill="#173C37">实际怎么用：一轮协作，再接下一轮</text>
+<rect x="68" y="3050" width="300" height="76" rx="10" fill="#E7EDDF"/>
+<text x="84" y="3094" font-size="29" font-weight="700" fill="#173C37">1  明确目标</text>
+<polyline points="373,3088 388,3088" fill="none" stroke="#5A6D62" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="374.0,3081.0 388.0,3088.0 374.0,3095.0" fill="#5A6D62"/>
+<rect x="395" y="3050" width="300" height="76" rx="10" fill="#173C37"/>
+<text x="411" y="3095" font-size="29" font-weight="700" fill="#FFFEF9">2  AI 出初稿</text>
+<polyline points="700,3088 715,3088" fill="none" stroke="#5A6D62" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="701.0,3081.0 715.0,3088.0 701.0,3095.0" fill="#5A6D62"/>
+<rect x="722" y="3050" width="300" height="76" rx="10" fill="#E7EDDF"/>
+<text x="738" y="3094" font-size="29" font-weight="700" fill="#173C37">3  UI 查看试听</text>
+<polyline points="1027,3088 1042,3088" fill="none" stroke="#5A6D62" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="1028.0,3081.0 1042.0,3088.0 1028.0,3095.0" fill="#5A6D62"/>
+<rect x="1049" y="3050" width="300" height="76" rx="10" fill="#E7EDDF"/>
+<text x="1065" y="3094" font-size="29" font-weight="700" fill="#173C37">4  人直接调整</text>
+<polyline points="1354,3088 1369,3088" fill="none" stroke="#5A6D62" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="1355.0,3081.0 1369.0,3088.0 1355.0,3095.0" fill="#5A6D62"/>
+<rect x="1376" y="3050" width="300" height="76" rx="10" fill="#E7EDDF"/>
+<text x="1392" y="3094" font-size="29" font-weight="700" fill="#173C37">5  限定修改范围</text>
+<polyline points="1681,3088 1696,3088" fill="none" stroke="#5A6D62" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="1682.0,3081.0 1696.0,3088.0 1682.0,3095.0" fill="#5A6D62"/>
+<rect x="1703" y="3050" width="300" height="76" rx="10" fill="#173C37"/>
+<text x="1719" y="3094" font-size="29" font-weight="700" fill="#FFFEF9">6  AI 局部修订</text>
+<polyline points="2008,3088 2023,3088" fill="none" stroke="#5A6D62" stroke-width="2" stroke-linejoin="round"/>
+<polygon points="2009.0,3081.0 2023.0,3088.0 2009.0,3095.0" fill="#5A6D62"/>
+<rect x="2030" y="3050" width="300" height="76" rx="10" fill="#E7EDDF"/>
+<text x="2046" y="3095" font-size="29" font-weight="700" fill="#173C37">7  人验收导出</text>
+<text x="68" y="3176" font-size="29" font-weight="400" fill="#5A6D62">例子：AI 将口播剪成一分钟 → 你改镜头和第二句 → 要求 AI 只改第三句、保留人工调整 → 再检查。</text>
+<text x="68" y="3260" font-size="29" font-weight="700" fill="#C66A4E">08</text>
+<text x="133" y="3270" font-size="42" font-weight="700" fill="#173C37">理解与验证边界</text>
+<rect x="68" y="3319" width="542" height="269" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="95" y="3370" font-size="32" font-weight="700" fill="#173C37">验证范围</text>
+<text x="95" y="3425" font-size="29" font-weight="400" fill="#5A6D62">已核对固定版本资料</text>
+<text x="95" y="3470" font-size="29" font-weight="400" fill="#5A6D62">网页教学流程已本地检查</text>
+<text x="95" y="3514" font-size="29" font-weight="400" fill="#5A6D62">未运行真实上游视频或模型</text>
+<text x="95" y="3557" font-size="29" font-weight="400" fill="#5A6D62">质量、费用、速度尚未实测</text>
+<rect x="642" y="3319" width="542" height="269" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="669" y="3370" font-size="32" font-weight="700" fill="#173C37">能力边界</text>
+<text x="669" y="3425" font-size="29" font-weight="400" fill="#5A6D62">人工改动保留可靠性待实测</text>
+<text x="669" y="3470" font-size="29" font-weight="400" fill="#5A6D62">未证明设计稿自动入时间线</text>
+<text x="669" y="3513" font-size="29" font-weight="400" fill="#5A6D62">网页原型需另做业务工程</text>
+<text x="669" y="3558" font-size="29" font-weight="400" fill="#5A6D62">便携包不含完整撤销历史</text>
+<rect x="1216" y="3319" width="542" height="269" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="1243" y="3370" font-size="32" font-weight="700" fill="#173C37">新增贡献与来源</text>
+<text x="1243" y="3426" font-size="29" font-weight="400" fill="#5A6D62">核心价值在工作流集成</text>
+<text x="1243" y="3470" font-size="29" font-weight="400" fill="#5A6D62">编辑器来自前端重建移植</text>
+<text x="1243" y="3513" font-size="29" font-weight="400" fill="#5A6D62">模型能力取决于所选模型</text>
+<text x="1243" y="3558" font-size="29" font-weight="400" fill="#5A6D62">原有视频协作与新增要分清</text>
+<rect x="1790" y="3319" width="542" height="269" rx="20" fill="#FFFEF9" stroke="#CCD6C7" stroke-width="2"/>
+<text x="1817" y="3370" font-size="32" font-weight="700" fill="#173C37">上游许可</text>
+<text x="1817" y="3424" font-size="29" font-weight="400" fill="#5A6D62">BaoCut Community License 1.0</text>
+<text x="1817" y="3470" font-size="29" font-weight="400" fill="#5A6D62">附条件的源码可用许可</text>
+<text x="1817" y="3513" font-size="29" font-weight="400" fill="#5A6D62">使用与再分发以条款为准</text>
+<text x="1817" y="3558" font-size="29" font-weight="400" fill="#5A6D62">图标字体分发许可待确认</text>
+<text x="68" y="3638" font-size="26" font-weight="400" fill="#5A6D62">来源：JimLiu/baocut · commit 7aa049e8 · 中文 README、产品设计、设计运行时与设计指导、LICENSE。</text>
+<text x="68" y="3682" font-size="26" font-weight="400" fill="#5A6D62">本仓库原创研究图，非 BaoCut 产品截图或运行证明。主线：底层执行 + 人直接编辑 + 模型对话，共同优化当前作品。</text>
+</svg>

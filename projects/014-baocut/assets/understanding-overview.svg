@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1020" viewBox="0 0 1440 1020" role="img" aria-labelledby="title desc">
+  <title id="title">BaoCut：人和 AI 共同修改同一份作品</title>
+  <desc id="desc">底层视频能力执行操作，人通过 UI、AI 通过工具进入共同编辑入口，持续优化可编辑视频。新增设计画布与设计系统分别连接设计编辑、规范和会话标注。</desc>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#668469" stroke-width="2"/></marker><style>text{font-family:'Microsoft YaHei','PingFang SC',sans-serif}.small{font-size:19px;fill:#617163}.body{font-size:24px;fill:#41583f}.title{font-size:30px;font-weight:700;fill:#173c37}.white{fill:#f7f6e8}.line{stroke:#8ea382;stroke-width:3;fill:none;marker-end:url(#arrow)}</style></defs>
+  <rect width="1440" height="1020" rx="22" fill="#f6f5ef"/>
+  <text x="68" y="62" class="small" letter-spacing="3">014 / BAOCUT · 固定版本 7aa049e8 · 2026.10.14</text>
+  <text x="68" y="133" font-size="52" font-weight="700" fill="#173c37">底层执行，模型组织，人通过界面持续优化。</text>
+  <text x="68" y="182" class="body">核心：人和 AI 共同修改当前项目，结果保留结构，下一轮继续接着改。</text>
+  <rect x="68" y="228" width="1304" height="368" rx="17" fill="#e7eddf"/>
+  <text x="95" y="274" class="title">原有视频协作</text>
+  <rect x="96" y="304" width="228" height="101" rx="11" fill="#fffdf5" stroke="#bac9b3"/><text x="120" y="344" class="title">人 → 可视化 UI</text><text x="120" y="379" class="small">预览 / 直接编辑 / 撤销</text>
+  <rect x="96" y="431" width="228" height="101" rx="11" fill="#fffdf5" stroke="#bac9b3"/><text x="120" y="471" class="title">AI → 工具调用</text><text x="120" y="506" class="small">理解目标 / 修改指定内容</text>
+  <path d="M330 355 L366 355 L366 418 L405 418" class="line"/><path d="M330 482 L366 482 L366 418" stroke="#8ea382" stroke-width="3" fill="none"/>
+  <rect x="416" y="351" width="251" height="134" rx="11" fill="#fffdf5" stroke="#bac9b3"/><text x="441" y="397" class="title">共同编辑入口</text><text x="441" y="437" class="small">命令 / 事务 / 撤销机制</text>
+  <path d="M679 418 L728 418" class="line"/>
+  <rect x="741" y="328" width="326" height="177" rx="11" fill="#173c37"/><text x="767" y="375" class="title white">同一份可编辑视频</text><text x="767" y="421" class="body white">时间线 · 文稿 · 字幕 · 音轨</text><text x="767" y="464" font-size="20" fill="#d9eab7">底层执行操作，保存当前状态</text>
+  <path d="M1080 418 L1125 418" class="line"/>
+  <rect x="1136" y="351" width="206" height="134" rx="11" fill="#fffdf5" stroke="#bac9b3"/><text x="1158" y="397" class="title">人检查结果</text><text x="1158" y="437" class="small">接手或继续对话</text>
+  <text x="95" y="570" class="small">底层能力：转写、字幕、翻译、配音、口播剪辑、图片 / 动效、成片与便携项目导出。</text>
+  <rect x="68" y="627" width="635" height="242" rx="17" fill="#173c37"/><text x="96" y="672" font-size="19" fill="#d9eab7">本次新增 / DESIGN CANVAS</text><text x="96" y="722" font-size="32" font-weight="700" fill="#f7f6e8">设计画布：继续修改设计作品</text><text x="96" y="765" font-size="24" fill="#d0deca">画板与 HTML · 文字和样式编辑</text><text x="96" y="807" font-size="24" fill="#d0deca">元素 / 区域标注 → 会话 → AI 修改</text><text x="96" y="846" font-size="19" fill="#d0deca">整份设计稿可导出 HTML / PDF</text>
+  <rect x="735" y="627" width="637" height="242" rx="17" fill="#173c37"/><text x="763" y="672" font-size="19" fill="#d9eab7">本次新增 / DESIGN SYSTEM</text><text x="763" y="722" font-size="32" font-weight="700" fill="#f7f6e8">设计系统：让规范可以复用</text><text x="763" y="765" font-size="24" fill="#d0deca">颜色 · 字体 · 间距 · 组件 · 素材</text><text x="763" y="807" font-size="24" fill="#d0deca">条目标注与对话修改，供后续设计稿引用</text><text x="763" y="846" font-size="19" fill="#d0deca">设计模块有自己的文件与宿主桥接机制</text>
+  <text x="68" y="920" class="body">研究价值：明确修改对象，保留人的调整，积累可编辑作品与视觉规范。</text>
+  <text x="68" y="958" class="small">边界：教学示例不调用真实模型；上游运行、可靠性与返工改善尚未实测；未证明设计稿自动进入视频时间线。</text>
+  <text x="68" y="991" font-size="16" fill="#6c7768">本仓库原创理解总览，非上游界面截图。依据：JimLiu/baocut README、提交说明及 design-runtime / design-system-runtime 文档。</text>
+</svg>
