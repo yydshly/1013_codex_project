@@ -1,0 +1,394 @@
+{
+  "research_date": "2026-10-14",
+  "rea_source_ref": "ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4",
+  "basis": "以本仓库既有固定版本研究为基线，并补查三个重点项目的核心源码与官方产品资料；不是同任务效果横评，也不是全产品最新版本功能表。",
+  "scope": "对比职责、输入、机制、输出与验收。所有串接方案为研究建议，未实施跨项目集成。",
+  "default_project": "006-jev-seo",
+  "baseline": {
+    "name": "REA",
+    "goal": "一个软件的具体功能怎样实现？",
+    "input": "对应版本的软件材料、观察目标与问题",
+    "flow": [
+      "助手选择查询",
+      "REA 接入引擎 / 解析 / 捕获",
+      "绑定身份、关系与限制",
+      "助手解释，实验核对"
+    ],
+    "output": "代码、结构、关系、观察与 Evidence",
+    "source_ref": "ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4"
+  },
+  "projects": [
+    {
+      "slug": "006-jev-seo",
+      "name": "Jev SEO",
+      "role": "网站审查",
+      "similarity": "分析流程相近",
+      "goal": "这个网站有哪些可核查的质量问题？",
+      "input": "网页快照、站点范围、固定规则与内容评估标准",
+      "flow": [
+        "采集网页",
+        "解析页面事实",
+        "固定规则 / 语义判断",
+        "报告与复核"
+      ],
+      "principle": "先采集公开页面；代码计算可直接检查的规则，模型判断文本含义，再按标准整理整改建议。006 的提取实验另增加任务、格式与原文引文校验。",
+      "output": "页面事实、规则问题、模型判断、整改排序",
+      "difference": "REA 沿具体功能继续查代码、关系与运行记录；Jev SEO 对页面应用预先明确的审查标准。两者分析目标与底层材料不同。",
+      "shared": "都需要先取得材料，把代码可计算的事实与模型推断分开，并保留证据和覆盖。",
+      "boundary": "网页症状不能直接证明后端代码根因；006 自有模型适配属于本仓库提取实验，不等于上游 Jev 默认协议。",
+      "use_when": "审查标题、链接、内容与整改优先级时参考 Jev SEO；调查按钮内部调用和跨层实现时参考 REA。",
+      "validation": "006 离线提取实验通过；真实网站采集与模型接口未实测。REA 未运行上游。",
+      "project_id": "006",
+      "research_path": "projects/006-jev-seo/README.md",
+      "web_href": "../006-jev-seo/",
+      "source_url": "https://github.com/AgriciDaniel/jev-seo",
+      "source_ref": "55a184a3b0d09565a4c84268f725a47784e62528",
+      "record_type": "固定源码版本",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "jevseo/checks.py",
+          "url": "https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/checks.py"
+        },
+        {
+          "title": "jevseo/jev.py",
+          "url": "https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/jev.py"
+        }
+      ]
+    },
+    {
+      "slug": "008-shadps4",
+      "name": "shadPS4",
+      "role": "兼容执行",
+      "similarity": "软件对象相近",
+      "goal": "这个 PS4 程序能否在电脑上正确运行？",
+      "input": "兼容可执行程序、系统模块、配置与玩家操作",
+      "flow": [
+        "加载与链接",
+        "CPU 执行 / 系统兼容",
+        "GPU 命令与着色器转换",
+        "运行画面与日志"
+      ],
+      "principle": "安排代码、内存和入口；在合适 x86-64 主机执行大量原生指令，通过系统接口兼容和 GCN → IR → SPIR-V / Vulkan 图形转换延续程序行为。",
+      "output": "运行画面、声音及调试日志，受兼容范围限制",
+      "difference": "REA 读取与观察程序，帮助解释局部功能；shadPS4 提供程序赖以运行的兼容环境。着色器重编译服务于执行，不等于恢复原始高级语言源码。",
+      "shared": "都要理解二进制、调用约定、版本与平台边界，并用实际行为检查结论。",
+      "boundary": "识别或读懂指令不能让程序自动在另一平台运行；能显示一个样例也不证明完整系统或全部游戏兼容。",
+      "use_when": "研究函数怎样计算时用软件分析路线；让兼容 PS4 内容在电脑运行时研究模拟器路线。",
+      "validation": "008 真实执行过公开 homebrew；商业游戏、完整 GCN 转换与实体主机对照仍有未验证项。REA 未运行上游。",
+      "project_id": "008",
+      "research_path": "projects/008-shadps4/README.md",
+      "web_href": "../008-shadps4/",
+      "source_url": "https://github.com/shadps4-emu/shadPS4",
+      "source_ref": "23c41333822fe8eca4c609b43119180af63ae4ac",
+      "record_type": "固定源码版本",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "src/emulator.cpp",
+          "url": "https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/emulator.cpp"
+        },
+        {
+          "title": "src/shader_recompiler/recompiler.cpp",
+          "url": "https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/shader_recompiler/recompiler.cpp"
+        }
+      ]
+    },
+    {
+      "slug": "016-free-claude-code",
+      "name": "Free Claude Code",
+      "role": "模型接入",
+      "similarity": "接口整合相近",
+      "goal": "现有 Agent 怎样使用另一个真实模型服务？",
+      "input": "模型请求、协议、路由配置与真实服务",
+      "flow": [
+        "Agent 发送模型请求",
+        "FCC 适配与路由",
+        "真实模型生成",
+        "适配响应回到 Agent"
+      ],
+      "principle": "通过代理地址接收 Messages / Responses 等请求，按配置选择真实上游，必要时转换消息、工具定义和流式格式。模型生成调用指令后，由 Agent 执行工具。",
+      "output": "适配后的模型回答、工具调用指令与流式事件",
+      "difference": "FCC 连接模型侧，REA 连接软件分析工具侧。FCC 转发工具定义或调用结果，不等于亲自执行 Ghidra / REA 查询；两者也不提供模型训练。",
+      "shared": "都以统一入口、协议适配和返回契约减少重复接入，但适配对象和结果语义不同。",
+      "boundary": "协议连通不能保证模型正确理解证据或选对工具；不能把工具名称、免费额度与模型能力混为一谈。",
+      "use_when": "更换 Agent 的模型供应商时参考 FCC；增加可查的软件材料和分析工具时参考 REA。",
+      "validation": "016 已核对核心源码，未实测真实代理、模型与费用。REA 未运行上游。",
+      "project_id": "016",
+      "research_path": "projects/016-free-claude-code/README.md",
+      "web_href": "../016-free-claude-code/",
+      "source_url": "https://github.com/Alishahryar1/free-claude-code",
+      "source_ref": "74d4ccfde724f7416fa2a728d594d704dddc7c94",
+      "record_type": "固定源码版本",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "src/free_claude_code/api/routes.py",
+          "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/routes.py"
+        },
+        {
+          "title": "src/free_claude_code/application/routing.py",
+          "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/application/routing.py"
+        }
+      ]
+    },
+    {
+      "slug": "002-production-agentic-rag-course",
+      "name": "Production Agentic RAG Course",
+      "role": "资料检索",
+      "similarity": "证据使用相近",
+      "goal": "已有资料中哪些内容支持这个研究问题？",
+      "input": "已获取的文档、来源、问题与检索参数",
+      "flow": [
+        "解析切块与索引",
+        "关键词 / 向量检索",
+        "问题与片段交给模型",
+        "回答与来源核查"
+      ],
+      "principle": "将文档建成可检索片段，查询时用关键词、向量和混合检索找材料，再让模型据此回答；Agentic 路线另加相关性判断与改写。",
+      "output": "命中文档片段、模型回答和来源链接",
+      "difference": "REA 从软件材料取得并组织新证据；RAG 检索已经入库的材料。检索不能代替读取二进制，REA 也不会自动建成本课程的文档知识库。",
+      "shared": "都让模型有材料可依，并要求记录来源、版本、位置与覆盖。",
+      "boundary": "被检索到或有链接不证明回答被原文支持。REA Evidence 入库需要结构化适配，未知项与依据类别不能被丢弃。",
+      "use_when": "查已保存的项目研究时参考 RAG；需要进一步取得函数、关系和运行记录时参考 REA。",
+      "validation": "002 已读核心源码，未运行完整 RAG 服务，Agentic 链路有已记录缺口。与 REA 尚未集成。",
+      "project_id": "002",
+      "research_path": "projects/002-production-agentic-rag-course/README.md",
+      "web_href": "../002-production-agentic-rag-course/",
+      "source_url": "https://github.com/jamwithai/production-agentic-rag-course",
+      "source_ref": "424a0eb99edf841994f2a9a053912b489d2a94ff",
+      "record_type": "固定源码版本",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "src/services/opensearch/client.py",
+          "url": "https://github.com/jamwithai/production-agentic-rag-course/blob/424a0eb99edf841994f2a9a053912b489d2a94ff/src/services/opensearch/client.py"
+        },
+        {
+          "title": "src/services/agents/agentic_rag.py",
+          "url": "https://github.com/jamwithai/production-agentic-rag-course/blob/424a0eb99edf841994f2a9a053912b489d2a94ff/src/services/agents/agentic_rag.py"
+        }
+      ]
+    },
+    {
+      "slug": "007-hermes-jev-skills",
+      "name": "Hermes Jev Skills",
+      "role": "有限判断",
+      "similarity": "调查决策相关",
+      "goal": "当前状态下应该选择哪个合法的后续动作？",
+      "input": "必要状态、明确判断问题、候选选项与本地约束",
+      "flow": [
+        "组织状态与问题",
+        "Jev 返回有限判断",
+        "本地校验与策略选择",
+        "模型 / 工具执行并验收"
+      ],
+      "principle": "Jev 对提供的状态做有限语义判断；本地策略结合阈值、模型池、能力和回退选择动作；生成与执行由主模型和工具承担。",
+      "output": "选择、评分或是否判断，供策略使用",
+      "difference": "REA 提供可供调查的事实材料；Jev Skills 提供选择后续动作的方法。REA 的 observed / derived / inferred 表示依据类型，不能当作 Jev 的概率或正确率评分。",
+      "shared": "都要把输入范围、推断、策略和执行分开，不能用模型的判断替代材料核查。",
+      "boundary": "没有输入给判断器的项目事实不会自动被看见；选择标签正确也不证明整个任务通过。",
+      "use_when": "频繁且会改变后续动作的语义分支可研究有限判断；需要查更多软件证据时先用分析工具。",
+      "validation": "007 未调用真实 Jev / 执行模型；个人策略质量与总成本未验证。REA 未运行上游。",
+      "project_id": "007",
+      "research_path": "projects/007-hermes-jev-skills/README.md",
+      "web_href": "../007-hermes-jev-skills/",
+      "source_url": "https://github.com/kerpopule/hermes-jev-skills",
+      "source_ref": "31f476cac49713b6bf88c00d42382542e1c36965",
+      "record_type": "固定源码版本",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "README.md",
+          "url": "https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/README.md"
+        }
+      ]
+    },
+    {
+      "slug": "013-claude-managed-agents",
+      "name": "Claude Managed Agents",
+      "role": "任务编排与运行管理",
+      "similarity": "运行组织相关",
+      "goal": "多个 Agent 怎样按依赖协作、交接并完成任务？",
+      "input": "任务、Agent、工具、依赖与运行约束",
+      "flow": [
+        "分派任务或生成工作流",
+        "后台按阶段运行",
+        "交接与汇总成果",
+        "观察、控制与验收"
+      ],
+      "principle": "普通子 Agent 由主 Agent 继续分派；动态工作流由主 Agent 写编排程序，平台在后台按程序组织执行与结果交接。官方 API 资料不公开全部实现细节。",
+      "output": "线程成果、阶段与运行状态、事件及用量",
+      "difference": "Managed Agents 组织多 Agent 任务；REA 组织单次或持续的软件分析材料与提供者。REA 的目标 / Evidence 会话不能等同为通用多 Agent 调度器。",
+      "shared": "都要管理状态、身份、生命周期、失败和边界，运行完成还需要成果验收。",
+      "boundary": "并行规模和任务状态不证明质量提升；共享文件与权限、冲突、失败披露仍需设计。",
+      "use_when": "批量独立研究和长任务依赖管理时参考编排；每个软件调查任务内部再按环境选择分析工具。",
+      "validation": "013 是官方资料研究，未调用真实服务；与 REA 的跨主机或托管接入未验证。",
+      "project_id": "013",
+      "research_path": "projects/013-claude-managed-agents/README.md",
+      "web_href": "../013-claude-managed-agents/",
+      "source_url": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "source_ref": "",
+      "record_type": "公开官方资料",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "官方资料",
+          "url": "https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration"
+        },
+        {
+          "title": "官方资料",
+          "url": "https://platform.claude.com/docs/en/managed-agents/workflow-runs"
+        }
+      ]
+    },
+    {
+      "slug": "009-cmux",
+      "name": "cmux",
+      "role": "会话工作台",
+      "similarity": "工具入口相关",
+      "goal": "一个人怎样看清并控制多个现有 Agent 会话？",
+      "input": "终端 / 浏览器会话、定向输入、控制请求与事件",
+      "flow": [
+        "定位 Workspace / Surface",
+        "PTY 输入输出",
+        "控制接口与事件路由",
+        "展示、通知与人工接手"
+      ],
+      "principle": "原生 UI 组织工作区与分屏；终端通过 PTY 连接 CLI 进程，控制请求和事件按身份路由。各 Agent 使用自己的模型、工具与上下文。",
+      "output": "可交互终端 / 网页、通知与会话控制结果",
+      "difference": "cmux 负责人操作与观察会话，REA 负责结构化软件分析。终端中可以运行 REA CLI，但工作台本身不因此获得全部分析提供者。",
+      "shared": "都通过稳定目标身份、接口和状态减少操作混乱，目标语义分别是会话与软件材料。",
+      "boundary": "工作区不等于文件隔离，状态不等于成果合格；必须核对平台与具体 Agent 的适配。",
+      "use_when": "多会话集中观察与定向交互时参考 cmux；会话中的 Agent 查软件时使用合适的分析接口。",
+      "validation": "009 已核对源码，未运行上游；REA 在这些 Agent 会话中的真实接入未验证。",
+      "project_id": "009",
+      "research_path": "projects/009-cmux/README.md",
+      "web_href": "../009-cmux/",
+      "source_url": "https://github.com/manaflow-ai/cmux",
+      "source_ref": "cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb",
+      "record_type": "固定源码版本",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "README.md",
+          "url": "https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/README.md"
+        },
+        {
+          "title": "docs/agent-hooks.md",
+          "url": "https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/docs/agent-hooks.md"
+        }
+      ]
+    },
+    {
+      "slug": "010-vibe42",
+      "name": "Vibe42",
+      "role": "远程操作入口",
+      "similarity": "控制入口相关",
+      "goal": "离开电脑后怎样继续操作已有 Agent 环境？",
+      "input": "已授权设备、会话选择、远程文字与按键",
+      "flow": [
+        "配对与授权",
+        "加密直连或中继",
+        "Companion 向 PTY 送达输入",
+        "输出、文件与通知返回"
+      ],
+      "principle": "手机 / Web 操作送达电脑中的 Companion 与 PTY，会话继续在目标端运行。连接和展示由产品处理，实际任务由电脑中的 Agent 与工具执行。",
+      "output": "远程可见的终端结果、文件、状态与提醒",
+      "difference": "Vibe42 把人连接到远端会话，REA 把 Agent 连接到软件分析能力。远程入口不会自动安装或配置远端 Ghidra / REA。",
+      "shared": "都要正确定位目标、保持连接或会话生命周期，并明确实际执行发生在哪台机器。",
+      "boundary": "当前是公开资料核对，没有底层源码可审查；链路、平台、权限与可靠性不能由网页导读证明。",
+      "use_when": "外出查看或接手续作时参考远程入口；主机中的软件分析仍需相应工具与材料。",
+      "validation": "010 未安装或配对真实产品；与 REA 的真实接续、费用和可靠性未验证。",
+      "project_id": "010",
+      "research_path": "projects/010-vibe42/README.md",
+      "web_href": "../010-vibe42/",
+      "source_url": "https://vibe42.ai/",
+      "source_ref": "",
+      "record_type": "公开官方资料",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "官方资料",
+          "url": "https://vibe42.ai/"
+        }
+      ]
+    },
+    {
+      "slug": "011-openmontage",
+      "name": "OpenMontage",
+      "role": "视频制作流程",
+      "similarity": "领域工具组合相近",
+      "goal": "怎样把创意和资料逐阶段制作成视频？",
+      "input": "创意、研究资料、脚本、素材、规格与预算",
+      "flow": [
+        "阶段化简报与脚本",
+        "分镜与工具选择",
+        "素材生成 / 搜索 / 代码画面",
+        "合成、检查与交付"
+      ],
+      "principle": "助手依据技能和流程定义推进任务；工具注册、阶段成果、检查点和费用约定组织视频制作，模型服务、检索与渲染各负其责。",
+      "output": "脚本、分镜、素材、剪辑决策、成片与过程记录",
+      "difference": "REA 围绕未知的软件问题收集证据；OpenMontage 围绕作品目标交接制作成果。共同的工具接入模式不代表分析规则能直接变成视频验收。",
+      "shared": "都可以拆分模型、工具、数据、状态与验收，保留中间材料以支持继续工作。",
+      "boundary": "工具评分或流程完成不保证成片效果；跨产品项目格式和素材接口仍需适配。",
+      "use_when": "制作研究讲解视频时参考制作流程；解释软件内部实现时先取得可核查证据。",
+      "validation": "011 未运行完整上游制作与真实模型；REA 研究成果到视频的自动衔接尚未实现。",
+      "project_id": "011",
+      "research_path": "projects/011-openmontage/README.md",
+      "web_href": "../011-openmontage/",
+      "source_url": "https://github.com/calesthio/OpenMontage",
+      "source_ref": "e45f5b12bd46440b04f3675af9a77d0718e6a254",
+      "record_type": "固定源码版本",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "docs/ARCHITECTURE.md",
+          "url": "https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/docs/ARCHITECTURE.md"
+        },
+        {
+          "title": "lib/checkpoint.py",
+          "url": "https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/checkpoint.py"
+        }
+      ]
+    },
+    {
+      "slug": "014-baocut",
+      "name": "BaoCut",
+      "role": "人机协作编辑",
+      "similarity": "领域工具接入相近",
+      "goal": "人和 AI 怎样持续修改同一份可编辑作品？",
+      "input": "当前项目、素材、自然语言目标与 UI 修改",
+      "flow": [
+        "读取当前项目",
+        "人通过 UI / AI 通过工具",
+        "命令与事务修改",
+        "回执、预览、撤销与再编辑"
+      ],
+      "principle": "视频编辑中，人通过 UI、AI 通过工具接口进入项目命令与事务；共享当前可编辑状态，用户可检查、接手和撤销。设计画布另有自身的运行模块。",
+      "output": "可编辑视频 / 设计稿、变更回执及导出文件",
+      "difference": "REA 主要积累调查依据，BaoCut 主要修改创作状态。证据保留与编辑事务 / 撤销的用途不同；REA 某些操作也可执行或改变目标，不能笼统视为全只读。",
+      "shared": "都使领域工具成为可调用动作，并用当前状态和明确返回值支持后续操作。",
+      "boundary": "可编辑不等于模型始终正确保留人工意图；视频事务不能直接套到独立设计画布，也不能直接套到分析证据。",
+      "use_when": "研究人工接手、局部修改、预览与撤销时参考 BaoCut；研究调查依据与剩余未知时参考 REA。",
+      "validation": "014 已核对固定文档，未运行上游编辑器与真实模型；与 REA 尚未集成。",
+      "project_id": "014",
+      "research_path": "projects/014-baocut/README.md",
+      "web_href": "../014-baocut/",
+      "source_url": "https://github.com/JimLiu/baocut",
+      "source_ref": "7aa049e82e1367da013b7aba80f0b79033fa04ad",
+      "record_type": "固定源码版本",
+      "record_date": "2026-10-14",
+      "sources": [
+        {
+          "title": "README.zh-Hans.md",
+          "url": "https://github.com/JimLiu/baocut/blob/7aa049e82e1367da013b7aba80f0b79033fa04ad/README.zh-Hans.md"
+        },
+        {
+          "title": "docs/product/product-design.md",
+          "url": "https://github.com/JimLiu/baocut/blob/7aa049e82e1367da013b7aba80f0b79033fa04ad/docs/product/product-design.md"
+        }
+      ]
+    }
+  ]
+}

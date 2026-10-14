@@ -1,0 +1,376 @@
+{
+  "research_date": "2026-10-14",
+  "source_ref": "ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4",
+  "method": "GitHub connector fixed-ref reads; source review only",
+  "core_sources": [
+    {
+      "claim": "项目定位、目标表与案例",
+      "path": "README.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/README.md",
+      "scope": "公开说明；不是运行验证"
+    },
+    {
+      "claim": "版本号与 Node 要求",
+      "path": "package.json",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/package.json",
+      "scope": "源码版本 6.4.0；不代表 npm 字节相同"
+    },
+    {
+      "claim": "CLI / MCP、共享应用层与提供者",
+      "path": "docs/architecture.mermaid",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/architecture.mermaid",
+      "scope": "分层架构"
+    },
+    {
+      "claim": "JavaScript 校验、重建与证据创建",
+      "path": "src/application/javascript/JavaScriptApplicationService.ts",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/src/application/javascript/JavaScriptApplicationService.ts",
+      "scope": "核心流程源码"
+    },
+    {
+      "claim": "参数、摘要、来源和限制绑定",
+      "path": "src/application/javascript/JavaScriptApplicationEvidence.ts",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/src/application/javascript/JavaScriptApplicationEvidence.ts",
+      "scope": "核心证据源码"
+    },
+    {
+      "claim": "Evidence 字段与标记",
+      "path": "src/domain/evidence.ts",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/src/domain/evidence.ts",
+      "scope": "核心数据契约"
+    },
+    {
+      "claim": "图追踪、比较与静态运行区分",
+      "path": "docs/javascript-application-workflows.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/javascript-application-workflows.md",
+      "scope": "专题文档"
+    },
+    {
+      "claim": "被动网页观察及附加前缺口",
+      "path": "docs/browser-observation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/browser-observation.md",
+      "scope": "专题文档"
+    },
+    {
+      "claim": "主动浏览器场景",
+      "path": "docs/browser-scenario-contract.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/browser-scenario-contract.md",
+      "scope": "权限、生命周期与捕获边界"
+    },
+    {
+      "claim": "Electron 被动与主动场景",
+      "path": "docs/electron-observation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/electron-observation.md",
+      "scope": "专题文档"
+    },
+    {
+      "claim": "历史网络记录",
+      "path": "docs/web-network-captures.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/web-network-captures.md",
+      "scope": "HAR / SAZ / mitmproxy / qlog 范围"
+    },
+    {
+      "claim": ".NET 与 NativeAOT 边界",
+      "path": "docs/managed-code-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/managed-code-analysis.md",
+      "scope": "静态元数据与 CIL"
+    },
+    {
+      "claim": "JavaScript 恢复",
+      "path": "docs/javascript-recovery.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/javascript-recovery.md",
+      "scope": "Linux x64 与 Wakaru"
+    },
+    {
+      "claim": "Frida 插桩",
+      "path": "docs/frida-instrumentation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/frida-instrumentation.md",
+      "scope": "可选依赖、效果和验证限制"
+    },
+    {
+      "claim": "Apple 应用清单投影",
+      "path": "docs/apple-application-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/apple-application-analysis.md",
+      "scope": "结构不证明运行"
+    },
+    {
+      "claim": "六种调查指引",
+      "path": "docs/mcp-prompts.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/mcp-prompts.md",
+      "scope": "指引不自动执行工具"
+    },
+    {
+      "claim": "会话、目录、结果、效果与限制",
+      "path": "docs/mcp-contracts.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/mcp-contracts.md",
+      "scope": "文档契约，不是全工具实测"
+    },
+    {
+      "claim": "工具设计原则",
+      "path": "docs/tool-design.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/tool-design.md",
+      "scope": "观察、推导、推断和未知"
+    },
+    {
+      "claim": "重建验证义务",
+      "path": "docs/reconstruction-obligation-ledgers.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/reconstruction-obligation-ledgers.md",
+      "scope": "候选与关闭义务"
+    },
+    {
+      "claim": "安装、Skill 与发布边界",
+      "path": "docs/installation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/installation.md",
+      "scope": "引用作者 2026-10-11 发布核对；未独立检查最新 npm"
+    },
+    {
+      "claim": "Windows Ghidra P0",
+      "path": "docs/windows-ghidra-p0.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/windows-ghidra-p0.md",
+      "scope": "实验性主机、目标与操作范围"
+    },
+    {
+      "claim": "官方路线",
+      "path": "docs/roadmap.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/roadmap.md",
+      "scope": "与我们的建议分开"
+    },
+    {
+      "claim": "许可证",
+      "path": "LICENSE",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/LICENSE",
+      "scope": "保留原文，第三方各有许可"
+    }
+  ],
+  "runtime_verified": false,
+  "topic_sources": [
+    {
+      "path": "docs/native-investigation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/native-investigation.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/binary-diagnostics.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/binary-diagnostics.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/go-binaries.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/go-binaries.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/recorded-crashes.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/recorded-crashes.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/process-capture.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/process-capture.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/frida-instrumentation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/frida-instrumentation.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/javascript-artifact-reconstruction.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/javascript-artifact-reconstruction.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/javascript-application-workflows.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/javascript-application-workflows.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/javascript-recovery.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/javascript-recovery.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/browser-observation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/browser-observation.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/browser-scenario-contract.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/browser-scenario-contract.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/electron-observation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/electron-observation.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/managed-code-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/managed-code-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/wasm-artifacts.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/wasm-artifacts.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/evm-bytecode.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/evm-bytecode.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/sqlite-databases.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/sqlite-databases.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/web-network-captures.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/web-network-captures.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/packet-captures.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/packet-captures.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/pcap-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/pcap-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/signal-recordings.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/signal-recordings.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/android-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/android-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/adb-device-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/adb-device-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/jeb-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/jeb-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/apktool-resource-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/apktool-resource-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/flutter-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/flutter-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/firmware-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/firmware-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/apple-application-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/apple-application-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/javascript-runtime-observation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/javascript-runtime-observation.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/javascript-runtime-reconciliation.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/javascript-runtime-reconciliation.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/harmony-analysis.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/harmony-analysis.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/ghidra-dos.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/ghidra-dos.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/raw-binary.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/raw-binary.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/ghidra-mips.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/ghidra-mips.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/ghidra-psp.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/ghidra-psp.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/ghidra-riscv.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/ghidra-riscv.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/ghidra-nativeaot.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/ghidra-nativeaot.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "docs/architecture.mermaid",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/docs/architecture.mermaid",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    },
+    {
+      "path": "DISCLAIMER.md",
+      "url": "https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/DISCLAIMER.md",
+      "read_at_fixed_ref": true,
+      "scope": "专题内容核对；未实际运行"
+    }
+  ]
+}

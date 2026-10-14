@@ -1,0 +1,372 @@
+{
+  "title": "REA：逆向工具怎样变成一条可核查的调查流程",
+  "subtitle": "工具管理与适配 + 自身解析与关系分析 + 统一证据接口",
+  "source_ref": "ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4",
+  "research_date": "2026-10-14",
+  "scope": "18 个阅读模块覆盖现有 37 项能力分类；分类数不等于 MCP 工具数量。文档与源码研究，未运行上游。",
+  "modules": [
+    {
+      "no": "01",
+      "name": "原生二进制与专用架构",
+      "kind": "静态",
+      "tools": "Ghidra / Hopper / IDA；PSP 用 ghidra-allegrex 扩展",
+      "principle": "字节解码为指令；重建控制与数据关系，按引擎能力生成伪代码。",
+      "output": "函数、汇编、伪代码、字符串、调用与引用。",
+      "handoff": "原生库 / .node → 本模块；结果接回功能链。",
+      "limit": "DOS / raw / MIPS / PSP / RISC-V 是有范围的 Ghidra 路线。",
+      "capabilities": [
+        "native",
+        "dos",
+        "raw",
+        "mips",
+        "psp",
+        "riscv"
+      ],
+      "docs": [
+        "docs/native-investigation.md",
+        "docs/ghidra-dos.md",
+        "docs/raw-binary.md",
+        "docs/ghidra-mips.md",
+        "docs/ghidra-psp.md",
+        "docs/ghidra-riscv.md"
+      ]
+    },
+    {
+      "no": "02",
+      "name": "JavaScript / Electron 静态分析",
+      "kind": "静态",
+      "tools": "REA 内置 Babel AST / ASAR；Wakaru",
+      "principle": "解析语法树与产物，构建模块、路由、IPC 图；Wakaru 另做可读模块恢复。",
+      "output": "入口、跨层候选、source map、子图与版本关系。",
+      "handoff": "从入口追到 preload / IPC；原生边界交给 01。",
+      "limit": "静态图不证明执行；Wakaru 恢复限 Linux x64。",
+      "capabilities": [
+        "javascript",
+        "semantic",
+        "recovery",
+        "runtime-reconciliation"
+      ],
+      "docs": [
+        "docs/javascript-artifact-reconstruction.md",
+        "docs/javascript-application-workflows.md",
+        "docs/javascript-recovery.md",
+        "docs/javascript-runtime-reconciliation.md"
+      ]
+    },
+    {
+      "no": "03",
+      "name": "网页读取与受控浏览器场景",
+      "kind": "观察 / 执行",
+      "tools": "Chrome 系浏览器 · CDP / Playwright",
+      "principle": "CDP 读取已有页面；主动场景导航、操作、等待并捕获所选状态。",
+      "output": "DOM、脚本、可见请求、截图与场景比较。",
+      "handoff": "捕获脚本 → 02；网络记录 → 14 / 15。",
+      "limit": "附加前活动无法补出；前端观察不提供后端源码。",
+      "capabilities": [
+        "browser",
+        "browser-scenario"
+      ],
+      "docs": [
+        "docs/browser-observation.md",
+        "docs/browser-scenario-contract.md"
+      ]
+    },
+    {
+      "no": "04",
+      "name": "Node / Electron 运行关联",
+      "kind": "观察 / 执行",
+      "tools": "V8 Inspector / CDP；Electron + Playwright",
+      "principle": "观察加载脚本与上下文；主动运行 Electron 可获取窗口、IPC 等状态。",
+      "output": "运行来源、脚本、窗口与所选事件。",
+      "handoff": "运行 Evidence + 静态图 → REA 关联，保留两种依据。",
+      "limit": "被动附加和主动启动效果不同；关联不等于因果。",
+      "capabilities": [
+        "electron-runtime",
+        "node-inspector"
+      ],
+      "docs": [
+        "docs/electron-observation.md",
+        "docs/javascript-runtime-observation.md"
+      ]
+    },
+    {
+      "no": "05",
+      "name": ".NET 与 NativeAOT",
+      "kind": "静态",
+      "tools": "REA 内置 PE/CLI；可选 ghidra-nativeaot / Ghidra",
+      "principle": "读元数据和 CIL；AOT 另读受支持 RTR / MethodTable，或使用扩展恢复。",
+      "output": "类型、签名、CIL、原生声明与有限 AOT 元数据。",
+      "handoff": "P/Invoke / 虚槽目标 → 01；保留来源与地址依据。",
+      "limit": "AOT 不是普通 CIL；内置 AOT 限 x64 PE / RTR 9.1。",
+      "capabilities": [
+        "dotnet",
+        "nativeaot"
+      ],
+      "docs": [
+        "docs/managed-code-analysis.md",
+        "docs/ghidra-nativeaot.md"
+      ]
+    },
+    {
+      "no": "06",
+      "name": "Android 代码、工程与资源",
+      "kind": "静态",
+      "tools": "JADX headless + JDK / JEB MCP / Apktool",
+      "principle": "JADX 反编译代码；JEB 提供工程分析；Apktool 解码 Manifest 与资源。",
+      "output": "类、方法、引用、声明、字符串和资源信息。",
+      "handoff": "设备取得 APK → 本模块；原生 .so → 01。",
+      "limit": "混淆与动态路径需补证；工具版本与许可证自备。",
+      "capabilities": [
+        "apk",
+        "jeb",
+        "apktool"
+      ],
+      "docs": [
+        "docs/android-analysis.md",
+        "docs/jeb-analysis.md",
+        "docs/apktool-resource-analysis.md"
+      ]
+    },
+    {
+      "no": "07",
+      "name": "Android 设备与材料获取",
+      "kind": "观察 / 执行",
+      "tools": "adb（已有模拟器或真实设备）",
+      "principle": "通过 adb 查询设备和进程，获取日志、截图、包与文件。",
+      "output": "包 / 进程状态、日志、dump、截图与 APK。",
+      "handoff": "APK → 06；日志或原生组件 → 后续分析。",
+      "limit": "REA 不自动创建模拟器；操作可能改变设备与文件。",
+      "capabilities": [
+        "adb"
+      ],
+      "docs": [
+        "docs/adb-device-analysis.md"
+      ]
+    },
+    {
+      "no": "08",
+      "name": "Flutter 与 HarmonyOS 初步结构",
+      "kind": "静态",
+      "tools": "REA 内置 APK / ELF / ZIP / snapshot 解析",
+      "principle": "Flutter 读 Dart AOT 符号、头部与字符串投影；鸿蒙按包路径投影组件。",
+      "output": "构建来源、摘要、URI 候选和有限应用图。",
+      "handoff": "发现原生组件 → 01；保留结构覆盖与未知。",
+      "limit": "不恢复任意 Dart 源码；鸿蒙当前不解读 Ark 业务。",
+      "capabilities": [
+        "flutter",
+        "dart-aot",
+        "harmony"
+      ],
+      "docs": [
+        "docs/flutter-analysis.md",
+        "docs/harmony-analysis.md"
+      ]
+    },
+    {
+      "no": "09",
+      "name": "固件、安装包与资源",
+      "kind": "静态",
+      "tools": "Binwalk / Unblob；REA ZIP / ASAR / plist",
+      "principle": "识别区域与容器，按支持格式提取；建立文件清单和 Apple bundle 结构。",
+      "output": "区域、提取文件、摘要、资源与组件身份。",
+      "handoff": "ELF / PE → 01；JS → 02；APK → 06。",
+      "limit": "固件工具限 Linux；加密、专有格式可能无法提取。",
+      "capabilities": [
+        "firmware",
+        "artifacts"
+      ],
+      "docs": [
+        "docs/firmware-analysis.md",
+        "docs/apple-application-analysis.md"
+      ]
+    },
+    {
+      "no": "10",
+      "name": "ELF 布局与 Go 构建事实",
+      "kind": "静态",
+      "tools": "pwntools / pyelftools / Unicorn；REA Go 读取",
+      "principle": "读 ELF 布局与保护候选（可含局部指令模拟）；Go 读取嵌入的编译器 / 模块记录。",
+      "output": "布局、静态保护候选、模块和构建设置。",
+      "handoff": "地址 / 符号 → 01；用构建事实限定版本。",
+      "limit": "ELF 适配限 Linux x64；静态候选不证明运行状态。",
+      "capabilities": [
+        "elf",
+        "go"
+      ],
+      "docs": [
+        "docs/binary-diagnostics.md",
+        "docs/go-binaries.md"
+      ]
+    },
+    {
+      "no": "11",
+      "name": "已保存的 Linux 崩溃记录",
+      "kind": "静态",
+      "tools": "pwntools；可选 GDB + pwndbg",
+      "principle": "按 core 与 ABI 解析线程寄存器、信号及 notes；可补调试映射候选。",
+      "output": "崩溃时刻材料、线程状态和映射依据。",
+      "handoff": "异常地址 → 01，结合指令、调用关系再查根因。",
+      "limit": "读取历史 core；没有完整现场或因果结论保证。",
+      "capabilities": [
+        "crash"
+      ],
+      "docs": [
+        "docs/recorded-crashes.md"
+      ]
+    },
+    {
+      "no": "12",
+      "name": "受控进程运行与行为比较",
+      "kind": "执行",
+      "tools": "原生 PTY / 进程监督；REA 场景与比较",
+      "principle": "启动指定命令，安排输入与等待，记录终端、退出及所选文件状态。",
+      "output": "交互记录、退出状态、文件观察与运行差异。",
+      "handoff": "原程序 / 自己实现，用相同条件做局部对照。",
+      "limit": "新捕获支持 Linux / macOS；进程管理不是沙箱。",
+      "capabilities": [
+        "process"
+      ],
+      "docs": [
+        "docs/process-capture.md"
+      ]
+    },
+    {
+      "no": "13",
+      "name": "动态插桩",
+      "kind": "执行",
+      "tools": "Frida Node 绑定 + 适用的目标端环境",
+      "principle": "附加或启动进程，在目标内运行调用者脚本，由脚本决定观测内容。",
+      "output": "设备 / 进程发现、脚本消息与生命周期记录。",
+      "handoff": "观测函数或数据 → 与 01 / 02 的位置和关系核对。",
+      "limit": "脚本具有实际执行效果；目标端依赖需自行准备。",
+      "capabilities": [
+        "frida"
+      ],
+      "docs": [
+        "docs/frida-instrumentation.md"
+      ]
+    },
+    {
+      "no": "14",
+      "name": "历史网页网络记录",
+      "kind": "静态",
+      "tools": "REA HAR / SAZ / qlog 读取；mitmdump",
+      "principle": "解码已有会话记录与可用载荷；原生 mitmproxy 格式由适配解码。",
+      "output": "请求、响应、载荷、来源位置与 API 候选。",
+      "handoff": "端点 / 消费者线索 → 02；包层记录 → 15。",
+      "limit": "mitmdump 路线限 Linux；未记录数据不能恢复。",
+      "capabilities": [
+        "har"
+      ],
+      "docs": [
+        "docs/web-network-captures.md"
+      ]
+    },
+    {
+      "no": "15",
+      "name": "网络包字段与 PCAP 摘要",
+      "kind": "静态",
+      "tools": "Wireshark · TShark / capinfos",
+      "principle": "按协议解码保存的包，筛字段与重复值；汇总端点、DNS、SNI 等。",
+      "output": "字段、过滤结果、协议分布与请求摘要。",
+      "handoff": "接口与时序线索 → 应用代码或受控实验核对。",
+      "limit": "字段适配限 Linux；摘要范围与主机条件另查文档。",
+      "capabilities": [
+        "packets",
+        "pcap"
+      ],
+      "docs": [
+        "docs/packet-captures.md",
+        "docs/pcap-analysis.md"
+      ]
+    },
+    {
+      "no": "16",
+      "name": "已录制的逻辑信号",
+      "kind": "静态",
+      "tools": "sigrok-cli + libsigrokdecode",
+      "principle": "按采样通道、协议和解码器选项解释已有信号记录。",
+      "output": "协议注释、样本区间与诊断。",
+      "handoff": "信号含义 ↔ 固件代码 01 / 09，需另做对照。",
+      "limit": "当前适配限 Linux；不负责未录制信号或实时采集。",
+      "capabilities": [
+        "signals"
+      ],
+      "docs": [
+        "docs/signal-recordings.md"
+      ]
+    },
+    {
+      "no": "17",
+      "name": "WebAssembly 字节码",
+      "kind": "静态",
+      "tools": "WABT · wasm-validate / wasm-objdump / wasm2wat",
+      "principle": "校验模块，读取节和导入导出，将字节码解码为 WAT。",
+      "output": "校验、模块结构、精确接口形式与 WAT。",
+      "handoff": "导入 / 导出边界 → 调用它的 JS 图 02。",
+      "limit": "不执行模块；WAT 不是原始 C / Rust 源码。",
+      "capabilities": [
+        "wasm"
+      ],
+      "docs": [
+        "docs/wasm-artifacts.md"
+      ]
+    },
+    {
+      "no": "18",
+      "name": "EVM 字节码与 SQLite 存储",
+      "kind": "静态",
+      "tools": "EVMole；Node.js 原生 SQLite",
+      "principle": "EVM 推断分派接口；SQLite 读取数据库 / WAL 的 schema 与所选表行。",
+      "output": "选择器 / 参数候选；表、列、索引与数据样本。",
+      "handoff": "接口 / 数据结构线索 → 应用调用与业务验证。",
+      "limit": "EVM 适配限 Linux x64；SQLite 需 Node 24.15+ / 26+。",
+      "capabilities": [
+        "evm",
+        "sqlite"
+      ],
+      "docs": [
+        "docs/evm-bytecode.md",
+        "docs/sqlite-databases.md"
+      ]
+    }
+  ],
+  "workflow": [
+    {
+      "no": "1",
+      "title": "明确功能与材料",
+      "text": "选定版本与“导出”问题；保留目录 / ASAR / 可执行文件、摘要和观察条件。",
+      "modules": "入口：问题 + 目标材料"
+    },
+    {
+      "no": "2",
+      "title": "盘点并找静态入口",
+      "text": "先读组件，再用 AST、字符串与模块关系找按钮入口、preload / IPC 路径候选。",
+      "modules": "09 → 02"
+    },
+    {
+      "no": "3",
+      "title": "跨到原生边界",
+      "text": "发现 .node / DLL / .so 时，指定组件与地址，读取函数、指令和引用；保留关联依据。",
+      "modules": "02 → 01（按需）"
+    },
+    {
+      "no": "4",
+      "title": "追加运行证据",
+      "text": "捕获同一操作的页面、IPC 或文件结果；必要时自行编写插桩，核对静态候选。",
+      "modules": "03 / 04 / 12 / 13（按需）"
+    },
+    {
+      "no": "5",
+      "title": "解释与局部复现",
+      "text": "AI 使用 Evidence 说明流程，列出假设与未知，编写自己的最小实现。",
+      "modules": "证据 → AI → 待验证实现"
+    },
+    {
+      "no": "6",
+      "title": "同条件对照验证",
+      "text": "比较正常、异常、取消与边界输入；报告通过范围、失败差异和剩余未知，必要时回查。",
+      "modules": "原目标 ↔ 实现；失败回到 02 / 01"
+    }
+  ]
+}

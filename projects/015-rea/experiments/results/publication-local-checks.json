@@ -1,0 +1,69 @@
+{
+  "summary_sections": 14,
+  "all_summary_text_present_on_project_and_index": true,
+  "references_checked": 159,
+  "preview": "./previews/015-rea.png",
+  "original_png_unchanged": true,
+  "http": [
+    {
+      "path": "/",
+      "status": 200,
+      "bytes": 95082
+    },
+    {
+      "path": "/015-rea/",
+      "status": 200,
+      "bytes": 137056
+    },
+    {
+      "path": "/015-rea/styles.css",
+      "status": 200,
+      "bytes": 25337
+    },
+    {
+      "path": "/015-rea/app.js",
+      "status": 200,
+      "bytes": 11332
+    },
+    {
+      "path": "/015-rea/assets/toolchain-overview.png",
+      "status": 200,
+      "bytes": 2230394
+    },
+    {
+      "path": "/015-rea/assets/toolchain-overview.svg",
+      "status": 200,
+      "bytes": 41421
+    },
+    {
+      "path": "/015-rea/data/understanding.json",
+      "status": 200,
+      "bytes": 6826
+    },
+    {
+      "path": "/015-rea/data/research-extensions.json",
+      "status": 200,
+      "bytes": 5036
+    },
+    {
+      "path": "/015-rea/data/toolchain-overview.json",
+      "status": 200,
+      "bytes": 14039
+    },
+    {
+      "path": "/015-rea/data/capabilities.json",
+      "status": 200,
+      "bytes": 20380
+    },
+    {
+      "path": "/015-rea/data/comparisons.json",
+      "status": 200,
+      "bytes": 22601
+    },
+    {
+      "path": "/015-rea/guide.txt",
+      "status": 200,
+      "bytes": 93819
+    }
+  ]
+}

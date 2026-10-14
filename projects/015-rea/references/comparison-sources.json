@@ -1,0 +1,124 @@
+{
+  "research_date": "2026-10-14",
+  "scope": "固定版本职责与原理对照；不是同任务效果评测",
+  "core_rechecks": [
+    {
+      "repository": "AgriciDaniel/jev-seo",
+      "ref": "55a184a3b0d09565a4c84268f725a47784e62528",
+      "path": "jevseo/checks.py",
+      "url": "https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/checks.py",
+      "read_success": true,
+      "chars": 30024
+    },
+    {
+      "repository": "AgriciDaniel/jev-seo",
+      "ref": "55a184a3b0d09565a4c84268f725a47784e62528",
+      "path": "jevseo/jev.py",
+      "url": "https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/jevseo/jev.py",
+      "read_success": true,
+      "chars": 26370
+    },
+    {
+      "repository": "Alishahryar1/free-claude-code",
+      "ref": "74d4ccfde724f7416fa2a728d594d704dddc7c94",
+      "path": "src/free_claude_code/api/routes.py",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/routes.py",
+      "read_success": true,
+      "chars": 12016
+    },
+    {
+      "repository": "shadps4-emu/shadPS4",
+      "ref": "23c41333822fe8eca4c609b43119180af63ae4ac",
+      "path": "src/emulator.cpp",
+      "url": "https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/emulator.cpp",
+      "read_success": true,
+      "chars": 34954
+    },
+    {
+      "repository": "shadps4-emu/shadPS4",
+      "ref": "23c41333822fe8eca4c609b43119180af63ae4ac",
+      "path": "src/shader_recompiler/recompiler.cpp",
+      "url": "https://github.com/shadps4-emu/shadPS4/blob/23c41333822fe8eca4c609b43119180af63ae4ac/src/shader_recompiler/recompiler.cpp",
+      "read_success": true,
+      "chars": 6613
+    }
+  ],
+  "official_rechecks": [
+    "https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration",
+    "https://platform.claude.com/docs/en/managed-agents/workflow-runs",
+    "https://vibe42.ai/"
+  ],
+  "integration_tested": false,
+  "existing_research": [
+    {
+      "project_id": "006",
+      "path": "projects/006-jev-seo/README.md",
+      "source_ref": "55a184a3b0d09565a4c84268f725a47784e62528",
+      "source_url": "https://github.com/AgriciDaniel/jev-seo",
+      "record_type": "固定源码版本"
+    },
+    {
+      "project_id": "008",
+      "path": "projects/008-shadps4/README.md",
+      "source_ref": "23c41333822fe8eca4c609b43119180af63ae4ac",
+      "source_url": "https://github.com/shadps4-emu/shadPS4",
+      "record_type": "固定源码版本"
+    },
+    {
+      "project_id": "016",
+      "path": "projects/016-free-claude-code/README.md",
+      "source_ref": "74d4ccfde724f7416fa2a728d594d704dddc7c94",
+      "source_url": "https://github.com/Alishahryar1/free-claude-code",
+      "record_type": "固定源码版本"
+    },
+    {
+      "project_id": "002",
+      "path": "projects/002-production-agentic-rag-course/README.md",
+      "source_ref": "424a0eb99edf841994f2a9a053912b489d2a94ff",
+      "source_url": "https://github.com/jamwithai/production-agentic-rag-course",
+      "record_type": "固定源码版本"
+    },
+    {
+      "project_id": "007",
+      "path": "projects/007-hermes-jev-skills/README.md",
+      "source_ref": "31f476cac49713b6bf88c00d42382542e1c36965",
+      "source_url": "https://github.com/kerpopule/hermes-jev-skills",
+      "record_type": "固定源码版本"
+    },
+    {
+      "project_id": "013",
+      "path": "projects/013-claude-managed-agents/README.md",
+      "source_ref": "",
+      "source_url": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "record_type": "公开官方资料"
+    },
+    {
+      "project_id": "009",
+      "path": "projects/009-cmux/README.md",
+      "source_ref": "cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb",
+      "source_url": "https://github.com/manaflow-ai/cmux",
+      "record_type": "固定源码版本"
+    },
+    {
+      "project_id": "010",
+      "path": "projects/010-vibe42/README.md",
+      "source_ref": "",
+      "source_url": "https://vibe42.ai/",
+      "record_type": "公开官方资料"
+    },
+    {
+      "project_id": "011",
+      "path": "projects/011-openmontage/README.md",
+      "source_ref": "e45f5b12bd46440b04f3675af9a77d0718e6a254",
+      "source_url": "https://github.com/calesthio/OpenMontage",
+      "record_type": "固定源码版本"
+    },
+    {
+      "project_id": "014",
+      "path": "projects/014-baocut/README.md",
+      "source_ref": "7aa049e82e1367da013b7aba80f0b79033fa04ad",
+      "source_url": "https://github.com/JimLiu/baocut",
+      "record_type": "固定源码版本"
+    }
+  ]
+}
