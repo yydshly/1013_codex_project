@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-14",
+  "html": [
+    {
+      "page": "index.html",
+      "ids": 12,
+      "refs": 101,
+      "passed": true
+    },
+    {
+      "page": "012-tchmaterial-parser/index.html",
+      "ids": 40,
+      "refs": 47,
+      "passed": true
+    }
+  ],
+  "summary_sections": 16,
+  "complete_summaries": true,
+  "guide_sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1",
+  "same_requested_guide": true,
+  "published_projects": [
+    "001-infinite-bookshelf",
+    "002-production-agentic-rag-course",
+    "005-wireguard-install",
+    "006-jev-seo",
+    "007-hermes-jev-skills",
+    "008-shadps4",
+    "009-cmux",
+    "010-vibe42",
+    "011-openmontage",
+    "012-tchmaterial-parser"
+  ],
+  "index_validation": "passed",
+  "repository_tests": {
+    "passed": 34,
+    "skipped": 1
+  },
+  "upstream_runtime": "not tested"
+}

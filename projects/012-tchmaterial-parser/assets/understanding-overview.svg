@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="960" viewBox="0 0 1400 960" role="img" aria-labelledby="title desc">
+<title id="title">tchMaterial Parser 小学教材批量下载与整理理解总览</title>
+<desc id="desc">官方平台提供资料，工具识别链接、请求元信息、认证并下载，用户本地命名分类保存。价值是批量获取和自动整理；适合整学期资料、听力、备课与教材版本比较。当前没有正文分析和 RAG。</desc>
+<defs><style>
+.text{font-family:"Microsoft YaHei","PingFang SC",sans-serif;fill:#294638}
+.small{font-size:19px;fill:#647363}.body{font-size:23px}.heading{font-size:29px;font-weight:600}
+.white{fill:#fffbed}.light{fill:#dfe9d2}.label{font-size:18px;letter-spacing:2px}.line{stroke:#c8d3ba;stroke-width:2}
+</style></defs>
+<rect width="1400" height="960" fill="#f5f4e9"/>
+<rect x="0" y="0" width="19" height="960" fill="#244d3f"/>
+<text x="70" y="64" class="text label">PROJECT 012 · 教材资料获取与整理</text>
+<text x="70" y="127" class="text" font-size="48" font-weight="600">不同版本的小学教材，批量下载，自动整理</text>
+<text x="70" y="175" class="text body">从国家中小学智慧教育平台获取资料，保存为你自己的本地文件。</text>
+<rect x="70" y="217" width="375" height="177" rx="6" fill="#e5ebdb"/>
+<text x="94" y="254" class="text label">资源提供方</text>
+<text x="94" y="303" class="text heading">国家中小学智慧教育平台</text>
+<text x="94" y="345" class="text small">教材、课程、配套音频与教学材料</text>
+<text x="94" y="375" class="text small">basic.smartedu.cn 及资源服务器</text>
+<text x="464" y="316" class="text" font-size="34">→</text>
+<rect x="510" y="217" width="375" height="177" rx="6" fill="#244d3f"/>
+<text x="534" y="254" class="text label light">获取工具</text>
+<text x="534" y="303" class="text heading white">tchMaterial Parser</text>
+<text x="534" y="345" class="text small light">选择、解析、认证、批量下载</text>
+<text x="534" y="375" class="text small light">GitHub 提供代码，项目不托管教材</text>
+<text x="904" y="316" class="text" font-size="34">→</text>
+<rect x="950" y="217" width="380" height="177" rx="6" fill="#e7d3a0"/>
+<text x="974" y="254" class="text label">你的资料</text>
+<text x="974" y="303" class="text heading">本地教材资料库</text>
+<text x="974" y="345" class="text small">自动标题命名、分类保存</text>
+<text x="974" y="375" class="text small">离线阅读、听力学习、人工比较</text>
+<text x="70" y="452" class="text heading">下载原理</text>
+<line x1="70" y1="473" x2="1330" y2="473" class="line"/>
+<g class="text">
+<text x="86" y="513" class="small">01</text><text x="86" y="553" class="body">选择页面链接</text>
+<text x="290" y="513" class="small">02</text><text x="290" y="553" class="body">提取资源编号</text>
+<text x="494" y="513" class="small">03</text><text x="494" y="553" class="body">请求 JSON 信息</text>
+<text x="714" y="513" class="small">04</text><text x="714" y="553" class="body">找到实际文件</text>
+<text x="922" y="513" class="small">05</text><text x="922" y="553" class="body">认证并下载</text>
+<text x="1130" y="513" class="small">06</text><text x="1130" y="553" class="body">整理并保存</text>
+</g>
+<text x="70" y="604" class="text small">PDF 书签来自平台目录与页码映射；文件直链可能需要认证，不等于匿名可下载。</text>
+<rect x="70" y="644" width="600" height="176" rx="4" fill="#fffefa" stroke="#d3d8c6"/>
+<text x="94" y="686" class="text heading">价值：减少一批资料的重复操作</text>
+<text x="94" y="729" class="text body">批量选择与排队 · 命名分类 · 获取配套文件</text>
+<text x="94" y="769" class="text body">查看进度与失败项 · 补齐缺失 · 本地书签</text>
+<text x="94" y="802" class="text small">只需要一两本时，直接用官网通常足够。</text>
+<rect x="700" y="644" width="630" height="176" rx="4" fill="#fffefa" stroke="#d3d8c6"/>
+<text x="724" y="686" class="text heading">场景：小学资料获取与个人归档</text>
+<text x="724" y="729" class="text body">家长整学期准备 · 学生离线阅读和听力</text>
+<text x="724" y="769" class="text body">教师备课 · 教材版本比较 · 工程源码学习</text>
+<text x="724" y="802" class="text small">先核对学校用书：出版社、版次、册次与目录。</text>
+<line x1="70" y1="850" x2="1330" y2="850" class="line"/>
+<text x="70" y="887" class="text body">边界：上游也覆盖初中、高中；资源以平台实际提供为准。当前没有正文检索、OCR 或 RAG。</text>
+<text x="70" y="926" class="text small">本仓库原创理解图 · 2026-10-14 · 固定源码 244170e · 非上游截图，非实际下载记录</text>
+</svg>

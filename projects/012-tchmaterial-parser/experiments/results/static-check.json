@@ -1,0 +1,59 @@
+{
+  "html": [
+    {
+      "path": "index.html",
+      "unique_ids": 3,
+      "local_resources_and_anchors": "passed"
+    },
+    {
+      "path": "012-tchmaterial-parser/index.html",
+      "unique_ids": 39,
+      "local_resources_and_anchors": "passed"
+    }
+  ],
+  "http": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/012-tchmaterial-parser/",
+      "status": 200
+    },
+    {
+      "path": "/012-tchmaterial-parser/styles.css",
+      "status": 200
+    },
+    {
+      "path": "/012-tchmaterial-parser/app.js",
+      "status": 200
+    },
+    {
+      "path": "/012-tchmaterial-parser/assets/understanding-overview.svg",
+      "status": 200
+    },
+    {
+      "path": "/012-tchmaterial-parser/assets/favicon.svg",
+      "status": 200
+    },
+    {
+      "path": "/previews/012-tchmaterial-parser.svg",
+      "status": 200
+    }
+  ],
+  "svg": [
+    {
+      "path": "012-tchmaterial-parser/assets/favicon.svg",
+      "xml": "passed"
+    },
+    {
+      "path": "012-tchmaterial-parser/assets/understanding-overview.svg",
+      "xml": "passed"
+    },
+    {
+      "path": "previews/012-tchmaterial-parser.svg",
+      "xml": "passed"
+    }
+  ],
+  "external_links": "Source links preserved; not all external destinations rechecked."
+}

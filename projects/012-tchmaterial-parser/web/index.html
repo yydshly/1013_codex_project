@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="理解 tchMaterial-parser：从国家中小学智慧教育平台批量下载不同版本的小学教材与配套资料，自动命名和分类。说明资源来源、下载原理、价值、场景、版本核对与使用边界。">
+  <meta name="theme-color" content="#244d3f">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <title>小学教材批量下载与整理 · tchMaterial Parser 研究</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到正文</a>
+  <aside class="sidebar" aria-label="研究目录">
+    <a class="brand" href="#understanding"><span class="brand-icon" aria-hidden="true">册</span><span>教材资料研究<small>PROJECT 012</small></span></a>
+    <p class="sidebar-note">tchMaterial-parser<br>小学资料的获取与整理</p>
+    <nav class="chapter-nav">
+      <a class="active" href="#understanding"><span>01</span>一句话理解</a>
+      <a href="#capabilities"><span>02</span>能做哪些事</a>
+      <a href="#value"><span>03</span>比直接下载方便在哪</a>
+      <a href="#scenarios"><span>04</span>使用场景与个人价值</a>
+      <a href="#versions"><span>05</span>对应学校课本</a>
+      <a href="#sources"><span>06</span>资源从哪里来</a>
+      <a href="#mechanism"><span>07</span>底层下载原理</a>
+      <a href="#usage"><span>08</span>怎么开始使用</a>
+      <a href="#organize"><span>09</span>自动整理与资料登记</a>
+      <a href="#extensions"><span>10</span>可扩展的方向</a>
+      <a href="#boundaries"><span>11</span>能力边界与常见问题</a>
+      <a href="#evidence"><span>12</span>依据与验证范围</a>
+    </nav>
+    <div class="sidebar-bottom"><a href="../">← 返回项目索引</a><span>中文理解导读 · 2026.10.14</span></div>
+  </aside>
+  <main id="main">
+    <header class="topbar">
+      <span>GitHub 项目研究 / 教材资料</span>
+      <a href="https://github.com/happycola233/tchMaterial-parser" target="_blank" rel="noopener noreferrer">查看原仓库 ↗</a>
+    </header>
+
+    <section class="hero" id="understanding" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="small-rule"></span> 从我们的讨论开始理解</p>
+        <h1 id="hero-title">不同版本的小学教材，<br><em>批量下载，自动整理。</em></h1>
+        <p class="hero-lead">tchMaterial-parser 是一个从国家中小学智慧教育平台获取教材与配套资料的桌面工具。它把多次寻找、下载、命名和归档，组织成一批任务。</p>
+        <div class="hero-tags"><span>批量获取</span><span>按分类保存</span><span>本地使用</span></div>
+        <div class="hero-actions"><a class="button primary" href="#value">了解它的价值 <span aria-hidden="true">↓</span></a><a class="button secondary" href="#usage">查看使用路线</a><a class="button secondary" href="#guide">一图总览</a></div>
+        <p class="hero-scope">本页聚焦小学资料；上游也覆盖初中、高中。具体教材、版本和配套文件以平台实际提供为准。</p>
+      </div>
+      <figure class="book-illustration" aria-label="教材选择、批量获取和分类保存的原创示意，非真实教材封面">
+        <div class="illustration-label">把一批资料，放进自己的书架</div>
+        <div class="book-stage">
+          <div class="book book-one"><span>小学教材</span><strong>数学</strong><small>版本 A · 上册</small><i aria-hidden="true"></i></div>
+          <div class="book book-two"><span>小学教材</span><strong>语文</strong><small>版本 B · 上册</small><i aria-hidden="true"></i></div>
+          <div class="book book-three"><span>教材配套</span><strong>英语<br>听力</strong><small>版本 C · 音频</small><i aria-hidden="true"></i></div>
+        </div>
+        <div class="folder-label"><span aria-hidden="true">▤</span> 小学 / 学科 / 教材版本</div>
+        <figcaption>资料与版本示意 · 不代表已下载资源</figcaption>
+      </figure>
+    </section>
+
+    <div class="understanding-strip">
+      <div><strong>资源在官方平台</strong><span>GitHub 项目声明不存储、托管或分发教材</span></div>
+      <div><strong>工具负责下载与整理</strong><span>解析链接、获取文件、命名和分类保存</span></div>
+      <div><strong>RAG 是后续扩展</strong><span>当前没有正文切块、向量索引或 AI 问答</span></div>
+    </div>
+
+    <section class="section roles-section" aria-labelledby="roles-title">
+      <div class="section-heading"><p class="eyebrow">先分清三个角色</p><h2 id="roles-title">平台、工具、本地资料库</h2><p>我们讨论中的“智慧教育平台”，指一个具体的官方网站。资料来自它，工具帮助你获取，下载结果由你保存在本地。</p></div>
+      <div class="role-flow">
+        <article><span class="role-number">01 / 资源提供方</span><h3>国家中小学<br>智慧教育平台</h3><p>面向学生、教师和家长的教育资源入口，提供教材、课程及教学材料。</p><a href="https://basic.smartedu.cn/" target="_blank" rel="noopener noreferrer">前往官方平台 ↗</a></article>
+        <span class="role-arrow" aria-hidden="true">→</span>
+        <article class="role-tool"><span class="role-number">02 / 获取工具</span><h3>tchMaterial<br>Parser</h3><p>GitHub 仓库提供程序代码。程序查找文件地址并执行下载、命名、任务管理。</p><a href="#mechanism">看看它如何下载 ↓</a></article>
+        <span class="role-arrow" aria-hidden="true">→</span>
+        <article><span class="role-number">03 / 你的资料</span><h3>本地教材<br>资料库</h3><p>你选择的 PDF、音频和教学材料，保存在你指定的目录，供离线使用。</p><a href="#organize">查看整理方式 ↓</a></article>
+      </div>
+      <p class="source-note">平台背景：<a href="https://www.moe.gov.cn/fbh/live/2022/54251/sfcl/202203/t20220301_603272.html" target="_blank" rel="noopener noreferrer">教育部平台建设与应用介绍</a>。该介绍用于说明定位和多版本资源，不将历史数量当作当前库存。</p>
+    </section>
+
+    <section class="section" id="capabilities" aria-labelledby="capabilities-title">
+      <div class="section-heading"><p class="eyebrow">02 / 已有能力</p><h2 id="capabilities-title">从选择教材，到下载后归档</h2><p>最直接的功能是教材获取。新版也能解析部分课程、专题与备课页面中的关联文件。</p></div>
+      <div class="capability-grid">
+        <article class="capability"><span class="line-icon" aria-hidden="true">⌕</span><h3>浏览、搜索、批量选择</h3><p>按资源名称或完整分类路径筛选，教材列表支持批量勾选，也可以每行粘贴一个页面链接。</p></article>
+        <article class="capability"><span class="line-icon" aria-hidden="true">↓</span><h3>教材与配套文件</h3><p>获取教材 PDF、配套音频，及受支持页面里的导学案、课件、教学设计、PPT、Word 等。</p></article>
+        <article class="capability"><span class="line-icon" aria-hidden="true">▤</span><h3>自动命名与分类</h3><p>用资源标题命名；批量时按“学段 / 学科 / 版本”保存。已有同名文件可跳过。</p></article>
+        <article class="capability"><span class="line-icon" aria-hidden="true">≡</span><h3>集中管理下载任务</h3><p>查看排队、进度、大小、速度和错误详情；停止任务、重试失败项、重新解析页面。</p></article>
+        <article class="capability"><span class="line-icon" aria-hidden="true">⌑</span><h3>PDF 章节书签</h3><p>开启后，结合平台提供的目录和页码映射写入书签，方便在本地阅读器中跳转。</p></article>
+        <article class="capability"><span class="line-icon" aria-hidden="true">□</span><h3>跨平台桌面界面</h3><p>上游提供 Windows、Linux、macOS 的图形界面；支持深浅色主题与高分辨率显示。</p></article>
+      </div>
+      <div class="note"><strong>“能解析”与“列表中能浏览”有区别。</strong><p>固定源码的默认资源列表主要加载电子教材。其他部分资源可粘贴链接解析；并不表示所有教学资源都已出现在浏览列表中，也不保证任意课程文件都可下载。</p></div>
+      <p class="source-note">依据：<a href="https://github.com/happycola233/tchMaterial-parser/releases/tag/v4.0" target="_blank" rel="noopener noreferrer">v4.0 资源范围</a>、<a href="https://github.com/happycola233/tchMaterial-parser/releases/tag/v4.4" target="_blank" rel="noopener noreferrer">v4.4 下载管理</a>、<a href="https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/src/tchmaterial_parser/catalog.py#L123" target="_blank" rel="noopener noreferrer">默认目录源码</a>。</p>
+    </section>
+
+    <section class="section value-section" id="value" aria-labelledby="value-title">
+      <div class="section-heading"><p class="eyebrow">03 / 为什么用它</p><h2 id="value-title">省下成批获取与整理的重复操作</h2><p>只要一两本教材，直接用官网通常足够。需要整学期、多学科、多版本与配套资料时，集中操作和自动整理更有价值。</p></div>
+      <div class="table-scroll" tabindex="0" aria-label="官网下载与工具便利对照表，可横向滚动">
+        <table><thead><tr><th scope="col">你的任务</th><th scope="col">直接在官网获取</th><th scope="col">工具额外做的事</th></tr></thead><tbody>
+          <tr><th scope="row">偶尔获取一两本</th><td>按页面提供的方式获取</td><td>便利有限，安装和配置也需要时间</td></tr>
+          <tr><th scope="row">一批教材 / 多个版本</th><td>逐项使用资源页面与获取入口</td><td>集中选择或输入链接，统一排队</td></tr>
+          <tr><th scope="row">教材与配套音频</th><td>查看教材及其关联资源</td><td>解析教材时尝试一并获取关联音频</td></tr>
+          <tr><th scope="row">命名、建目录、归档</th><td>按自己的方式整理文件</td><td>按标题命名，按学段、学科、版本分类</td></tr>
+          <tr><th scope="row">部分失败 / 补齐缺失</th><td>自行记下失败项再处理</td><td>集中显示错误，重试失败项，跳过已有同名文件</td></tr>
+          <tr><th scope="row">本地章节跳转</th><td>取决于下载的 PDF 本身</td><td>有有效目录映射时，可以写入 PDF 书签</td></tr>
+        </tbody></table>
+      </div>
+      <div class="value-bottom"><p><strong>价值来自流程便利。</strong>下载内容仍来自平台。版本确认、文件抽查和教学使用判断，需要你完成。</p><p><strong>也有额外成本。</strong>需要安装程序，部分资源需配置登录凭据，平台接口改变时可能要更新工具。</p></div>
+      <p class="source-note">没有测量固定的提速或节省比例；上述价值判断来自已核对的功能及操作场景。</p>
+    </section>
+
+    <section class="section" id="scenarios" aria-labelledby="scenarios-title">
+      <div class="section-heading"><p class="eyebrow">04 / 什么时候适合你</p><h2 id="scenarios-title">从真实需求判断是否值得使用</h2><p>选择一个场景，看看对应的获取方式、便利与需要核对的事项。</p></div>
+      <div class="scenario-picker" role="group" aria-label="选择使用场景">
+        <button type="button" class="selected" data-scenario="single" aria-pressed="true">只要一两本</button>
+        <button type="button" data-scenario="semester" aria-pressed="false">准备小学整学期</button>
+        <button type="button" data-scenario="compare" aria-pressed="false">比较教材版本</button>
+        <button type="button" data-scenario="teaching" aria-pressed="false">备课与配套资料</button>
+      </div>
+      <article class="scenario-result" aria-live="polite" aria-atomic="true">
+        <div><span class="pill" id="scenario-label">官网通常足够</span><h3 id="scenario-title">偶尔获取一两本，直接使用官网</h3><p id="scenario-description">先确认学校用书，在官网阅读或按其提供的方式获取。少量需求时，安装工具和设置凭据未必更省事。</p></div>
+        <div class="scenario-check"><strong>需要留意</strong><p id="scenario-caution">核对年级、学科、上下册、出版社和修订版次。工具也不会替你确认学校采用的版本。</p></div>
+      </article>
+      <div class="scene-list">
+        <article><span>家长 / 学生</span><h3>资料集中、离线使用</h3><p>准备整学期小学教材、复习资料或英语听力，把同一版本的文件整理在一起。</p></article>
+        <article><span>教师 / 研究者</span><h3>备课与人工版本对比</h3><p>获取相关教学文件，或并排比较同年级同学科教材的目录与章节。工具不自动分析差异。</p></article>
+        <article><span>你当前的项目研究</span><h3>资料入口与工程案例</h3><p>实践批量获取、来源登记；学习认证、任务调度与文件保存。以后接入 RAG 时，再补上内容处理环节。</p></article>
+      </div>
+      <div class="note subtle"><strong>对你的直接价值</strong><p>经常收集不同版本的小学资料时，它能减少重复操作；没有批量需求时，主要可作为源码学习案例。其他网站、农业资料或论文来源需要单独适配。</p></div>
+    </section>
+
+    <section class="section" id="versions" aria-labelledby="versions-title">
+      <div class="section-heading"><p class="eyebrow">05 / 版本先选对</p><h2 id="versions-title">同年级、同书名，也要核对版次</h2><p>能否对应学校课本，要对照学校用书。平台有不同出版社和版本，不能只凭“几年级、上册”判断。</p></div>
+      <div class="version-layout">
+        <div><p class="example-label">用书核对示例</p><h3>“五年级数学上册”<br>只是起点。</h3><p>还要确认出版社、版别、修订年份与目录。封面、版权页和学校给出的用书信息比模糊书名更有用。</p><p class="muted">印次变化不必然代表内容修订；ISBN 可辅助核对，也不应作为唯一判断。</p><a class="text-link" href="#organize">下载空白资料登记表 →</a></div>
+        <form id="version-form" class="version-checklist" aria-label="人工教材版本核对清单">
+          <label><input type="checkbox" name="version-check" value="grade"><span>学段、年级与学科已核对</span></label>
+          <label><input type="checkbox" name="version-check" value="volume"><span>上下册或具体册次已核对</span></label>
+          <label><input type="checkbox" name="version-check" value="edition"><span>出版社与版别已核对</span></label>
+          <label><input type="checkbox" name="version-check" value="revision"><span>修订年份和版次已核对</span></label>
+          <label><input type="checkbox" name="version-check" value="cover"><span>封面、版权页与必要的 ISBN 已核对</span></label>
+          <label><input type="checkbox" name="version-check" value="contents"><span>目录及学校要求已核对</span></label>
+          <div class="checklist-summary"><span id="version-count">已自行确认 0 / 6 项</span><button type="reset">重置清单</button></div>
+          <p id="version-message" class="checklist-message" aria-live="polite">这是一份人工核对提醒。勾选只记录你的确认，不会自动识别或验证教材一致性。</p>
+        </form>
+      </div>
+      <p class="note-inline">配套课程可辅助学习。学校的授课顺序、进度、补充内容和作业安排仍可能不同。</p>
+    </section>
+
+    <section class="section" id="sources" aria-labelledby="sources-title">
+      <div class="section-heading"><p class="eyebrow">06 / 下载源</p><h2 id="sources-title">文件来自平台使用的服务器</h2><p>工具先读取平台提供的资源信息，再请求实际文件。项目作者没有把教材打包进 GitHub 仓库。</p></div>
+      <div class="source-map">
+        <article><span class="source-type">页面入口</span><h3>basic.smartedu.cn</h3><p>你浏览、查找教材与课程的官方网站。</p></article>
+        <article><span class="source-type">目录与资源信息</span><h3>s-file-1 / s-file-2<br>.ykt.cbern.com.cn</h3><p>代码读取分类、版本索引、资源详情与关联信息。</p></article>
+        <article><span class="source-type">实际文件</span><h3>r1 / r2 / r3-ndr-private<br>.ykt.cbern.com.cn</h3><p>常见文件下载节点，也可能使用元信息中已有的其他完整地址。</p></article>
+      </div>
+      <details><summary>展开技术地址与来源说明</summary><p>常见完整文件域名为 <code>r1-ndr-private.ykt.cbern.com.cn</code>、<code>r2-ndr-private.ykt.cbern.com.cn</code>、<code>r3-ndr-private.ykt.cbern.com.cn</code>。详情数据常见于 <code>s-file-1.ykt.cbern.com.cn</code>。这是固定源码中的地址，不保证平台永久使用相同节点。</p><p>“获得文件直链”不等于可以直接匿名下载。某些地址需要凭据与针对本次请求生成的认证头。</p></details>
+      <p class="source-note">依据：<a href="https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/src/tchmaterial_parser/api.py" target="_blank" rel="noopener noreferrer">资源信息与地址处理</a>、<a href="https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/src/tchmaterial_parser/ui/download_panel.py" target="_blank" rel="noopener noreferrer">文件请求与节点处理</a>。</p>
+    </section>
+
+    <section class="section mechanism-section" id="mechanism" aria-labelledby="mechanism-title">
+      <div class="section-heading"><p class="eyebrow">07 / 下载原理</p><h2 id="mechanism-title">“解析”是找到文件的过程</h2><p>这里解析的是链接、编号与资源信息，目的是取得文件地址。正文理解、知识点提取和问答，需要后续增加。</p></div>
+      <div class="step-picker" role="group" aria-label="查看下载原理的六个步骤">
+        <button type="button" class="selected" data-step="0" aria-pressed="true"><span>01</span>选择链接</button>
+        <button type="button" data-step="1" aria-pressed="false"><span>02</span>提取编号</button>
+        <button type="button" data-step="2" aria-pressed="false"><span>03</span>请求信息</button>
+        <button type="button" data-step="3" aria-pressed="false"><span>04</span>选择文件</button>
+        <button type="button" data-step="4" aria-pressed="false"><span>05</span>认证下载</button>
+        <button type="button" data-step="5" aria-pressed="false"><span>06</span>整理保存</button>
+      </div>
+      <article class="step-detail" aria-live="polite" aria-atomic="true">
+        <span class="step-large" id="step-number">01</span>
+        <div><h3 id="step-title">选择教材，或粘贴多个页面链接</h3><p id="step-description">程序中的教材列表可以批量勾选，与链接输入框同步。其他受支持的资源，可以每行粘贴一个页面链接。</p><p class="step-io"><strong>这一阶段得到：</strong><span id="step-output">待处理的资源页面链接列表</span></p></div>
+      </article>
+      <p class="source-note">点击步骤查看解释。这是流程教学交互，不会请求平台、使用凭据或执行下载。</p>
+      <div class="mechanism-notes">
+        <article><h3>认证：使用自己的登录凭据</h3><p>部分文件需要凭据。当前源码用三项信息，为每条地址生成对应签名，放入请求头；不能保证一个复制出的直链随时可用。</p></article>
+        <article><h3>书签：复用平台目录与页码</h3><p>将目录树与页码映射合并，再嵌入 PDF。前提是开启选项，并且平台提供有效信息。</p></article>
+        <article><h3>保存：先临时写入，再成为成品</h3><p>有限并发、分块写入、按条件检查大小。结束或失败时处理临时文件；这不等于断点续传或完整内容校验。</p></article>
+      </div>
+      <details><summary>展开认证与可靠性的技术细节</summary><p>设置凭据需要包含 <code>access_token</code>、<code>mac_key</code>、<code>diff</code> 的 JSON。签名以地址、请求方法和 nonce 等构造原文，使用 HMAC-SHA256 与 Base64 生成 <code>X-ND-AUTH</code>。</p><p>下载工作线程上限为 3，并拉开请求间隔。部分 HTTP 400 在原地址等待、重新签名后重试；401 / 403 不会靠切换节点解决。未知文件大小或压缩传输时，不能照搬 Content-Length 校验。</p><p>凭据保存在本地配置；Windows 使用注册表，Linux / macOS 使用本地 JSON。本导读网页不提供凭据输入框。</p></details>
+    </section>
+
+    <section class="section" id="usage" aria-labelledby="usage-title">
+      <div class="section-heading"><p class="eyebrow">08 / 实际使用</p><h2 id="usage-title">先试少量，再扩大到整批</h2><p>先确定版本与保存方式，用少量资源检验流程，再考虑整个学期的资料。</p></div>
+      <ol class="usage-list">
+        <li><div><h3>确认学校用书与目标范围</h3><p>记录年级、学科、上下册、出版社和版次，在官方平台找到对应页面。</p></div></li>
+        <li><div><h3>获取适合系统的上游程序</h3><p>到 <a href="https://github.com/happycola233/tchMaterial-parser/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a> 下载适合 Windows、Linux 或 macOS 的发行包。源码运行路线见上游贡献者指南。</p></div></li>
+        <li><div><h3>选择教材或输入页面链接</h3><p>批量勾选教材，或每行粘贴一个受支持的链接；先试一两本，选择保存目录与书签选项。</p></div></li>
+        <li><div><h3>按需设置登录凭据</h3><p>部分资源需要登录。按<a href="https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/README.md" target="_blank" rel="noopener noreferrer">上游使用说明</a>获取并在本地工具设置；凭据可能过期。</p></div></li>
+        <li><div><h3>查看状态，处理失败，抽查文件</h3><p>下载后打开 PDF、试听音频、检查章节与版本。失败项查看原因再重试；当前重新下载从头开始。</p></div></li>
+        <li><div><h3>整理一批资料并保留来源</h3><p>流程确认后扩大批次，按需登记版本、来源与日期。已有同名文件也要留意是否是旧版。</p></div></li>
+      </ol>
+      <div class="note"><strong>凭据只在本地工具设置。</strong><p>不要把登录凭据粘贴到本导读网页、公开文档或资料登记表。平台认证与文件权限仍决定资源能否访问。</p></div>
+    </section>
+
+    <section class="section" id="organize" aria-labelledby="organize-title">
+      <div class="section-heading"><p class="eyebrow">09 / 下载之后</p><h2 id="organize-title">自动归档，再补上来源记录</h2><p>工具负责标题命名和分类路径。本地资料库要长期可用，还需要明确教材版本、来源与检查结果。</p></div>
+      <div class="organize-layout">
+        <figure class="folder-tree"><figcaption>分类目录示意 · 标题取决于真实资源</figcaption><pre>教材资料/
+└─ 小学/
+   ├─ 数学/
+   │  ├─ 人教版/
+   │  │  └─ 教材名称.pdf
+   │  └─ 北师大版/
+   │     └─ 教材名称.pdf
+   └─ 英语/
+      └─ 对应教材版本/
+         ├─ 教材名称.pdf
+         └─ 配套音频.mp3</pre></figure>
+        <div class="registry"><span class="pill">本仓库补充的管理建议</span><h3>给文件留一张“来历卡”</h3><p>记录学段、年级、学科、册次、出版社、版别、修订版次、来源页面、资源编号、获取日期、本地路径和抽查结果。</p><p>下面下载的是一份空白 CSV，可自行用表格软件填写。它不会自动抓取资料，也不含真实教材或登录凭据。</p><button class="button primary" type="button" id="download-registry">下载空白资料登记表 <span aria-hidden="true">↓</span></button><p class="download-status" id="download-status" aria-live="polite"></p></div>
+      </div>
+      <p class="note-inline">跳过已有文件主要依据同名目标路径是否存在，不意味着校验了内容、版次或哈希，也不是自动更新教材。</p>
+    </section>
+
+    <section class="section" id="extensions" aria-labelledby="extensions-title">
+      <div class="section-heading"><p class="eyebrow">10 / 扩展建议</p><h2 id="extensions-title">先让资料可追溯，再让内容可检索</h2><p>以下是后续设计方向，不是已经完成的功能。每一步都应先用真实资料验证。</p></div>
+      <div class="extension-path">
+        <article><span>第一步</span><h3>来源与版本登记</h3><p>资源编号、版次、日期、校验值；识别新旧版本。保留原始文件与添加书签后的文件关系。</p></article>
+        <article><span>第二步</span><h3>运行与目录完善</h3><p>持久任务、断点续传、缓存与更新识别；验证更多资源目录，分离下载逻辑和界面。</p></article>
+        <article><span>第三步</span><h3>处理教材内容</h3><p>PDF、Word、PPT 正文提取；扫描件 OCR、音频转写、章节搜索。</p></article>
+        <article><span>第四步</span><h3>检索与引用问答</h3><p>切块、建立索引、检索相关段落，让 AI 根据教材回答并标明版本与原文页码。</p></article>
+      </div>
+      <div class="rag-bridge"><span class="pill">与项目 002 的衔接思路</span><p><strong>本工具获取文件</strong><span aria-hidden="true"> → </span>来源与版本登记<span aria-hidden="true"> → </span>正文提取 / OCR<span aria-hidden="true"> → </span>切块与索引<span aria-hidden="true"> → </span>检索、回答、核对引用</p><p class="muted">当前工具完成前面的下载整理；后续步骤需要另加系统。可以借鉴已研究的 RAG 项目，仍须验证解析、检索与回答质量。</p></div>
+      <h3>扩展后可以解决哪些实际需求？</h3>
+      <div class="table-scroll" tabindex="0" aria-label="未来扩展场景与需要增加的能力，可横向滚动">
+        <table><thead><tr><th scope="col">未来场景</th><th scope="col">下载器提供的基础</th><th scope="col">需要另外增加与验证</th></tr></thead><tbody>
+          <tr><th scope="row">家庭或教师资料台账</th><td>教材与配套文件集中保存</td><td>资源编号、来源、版次、日期、校验值和抽查记录，方便追溯出处</td></tr>
+          <tr><th scope="row">按学期补齐与版本更新提醒</th><td>批量获取、同名目标存在时跳过</td><td>学校用书清单、资源版本比较、持久任务、缺项报告与失败恢复；不要只按文件名判断更新</td></tr>
+          <tr><th scope="row">章节搜索与人工版本对照</th><td>取得相应版本的 PDF 与目录映射</td><td>正文提取、扫描件 OCR、章节对齐与出处展示；目录差异不等于知识点质量差异</td></tr>
+          <tr><th scope="row">备课材料库</th><td>受支持页面关联的教学文件</td><td>关联教材章节、来源与格式处理、关键词检索和人工筛选；课程顺序按实际教学安排</td></tr>
+          <tr><th scope="row">配套听力检索</th><td>教材关联音频</td><td>音频转写、片段时间戳与课文匹配，抽查识别结果及配套版本</td></tr>
+          <tr><th scope="row">带引用的教材学习问答</th><td>可作为 RAG 系统的文件入口</td><td>切块、索引、检索、模型回答、原文页码和教材版本引用，以及答案质量评估</td></tr>
+        </tbody></table>
+      </div>
+      <p class="note-inline">这些是可扩展场景，不是当前已实现的功能。若扩展到其他教育网站或其他资料类型，需要单独适配来源、格式与访问权限。</p>
+    </section>
+
+    <section class="section" id="boundaries" aria-labelledby="boundaries-title">
+      <div class="section-heading"><p class="eyebrow">11 / 边界与常见问题</p><h2 id="boundaries-title">知道它省什么，也知道它还缺什么</h2></div>
+      <div class="boundary-grid"><div><h3>当前可以帮助你</h3><ul><li>批量获取受支持的教材与关联资料</li><li>自动命名和按标签分类保存</li><li>集中查看任务状态与处理失败项</li><li>有条件地给 PDF 写入平台章节目录</li></ul></div><div><h3>还需要自己处理或另外实现</h3><ul><li>判断学校用书、版本与目录是否一致</li><li>确认资源可访问、文件完整且适合使用</li><li>教材正文提取、OCR、正文搜索与 RAG</li><li>持续更新、重启后的任务历史、断点续传</li></ul></div></div>
+      <div class="faq">
+        <details><summary>它是教材合集吗？资源存在哪里？</summary><p>GitHub 仓库主要放程序代码。项目声明不存储、托管或分发教材；资源在平台使用的服务器上，运行工具后保存到你选择的本地目录。</p></details>
+        <details><summary>为什么不直接从官网获取？</summary><p>当然可以。少量需求或在线学习，官网通常够用。该工具的额外便利集中在批量操作、命名分类、配套文件和失败补齐；你仍需核对版本和文件。</p></details>
+        <details><summary>它支持所有小学教材、所有课程和所有网站吗？</summary><p>具体教材与版本由平台提供的资源决定，不能保证全部覆盖。课程与备课解析限于已适配页面和文件，默认列表主要是教材。其他网站需要单独开发适配。</p></details>
+        <details><summary>复制出的下载链接能直接打开吗？</summary><p>不一定。部分实际文件需要有效登录凭据和针对地址生成的签名。直链可能受认证、时间、平台变更或资源移除影响。</p></details>
+        <details><summary>重试是不是断点续传？跳过同名是不是自动更新？</summary><p>当前重试从头下载。跳过同名目标文件只减少重复获取，不自动确认内容、版本或更新。任务记录在退出程序后不保留。</p></details>
+        <details><summary>书签和“解析”是不是 AI 或 RAG 处理？</summary><p>书签来自平台目录与页码映射；解析用于找到文件。源码尚未包含正文切块、向量索引与检索问答，RAG 是后续扩展思路。</p></details>
+      </div>
+      <p class="rights-note">上游代码采用 MIT 许可。教材与教学素材版权属于平台及相关权利人；上游要求用于个人学习、教学参考，不用于商业用途或二次分发。本导读不托管教材。</p>
+    </section>
+
+    <section class="section evidence-section" id="evidence" aria-labelledby="evidence-title">
+      <div class="section-heading"><p class="eyebrow">12 / 研究依据</p><h2 id="evidence-title">源码研究、网页验证、上游实测分开记录</h2><p>这里展示我们的理解整理。网页交互用于解释，不是原程序运行界面，也不会执行真实下载。</p></div>
+      <div class="evidence-grid">
+        <article><span class="evidence-label">已核对</span><h3>固定源码与项目说明</h3><p>目录、资源解析、认证签名、下载任务、文件整理、PDF 书签及 MIT 许可证。</p></article>
+        <article><span class="evidence-label">单独记录</span><h3>公开元数据与网页</h3><p>公开 JSON 的只读探测、本地网页交互和响应式检查，详见子项目实验记录；不据此推断所有资源可下载。</p></article>
+        <article><span class="evidence-label pending">尚未实测</span><h3>上游完整下载与效果</h3><p>登录后下载、配套音频与书签、全部小学教材覆盖，以及未来内容解析或 RAG 效果。</p></article>
+      </div>
+      <figure class="overview-figure" id="guide"><a href="./assets/understanding-summary.png" target="_blank" rel="noopener noreferrer"><img src="./assets/understanding-summary.png" alt="不同版本小学课本下载器的全面理解图：官方来源与节点、可下载内容、六项优点、六步原理、意义与价值、使用场景、边界及扩展；非上游截图" loading="lazy" width="1086" height="1448"></a><figcaption>沿用本次讨论的完整理解图 · 本仓库基于固定源码使用 imagegen 制作 · 2026-10-14 · 非上游界面或下载实测截图。<a href="./assets/understanding-summary.png" download="tchmaterial-understanding-summary.png">下载完整 PNG</a> · <a href="./assets/understanding-overview.svg" download="tchmaterial-understanding.svg">原版 SVG 简图</a></figcaption></figure>
+      <div class="sources-list"><h3>查阅原始依据</h3><a href="https://github.com/happycola233/tchMaterial-parser" target="_blank" rel="noopener noreferrer">原仓库与 README ↗</a><a href="https://github.com/happycola233/tchMaterial-parser/releases/tag/v4.4" target="_blank" rel="noopener noreferrer">v4.4 下载管理 ↗</a><a href="https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/src/tchmaterial_parser/api.py" target="_blank" rel="noopener noreferrer">资源解析源码 ↗</a><a href="https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/src/tchmaterial_parser/auth.py" target="_blank" rel="noopener noreferrer">认证源码 ↗</a><a href="https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/src/tchmaterial_parser/ui/download_panel.py" target="_blank" rel="noopener noreferrer">下载与整理源码 ↗</a><a href="https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/src/tchmaterial_parser/catalog.py#L123" target="_blank" rel="noopener noreferrer">默认浏览范围 ↗</a></div>
+      <p class="source-note">研究版本：<a href="https://github.com/happycola233/tchMaterial-parser/commit/244170e17bf8bc97401f65e04d261533d252572a" target="_blank" rel="noopener noreferrer">244170e（主分支固定 commit）</a>；研究时发行版 v4.4。静态导读不运行上游下载或模型。</p>
+    </section>
+    <footer><a href="../">← 返回项目索引</a><p>012 · tchMaterial Parser<br><span>小学教材批量下载与整理研究</span></p><a href="#understanding">回到开头 ↑</a></footer>
+  </main>
+</body>
+</html>

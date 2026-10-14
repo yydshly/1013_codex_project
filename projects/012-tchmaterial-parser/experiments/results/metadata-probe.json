@@ -1,0 +1,66 @@
+{
+  "checked_at": "2026-10-14T01:35:35.313395+08:00",
+  "research_ref": "244170e17bf8bc97401f65e04d261533d252572a",
+  "environment": {
+    "os": "Windows-10-10.0.26200-SP0",
+    "python": "3.10.11"
+  },
+  "scope": "Public JSON metadata only. No PDFs, audio files, login, or application execution.",
+  "requests": [
+    {
+      "url": "https://s-file-1.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/version/data_version.json",
+      "status": 200
+    },
+    {
+      "url": "https://s-file-2.ykt.cbern.com.cn/zxx/ndrs/resources/tch_material/part_100.json",
+      "status": 200
+    },
+    {
+      "url": "https://s-file-1.ykt.cbern.com.cn/zxx/ndrv2/resources/tch_material/details/bdc00134-465d-454b-a541-dcd0cec4d86e.json",
+      "status": 200
+    }
+  ],
+  "catalog_parts": 4,
+  "sample": {
+    "id": "bdc00134-465d-454b-a541-dcd0cec4d86e",
+    "title": "（根据2022年版课程标准修订）义务教育教科书·道德与法治一年级上册",
+    "tags": [
+      "电子教材",
+      "教材",
+      "统编版",
+      "上册",
+      "一年级",
+      "小学",
+      "道德与法治"
+    ],
+    "files": [
+      {
+        "flag": "ebook_mapping",
+        "format": "txt",
+        "has_storage": true
+      },
+      {
+        "flag": "image",
+        "format": "folder",
+        "has_storage": true
+      },
+      {
+        "flag": "source",
+        "format": "pdf",
+        "has_storage": true
+      },
+      {
+        "flag": "thumbnail",
+        "format": "folder",
+        "has_storage": true
+      },
+      {
+        "flag": "thumbnail_1",
+        "format": "jpg",
+        "has_storage": true
+      }
+    ],
+    "limitations": "One public elementary metadata record; does not prove download access, file integrity, current school edition, or platform-wide coverage."
+  },
+  "outcome": "Public catalog and one elementary resource metadata record returned successfully."
+}

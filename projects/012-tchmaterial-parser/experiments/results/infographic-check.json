@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-14",
+  "image_generation": "built-in imagegen",
+  "files": [
+    {
+      "path": "projects/012-tchmaterial-parser/assets/understanding-summary.png",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2125330,
+      "sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1"
+    },
+    {
+      "path": "projects/012-tchmaterial-parser/web/assets/understanding-summary.png",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2125330,
+      "sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1"
+    },
+    {
+      "path": "site-tchmaterial-preview/012-tchmaterial-parser/assets/understanding-summary.png",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2125330,
+      "sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1"
+    },
+    {
+      "path": "site-tchmaterial-preview/previews/012-tchmaterial-parser.png",
+      "dimensions": [
+        1086,
+        1448
+      ],
+      "bytes": 2125330,
+      "sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1"
+    }
+  ],
+  "matching_copies": "passed",
+  "web_reference_and_dimensions": "passed",
+  "site_preview_reference": "passed",
+  "original_svg_retained": true,
+  "browser_file_url_check": "not executed: browser policy does not allow file protocol",
+  "root_index": "blocked by missing preview in 015-free-claude-code",
+  "repository_tests": {
+    "passed": 34,
+    "skipped": 1
+  }
+}
