@@ -51,6 +51,8 @@ site-dist/                   # 临时构建目录，不提交到 Git
 └── ...
 ```
 
+项目 010 于 2026-10-14 随提交 `3249f63e953cc1c8b1c5090eacfd291a8f404306` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38495097071)成功。[Vibe42理解网页](https://yydshly.github.io/1013_codex_project/010-vibe42/#understanding)完整说明远程操作Agent的能力、Companion/配对/加密连接/PTY与原生Agent执行原理、观察确认接手的价值及研究/RAG、原生接口、恢复、团队和产物验收的建议扩展。首页保留17项完整摘要，页面同步6项关键说明，沿用完整理解图和原理交互。12项项目资源、引导图及首页/清单已实际访问并核对；7个已有演示入口保持HTTP 200，6组公网浏览器检查通过。真实Vibe42产品尚未安装或配对，详见[项目010发布记录](../projects/010-vibe42/experiments/results/publication.md)。
+
 ## 构建与发布范围
 
 默认构建只读取 Git 已跟踪的 `projects/*/project.json`，只复制其中已跟踪的 `web/` 静态文件和元信息明确指定的预览图片。工作区中新建但尚未提交的其他研究项目不会被意外收录。Git 暂存区中的新增文件也属于本地已跟踪文件；GitHub Actions 运行时只有实际提交并检出的文件。

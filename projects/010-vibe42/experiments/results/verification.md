@@ -36,7 +36,7 @@
 
 ## 公网发布
 
-发布前demo_url为空。只有GitHub Pages部署成功且实际访问之后，才填写正式入口，并新增公网发布记录。本地HTTP成功不构成公网发布证据。
+2026-10-14首次GitHub Pages部署成功并实际访问后，已填写demo_url；详见[独立公网发布记录](./publication.md)、[资源比对](./publication-http.json)和[公网浏览器验收](./publication-browser.json)。首次CI的Ubuntu/Python 3.12环境35项工具测试全部通过，没有Windows符号链接跳过项。本地HTTP成功不构成公网发布证据。
 
 ## 尚未验证
 

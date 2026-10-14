@@ -53,6 +53,9 @@ def main():
 
     with ThreadPoolExecutor(max_workers=4) as pool:
         resources = list(pool.map(verify_file, assets))
+    preview, _ = fetch(urllib.parse.urljoin(site, "previews/010-vibe42.svg"))
+    preview_expected = hashlib.sha256(git("show", commit + ":projects/010-vibe42/assets/understanding-overview.svg")).hexdigest()
+    preview.update(expected_git_sha256=preview_expected, matches_commit=preview["sha256"] == preview_expected)
     index, _ = fetch(site)
     manifest, content = fetch(urllib.parse.urljoin(site, "site-build.json"))
     projects = json.loads(content)["projects"]
@@ -63,10 +66,10 @@ def main():
     report = {"checked_at": datetime.now(timezone.utc).isoformat(), "url": args.url,
               "commit": commit, "workflow_run": args.run_url,
               "scope": "Actual static publication; no Vibe42 installation, pairing or Agent execution",
-              "resources": resources, "index": index, "manifest": manifest,
+              "resources": resources, "index": index, "manifest": manifest, "guide_preview": preview,
               "published_projects": projects, "previous_demos": previous,
               "preserved_previous_demos": preserved,
-              "passed": preserved and all(r["status"] == 200 and r["matches_commit"] for r in resources)}
+              "passed": preserved and preview["matches_commit"] and all(r["status"] == 200 and r["matches_commit"] for r in resources)}
     RESULTS.mkdir(exist_ok=True)
     (RESULTS / args.report).write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({"commit": commit, "resources": len(resources),

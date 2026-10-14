@@ -2,6 +2,10 @@
 
 这是详细研究与教学页面，涵盖能力、本质、三端架构、操作链路、会话、网络、加密、通知、桌面、产品对比、实现路线、证据和复现清单。没有远控后端，不需要登录、密钥或外部 CDN。
 
+## 已验证的公开入口
+
+[打开Vibe42理解网页](https://yydshly.github.io/1013_codex_project/010-vibe42/#understanding)。2026-10-14经GitHub Pages发布并实际访问；资源与提交比对、统一索引摘要和浏览器交互已检查，见[公网发布记录](../experiments/results/publication.md)。
+
 ## 打开方式
 
 可以直接在浏览器打开 [index.html](./index.html)，本地文字和交互配置无需请求后端。返回项目索引的相对入口按统一站点路径设计，推荐通过下述构建预览阅读完整导航。
@@ -36,4 +40,4 @@ python -m http.server 8775 --bind 127.0.0.1 --directory site-preview-vibe42
 
 [build_overview.py](../experiments/build_overview.py)维护总览内容、原理讲解与SVG。运行主生成工具会同步生成静态图、HTML和交互数据；再使用[render_overview.cjs](../experiments/render_overview.cjs)通过本地HTTP预览导出PNG。详细顺序见实验目录说明。
 
-标准静态子路径为 `010-vibe42/`，资源均为相对路径。正式发布遵循 [仓库部署约定](../../../docs/deployment.md)：默认构建汇集全部已跟踪项目，显式 `--project` 仅供本地预演。本次未部署，`project.json` 的 `demo_url` 保持空字符串。不能把本地演示当作原产品复现或公开站点发布。
+标准静态子路径为 `010-vibe42/`，资源均为相对路径。正式发布遵循 [仓库部署约定](../../../docs/deployment.md)：默认构建汇集全部已跟踪项目，显式 `--project` 仅供本地预演。首次部署成功并实际访问后，`project.json`的`demo_url`已填写正式入口。研究页面发布不证明原产品安装、配对、连接或Agent执行已经复现。

@@ -4,6 +4,8 @@
 
 [返回总索引](../../README.md#项目索引) · [官方产品网站](https://vibe42.ai/) · [研究网页源码](./web/index.html) · [网页运行说明](./web/README.md) · [验证记录](./experiments/results/verification.md)
 
+[已验证的公开网页](https://yydshly.github.io/1013_codex_project/010-vibe42/#understanding) · [公网发布记录](./experiments/results/publication.md)
+
 ## 研究基线与来源
 
 | 信息 | 本次记录 |
@@ -16,7 +18,7 @@
 | 上游源码许可证 | 未发现公开源码许可证；project.json 对应字段留空，不默认视为 MIT 或其他开源许可 |
 | 本地环境 | Windows / PowerShell；Python 标准库生成静态研究材料；浏览器验收环境见验证记录 |
 | 状态 | researching：公开资料与研究网页；未安装、配对或复现真实产品 |
-| 演示入口 | 静态研究网页待部署验证；demo_url保持为空 |
+| 演示入口 | [公开理解网页](https://yydshly.github.io/1013_codex_project/010-vibe42/)；静态研究页，真实产品尚未复现 |
 | 素材与许可 | 原创文字、HTML/CSS/JS和架构SVG；没有复制产品截图、二进制或上游源码 |
 
 ## 0. 一张图总结我们的理解
@@ -362,7 +364,7 @@ cmux许可：根LICENSE默认为GPL-3.0-or-later，但列出的server目录采�
 | 直连、中继、加密和撤销 | 官方说明；未抓包/审计 | 受控网络、多种路径、授权撤销与协议验证 |
 | 推送、文件和远程桌面 | 产品资料；未运行 | 真机通知、权限、文件冲突和桌面延迟 |
 | 研究页面与静态子路径 | Chromium桌面/手机浏览器验收通过；见本地验证记录 | 其他浏览器、真机和辅助技术需另验 |
-| 公网发布 | 未部署，demo_url为空 | 发布成功并实际访问之后再填写入口 |
+| 公网发布 | 静态研究网页已发布并实际访问验证 | 见独立发布记录；真实产品验证仍需另行执行 |
 
 依据：[官方安装与故障排查说明](https://vibe42.ai/install.md)、[Vibe42 隐私政策](https://vibe42.ai/privacy)。
 

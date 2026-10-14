@@ -202,7 +202,8 @@ def custom_content(section):
     if section == 'network':
         return '''<div class="network-panel"><div class="network-top"><span class="overline">同一份工作内容，两种传输路径</span><div class="segmented" aria-label="选择连接路径"><button type="button" data-route="direct" aria-pressed="true">直连</button><button type="button" data-route="relay" aria-pressed="false">经过中继</button></div></div><div id="route-path" class="route-path"><span>控制端</span><b>⇄ 加密内容 ⇄</b><span>目标电脑</span></div><p id="route-explanation" aria-live="polite">官方路径：设备之间直接通信。可行性取决于网络条件；具体建立算法未公开。</p><div class="network-footer"><span>工作数据：终端 / 文件 / 画面</span><span>控制数据：身份 / 授权 / 在线状态</span></div></div>'''
     if section == 'verification':
-        return '<div class="comparison-notes"><p><strong>本地页面验收：</strong>Chromium桌面/手机交互通过，五种视口无页面横向溢出；完整研究的章节跳转和理解图教学交互已验收。原产品的安装、连接、安全和性能仍待独立验证。</p><p><a href="./data/verification.json" download="vibe42-page-verification.json">下载页面验收记录 JSON ↓</a></p></div>'
+        published = ('<p><strong>公开网页已验证：</strong>GitHub Pages发布成功，公开资源与提交逐项比对、索引摘要和浏览器交互均已检查。<a href="https://github.com/yydshly/1013_codex_project/blob/main/projects/010-vibe42/experiments/results/publication.md" target="_blank" rel="noopener">查看独立发布记录 ↗</a></p>' if DEMO_URL else '')
+        return '<div class="comparison-notes"><p><strong>本地页面验收：</strong>Chromium桌面/手机交互通过，五种视口无页面横向溢出；完整研究的章节跳转和理解图教学交互已验收。原产品的安装、连接、安全和性能仍待独立验证。</p>'+published+'<p><a href="./data/verification.json" download="vibe42-page-verification.json">下载页面验收记录 JSON ↓</a></p></div>'
     if section == 'comparison':
         return render_table(['比较维度','Vibe42','Agenvo','cmux','WireGuard Install'], COMPARISON, '主要控制层次与完整工作流对比') + '''<div class="comparison-notes"><p><strong>版本依据：</strong>Agenvo 源码68e046a（发行参考v0.2.0）；WireGuard Install 3f42877；cmux cdbe995。本次Vibe42依据2026-10-14公开资料，下载元数据标注0.11.0。</p><p><strong>许可范围：</strong>cmux主体GPL-3.0-or-later，根LICENSE列出的服务器目录另有BUSL-1.1生产使用条件，不能按客户端许可概括整个仓库；Vibe42未发现公开源码许可证。</p><p><a href="https://yydshly.github.io/1009_codex_project/016-agenvo/" target="_blank" rel="noopener">以前的Agenvo研究 ↗</a> · <a href="https://github.com/hwdsl2/wireguard-install" target="_blank" rel="noopener">WireGuard Install源库 ↗</a> · <a href="https://github.com/manaflow-ai/cmux" target="_blank" rel="noopener">cmux源库 ↗</a></p></div>'''
     if section == 'boundaries':
@@ -226,6 +227,7 @@ def make_readme():
     lines=['# 010 · '+METADATA['name'],'',
     '> '+METADATA['summary'],'',
     '[返回总索引](../../README.md#项目索引) · [官方产品网站](https://vibe42.ai/) · [研究网页源码](./web/index.html) · [网页运行说明](./web/README.md) · [验证记录](./experiments/results/verification.md)','',
+    ('[已验证的公开网页]('+DEMO_URL+'#understanding) · [公网发布记录](./experiments/results/publication.md)' if DEMO_URL else '公开入口待实际发布验证。'),'',
     '## 研究基线与来源','',
     '| 信息 | 本次记录 |','| --- | --- |',
     '| 研究日期 | 2026-10-14，Asia/Shanghai |',
@@ -312,8 +314,8 @@ def main():
     (WEB/'data'/'interaction.json').write_text(json.dumps(interaction,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     (WEB/'data'/'interaction.js').write_text('window.VIBE42_RESEARCH = '+json.dumps(interaction,ensure_ascii=False)+';\n',encoding='utf-8')
     results = PROJECT/'experiments'/'results'
-    verification = {'date':DATE,'scope':'本地静态研究页；不验证真实Vibe42，不代表公网部署','interaction_report':None,'final_navigation_report':None}
-    for field, filename in [('interaction_report','browser-check.json'),('final_navigation_report','navigation-check.json'),('overview_report','overview-check.json')]:
+    verification = {'date':DATE,'scope':('静态研究网页的本地与公网验收；不验证真实Vibe42产品' if DEMO_URL else '本地静态研究页；不验证真实Vibe42，不代表公网部署'),'demo_url':DEMO_URL,'interaction_report':None,'final_navigation_report':None}
+    for field, filename in [('interaction_report','browser-check.json'),('final_navigation_report','navigation-check.json'),('overview_report','overview-check.json'),('publication_http_report','publication-http.json'),('publication_browser_report','publication-browser.json')]:
         record = results/filename
         if record.is_file(): verification[field] = json.loads(record.read_text(encoding='utf-8'))
     (WEB/'data'/'verification.json').write_text(json.dumps(verification,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

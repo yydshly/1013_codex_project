@@ -17,7 +17,7 @@
   ],
   "preview": "assets/understanding-overview.svg",
   "preview_caption": "本研究原创完整理解图：远程控制Agent的能力、本质、配对与加密连接、Companion、PTY会话、原生Agent执行、结果与通知、使用场景、建议扩展、意义和验证边界；非上游运行截图。网页使用同一底图支持原理放大、七个节点讲解和三条路径逐步追踪。",
-  "demo_url": "",
+  "demo_url": "https://yydshly.github.io/1013_codex_project/010-vibe42/",
   "source_type": "website",
   "source_name": "Vibe42 官网",
   "summary_sections": [
@@ -87,7 +87,7 @@
     },
     {
       "label": "平台与入口",
-      "text": "官方Companion支持Mac/Linux，Windows可用浏览器作控制端；研究网页为无账号、无模型服务的静态页面。发布前demo_url保持为空，公开地址实际验证后再写入元信息。"
+      "text": "官方Companion支持Mac/Linux，Windows可用浏览器作控制端；研究网页为无账号、无模型服务的静态页面，已通过GitHub Pages发布并实际核验公开资源、完整索引摘要、下载和手机交互；正式入口见演示链接，发布记录与真实产品待验证清单分别保存。"
     }
   ]
 }
