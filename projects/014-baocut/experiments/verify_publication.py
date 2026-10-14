@@ -6,6 +6,7 @@ from datetime import datetime, timezone, timedelta
 import hashlib
 import json
 from pathlib import Path
+import ssl
 from urllib.request import Request, urlopen
 
 PROJECT = "014-baocut"
@@ -23,6 +24,8 @@ def main():
     compared.extend(sorted(path for path in (root/PROJECT).rglob("*") if path.is_file()))
     checks = [(path.relative_to(root).as_posix(), path) for path in compared]
     checks.extend((directory+"/", None) for directory in manifest["projects"] if directory != PROJECT)
+    # Load the platform trust store once before concurrent HTTPS requests.
+    context = ssl.create_default_context()
 
     def inspect(item):
         relative, path = item
@@ -30,7 +33,7 @@ def main():
         record = {"path":relative, "url":url, "kind":"byte-comparison" if path else "existing-entry"}
         try:
             request = Request(url, headers={"User-Agent":"BaoCut-research-publication-check", "Cache-Control":"no-cache"})
-            with urlopen(request, timeout=35) as response:
+            with urlopen(request, timeout=35, context=context) as response:
                 body = response.read()
                 record.update(status=response.status, bytes=len(body), sha256=hashlib.sha256(body).hexdigest())
             if path:

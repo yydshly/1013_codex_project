@@ -21,7 +21,11 @@
 
 ## 后续入口登记
 
-在内容发布与实际访问通过后，将真实公开地址写入 `project.json`，自动更新索引，并提交研究文档、验证记录与公开入口。登记后的工作流及最终资源复核随后补充。
+在内容发布与实际访问通过后，将真实公开地址写入 `project.json`，自动更新索引，并提交研究文档、验证记录与公开入口。
+
+登记提交：`4512d8fa160bdef3bab8722c455bb9df5a5af257`；[登记后的工作流 38518228836](https://github.com/yydshly/1013_codex_project/actions/runs/38518228836)为 success。
+
+[最终资源复核 JSON](./publication-final.json)的 22 个地址全部通过，11 项内容与登记后快照一致，11 个原有入口仍可访问。[公开索引验证 JSON](./publication-index.json)确认 18 项摘要全部完整存在，无缺失文本，引导图为 `./previews/014-baocut.png`，替代文本和来源说明正确。早期一次 HTTPS 检查初始化错误单独保留在 `publication-final-initial.json`；检查器改为在线程启动前加载正常系统信任链，重新复核通过，未关闭证书验证。
 
 ## 验证边界
 
@@ -34,3 +38,9 @@ python projects/014-baocut/experiments/verify_publication.py --site-dir site-bao
 ```
 
 先按仓库部署约定生成包含全部已跟踪演示的静态快照；此脚本检查公开文件与该快照，以及原有演示入口。
+
+## 公开网页截图
+
+![公开 BaoCut 网页的扩展场景章节，展示项目研究解说与学习课程的目标、能力组合和实现前提](../../assets/05-public-extensions.png)
+
+来源：本次实际发布的网页，桌面浏览器截图，非 BaoCut 上游应用运行画面。截图展示扩展章节起始部分；完整八项内容见在线网页和浏览器记录。
