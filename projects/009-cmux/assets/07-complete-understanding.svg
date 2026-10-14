@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="3700" viewBox="0 0 2400 3700" role="img" aria-labelledby="title desc">
+<title id="title">cmux 完整理解总图</title>
+<desc id="desc">承接现有 Agent 工具，统一展示和交互，定向控制多个会话。说明上下层分工、原生宿主、PTY、Hooks、Socket、消息、能力、效果、接入方式、场景、个人价值、扩展与边界。根据固定版本研究原创绘制，非上游运行截图。</desc>
+<rect width="2400" height="3700" fill="#f5f7fa"/>
+<rect x="0" y="0" width="2400" height="308" rx="0" fill="#182b43" stroke="#182b43" stroke-width="2"/>
+<text x="76" y="61.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#b3c6df">我们的完整理解 / CMUX RESEARCH</text>
+<text x="76" y="162.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="82" font-weight="700" fill="#ffffff">cmux · 一个人控制多个 Agent</text>
+<text x="76" y="238.7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="48" font-weight="700" fill="#c9ddf9">多个现有会话放进工作台：分屏、独立交互、定向控制、并行工作</text>
+<text x="76" y="291.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#a7bfdf">能力 · 原理 · 架构 · 操作效果 · 接入方式 · 使用场景 · 对我的意义</text>
+<rect x="64" y="342" width="2272" height="988" rx="18" fill="#ffffff" stroke="#cdd8e6" stroke-width="2"/>
+<rect x="94" y="373" width="58" height="58" rx="14" fill="#285cb0" stroke="#285cb0" stroke-width="2"/>
+<text x="104" y="412.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="31" font-weight="700" fill="#ffffff">01</text>
+<text x="174" y="418.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="42" font-weight="700" fill="#182b43">承接与操作：统一工作环境，执行逻辑仍由 Agent 负责</text>
+<rect x="96" y="458" width="2208" height="116" rx="15" fill="#edf3ff" stroke="#b8cdef" stroke-width="2"/>
+<text x="124" y="511.8" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="36" font-weight="700" fill="#285cb0">人 / 协调 Agent / 工作流</text>
+<text x="124" y="558.1" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="32" font-weight="400" fill="#182b43">决定目标、拆分任务、选择执行者、安排依赖与权限，检查成果是否通过</text>
+<path d="M1200 579 L1200 618" fill="none" stroke="#285cb0" stroke-width="4"/>
+<polygon points="1200.0,618.0 1192.6,603.8 1207.4,603.8" fill="#285cb0"/>
+<text x="1240" y="608.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#285cb0">提示、问题回应、CLI / Socket 操作</text>
+<rect x="96" y="635" width="2208" height="391" rx="15" fill="#172a42" stroke="#172a42" stroke-width="2"/>
+<text x="124" y="686.9" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="34" font-weight="700" fill="#f2f6ff">cmux 原生 UI / Swift + AppKit + SwiftUI</text>
+<text x="124" y="734.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#b2c6e1">Window → Workspace → Pane → Surface  |  稳定会话身份定位目标</text>
+<text x="1950" y="691.8" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="25" font-weight="400" fill="#a8bdd8">教学示意，非截图</text>
+<rect x="124" y="763" width="700" height="177" rx="12" fill="#243b59" stroke="#516f94" stroke-width="2"/>
+<text x="144" y="811.1" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="32" font-weight="700" fill="#dfebfb">A / Claude Code</text>
+<text x="144" y="857.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#b3c8e4">源码研究</text>
+<text x="619" y="856.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="700" fill="#72c6aa">运行中</text>
+<text x="144" y="905.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#b3c8e4">查看输出 ↔ 发送输入 / 回应问题</text>
+<rect x="848" y="763" width="700" height="177" rx="12" fill="#243b59" stroke="#516f94" stroke-width="2"/>
+<text x="868" y="811.1" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="32" font-weight="700" fill="#dfebfb">B / Codex</text>
+<text x="868" y="857.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#b3c8e4">网页实现</text>
+<text x="1343" y="856.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="700" fill="#edb476">需要输入</text>
+<text x="868" y="905.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#b3c8e4">查看输出 ↔ 发送输入 / 回应问题</text>
+<rect x="1572" y="763" width="700" height="177" rx="12" fill="#243b59" stroke="#516f94" stroke-width="2"/>
+<text x="1592" y="811.1" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="32" font-weight="700" fill="#dfebfb">C / OpenCode</text>
+<text x="1592" y="857.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#b3c8e4">检查结果</text>
+<text x="2067" y="856.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="700" fill="#a4b8d3">空闲</text>
+<text x="1592" y="905.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#b3c8e4">查看输出 ↔ 发送输入 / 回应问题</text>
+<rect x="124" y="963" width="2148" height="42" rx="8" fill="#e4edf8" stroke="#e4edf8" stroke-width="2"/>
+<text x="144" y="994.7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="26" font-weight="400" fill="#182b43">浏览器 / WebKit：导航、快照、点击、填表、JS、截图；与终端并列检查成果</text>
+<path d="M474 1030 L474 1081" fill="none" stroke="#285cb0" stroke-width="4"/>
+<polygon points="474.0,1081.0 466.6,1066.8 481.4,1066.8" fill="#285cb0"/>
+<polygon points="474.0,1030.0 481.4,1044.2 466.6,1044.2" fill="#285cb0"/>
+<rect x="124" y="1095" width="700" height="115" rx="12" fill="#edf3ff" stroke="#b8cdef" stroke-width="2"/>
+<text x="147" y="1139.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="700" fill="#285cb0">独立 Shell / Agent CLI 进程</text>
+<text x="147" y="1186.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#182b43">自己的模型 + 账号 + 上下文 + 工具</text>
+<path d="M1198 1030 L1198 1081" fill="none" stroke="#285cb0" stroke-width="4"/>
+<polygon points="1198.0,1081.0 1190.6,1066.8 1205.4,1066.8" fill="#285cb0"/>
+<polygon points="1198.0,1030.0 1205.4,1044.2 1190.6,1044.2" fill="#285cb0"/>
+<rect x="848" y="1095" width="700" height="115" rx="12" fill="#edf3ff" stroke="#b8cdef" stroke-width="2"/>
+<text x="871" y="1139.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="700" fill="#285cb0">独立 Shell / Agent CLI 进程</text>
+<text x="871" y="1186.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#182b43">自己的模型 + 账号 + 上下文 + 工具</text>
+<path d="M1922 1030 L1922 1081" fill="none" stroke="#285cb0" stroke-width="4"/>
+<polygon points="1922.0,1081.0 1914.6,1066.8 1929.4,1066.8" fill="#285cb0"/>
+<polygon points="1922.0,1030.0 1929.4,1044.2 1914.6,1044.2" fill="#285cb0"/>
+<rect x="1572" y="1095" width="700" height="115" rx="12" fill="#edf3ff" stroke="#b8cdef" stroke-width="2"/>
+<text x="1595" y="1139.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="700" fill="#285cb0">独立 Shell / Agent CLI 进程</text>
+<text x="1595" y="1186.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#182b43">自己的模型 + 账号 + 上下文 + 工具</text>
+<text x="94" y="1270.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">终端核心 libghostty + PTY 承载双向输入输出；Agent 调用模型、操作文件与命令，产出实际成果。</text>
+<text x="94" y="1315.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">效果：多个会话可同时运行；按目标操作、找回待输入项、查看进展，减少窗口切换与重复搬运。</text>
+<rect x="64" y="1371" width="58" height="58" rx="14" fill="#285cb0" stroke="#285cb0" stroke-width="2"/>
+<text x="74" y="1410.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="31" font-weight="700" fill="#ffffff">02</text>
+<text x="144" y="1416.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="42" font-weight="700" fill="#182b43">底层原理：四条通道，共用 Surface / 生命周期 / 原生 session ID</text>
+<rect x="64" y="1463" width="1112" height="166" rx="15" fill="#edf3ff" stroke="#cdd8e6" stroke-width="2"/>
+<text x="87" y="1509.9" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="34" font-weight="700" fill="#285cb0">输入 / 输出</text>
+<text x="87" y="1550.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="700" fill="#182b43">UI ↔ PTY ↔ Shell / Agent CLI</text>
+<text x="87" y="1591.7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="26" font-weight="400" fill="#53667e">ANSI 解析与渲染；OSC 可承载通知。模型调用在 Agent 侧。</text>
+<rect x="1224" y="1463" width="1112" height="166" rx="15" fill="#ecf6f1" stroke="#cdd8e6" stroke-width="2"/>
+<text x="1247" y="1509.9" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="34" font-weight="700" fill="#14785d">状态 / 提醒</text>
+<text x="1247" y="1550.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="700" fill="#182b43">Hooks / OSC / CLI → 状态 / 通知存储</text>
+<text x="1247" y="1591.7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="26" font-weight="400" fill="#53667e">侧栏、通知环、未读与会话状态；丰富程度依赖具体适配。</text>
+<rect x="64" y="1655" width="1112" height="166" rx="15" fill="#edf3ff" stroke="#cdd8e6" stroke-width="2"/>
+<text x="87" y="1701.9" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="34" font-weight="700" fill="#285cb0">程序化控制</text>
+<text x="87" y="1742.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="700" fill="#182b43">人 / 脚本 / Agent → CLI / Unix Socket</text>
+<text x="87" y="1783.7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="26" font-weight="400" fill="#53667e">显式定位 Workspace / Surface，创建、选择、输入、读取和操作浏览器。</text>
+<rect x="1224" y="1655" width="1112" height="166" rx="15" fill="#ecf6f1" stroke="#cdd8e6" stroke-width="2"/>
+<text x="1247" y="1701.9" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="34" font-weight="700" fill="#14785d">协作消息</text>
+<text x="1247" y="1742.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="700" fill="#182b43">发送者 → queued → 接收方 Hook → delivered</text>
+<text x="1247" y="1783.7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="26" font-weight="400" fill="#53667e">消息加入上下文；投递轮结束或手动标记为 read，不修改人的草稿。</text>
+<rect x="64" y="1867" width="1112" height="630" rx="18" fill="#ffffff" stroke="#cdd8e6" stroke-width="2"/>
+<rect x="1224" y="1867" width="1112" height="630" rx="18" fill="#ffffff" stroke="#cdd8e6" stroke-width="2"/>
+<rect x="88" y="1894" width="58" height="58" rx="14" fill="#285cb0" stroke="#285cb0" stroke-width="2"/>
+<text x="98" y="1933.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="31" font-weight="700" fill="#ffffff">03</text>
+<text x="168" y="1939.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="42" font-weight="700" fill="#182b43">能力清单</text>
+<circle cx="98.5" cy="2001.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2013.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">终端与分屏：真实 CLI，多窗口 / 工作区 / 页签</text>
+<circle cx="98.5" cy="2059.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2071.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">状态与通知：运行、空闲、需输入，集中提醒</text>
+<circle cx="98.5" cy="2117.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2129.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">控制接口：创建、选择、文本、按键与屏幕读取</text>
+<circle cx="98.5" cy="2175.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2187.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">浏览器自动化：导航、快照、点击、填表、截图</text>
+<circle cx="98.5" cy="2233.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2245.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">Agent 消息：定向发送、收件箱、回复与投递状态</text>
+<circle cx="98.5" cy="2291.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2303.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">团队适配：Claude teams 的 tmux 操作映射为原生分屏</text>
+<circle cx="98.5" cy="2349.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2361.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">事件与规则：订阅、留痕、通知 / rpc / run / webhook</text>
+<circle cx="98.5" cy="2407.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2419.3" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="30" font-weight="400" fill="#53667e">恢复与远程：布局、支持的会话恢复、SSH / tmux</text>
+<rect x="1248" y="1894" width="58" height="58" rx="14" fill="#14785d" stroke="#14785d" stroke-width="2"/>
+<text x="1258" y="1933.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="31" font-weight="700" fill="#ffffff">04</text>
+<text x="1328" y="1939.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="42" font-weight="700" fill="#182b43">接入方式：由基础到增强</text>
+<circle cx="1258.5" cy="2001.5" r="4.5" fill="#285cb0"/>
+<text x="1279" y="2011.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">1 终端接入：在 cmux 中启动已安装的 Agent CLI。</text>
+<text x="1279" y="2054.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">Agent 自己登录、配置模型、使用自己的工具。</text>
+<circle cx="1258.5" cy="2095.5" r="4.5" fill="#285cb0"/>
+<text x="1279" y="2105.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">2 状态接入：支持的 Agent 配 Hooks。</text>
+<text x="1279" y="2148.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">也可用 OSC 或 cmux CLI 发通知、上报状态。</text>
+<circle cx="1258.5" cy="2189.5" r="4.5" fill="#285cb0"/>
+<text x="1279" y="2199.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">3 控制接入：CLI / Socket 显式选择目标。</text>
+<text x="1279" y="2242.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">环境带有 Workspace / Surface 标识，定向操作。</text>
+<circle cx="1258.5" cy="2283.5" r="4.5" fill="#285cb0"/>
+<text x="1279" y="2293.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">4 协作接入：启用消息适配或支持的团队集成。</text>
+<text x="1279" y="2336.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">按目标发送 / 回复，交付时机取决于接收方适配。</text>
+<text x="1254" y="2398.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="700" fill="#ad5b27">CLI 能运行，不代表所有增强能力都已支持。</text>
+<text x="1254" y="2443.7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="26" font-weight="400" fill="#53667e">Claude 可空闲唤醒；Codex 空闲消息等下一次提示；等待人回答时暂缓交付。</text>
+<rect x="64" y="2537" width="1112" height="452" rx="18" fill="#ffffff" stroke="#cdd8e6" stroke-width="2"/>
+<rect x="1224" y="2537" width="1112" height="452" rx="18" fill="#ffffff" stroke="#cdd8e6" stroke-width="2"/>
+<rect x="88" y="2564" width="58" height="58" rx="14" fill="#285cb0" stroke="#285cb0" stroke-width="2"/>
+<text x="98" y="2603.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="31" font-weight="700" fill="#ffffff">05</text>
+<text x="168" y="2609.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="42" font-weight="700" fill="#182b43">使用场景</text>
+<circle cx="98.5" cy="2673.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2684.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#53667e">多库研究：分开组织研究、实验、页面与检查，少找窗口、少漏提醒。</text>
+<circle cx="98.5" cy="2730.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2741.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#53667e">开发与验证：终端实现、浏览器检查和结果反馈在同一工作台衔接。</text>
+<circle cx="98.5" cy="2787.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2798.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#53667e">远程长任务：在线远程宿主持有进程，本地观察、输入和重连。</text>
+<circle cx="98.5" cy="2844.5" r="4.5" fill="#285cb0"/>
+<text x="119" y="2855.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#53667e">个人工作流：借鉴身份、事件、消息和控制，按真实痛点扩展。</text>
+<rect x="1248" y="2564" width="58" height="58" rx="14" fill="#14785d" stroke="#14785d" stroke-width="2"/>
+<text x="1258" y="2603.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="31" font-weight="700" fill="#ffffff">06</text>
+<text x="1328" y="2609.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="42" font-weight="700" fill="#182b43">对我的意义</text>
+<circle cx="1258.5" cy="2673.5" r="4.5" fill="#285cb0"/>
+<text x="1279" y="2684.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#53667e">人的价值：一个人组织更多独立任务，少找会话、少漏提醒、少搬运。</text>
+<circle cx="1258.5" cy="2730.5" r="4.5" fill="#285cb0"/>
+<text x="1279" y="2741.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#53667e">研究价值：模型无关承载、稳定身份、状态 / 控制 / 消息分层。</text>
+<circle cx="1258.5" cy="2787.5" r="4.5" fill="#285cb0"/>
+<text x="1279" y="2798.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#53667e">我现在用 Windows：即时价值偏架构参考；原生桌面端需要 Mac。</text>
+<circle cx="1258.5" cy="2844.5" r="4.5" fill="#285cb0"/>
+<text x="1279" y="2855.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#53667e">是否采用：比较并行负担、返工、通过率、端到端耗时与总费用。</text>
+<rect x="64" y="3029" width="2272" height="223" rx="18" fill="#edf3ff" stroke="#cdd8e6" stroke-width="2"/>
+<rect x="88" y="3053" width="58" height="58" rx="14" fill="#285cb0" stroke="#285cb0" stroke-width="2"/>
+<text x="98" y="3092.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="31" font-weight="700" fill="#ffffff">07</text>
+<text x="168" y="3098.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="42" font-weight="700" fill="#182b43">可扩展：在已有基础上补齐任务闭环</text>
+<text x="94" y="3167.4" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="29" font-weight="400" fill="#182b43">任务契约与依赖 · 模型路由 · 通用适配 · 材料与产物 · worktree / 合并 · 交付检查 · 费用与 Windows 宿主</text>
+<text x="94" y="3220.5" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="28" font-weight="400" fill="#53667e">已有事件、规则与消息可作基础；通用 fan-out 聚合在研究版本中仍是提案。原型容易，可靠交付与恢复仍需工程。</text>
+<rect x="64" y="3292" width="2272" height="258" rx="18" fill="#f9f0e6" stroke="#e0c7ab" stroke-width="2"/>
+<rect x="88" y="3315" width="58" height="58" rx="14" fill="#ad5b27" stroke="#ad5b27" stroke-width="2"/>
+<text x="98" y="3354.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="31" font-weight="700" fill="#ffffff">08</text>
+<text x="168" y="3360.2" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="42" font-weight="700" fill="#182b43">关键边界：可控的环境，需要明确策略与独立验收</text>
+<text x="94" y="3426.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#79522e">能操作多个 Agent，不等于自动决定谁做什么。</text>
+<text x="1254" y="3426.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#79522e">read / idle 不等于任务完成，更不等于成果合格。</text>
+<text x="94" y="3474.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#79522e">Workspace 不等于文件隔离，修改代码另需合并策略。</text>
+<text x="1254" y="3474.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#79522e">恢复布局不保留任意进程内存；保活需另有宿主。</text>
+<text x="94" y="3522.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#79522e">屏幕输出与状态上报，不等于完整模型内部推理。</text>
+<text x="1254" y="3522.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#79522e">更多 Agent 不保证更快、更便宜；收益须实际测量。</text>
+<text x="76" y="3604.6" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="27" font-weight="400" fill="#285cb0">来源：github.com/manaflow-ai/cmux  |  基准 cdbe99596fe1  |  2026-10-14</text>
+<text x="76" y="3647.7" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="26" font-weight="400" fill="#53667e">本仓库按研究内容原创绘制，非上游运行截图；未运行 macOS 客户端、真实 Agent / 模型、恢复或云移动链路。</text>
+<text x="76" y="3686.8" font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="25" font-weight="400" fill="#53667e">许可：主体 GPL-3.0-or-later；指定 server 目录另用 BUSL-1.1，复用按文件核对。具体依据见项目 README 和网页来源。</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="760" viewBox="0 0 900 760" role="img" aria-labelledby="title desc">
+  <title id="title">cmux 多 Agent 工作台理解总览</title>
+  <desc id="desc">人或协调 Agent 确定目标，把任务送到独立 Agent 会话；cmux 提供终端、浏览器、状态通知、控制接口和消息投递。任务验收在更高层完成。本仓库原创解释图，非上游截图。</desc>
+  <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8" fill="none" stroke="#8aa3c3" stroke-width="1.3"/></marker></defs>
+  <rect width="900" height="760" rx="22" fill="#162435"/>
+  <g font-family="Segoe UI, PingFang SC, Microsoft YaHei, sans-serif">
+    <text x="40" y="53" fill="#91a8c5" font-size="18" letter-spacing="2">CMUX / 我们的理解</text>
+    <text x="40" y="102" fill="#edf3fb" font-size="35" font-weight="600">多会话运行 · 定向交互 · 集中观察</text>
+    <rect x="40" y="136" width="820" height="80" rx="11" fill="#233b57" stroke="#47688d"/>
+    <text x="63" y="168" fill="#d5e5fc" font-size="24" font-weight="600">人 / 协调 Agent / 工作流</text>
+    <text x="63" y="196" fill="#a7bdd8" font-size="19">决定目标、分工、依赖、权限与验收标准</text>
+    <path d="M450 218V249" stroke="#8aa3c3" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="481" y="241" fill="#9eb4cf" font-size="17">任务送到对应会话</text>
+    <rect x="40" y="263" width="820" height="283" rx="11" fill="#101c2b" stroke="#354f6b"/>
+    <path d="M40 303H860" stroke="#354f6b"/>
+    <circle cx="62" cy="284" r="5" fill="#cf936b"/><circle cx="82" cy="284" r="5" fill="#c6b86a"/><circle cx="102" cy="284" r="5" fill="#68a58a"/>
+    <text x="139" y="291" fill="#91a9c7" font-size="17">Workspace / 项目研究</text>
+    <text x="665" y="291" fill="#91a9c7" font-size="15">教学示意 · 非截图</text>
+    <rect x="58" y="325" width="249" height="198" rx="8" fill="#1b2d44" stroke="#547699"/>
+    <rect x="326" y="325" width="249" height="198" rx="8" fill="#1b2d44" stroke="#c98e62"/>
+    <rect x="594" y="325" width="249" height="198" rx="8" fill="#1b2d44" stroke="#547699"/>
+    <text x="76" y="359" fill="#e4eefc" font-size="24" font-weight="600">A · 源码研究</text>
+    <text x="345" y="359" fill="#e4eefc" font-size="24" font-weight="600">B · 网页实现</text>
+    <text x="613" y="359" fill="#e4eefc" font-size="24" font-weight="600">C · 检查结果</text>
+    <text x="76" y="390" fill="#90b6de" font-size="17">surface:A / 终端</text>
+    <text x="345" y="390" fill="#90b6de" font-size="17">surface:B / 终端</text>
+    <text x="613" y="390" fill="#90b6de" font-size="17">surface:C / 终端</text>
+    <path d="M76 405H289M345 405H557M613 405H824" stroke="#405875"/>
+    <text x="76" y="435" fill="#adbed5" font-size="19">读取固定版本源码</text>
+    <text x="345" y="435" fill="#adbed5" font-size="19">制作页面与图示</text>
+    <text x="613" y="435" fill="#adbed5" font-size="19">核对来源与交互</text>
+    <circle cx="84" cy="480" r="5" fill="#7dc6ae"/><text x="100" y="486" fill="#7dc6ae" font-size="19">运行中</text>
+    <circle cx="353" cy="480" r="5" fill="#e9b07b"/><text x="370" y="486" fill="#e9b07b" font-size="19">需要输入</text>
+    <circle cx="621" cy="480" r="5" fill="#8ba1bd"/><text x="637" y="486" fill="#8ba1bd" font-size="19">等待材料</text>
+    <rect x="40" y="571" width="820" height="81" rx="10" fill="#24374d"/>
+    <text x="63" y="603" fill="#d3e1f4" font-size="22" font-weight="600">cmux 提供：终端 + 浏览器 + 身份 + 状态 + 控制 + 消息</text>
+    <text x="63" y="633" fill="#99b0cd" font-size="18">输入输出走 PTY；状态走 Hooks；消息在接收方适配点交付</text>
+    <text x="43" y="697" fill="#b8cbe2" font-size="19">环境可操作 ≠ 自动规划；消息已读 ≠ 任务通过</text>
+    <text x="43" y="728" fill="#728eaf" font-size="15">原创解释图 / 2026-10-14 / 研究基准 cdbe99596fe1 / 未运行上游</text>
+  </g>
+</svg>

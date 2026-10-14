@@ -1,0 +1,83 @@
+Use case: infographic-diagram
+Asset type: a single comprehensive Chinese research infographic, saved for the cmux research project.
+Primary request: Create ONE polished, high-resolution, genuinely readable Chinese infographic that summarizes our understanding of https://github.com/manaflow-ai/cmux. The central thesis is that cmux hosts existing Agent CLI tools in real terminal sessions, gives a UI for observation and bidirectional interaction, and lets humans, scripts or coordinators address and operate multiple sessions. It is a controllable multi-agent WORK ENVIRONMENT. Agents themselves invoke models and tools; planning and acceptance belong to a higher-level workflow.
+Style: precise editorial technical infographic, modern clear typography, flat vector-like clean line art and restrained UI diagrams. Use a generous portrait canvas, approximately 2400 x 3400 or larger if supported. Cream-white background, dark navy text, muted blue for terminal/control, teal for hooks/messages, small orange accents for human attention. No decorative robots, no fictional product claims, no invented statistics. All Chinese must be legible and accurately written. Prefer a coherent central architecture with surrounding labeled panels; ordered top-to-bottom reading flow. High information density but generous spacing. Do not render photographic realism. No cropped content, no overflowing text, no fuzzy microtext.
+Composition: title and thesis at top. Main architecture and illustrated effect dominate upper middle; an illustrated cmux workbench has sidebar and three terminal panes A research / B implementation / C checking plus a browser panel. It is explicitly marked 教学示意，非上游截图. Connect user/coordinator above to cmux and separate Agent processes below. Place the four paths with labeled arrows in a neat rail. Lower half contains capabilities, integration steps, scenarios/meaning, extensions and caveats. Include all numbered modules below. This is ONE unified infographic, NOT separate image pages.
+
+Required visible text (use these exact Chinese labels and short sentences; layout may wrap naturally):
+Title: “cmux：把 Agent 承接起来，让多个会话可见、可控、可交互”
+Subtitle: “我们的理解总览｜能力 · 原理 · 架构 · 效果 · 接入 · 个人价值”
+Thesis banner: “承载现有 Agent 工具 → 统一 UI 展示与交互 → 多会话并行与定向控制”
+
+MODULE 1 “① 谁负责什么”
+“人 / 协调 Agent / 工作流：目标、拆分、选人、权限、验收”
+“cmux：终端、浏览器、会话身份、状态、通知、控制、消息”
+“Agent CLI：自己的模型、账号、上下文与工具，执行任务、产出成果”
+
+MODULE 2 “② 架构与工作原理”
+“原生宿主：Swift + AppKit + SwiftUI”
+“终端核心：libghostty + PTY”
+“浏览器：WebKit”
+“Window → Workspace → Pane → Surface”
+“稳定 Surface ID + 进程生命周期 + 原生 session ID”
+Four distinctly labeled conceptual paths:
+“输入 / 输出：UI ↔ PTY ↔ Shell / Agent CLI；ANSI 显示，OSC 通知”
+“状态 / 提醒：Agent Hooks / OSC / CLI → 状态存储 → 侧栏、通知环、未读”
+“程序化控制：人 / 脚本 / Agent → CLI / Unix Socket → 指定工作区或 Surface”
+“协作消息：发送者 → 收件箱 queued → 接收方 Hook → delivered → read”
+Make the Agent/model/tools box outside the cmux app box. Arrows represent input-output and event flow, not centralized model hosting.
+
+MODULE 3 “③ 实现效果：一屏管理，按目标操作”
+Illustrated workbench with “A 源码研究｜运行中”, “B 网页实现｜需要输入”, “C 检查结果｜空闲”, “浏览器｜检查页面”. Badge “教学示意，非上游截图”.
+“切换会话、发送提示、回应问题、查看输出、定位提醒”
+“各 Agent 保留独立上下文；多个会话可同时运行”
+“消息不是强行往人的未提交草稿里打字”
+
+MODULE 4 “④ 这个库能做什么”
+Use 8 compact items with restrained small icons:
+“终端与分屏：承载真实 CLI，多窗口 / 工作区 / 页签”
+“状态与通知：运行、空闲、需输入，集中提醒”
+“控制 API：创建、选择、输入、按键、读取屏幕”
+“浏览器自动化：导航、快照、点击、填表、JS、截图”
+“Agent 消息：定向发送、收件箱、回复与投递状态”
+“团队集成：Claude teams 的 tmux 操作映射为原生分屏”
+“事件与规则：订阅、留痕、通知 / rpc / run / webhook”
+“恢复与远程：布局、支持的 Agent 会话恢复，SSH / tmux 接入”
+
+MODULE 5 “⑤ 接入方式：由基础到增强”
+Show a 4-step stair:
+“1 终端接入：安装已有 Agent CLI，在 cmux 中启动；Agent 自己登录和配模型”
+“2 状态接入：支持的 Agent 配 Hooks；也可用 OSC / CLI 发通知”
+“3 控制接入：CLI / Socket 显式选择目标；会话环境携带 Workspace / Surface 标识”
+“4 协作接入：安装匹配的消息适配，或使用支持的团队集成”
+Small integration footnote:
+“CLI 能运行 ≠ Hooks、消息、唤醒、恢复都已支持”
+“Claude 可空闲唤醒；Codex 空闲消息等下一次提示；等人回答时暂缓投递”
+
+MODULE 6 “⑥ 使用场景与对我的意义”
+“多库研究：研究、实验、网页、检查分别组织，减少找窗口”
+“开发与验证：终端实现与浏览器检查衔接，减少上下文搬运”
+“远程长任务：在线远程宿主持有进程，本地集中观察与回应”
+“学习价值：模型无关承载、稳定会话身份、事件、消息与控制分层”
+“我现在用 Windows：即时价值偏架构参考；直接使用原生桌面端需要 Mac”
+“是否值得采用：看并行负担、漏看提醒、搬运、返工和最终通过率”
+
+MODULE 7 “⑦ 可扩展方向”
+“任务契约与依赖调度 · 模型路由 · 通用适配 · 上下文与产物”
+“worktree / 合并 · 交付检查 · 费用记录 · Windows 宿主”
+“已有事件、规则与消息是基础；通用 fan-out 聚合在研究版本中仍是提案”
+“原型不复杂；可靠终端、会话重启、草稿、交付、权限和恢复仍需工程”
+
+MODULE 8 “⑧ 三个边界，要记住”
+“能操作多个 Agent ≠ 自动决定谁做什么”
+“read / idle ≠ 任务完成、成果合格”
+“Workspace ≠ 文件隔离；恢复布局 ≠ 保留任意进程内存”
+“模型输出与状态上报，不等于窥见全部内部推理”
+“效率与费用收益需用真实任务验证”
+
+Footer small but readable:
+“来源：manaflow-ai/cmux｜研究基准 cdbe99596fe1｜2026-10-14”
+“本仓库研究解释图，非上游运行截图；未在本机运行 macOS 客户端或真实 Agent”
+“许可：主体 GPL-3.0-or-later；指定 server 目录另有 BUSL-1.1，复用按文件核对”
+
+Accuracy constraints: do not invent universal agent auto-waking, universal fan-out scheduling, automatic isolation or guaranteed completion. Clarify input path vs structured agent messages. Native desktop client is macOS. The image must be a complete, correct, comprehensible standalone overview rather than a decorative cover.

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="1020" viewBox="0 0 1240 1020" role="img" aria-labelledby="title desc">
+  <title id="title">cmux 底层架构与四条交互路径</title>
+  <desc id="desc">人和协调者通过界面或 CLI 控制本地 Unix Socket。Swift AppKit SwiftUI 宿主管理工作区与 Surface；libghostty 经 PTY 双向连接 Shell 或 Agent CLI，WebKit 承载浏览器。Agent Hooks 上报状态和会话身份，消息通过收件箱在接收方 Hook 交付。模型与工具属于独立 Agent 执行链。原创概念图，不是上游运行截图。</desc>
+  <defs>
+    <marker id="blueArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse"><path d="M1 1L8 4.5L1 8" fill="none" stroke="#426bc0" stroke-width="1.5"/></marker>
+    <marker id="greenArrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto-start-reverse"><path d="M1 1L8 4.5L1 8" fill="none" stroke="#27846b" stroke-width="1.5"/></marker>
+  </defs>
+  <rect width="1240" height="1020" rx="14" fill="#fff"/>
+  <g font-family="Segoe UI, PingFang SC, Microsoft YaHei, sans-serif">
+    <text x="30" y="46" fill="#182a40" font-size="32" font-weight="600">cmux / 承载执行，汇集交互</text>
+    <text x="31" y="76" fill="#60718a" font-size="18">同一会话身份贯穿终端、状态、控制与消息；Agent 自己调用模型和工具</text>
+    <rect x="30" y="103" width="1180" height="88" rx="12" fill="#17293f"/>
+    <text x="55" y="141" fill="#edf4ff" font-size="27" font-weight="600">人 / 协调 Agent / 脚本 / 团队框架</text>
+    <text x="55" y="170" fill="#b1c4df" font-size="19">界面操作、任务提示、CLI 调用、事件订阅；目标拆分与结果验收在上层决定</text>
+    <path d="M186 194V237" stroke="#426bc0" stroke-width="2" marker-end="url(#blueArrow)"/>
+    <text x="214" y="224" fill="#426bc0" font-size="17">操作工作台</text>
+    <rect x="30" y="253" width="855" height="634" rx="14" fill="#f6f8fc" stroke="#cbd7e7" stroke-width="2"/>
+    <text x="53" y="287" fill="#264978" font-size="23" font-weight="600">cmux macOS 宿主 / Swift + AppKit + SwiftUI</text>
+    <rect x="55" y="308" width="805" height="79" rx="10" fill="#e8f0ff" stroke="#b3c9eb"/>
+    <text x="76" y="340" fill="#213e66" font-size="22" font-weight="600">界面 / 工作区模型 / 目标身份</text>
+    <text x="76" y="367" fill="#60718a" font-size="19">Window → Workspace → Pane → Surface / 生命周期与原生 session ID</text>
+    <path d="M240 388V423M654 388V423" stroke="#426bc0" stroke-width="2" marker-start="url(#blueArrow)" marker-end="url(#blueArrow)"/>
+    <rect x="55" y="439" width="361" height="131" rx="10" fill="#fff" stroke="#acc3e6"/>
+    <text x="76" y="477" fill="#264978" font-size="25" font-weight="600">终端 / libghostty</text>
+    <text x="76" y="509" fill="#60718a" font-size="20">PTY 输入输出 · ANSI / OSC</text>
+    <text x="76" y="542" fill="#60718a" font-size="19">终端渲染 · macOS GPU / Metal</text>
+    <rect x="486" y="439" width="374" height="131" rx="10" fill="#fff" stroke="#acc3e6"/>
+    <text x="507" y="477" fill="#264978" font-size="25" font-weight="600">浏览器 / WebKit</text>
+    <text x="507" y="509" fill="#60718a" font-size="20">导航 · 结构快照 · 点击 / 填表</text>
+    <text x="507" y="542" fill="#60718a" font-size="19">JS · 截图 · 控制台 / 页面调试</text>
+    <rect x="55" y="644" width="245" height="173" rx="10" fill="#fff" stroke="#b7c9e0"/>
+    <text x="75" y="679" fill="#264978" font-size="22" font-weight="600">控制面</text>
+    <text x="75" y="711" fill="#60718a" font-size="19">CLI → Unix Socket</text>
+    <text x="75" y="741" fill="#60718a" font-size="19">解析目标 / 方法路由</text>
+    <text x="75" y="771" fill="#60718a" font-size="18">UI 操作进入主线程</text>
+    <text x="75" y="800" fill="#426bc0" font-size="17">JSON 请求 / 响应</text>
+    <rect x="325" y="644" width="249" height="173" rx="10" fill="#eef7f3" stroke="#a5c9ba"/>
+    <text x="345" y="679" fill="#256a55" font-size="22" font-weight="600">状态 / 事件 / 通知</text>
+    <text x="345" y="711" fill="#60718a" font-size="19">Hooks、OSC、CLI</text>
+    <text x="345" y="741" fill="#60718a" font-size="19">会话映射 / 通知存储</text>
+    <text x="345" y="771" fill="#60718a" font-size="18">事件流 / 规则动作</text>
+    <text x="345" y="800" fill="#27846b" font-size="17">运行、空闲、需输入</text>
+    <rect x="599" y="644" width="261" height="173" rx="10" fill="#eef7f3" stroke="#a5c9ba"/>
+    <text x="619" y="679" fill="#256a55" font-size="22" font-weight="600">消息收件箱</text>
+    <text x="619" y="711" fill="#60718a" font-size="19">发送目标 / 回复关联</text>
+    <text x="619" y="741" fill="#60718a" font-size="19">queued → delivered</text>
+    <text x="619" y="771" fill="#60718a" font-size="18">接收方 Hook 交付</text>
+    <text x="619" y="800" fill="#27846b" font-size="17">投递轮结束 / read</text>
+    <path d="M177 643V603H236V572" stroke="#426bc0" stroke-width="2" fill="none" marker-end="url(#blueArrow)"/>
+    <path d="M177 603H673V572" stroke="#426bc0" stroke-width="2" fill="none" marker-end="url(#blueArrow)"/>
+    <text x="303" y="624" fill="#426bc0" font-size="16">定向操纵终端和浏览器</text>
+    <text x="56" y="857" fill="#60718a" font-size="18">应用快照：布局、目录、滚动文本、浏览器历史；支持的 Agent 另用原生会话恢复</text>
+    <rect x="930" y="308" width="280" height="262" rx="12" fill="#edf2fa" stroke="#b9cbe3" stroke-width="2"/>
+    <text x="949" y="347" fill="#223f69" font-size="24" font-weight="600">独立执行进程</text>
+    <text x="949" y="382" fill="#60718a" font-size="21">Shell / Agent CLI</text>
+    <path d="M1070 393V419" stroke="#426bc0" stroke-width="2" marker-end="url(#blueArrow)"/>
+    <rect x="949" y="432" width="242" height="112" rx="9" fill="#fff"/>
+    <text x="966" y="465" fill="#264978" font-size="21" font-weight="600">模型 + 工具 + 上下文</text>
+    <text x="966" y="496" fill="#60718a" font-size="18">模型请求、文件与命令</text>
+    <text x="966" y="523" fill="#60718a" font-size="18">由 Agent 自己执行</text>
+    <path d="M416 505H449V404H929" fill="none" stroke="#426bc0" stroke-width="2" marker-start="url(#blueArrow)" marker-end="url(#blueArrow)"/>
+    <text x="629" y="425" fill="#426bc0" font-size="16">PTY · 输入与输出</text>
+    <rect x="930" y="644" width="280" height="173" rx="12" fill="#eef7f3" stroke="#a5c9ba"/>
+    <text x="949" y="679" fill="#256a55" font-size="24" font-weight="600">Agent 原生 Hooks</text>
+    <text x="949" y="714" fill="#60718a" font-size="19">状态 / session ID 上报</text>
+    <text x="949" y="748" fill="#60718a" font-size="19">消息领取与确认</text>
+    <text x="949" y="782" fill="#60718a" font-size="18">唤醒能力因适配而异</text>
+    <path d="M1070 573V642" stroke="#27846b" stroke-width="2" marker-start="url(#greenArrow)" marker-end="url(#greenArrow)"/>
+    <text x="1088" y="614" fill="#27846b" font-size="16">原生集成</text>
+    <path d="M930 832H449V818" stroke="#27846b" stroke-width="2" fill="none" marker-end="url(#greenArrow)"/>
+    <path d="M1070 818V832" stroke="#27846b" stroke-width="2" fill="none"/>
+    <path d="M861 743H929" stroke="#27846b" stroke-width="2" fill="none" marker-start="url(#greenArrow)" marker-end="url(#greenArrow)"/>
+    <text x="56" y="933" fill="#243d5c" font-size="21" font-weight="600">会话管理 ≠ 文件隔离；状态 ≠ 质量；消息已读 ≠ 任务验收</text>
+    <text x="56" y="968" fill="#60718a" font-size="17">本仓库原创概念图 / 2026-10-14 / cdbe99596fe1 / 非上游截图，未运行原生客户端</text>
+  </g>
+</svg>

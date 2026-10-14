@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="cmux 把多个现有 Agent 会话放进一个工作台，分屏展示、独立交互、定向控制，让它们并行工作，使一个人能够同时管理和控制多个 Agent。中文研究说明价值、原理、接入与扩展思路，提供完整理解图和交互教学。">
+  <meta name="theme-color" content="#172334">
+  <title>cmux · 一个人控制多个现有 Agent 的工作台</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="masthead">
+  <a class="brand" href="#top"><span class="brand-icon" aria-hidden="true">⌘</span> cmux <span class="brand-note">研究笔记 / 009</span></a>
+  <nav aria-label="全局导航"><a href="../">项目索引</a><a href="./research-summary.txt">文字摘要</a><a class="external" href="https://github.com/manaflow-ai/cmux" target="_blank" rel="noopener noreferrer">上游仓库 ↗</a></nav>
+</header>
+<main id="main">
+<section class="hero wrap" id="top">
+  <div class="hero-copy">
+    <p class="eyebrow">承接已有工具，让一个人组织并行工作</p>
+    <h1>一个人，<br>管理和控制<span>多个 Agent。</span></h1>
+    <p class="hero-lead">cmux 把多个现有 Agent 会话放进一个工作台，分屏展示、独立交互、定向控制，让它们并行工作。你可以在其他任务执行时，给指定会话发提示、回应问题、查看结果；每个 Agent 仍使用自己的模型、工具和上下文。</p>
+    <div class="hero-actions"><a class="button primary" href="#understanding">一张图看完整理解 <span aria-hidden="true">↓</span></a><a class="button secondary" href="#workbench">体验操作效果</a><a class="button secondary" href="#architecture">拆开底层架构</a></div>
+    <div class="research-stamp"><span class="dot"></span>源码研究 · 2026.10.14 <span>基准 commit <code>cdbe99596fe1</code></span></div>
+  </div>
+  <figure class="hero-figure">
+    <img src="./assets/overview.svg" alt="本次研究总览：人或协调者把任务送往独立 Agent 会话，cmux 通过终端、状态、消息和浏览器提供操作环境；验收由上层工作流完成。">
+    <figcaption>本仓库原创理解图 · 非上游运行截图 <a href="./assets/overview.svg" download="cmux-understanding.svg">下载 SVG ↗</a></figcaption>
+  </figure>
+</section>
+<div class="scope-band"><div class="wrap"><strong>阅读范围</strong><span>已核对源码与官方文档</span><span>桌面客户端：macOS</span><span>当前环境：Windows，未运行上游</span><a href="#evidence">查看验证边界 ↓</a></div></div>
+<section class="understanding-poster wrap" id="understanding" aria-labelledby="poster-title">
+  <div class="poster-heading"><div><p class="eyebrow">我们的完整理解 · 一张图汇总</p><h2 id="poster-title">承接 Agent 工具，统一展示、交互与多会话控制。</h2></div><a class="button secondary" href="./assets/complete-understanding.png" download="cmux-complete-understanding.png">下载高清总览图 ↓</a><a class="button secondary" href="./assets/complete-understanding.svg" download="cmux-complete-understanding.svg">SVG 原图 ↓</a></div>
+  <p class="poster-intro">图中汇集能力、架构、四条交互路径、操作效果、接入方式、场景、个人价值和扩展边界。点击查看原图，放大阅读。</p>
+  <figure><a class="poster-frame" href="./assets/complete-understanding.png" target="_blank" rel="noopener noreferrer" aria-label="打开完整 cmux 理解图并放大阅读"><img src="./assets/complete-understanding.png" width="2400" height="3700" alt="cmux 完整理解图：承接现有 Agent CLI，在原生终端与浏览器 UI 中展示、交互和定向控制多个会话；八部分说明职责分工、架构原理、效果、能力、接入、个人价值、扩展与边界，非上游运行截图。" loading="lazy"></a><figcaption>本仓库按固定版本研究内容原创绘制，2400 × 3700；界面是教学示意，非上游运行截图。研究基准 cdbe99596fe1，2026-10-14。</figcaption></figure>
+</section>
+<div class="reading-layout wrap">
+  <aside class="contents" aria-label="章节目录">
+    <p>理解路线</p>
+    <nav>
+      <a href="#essence">01 / 本质与分工</a><a href="#workbench">02 / 操作效果</a><a href="#capabilities">03 / 能力全景</a><a href="#architecture">04 / 架构与原理</a><a href="#messages">05 / 多 Agent 消息</a><a href="#collaboration">06 / 协作与分派</a><a href="#scenarios">07 / 场景与价值</a><a href="#extensions">08 / 扩展与工程难点</a><a href="#history">09 / 既有研究对照</a><a href="#evidence">10 / 证据与验证</a>
+    </nav>
+    <a class="download-note" href="./assets/architecture.svg" download="cmux-architecture.svg">↓ 保存架构图</a>
+  </aside>
+  <div class="chapters">
+    <section id="essence" class="chapter">
+      <div class="section-heading"><span class="section-no">01</span><div><p class="eyebrow">我们的核心理解</p><h2>一个工作台，承接多个现有 Agent 会话。</h2></div></div>
+      <p class="lead"><strong>本质就是把多个现有 Agent 会话放进一个工作台，分屏展示、独立交互、定向控制，让它们并行工作，实现一个人同时管理和控制多个 Agent。</strong>分屏让会话可见，输入与控制让会话可操作，状态和提醒帮助人及时回应。</p>
+      <p>“同时控制”指管理多个并行运行的会话，并按目标分别交互；各会话保留独立上下文。让它们合作完成一个目标，还需要人、协调 Agent 或规则明确分工、依赖和验收。</p>
+      <div class="responsibilities">
+        <article><span>目标与判断</span><h3>人 / 协调 Agent / 规则</h3><p>确定目标、拆分任务、选择执行者、设置权限与验收标准，决定失败后怎样重试。</p></article>
+        <article class="highlight"><span>环境与交互</span><h3>cmux</h3><p>提供终端、浏览器、工作区、会话定位、状态、通知、控制 API 与消息投递。</p></article>
+        <article><span>执行与推理</span><h3>Agent CLI + 模型 + 工具</h3><p>Agent 调用模型，读写文件、执行命令、使用工具，保留自己的原生会话与上下文。</p></article>
+      </div>
+      <p class="source-note">依据：<a href="#s-readme">README 与产品定位 [01]</a>、<a href="#s-api">控制 API [02]</a>、<a href="#s-messages">Agent messages [04]</a>。</p>
+      <div class="understanding"><h3>把我们讨论过的几个判断补完整</h3>
+        <details open><summary>“就是接入多个 Agent，探测进度并展示？”</summary><p>接近，但还包含真实输入、控制和浏览器操作。终端显示的是 Agent 的输出；Hooks 提供的是运行、空闲、需输入等状态。它不会自动看到模型全部内部推理，也不能从状态推导成果质量或真实完成百分比。</p></details>
+        <details><summary>“就是一对一会话管理，再分派 Agent？”</summary><p>可以作为第一层理解。但一个 Workspace 能容纳多个 Agent；接收对象主要定位到 Surface。cmux 提供“把任务送到谁”的机制，“为什么选它、任务怎么拆”需要人、已有团队框架或上层策略。</p></details>
+        <details><summary>“把 Agent 消息接管一下，实现应该不难？”</summary><p>演示版可以很轻：起几个进程、接收输出、展示状态、定向发消息。完整产品还要处理终端协议、输入草稿、进程重启、会话绑定、消息重试、线程与性能、状态恢复和 Agent 差异。后文逐项解释。</p></details>
+      </div>
+    </section>
+
+    <section id="workbench" class="chapter wide-section">
+      <div class="section-heading"><span class="section-no">02</span><div><p class="eyebrow">先看效果，再看实现</p><h2>三个会话并行，注意力按需切换。</h2></div></div>
+      <p>下面是可操作的<strong>教学模拟</strong>，没有启动 Agent，也没有连接模型。点击会话、定位待输入项、发送模拟输入，观察工作台如何把“多个窗口”变成“可定位的工作”。</p>
+      <div class="workbench" aria-label="多 Agent 工作台教学模拟">
+        <div class="window-bar"><span class="traffic" aria-hidden="true">● ● ●</span><span>cmux / 项目研究</span><span class="simulation-label">教学模拟</span></div>
+        <div class="workbench-body">
+          <div class="demo-sidebar"><div class="sidebar-label">WORKSPACES</div><div class="workspace-title">⌑ cmux 研究 <span>3</span></div>
+            <button class="agent-choice" data-agent="research" aria-pressed="true"><span class="avatar">A</span><span><strong>源码研究</strong><small>Claude Code · surface:A</small></span><i class="status-dot running" title="运行中"></i></button>
+            <button class="agent-choice" data-agent="build" aria-pressed="false"><span class="avatar">B</span><span><strong>网页实现</strong><small>Codex · surface:B</small></span><i class="status-dot waiting" title="需要输入"></i></button>
+            <button class="agent-choice" data-agent="check" aria-pressed="false"><span class="avatar">C</span><span><strong>检查结果</strong><small>OpenCode · surface:C</small></span><i class="status-dot idle" title="空闲"></i></button>
+            <div class="sidebar-footer"><span>⎇ research/cmux</span><span>会话分组 ≠ 文件隔离</span></div>
+          </div>
+          <div class="demo-main">
+            <div class="pane-heading"><span id="demo-title">A / 源码研究</span><span id="demo-state" class="state-pill">运行中</span></div>
+            <div id="demo-output" class="terminal-output" role="log" aria-label="当前模拟终端输出"></div>
+            <form id="terminal-form" class="terminal-form"><label class="sr-only" for="terminal-input">发送到当前模拟终端的文本</label><span aria-hidden="true">›</span><input id="terminal-input" placeholder="给当前会话发送一条模拟输入…" maxlength="240" autocomplete="off"><button type="submit">发送输入</button></form>
+            <div class="preview-pane"><span>◎ 浏览器 Surface</span><div><strong>项目网页</strong><small>Agent 可以导航、检查元素、点击、填表、读取控制台和截图。</small></div><span class="preview-check">本页用说明代替真实浏览器</span></div>
+          </div>
+        </div>
+        <div class="demo-toolbar"><button id="jump-attention">定位需要输入的会话</button><button id="simulate-notification">模拟 A 发出通知</button><button id="reset-workbench">重置</button><span id="demo-feedback" role="status">当前焦点：surface:A</span></div>
+      </div>
+      <div class="two-notes"><p><strong>直接操作：</strong>选择终端后键入文字、提交提示、回应 Agent 的问题。CLI 也可定向发送文本或按键。</p><p><strong>协作消息：</strong>另有消息存储与 Hook 投递机制，避免把队友消息直接打进人尚未写完的输入框。<a href="#messages">看消息路径 →</a></p></div>
+      <p class="source-note">分屏、状态和通知参考 <a href="#s-readme">[01]</a>、<a href="#s-hooks">[03]</a>、<a href="#s-notifications">[05]</a>；界面布局及示例内容为本仓库原创。</p>
+    </section>
+
+    <section id="capabilities" class="chapter">
+      <div class="section-heading"><span class="section-no">03</span><div><p class="eyebrow">能力按作用划分</p><h2>能展示、能操作，也能作为自动化基础。</h2></div></div>
+      <div class="filter-bar" role="group" aria-label="能力筛选"><button class="active" data-filter="all" aria-pressed="true">全部能力</button><button data-filter="observe" aria-pressed="false">看见状态</button><button data-filter="control" aria-pressed="false">操作环境</button><button data-filter="collaborate" aria-pressed="false">组织协作</button></div>
+      <div class="table-scroll"><table class="capability-table"><thead><tr><th>能力</th><th>实现方式 / 实际收益</th><th>理解边界</th></tr></thead><tbody>
+        <tr data-category="control"><th>真实终端与分屏 <a href="#s-readme">[01]</a> <a href="#s-messages">[04]</a></th><td>承载 Shell 和 Agent CLI；多窗口、Workspace、Pane、Surface，支持键盘输入和定向控制。支持的 Agent 会话还可切换聊天视图。</td><td>不是模型托管平台；Agent 仍使用自己的模型、账号、工具和上下文，聊天解析并非覆盖每种 CLI。</td></tr>
+        <tr data-category="observe"><th>工作区侧栏 <a href="#s-readme">[01]</a></th><td>集中展示目录、分支、PR、端口、通知与会话状态，帮助找回正在处理的任务。</td><td>目录与标签是组织信息；不会自动生成隔离工作树或解决文件冲突。</td></tr>
+        <tr data-category="observe"><th>Hooks 与提醒 <a href="#s-hooks">[03]</a> <a href="#s-notifications">[05]</a></th><td>Agent 原生 Hooks、OSC 通知或 CLI 上报，显示运行 / 空闲 / 需输入及通知环、未读提醒。</td><td>丰富程度由 Agent 适配决定；上报百分比需有明确依据。</td></tr>
+        <tr data-category="control"><th>CLI 与 Socket API <a href="#s-api">[02]</a></th><td>创建、选择和关闭工作区 / 分屏，发送文本与按键、读取屏幕、设置状态与进度。</td><td>能操纵环境不等于理解目标；调用者必须明确目标会话。</td></tr>
+        <tr data-category="control"><th>内置浏览器 <a href="#s-browser">[06]</a></th><td>WebKit 页面与终端并列；导航、结构快照、元素定位、点击、填表、JS、截图和调试信息。</td><td>网页可操作不等于业务正确；登录、访问条件和验证目标仍需处理。</td></tr>
+        <tr data-category="collaborate"><th>Agent 消息与收件箱 <a href="#s-messages">[04]</a></th><td>定向投递文本、回复消息、维护 queued / delivered / read 状态，在接收方 Hook 处交付。</td><td>各 Agent 唤醒能力不同；read 不是任务验收通过。远程通信有范围限制。</td></tr>
+        <tr data-category="collaborate"><th>团队集成 <a href="#s-teams">[07]</a></th><td>Claude Code teams 的 tmux 操作经兼容层映射为原生工作区和分屏；其他集成须逐一适配。</td><td>团队拆分与协调来自原有框架；任意 Agent CLI 不自动获得同一套团队能力。</td></tr>
+        <tr data-category="collaborate"><th>事件与自动化 <a href="#s-events">[08]</a> <a href="#s-automations">[09]</a></th><td>事件订阅、JSONL 留痕和规则匹配；触发通知、控制调用、命令或 Webhook，含限频及防循环。</td><td>框架已有；“自动判断谁最适合做任务”仍需设计业务策略。</td></tr>
+        <tr data-category="control"><th>会话恢复 <a href="#s-restore">[10]</a></th><td>保存布局、目录、滚动文本和浏览器历史；支持的 Agent 用原生 session ID 恢复。</td><td>不保存任意进程内存。持续进程另需 tmux / zellij 或在线远程宿主。</td></tr>
+        <tr data-category="control"><th>SSH 与移动入口 <a href="#s-readme">[01]</a></th><td>远程终端、tmux 接入与 CLI relay；README 还描述了 iOS beta 和 Cloud 相关入口。</td><td>本研究聚焦本地桌面主链路；云端及移动全流程未复现。</td></tr>
+      </tbody></table></div>
+      <p id="filter-count" class="source-note" role="status">显示全部 10 项能力</p>
+    </section>
+
+    <section id="architecture" class="chapter">
+      <div class="section-heading"><span class="section-no">04</span><div><p class="eyebrow">四条路径，共用稳定会话身份</p><h2>输出走终端，状态走 Hooks，控制走 API。</h2></div></div>
+      <p>桌面宿主以 <strong>Swift、AppKit、SwiftUI</strong> 组织界面与状态，用 <strong>libghostty</strong> 提供终端核心，用 <strong>WebKit</strong> 提供浏览器。Agent 作为独立进程运行，模型与工具调用发生在 Agent 自己的执行链中。</p>
+      <div class="path-tabs" role="group" aria-label="选择架构路径"><button data-path="terminal" class="active" aria-pressed="true">① 输入 / 输出</button><button data-path="status" aria-pressed="false">② 状态 / 通知</button><button data-path="control" aria-pressed="false">③ 程序化控制</button><button data-path="message" aria-pressed="false">④ Agent 消息</button></div>
+      <div class="architecture-figure"><img src="./assets/architecture.svg" alt="cmux 架构图：界面与工作区管理、libghostty 与 PTY、独立 Agent 进程、Hooks 与通知、CLI 和 Unix Socket、消息收件箱以及 WebKit 浏览器之间的双向连接。"></div>
+      <div id="path-detail" class="path-detail" aria-live="polite"></div>
+      <p class="figure-caption">原创架构解释图，箭头表示概念数据流；不是上游模块依赖图。<a href="./assets/architecture.svg" download="cmux-architecture.svg">下载 SVG ↗</a></p>
+      <div class="implementation-notes">
+        <details open><summary>PTY 到底做什么？为什么不只是读日志？</summary><p>PTY 是“伪终端”，给 Shell / Agent 一个像真实终端的输入输出环境。键盘输入写向进程，输出字节返回终端核心；ANSI 控制序列负责颜色、光标、清屏和全屏界面，OSC 可承载通知。libghostty 解析并渲染这些内容，macOS 的图形路径使用 GPU / Metal。单纯读取日志文件无法完整承载这套交互。</p><p class="source-note"><a href="#s-terminal">Terminal Surface [11]</a> · <a href="#s-pty">Ghostty PTY / Exec [12]</a></p></details>
+        <details><summary>如何知道一个状态属于哪个 Agent？</summary><p>对象层级是 Window → Workspace → Pane → Surface。Workspace 是侧栏工作单元，Pane 是分屏区域，Surface 是其中一个终端或浏览器页签。终端注入 <code>CMUX_WORKSPACE_ID</code>、<code>CMUX_SURFACE_ID</code>、<code>CMUX_TERMINAL_LIFECYCLE_ID</code> 与 <code>CMUX_SOCKET_PATH</code>，Hooks 再关联 Agent 原生 session ID、目录与可用的进程信息。</p><p>Surface 身份定位接收对象；生命周期标识帮助区分同一个界面里不同代的进程。会话绑定、过期事件与重启恢复比“按窗口标题找 Agent”可靠。</p><p class="source-note"><a href="#s-context">上下文环境实现 [13]</a> · <a href="#s-hooks">Hooks [03]</a></p></details>
+        <details><summary>Socket API 如何把一个命令变成界面操作？</summary><p>CLI 根据显式目标或当前环境找到本地 Unix Socket，发送包含 <code>id / method / params</code> 的 JSON 请求。控制协调器解析请求、解析稳定 ID / 引用并路由到应用；涉及 UI 状态的操作进入主线程，完成后返回结果。这是请求 / 响应接口，不宜笼统称为标准 JSON-RPC 2.0。</p><p>默认访问规则面向 cmux 所启动的子进程；权限与开放模式需按用途配置。浏览器操作通过同一控制面进入 WebKit，Agent 不必模拟桌面鼠标。</p><p class="source-note"><a href="#s-api">API [02]</a> · <a href="#s-control">ControlCommandCoordinator [14]</a></p></details>
+        <details><summary>实时事件、通知与自动化怎样避免拖慢界面？</summary><p>通知入口通过有界异步队列交给应用侧消费，再根据工作区与 Surface 更新通知存储。事件总线提供带 <code>seq</code> 和 <code>boot_id</code> 的流式订阅及有限重放；进程重启或重放出现缺口后，客户端应刷新状态快照。</p><p>自动化规则匹配事件与属性后执行动作，限制触发频率和并发，并用触发链防止规则相互无限触发。它已经提供事件框架，后续扩展应围绕具体任务规则。</p><p class="source-note"><a href="#s-ingress">通知入口 [15]</a> · <a href="#s-events">事件 [08]</a> · <a href="#s-eventbus">事件总线 [16]</a> · <a href="#s-automations">自动化 [09]</a></p></details>
+        <details><summary>关闭程序后，到底恢复的是什么？</summary><p>保存的是版本化的应用状态与可用的 Agent 会话映射。重开时先重建布局、目录、滚动文本和浏览器历史，再按支持的 Agent 原生命令恢复会话。普通进程的内存、打开文件状态和所有工具执行现场不会自动保留。</p><p>希望 cmux 退出后进程继续运行，可以选用本地 tmux / zellij；本地宿主关机仍会中断。要跨本机离线继续执行，需要持续在线的远程机器与相应接入方案。</p><p class="source-note"><a href="#s-restore">Session restore [10]</a> · <a href="#s-persistence">SessionPersistence [17]</a></p></details>
+      </div>
+    </section>
+
+    <section id="messages" class="chapter">
+      <div class="section-heading"><span class="section-no">05</span><div><p class="eyebrow">最容易被混为一谈的两种交互</p><h2>给终端打字，与给 Agent 留消息，路径不同。</h2></div></div>
+      <div class="route-comparison"><article><span class="route-label blue">人的直接输入</span><h3>输入 → PTY → Agent</h3><p>适合提交提示、回应问题、使用 CLI 原有交互。目标是当前终端里的输入环境。</p></article><article><span class="route-label green">Agent / 人的定向消息</span><h3>消息 → 收件箱 → 接收方 Hook</h3><p>先存储，再在支持的交付点加入上下文。可以携带发送者、目标和回复关系，保护人未提交的草稿。</p></article></div>
+      <p class="source-note">消息投递机制与限制：<a href="#s-messages">Agent messages [04]</a>；收件箱与回复实现：<a href="#s-inbox">AgentInboxProjection [18]</a>。</p>
+      <div class="message-lab">
+        <div class="lab-heading"><h3>亲自走一遍投递过程</h3><span class="simulation-label light">教学状态机</span></div>
+        <div class="lab-options"><label>接收方适配<select id="recipient-kind"><option value="claude">Claude Code · 支持空闲唤醒</option><option value="codex">Codex · 空闲等待下一次提示</option></select></label><label>接收时状态<select id="recipient-state"><option value="idle">空闲</option><option value="busy">正在执行</option><option value="human">正在等人回答 / 授权</option></select></label></div>
+        <div class="draft-preserved"><span>人的未提交草稿（模拟）</span><q id="human-draft">请先保留现有导航，我还在补充要求…</q><span class="preserved">投递不会修改草稿</span></div>
+        <div class="message-body"><span>coordinator → surface:B</span><p>接口说明已整理好，请按 README 的字段继续实现，并在完成后回复检查结果。</p></div>
+        <ol class="delivery-track" aria-label="消息状态"><li data-message-state="queued"><b>queued</b><span>已存入队列</span></li><li data-message-state="delivered"><b>delivered</b><span>已交给 Agent</span></li><li data-message-state="read"><b>read</b><span>该投递轮结束 / 手动标记</span></li></ol>
+        <div class="lab-controls"><button id="message-send" class="button primary">发送模拟消息</button><button id="message-advance" class="button secondary" disabled>等待发送</button><button id="message-disable" class="text-button" disabled>关闭接收</button><button id="message-reset" class="text-button">重置</button></div>
+        <p id="message-feedback" class="lab-feedback" role="status">选择适配与状态，然后发送。这个模拟只解释投递时机，不模拟模型思考。</p>
+      </div>
+      <div class="callout"><strong>read ≠ 已完成任务，更不等于验收通过。</strong><p>read 表示消息所在的投递轮已经结束，或有人手动标记已读。成果仍需另行检查文件、测试和交付标准。</p></div>
+      <div class="table-scroll"><table><thead><tr><th>接收情况</th><th>Claude Code</th><th>Codex</th></tr></thead><tbody><tr><th>空闲</th><td>后台 Hook 轮询，可用系统提醒唤醒。</td><td>Hook 不能主动唤醒；等待下一次人提交提示。</td></tr><tr><th>正在执行</th><td>在下一个适配交付点看到消息。</td><td>在下一次提示或即将停止的 Hook 处交付；必要时继续当前轮。</td></tr><tr><th>等人回答</th><td colspan="2">问题、权限或计划等待中，暂缓投递，直到人处理。</td></tr><tr><th>无界面批处理</th><td><code>claude -p</code> 不接收 / 等待消息。</td><td><code>codex exec</code> 不接收 / 领取；部分仅安装 Hook 的启动方式也未覆盖。</td></tr></tbody></table></div>
+      <p>消息支持定向发送、收件箱与回复，协议含 claim、短期租约和 ack，防止旧轮询器错领或重复确认。支持的会话可用聊天视图读取 Agent 原生记录：已交付消息出现在对应轮次，排队消息显示在输入区上方；这仍依赖具体适配。消息正文是有长度与控制字符限制的文本。当前 SSH 消息限同一远程会话，不能直接跨到本地 Agent；Cloud VM 消息尚未支持。以上均按固定 commit 文档记录，不能推广到所有 Agent 或所有运行方式。<a href="#s-messages">[04]</a></p>
+      <details class="code-example"><summary>看一个定向发送的 CLI 示例</summary><pre><code># 示例仅供理解，不在网页执行；先确认目标引用
+cmux agent message surface:2 "接口说明已更新，请检查字段兼容性。"
+cmux agent inbox</code></pre><p>发送目标可解析为 Surface / Workspace 的 ID、引用或唯一标题匹配；Workspace 最终解析到它对应的 Agent Surface。回复使用消息 ID 建立关联，CLI 和 Socket 共享这套机制。</p></details>
+    </section>
+
+    <section id="collaboration" class="chapter">
+      <div class="section-heading"><span class="section-no">06</span><div><p class="eyebrow">管理、交互、展示，各司其职</p><h2>分派可以自动化，策略需要明确的来源。</h2></div></div>
+      <div class="team-flow"><div><small>① 定目标</small><strong>人 / 协调者</strong><span>成果与边界</span></div><span aria-hidden="true">→</span><div><small>② 拆任务</small><strong>团队框架 / 规则</strong><span>角色与依赖</span></div><span aria-hidden="true">→</span><div class="emphasis"><small>③ 送达与执行</small><strong>cmux + Agent</strong><span>会话、环境、消息</span></div><span aria-hidden="true">→</span><div><small>④ 汇合验收</small><strong>检查者 + 人</strong><span>测试、证据、接受</span></div></div>
+      <div class="collaboration-example"><h3>以“研究一个库并制作网页”为例</h3><ol><li><strong>A 研究：</strong>固定版本、梳理能力，输出带源码依据的研究说明。</li><li><strong>B 实现：</strong>接收说明，制作页面。缺少条件时发消息或向人提问。</li><li><strong>C 检查：</strong>核对事实、引用、交互和移动布局，反馈问题。</li><li><strong>协调者：</strong>安排依赖、汇总成果、处理冲突，并判断交付是否通过。</li></ol><p>cmux 让三者可见、可定位、可交互；如果它们编辑代码，需另行安排目录 / Git worktree、分支与合并规则。共享屏幕不解决共享文件冲突。</p></div>
+      <div class="team-adapter"><div><p class="eyebrow">已存在的团队适配</p><h3>Claude teams 的 tmux 操作，被翻译成 cmux 操作。</h3><p><code>cmux claude-teams</code> 启用团队环境，临时 tmux 兼容层优先进入 PATH。Claude 请求创建窗口、分屏、发送按键或读取屏幕时，兼容层将命令转为 cmux 控制调用。</p></div><div class="mapping"><span>new-window <b>→</b> Workspace</span><span>split-window <b>→</b> Pane / Surface</span><span>send-keys <b>→</b> 定向输入</span><span>capture-pane <b>→</b> 读取输出</span></div></div>
+      <p class="source-note">团队的协作逻辑仍来自 Claude Code，cmux 提供承载与适配。<a href="#s-teams">官方团队集成 [07]</a>。</p>
+      <div class="callout warm"><strong>通用 fan-out 聚合是提案，不能当成已经完成。</strong><p>固定版本中的 <code>agent-fan-out-rfc.md</code> 标记为 proposed，提出父操作 ID、子运行记录、聚合状态和稳定重试。已有多个终端和团队适配，不等于所有独立 Agent 都已有统一任务调度系统。<a href="#s-fanout">[19]</a></p></div>
+    </section>
+
+    <section id="scenarios" class="chapter">
+      <div class="section-heading"><span class="section-no">07</span><div><p class="eyebrow">价值：让一个人更容易组织多个独立任务</p><h2>把注意力用于分派、回应和验收。</h2></div></div>
+      <p>一个 Agent 执行时，你可以在另一个会话安排其他任务；需要输入的会话通过提醒返回你的注意力。工作台把找窗口、等执行、复制信息和回应问题组织起来，提供一个人管理多个 Agent 的操作基础。</p>
+      <div class="scenario-list"><article><span>01</span><div><h3>多个项目研究同时进行</h3><p>每个库一个 Workspace，研究 / 实验 / 页面各开 Surface。随时知道哪项等待你补条件，少在一堆窗口里寻找会话。</p><small>适用前提：确实同时处理多个有独立上下文的任务。</small></div></article><article><span>02</span><div><h3>实现、查资料、浏览器验证并行</h3><p>终端写代码，浏览器直接查看开发页面；检查者按明确目标操作界面，并把问题反馈给实现会话。</p><small>收益来自减少人工搬运信息和切换，验证质量仍靠标准与证据。</small></div></article><article><span>03</span><div><h3>长时间运行或远程开发</h3><p>远程机器执行耗时任务，本地集中观察与回应。tmux / 持续在线宿主承担进程保活，cmux 提供接入和工作台体验。</p><small>必须明确进程由哪台机器持有，网络中断后怎样重新连接。</small></div></article><article><span>04</span><div><h3>建立自己的 Agent 工作流</h3><p>借鉴会话身份、事件、控制与消息机制，给既有工具增加可见性、定向交互和成果检查，而后按实际痛点补调度策略。</p><small>对当前 Windows 环境，架构学习的即时价值高于直接安装价值。</small></div></article></div>
+      <div class="value-columns"><article><h3>人的控制与组织效率</h3><p>减少反复找会话、漏看待输入、等待任务和搬运材料，便于一个人组织多个独立任务。多项目研究、实现与检查分工、远程长任务可以按明确流程复用。</p><p>你目前在 Windows 使用 Codex，直接采用原生桌面端需要 Mac。只有单个任务或当前工具已经够用时，额外工作台的收益可能有限。</p></article><article><h3>架构与工作流的复用价值</h3><p>值得学的是<strong>复用现有 Agent，而后增加承载与控制层</strong>：将执行、状态、控制、消息和验收分开。你研究的模型路由判断“选谁做”，这层工作台负责“怎样承载与交互”。</p><p>更多会话会增加协调和检查负担；成果质量、总耗时、费用与返工需要用同类真实任务对比，不能由分屏数量推导。</p></article></div>
+      <div class="decision-tool"><h3>检查你是否真的需要这层工作台</h3><p>本地判断提示，不是上游评分模型；不收集你的选择。</p><label><input type="checkbox" name="pain" value="parallel"> 经常同时运行多个 Agent 或多个项目会话</label><label><input type="checkbox" name="pain" value="attention"> 经常漏看等待输入、权限或完成提醒</label><label><input type="checkbox" name="pain" value="context"> 经常来回复制上下文、定位窗口和验证页面</label><label><input type="checkbox" name="pain" value="automation"> 已有重复、明确、可检验的任务分派流程</label><p id="value-feedback" class="decision-result" role="status">先观察当前工具是否已有这些能力。没有明显痛点时，保留架构参考即可。</p></div>
+      <p>验证价值可以记录：找会话和回应提醒的时间、漏掉的输入请求、重复搬运信息次数、返工与最终通过率，以及所有 Agent 的总耗时和费用。用同一类真实任务做对比，不用分屏数量代替效率证据。</p>
+    </section>
+
+    <section id="extensions" class="chapter">
+      <div class="section-heading"><span class="section-no">08</span><div><p class="eyebrow">从会话控制，逐步接成任务工作流</p><h2>先承接工具，再补分派、依赖与验收。</h2></div></div>
+      <p>实现思路是复用已有 Agent CLI、模型与工具，先做好进程承载、输入输出和稳定会话定位；再把状态、提醒、控制和消息接到同一个目标；最后按真实需要增加任务契约、角色分派、隔离、失败处理和结果检查。</p>
+      <p>下表是我们的扩展判断，不代表上游已经实现。事件订阅、规则动作、消息和团队适配已经有基础，应在它们之上补具体工作流。</p>
+      <div class="table-scroll"><table><thead><tr><th>方向</th><th>可补什么</th><th>需要解决什么</th></tr></thead><tbody>
+        <tr><th>任务调度</th><td>任务队列、依赖、角色、执行模型选择、限并发和失败升级。</td><td>每个任务有成果契约；防重复执行；不要在消息已读时直接判完成。</td></tr>
+        <tr><th>通用适配层</th><td>不同 CLI / SDK 的 session、状态、唤醒、恢复与消息能力声明。</td><td>按真实支持程度降级；保留原生权限流程；CLI 版本变化时验证。</td></tr>
+        <tr><th>共享材料与成果</th><td>研究笔记、文件链接、上下文摘要、版本与来源记录。</td><td>控制上下文大小、隐私、文件所有权与过期信息，不盲目广播所有输出。</td></tr>
+        <tr><th>代码隔离与合并</th><td>按任务创建 worktree / 分支，产物汇总和冲突处理。</td><td>Workspace 不等于沙箱；多人改同一文件要有合并与检查策略。</td></tr>
+        <tr><th>交付检查</th><td>按成果运行测试、浏览器检查、证据核对和人工接受。</td><td>独立验收信号，保留失败与未知；检查 Agent 也可能犯错。</td></tr>
+        <tr><th>Windows 适配</th><td>参考分层，用 Windows 的终端承载、进程、IPC 和浏览器组件构建类似工作台。</td><td>需要替换 AppKit、PTY / IPC 与图形整合；不是修改几个编译配置。</td></tr>
+        <tr><th>可观测与费用</th><td>任务级事件、时间线、重试、成本归集和回放。</td><td>模型用量从可信接口 / 记录获取；屏幕文本不是完整计费账本。</td></tr>
+      </tbody></table></div>
+      <div class="engineering"><h3>为什么原型容易，完整产品仍然有工作量？</h3><div class="engineering-grid"><article><b>终端真实交互</b><p>全屏界面、颜色、光标、输入法、选择与缩放，大量输出时保持响应。</p></article><article><b>正确关联会话</b><p>多个窗口、相同标题、进程重启与复用 Surface，避免把状态或消息给错对象。</p></article><article><b>可靠消息交付</b><p>忙碌、空闲、等待人、重试与租约、过期轮询器、关闭接收后的状态。</p></article><article><b>恢复与权限</b><p>恢复布局还是恢复进程，哪些命令可以自动运行，谁能调用控制面。</p></article></div></div>
+      <div class="roadmap"><h3>如果将来要做自己的版本</h3><ol><li><strong>第一步：会话可见可控。</strong>托管现有 CLI，建立稳定会话 ID，支持输入 / 输出与明确状态。</li><li><strong>第二步：接收消息。</strong>先适配一种真实 Agent，验证投递时机、草稿保护与回复关联。</li><li><strong>第三步：任务闭环。</strong>增加独立任务状态、验收条件、产物与失败处理。</li><li><strong>第四步：按痛点扩展。</strong>再接模型路由、工作树、事件规则、成本统计与远程宿主。</li></ol><p>这是后续实施路线，本子项目只制作研究与教学网页，没有实现新的终端宿主或编排服务。</p></div>
+      <p class="license-note">复用前核对许可证：本研究版本主体为 GPL-3.0-or-later；指定 server 目录另用 BUSL-1.1，生产使用（含自托管）按其声明需要商业许可。第三方组件遵循各自许可。这里引用的是上游许可证范围，实际复用按文件核对。<a href="#s-license">[20]</a></p>
+    </section>
+
+    <section id="history" class="chapter">
+      <div class="section-heading"><span class="section-no">09</span><div><p class="eyebrow">放回我们已有的研究脉络</p><h2>研究过类似工具，也接触过 cmux 控制技能。</h2></div></div>
+      <div class="history-timeline"><article><time>2026.08</time><div><h3>cmux 控制技能 / Intelligent Terminal</h3><p>技能研究里出现过 cmux 的“定位 → 操作 → 观察 → 验证”方法。Intelligent Terminal 则研究终端上的 Agent 会话与辅助工作流，当时未继续采用。</p><small>cmux 当时是外部工具依赖，尚不是本次这样的完整源码研究。</small></div></article><article><time>2026.09</time><div><h3>Multica / Munder Difflin</h3><p>Multica 更靠近任务、运行记录与执行组织；Munder Difflin 更靠近团队角色、任务与 Agent 消息。它们与 cmux 的工作环境层有交集，但核心组织单位不同。</p><a href="https://yydshly.github.io/0906_codex_project/demos/004-multica/">Multica 既有研究 ↗</a><a href="https://yydshly.github.io/0911_codex_project/011-munder-difflin/">Munder Difflin 既有研究 ↗</a></div></article><article><time>2026.10</time><div><h3>Octogent / 本次 cmux</h3><p>Octogent 把多 Agent、上下文文件与终端树组织为工作台；本次 cmux 重点在原生终端宿主、稳定对象身份、Hooks、Socket、消息投递与浏览器。</p><a href="https://yydshly.github.io/1008_codex_project/007-octogent/">Octogent 既有研究 ↗</a></div></article></div>
+      <p class="source-note">历史对照来自本地既有研究记录，不是产品性能排名；目录与复现范围见本子项目 README。上述研究主要为源码与说明整理，不能当成已经验证的多 Agent 生产流程。</p>
+    </section>
+
+    <section id="evidence" class="chapter">
+      <div class="section-heading"><span class="section-no">10</span><div><p class="eyebrow">把结论与证据放在一起</p><h2>源码可追溯，验证范围可区分。</h2></div></div>
+      <div class="verification-grid"><article><span class="verified-label">本次已确认</span><h3>代码与教学页面</h3><ul><li>固定 commit 的定位、架构、Hooks、消息、事件、恢复和许可证。</li><li>制作原创总览 / 架构图，提供本地教学交互与下载。</li><li>网页的实际检查结果记录在研究文档与验证记录中。</li></ul></article><article><span class="pending-label">尚未验证</span><h3>真实上游运行效果</h3><ul><li>macOS 客户端、真实 Agent 登录、模型调用与团队协作。</li><li>真实 Hook 投递时延、恢复成功率、性能和费用收益。</li><li>Cloud、移动端、跨网络与多任务生产环境的完整行为。</li></ul></article></div>
+      <p class="evidence-version">研究基准：<a href="https://github.com/manaflow-ai/cmux/commit/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb"><code>cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb</code></a>；Ghostty 子模块基准：<code>cb1ef7091cde</code>。源码链接固定版本；官网滚动文档在 2026-10-14 查阅，后续可能变化。</p>
+      <h3 class="sources-title">来源与继续阅读</h3>
+      <ol class="source-list">
+        <li id="s-readme"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/README.md">[01] README：定位、平台、交互与功能</a><span>固定版本 · 本质与能力入口</span></li>
+        <li id="s-api"><a href="https://cmux.com/docs/api">[02] CLI / Socket API</a><span>官网滚动文档 · 创建、定位、输入、读取</span></li>
+        <li id="s-hooks"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/docs/agent-hooks.md">[03] Agent hook integrations</a><span>固定版本 · 状态、提示与会话恢复</span></li>
+        <li id="s-messages"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/docs/agent-messages.md">[04] Agent messages</a><span>固定版本 · 投递时机、状态、API 和限制</span></li>
+        <li id="s-notifications"><a href="https://cmux.com/docs/notifications">[05] Notifications</a><span>官网滚动文档 · OSC、Hooks、通知环与未读</span></li>
+        <li id="s-browser"><a href="https://cmux.com/docs/browser-automation">[06] Browser automation</a><span>官网滚动文档 · WebKit 的程序化交互</span></li>
+        <li id="s-teams"><a href="https://cmux.com/docs/agent-integrations/claude-code-teams">[07] Claude Code Teams</a><span>官网滚动文档 · tmux 兼容层映射</span></li>
+        <li id="s-events"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/docs/events.md">[08] Events</a><span>固定版本 · seq、boot_id、流与有限重放</span></li>
+        <li id="s-automations"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/docs/automations.md">[09] Automations</a><span>固定版本 · 规则、动作、限频与防循环</span></li>
+        <li id="s-restore"><a href="https://cmux.com/docs/session-restore">[10] Session restore</a><span>官网滚动文档 · 应用恢复与进程保活的区别</span></li>
+        <li id="s-terminal"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/Sources/GhosttyTerminalView.swift">[11] GhosttyTerminalView.swift</a><span>固定源码 · Terminal Surface 的宿主实现</span></li>
+        <li id="s-pty"><a href="https://github.com/manaflow-ai/ghostty/blob/cb1ef7091cdef0b581ee2cbd83742b653253523e/src/termio/Exec.zig">[12] Ghostty / termio / Exec.zig</a><span>固定子模块版本 · PTY、子进程与读写</span></li>
+        <li id="s-context"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/Packages/macOS/CmuxTerminalCore/Sources/CmuxTerminalCore/SurfaceValues/TerminalSurfaceCmuxContextEnvironment.swift">[13] TerminalSurfaceCmuxContextEnvironment</a><span>固定源码 · Workspace、Surface、生命周期环境</span></li>
+        <li id="s-control"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/Packages/macOS/CmuxControlSocket/Sources/CmuxControlSocket/Coordinator/ControlCommandCoordinator.swift">[14] ControlCommandCoordinator</a><span>固定源码 · 目标引用与应用路由</span></li>
+        <li id="s-ingress"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/Sources/GhosttyDesktopNotificationIngress.swift">[15] GhosttyDesktopNotificationIngress</a><span>固定源码 · 有界异步通知入口</span></li>
+        <li id="s-eventbus"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/Sources/CmuxEventBus.swift">[16] CmuxEventBus</a><span>固定源码 · 订阅、队列与事件发布</span></li>
+        <li id="s-persistence"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/Sources/SessionPersistence.swift">[17] SessionPersistence</a><span>固定源码 · 应用快照保存</span></li>
+        <li id="s-inbox"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/Sources/AgentInbox/AgentInboxProjection.swift">[18] AgentInboxProjection</a><span>固定源码 · 收件箱映射与回复</span></li>
+        <li id="s-fanout"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/docs/agent-fan-out-rfc.md">[19] Agent fan-out RFC</a><span>固定版本 · proposed，按提案对待</span></li>
+        <li id="s-license"><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/LICENSE">[20] LICENSE 与目录例外</a><span>固定版本 · GPL 主体、BUSL server 目录和第三方许可</span></li>
+      </ol>
+      <div class="downloads"><a class="button secondary" href="./assets/complete-understanding.png" download="cmux-complete-understanding.png">下载完整理解图</a><a class="button secondary" href="./assets/overview.svg" download="cmux-understanding.svg">下载简版总览 SVG</a><a class="button secondary" href="./assets/architecture.svg" download="cmux-architecture.svg">下载架构原理图</a><a class="button secondary" href="./research-summary.txt" download>下载文字摘要</a><button class="button secondary" id="print-page">打印 / 保存 PDF</button></div>
+    </section>
+  </div>
+</div>
+</main>
+<footer class="footer wrap"><div><strong>cmux / 009</strong><p>本仓库原创中文研究与教学演示 · 2026-10-14</p></div><p>上游能力以固定版本源码为依据；模拟交互不调用模型。<br><a href="#top">返回顶部 ↑</a> · <a href="../">返回项目索引</a></p></footer>
+<noscript><p class="noscript-note">JavaScript 未启用。完整研究内容、图示和来源仍可阅读；交互教学与筛选需要 JavaScript。</p></noscript>
+</body>
+</html>
