@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+<title id="title">OpenMontage：阶段、成果、工具与检查如何组合</title>
+<desc id="desc">原创理解图。AI 助手读取流程与技能，依次完成研究、脚本、分镜、素材、剪辑和合成。生成素材、真实镜头检索、代码画面三条路径为制作提供资源；检查点、确认、预算和质量检查贯穿过程。</desc>
+<defs><pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern><marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0 7 3.5 0 7" fill="#cfad78"/></marker></defs>
+<rect width="1200" height="760" rx="20" fill="#172426"/><rect width="1200" height="760" fill="url(#grid)"/>
+<g font-family="Segoe UI, Microsoft YaHei, sans-serif">
+<text x="46" y="52" fill="#ddbd8c" font-size="17" letter-spacing="3">OPENMONTAGE / PRODUCTION NOTES</text>
+<text x="46" y="104" fill="#f4f4e9" font-size="36" font-weight="700">用明确的交接，组织开放的创作。</text>
+<text x="46" y="139" fill="#a4b6b0" font-size="17">模型理解与安排 · 工具执行 · 成果和状态把制作过程连接起来</text>
+<rect x="46" y="176" width="521" height="109" rx="12" fill="#293b3c" stroke="#577168"/>
+<text x="67" y="208" fill="#ddbd8c" font-size="13">调度与判断</text><text x="67" y="239" fill="#f4f4e9" font-size="25" font-weight="650">AI 助手</text><text x="67" y="265" fill="#b9c9c0" font-size="15">理解需求 · 研究 · 编写代码 · 选择工具 · 复核</text>
+<path d="M585 229H622" stroke="#cfad78" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="640" y="176" width="514" height="109" rx="12" fill="#263436" stroke="#506360"/>
+<text x="663" y="208" fill="#ddbd8c" font-size="13">制作规范</text><text x="663" y="239" fill="#f4f4e9" font-size="25" font-weight="650">流程 + 技能 + 成果格式</text><text x="663" y="265" fill="#b9c9c0" font-size="15">YAML 阶段 · Markdown 方法 · JSON 交接</text>
+<path d="M306 285V324" stroke="#cfad78" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="46" y="317" fill="#a4b6b0" font-size="13">制作阶段（方案与确认贯穿其中）</text>
+<g>
+<rect x="46" y="339" width="170" height="109" rx="9" fill="#e5ebe0"/><text x="64" y="368" fill="#697d6c" font-size="12">01 / RESEARCH</text><text x="64" y="403" fill="#172426" font-size="23" font-weight="650">研究 / 方案</text><text x="64" y="429" fill="#526659" font-size="14">来源与制作方向</text>
+<rect x="234" y="339" width="170" height="109" rx="9" fill="#e5ebe0"/><text x="252" y="368" fill="#697d6c" font-size="12">02 / SCRIPT</text><text x="252" y="403" fill="#172426" font-size="23" font-weight="650">脚本</text><text x="252" y="429" fill="#526659" font-size="14">内容与配音方向</text>
+<rect x="422" y="339" width="170" height="109" rx="9" fill="#e5ebe0"/><text x="440" y="368" fill="#697d6c" font-size="12">03 / SCENE PLAN</text><text x="440" y="403" fill="#172426" font-size="23" font-weight="650">分镜</text><text x="440" y="429" fill="#526659" font-size="14">镜头与素材需求</text>
+<rect x="610" y="339" width="170" height="109" rx="9" fill="#eac48a"/><text x="628" y="368" fill="#855c33" font-size="12">04 / ASSETS</text><text x="628" y="403" fill="#172426" font-size="23" font-weight="650">素材</text><text x="628" y="429" fill="#695238" font-size="14">文件与来源清单</text>
+<rect x="798" y="339" width="170" height="109" rx="9" fill="#e5ebe0"/><text x="816" y="368" fill="#697d6c" font-size="12">05 / EDIT</text><text x="816" y="403" fill="#172426" font-size="23" font-weight="650">剪辑</text><text x="816" y="429" fill="#526659" font-size="14">时间线与音轨</text>
+<rect x="986" y="339" width="168" height="109" rx="9" fill="#e5ebe0"/><text x="1004" y="368" fill="#697d6c" font-size="12">06 / COMPOSE</text><text x="1004" y="403" fill="#172426" font-size="23" font-weight="650">合成 / 导出</text><text x="1004" y="429" fill="#526659" font-size="14">成片与检查记录</text>
+<g stroke="#cfad78" stroke-width="1.6" marker-end="url(#arrow)"><path d="M217 393H228"/><path d="M405 393H416"/><path d="M593 393H604"/><path d="M781 393H792"/><path d="M969 393H980"/></g>
+</g>
+<text x="46" y="490" fill="#a4b6b0" font-size="13">素材与画面可以来自三种路径</text>
+<rect x="46" y="510" width="352" height="114" rx="10" fill="#273b3a" stroke="#4d6960"/><text x="68" y="545" fill="#f4f4e9" font-size="22" font-weight="650">模型生成素材</text><text x="68" y="577" fill="#a4b6b0" font-size="16">图像 · 视频镜头 · 配音 · 音乐</text><text x="68" y="605" fill="#ddbd8c" font-size="13">生成质量由素材模型与验收决定</text>
+<rect x="424" y="510" width="352" height="114" rx="10" fill="#273b3a" stroke="#4d6960"/><text x="446" y="545" fill="#f4f4e9" font-size="22" font-weight="650">检索真实镜头</text><text x="446" y="577" fill="#a4b6b0" font-size="16">来源搜索 · CLIP 索引 · 选材</text><text x="446" y="605" fill="#ddbd8c" font-size="13">相似画面需核对实际内容与许可</text>
+<rect x="802" y="510" width="352" height="114" rx="10" fill="#273b3a" stroke="#4d6960"/><text x="824" y="545" fill="#f4f4e9" font-size="22" font-weight="650">用代码制作画面</text><text x="824" y="577" fill="#a4b6b0" font-size="16">图解 · 动画 · 布局 · 数据图表</text><text x="824" y="605" fill="#ddbd8c" font-size="13">助手编写代码，运行时渲染视频帧</text>
+<path d="M46 649H1154" stroke="#435d55"/>
+<text x="46" y="680" fill="#d5e0d7" font-size="18">检查点　 /　人的确认　 /　费用记录　 /　渲染前与成片检查</text>
+<text x="46" y="719" fill="#90a69b" font-size="13">本仓库原创研究图 · 固定版本 e45f5b12bd46 · 源码分析，不代表上游运行实测</text>
+</g></svg>

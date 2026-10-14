@@ -1,0 +1,363 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2200" height="4753" viewBox="0 0 2200 4753" role="img" aria-labelledby="title desc">
+<title id="title">OpenMontage：能力、效果、输入输出、底层实现与扩展总览</title>
+<desc id="desc">OpenMontage 完整能力理解图。输入主题、资料、参考和既有媒体；外部助手经八阶段交接组织制作。六类34项能力，模型、检索、代码与规则分工，12条制作流程，最终和过程输出，六类扩展场景，核心价值与未验证边界。</desc>
+<style>text{font-family:"Microsoft YaHei","Noto Sans CJK SC","Segoe UI",sans-serif}a:hover text{text-decoration:underline}</style>
+<rect width="2200" height="4753" fill="#f6f5ef"/>
+<rect x="0" y="0" width="2200" height="230" rx="0" fill="#172426" stroke="#172426"/>
+<text x="80" y="50" font-size="25" fill="#f1c88e" font-weight="600">OPENMONTAGE / 011 / 能力理解总览</text>
+<text x="80" y="123" font-size="54" fill="#fffefa" font-weight="700">从主题、资料与素材，到可检查的视频制作。</text>
+<text x="80" y="179" font-size="30" fill="#e4ece6" font-weight="400" data-max-width="2040">AI 助手做决策 · OpenMontage 组织流程与交接 · 模型、检索和代码工具执行</text>
+<text x="80" y="211" font-size="21" fill="#bdd0c4" font-weight="400">34 项能力归纳 / 12 条制作流程 / 固定版本源码研究 / 2026-10-14</text>
+<text x="80" y="296" font-size="28" fill="#b84c26" font-weight="700">01</text>
+<text x="140" y="296" font-size="38" fill="#172426" font-weight="700">输入：可以给它什么？</text>
+<text x="140" y="339" font-size="23" fill="#556566" font-weight="400" data-max-width="1980">可以从一个主题开始；明确受众、时长、素材与交付要求，有助于确定制作路线。 [1]</text>
+<rect x="80.0" y="364" width="492.0" height="168" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="105.0" y="408" font-size="30" fill="#172426" font-weight="700">主题与资料</text>
+<text x="105.0" y="452" font-size="23" fill="#556566" font-weight="400" data-max-width="442.0">一句主题、文档、项目研究、脚本</text>
+<text x="105.0" y="484" font-size="23" fill="#556566" font-weight="400" data-max-width="442.0">先研究，再提出制作方案</text>
+<rect x="596.0" y="364" width="492.0" height="168" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="621.0" y="408" font-size="30" fill="#172426" font-weight="700">已有素材</text>
+<text x="621.0" y="452" font-size="23" fill="#556566" font-weight="400" data-max-width="442.0">图片、长视频、录屏、口播、播客</text>
+<text x="621.0" y="484" font-size="23" fill="#556566" font-weight="400" data-max-width="442.0">提取、加工和重新组织内容</text>
+<rect x="1112.0" y="364" width="492.0" height="168" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1137.0" y="408" font-size="30" fill="#172426" font-weight="700">参考与风格</text>
+<text x="1137.0" y="452" font-size="23" fill="#556566" font-weight="400" data-max-width="442.0">参考视频、镜头、角色或品牌方向</text>
+<text x="1137.0" y="484" font-size="23" fill="#556566" font-weight="400" data-max-width="442.0">分析节奏与表达，形成镜头要求</text>
+<rect x="1628.0" y="364" width="492.0" height="168" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1653.0" y="408" font-size="30" fill="#172426" font-weight="700">目标与执行条件</text>
+<text x="1653.0" y="452" font-size="23" fill="#556566" font-weight="400" data-max-width="442.0">受众、时长、比例、语言、预算</text>
+<text x="1653.0" y="484" font-size="23" fill="#556566" font-weight="400" data-max-width="442.0">助手、依赖、素材与 API 可用性</text>
+<text x="80" y="600" font-size="28" fill="#b84c26" font-weight="700">02</text>
+<text x="140" y="600" font-size="38" fill="#172426" font-weight="700">组织：如何把各项工作连接起来？</text>
+<text x="140" y="643" font-size="23" fill="#556566" font-weight="400" data-max-width="1980">外部 AI 编程助手实际调度；YAML、技能与成果文件给它工作方法、阶段边界和继续制作的依据。 [1][2][3]</text>
+<rect x="80.0" y="668" width="664.0" height="163" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="105.0" y="712" font-size="30" fill="#172426" font-weight="700">助手 / 理解与决策</text>
+<text x="105.0" y="754" font-size="24" fill="#556566" font-weight="400" data-max-width="614.0">理解需求、研究、写脚本、设计镜头</text>
+<text x="105.0" y="787" font-size="24" fill="#556566" font-weight="400" data-max-width="614.0">选工具、编写代码、观看并判断结果</text>
+<rect x="768.0" y="668" width="664.0" height="163" rx="16" fill="#e0ece5" stroke="#d4ddd6"/>
+<text x="793.0" y="712" font-size="30" fill="#172426" font-weight="700">流程 + 技能 / 规定与指导</text>
+<text x="793.0" y="754" font-size="24" fill="#556566" font-weight="400" data-max-width="614.0">YAML：阶段、工具、输入输出、确认</text>
+<text x="793.0" y="787" font-size="24" fill="#556566" font-weight="400" data-max-width="614.0">Markdown：研究、选材、剪辑的工作方法</text>
+<rect x="1456.0" y="668" width="664.0" height="163" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1481.0" y="712" font-size="30" fill="#172426" font-weight="700">成果 + 检查点 / 交接与状态</text>
+<text x="1481.0" y="754" font-size="24" fill="#556566" font-weight="400" data-max-width="614.0">JSON：脚本、分镜、素材和剪辑决策</text>
+<text x="1481.0" y="787" font-size="24" fill="#556566" font-weight="400" data-max-width="614.0">schema、前置条件、确认字段与历史记录</text>
+<rect x="80.0" y="855" width="231.375" height="135" rx="12" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="96.0" y="894" font-size="29" fill="#172426" font-weight="700">研究</text>
+<text x="96.0" y="930" font-size="19" fill="#556566" font-weight="400" data-max-width="199.375">research_brief</text>
+<text x="96.0" y="967" font-size="20" fill="#556566" font-weight="400">默认无确认门</text>
+<path d="M314.375 920h21m-7 -6 7 6-7 6" fill="none" stroke="#b84c26" stroke-width="2.5"/>
+<rect x="338.375" y="855" width="231.375" height="135" rx="12" fill="#f6e5bd" stroke="#d4ddd6"/>
+<text x="354.375" y="894" font-size="29" fill="#172426" font-weight="700">方案</text>
+<text x="354.375" y="930" font-size="19" fill="#556566" font-weight="400" data-max-width="199.375">proposal_packet</text>
+<text x="354.375" y="967" font-size="20" fill="#b84c26" font-weight="400">默认需确认</text>
+<path d="M572.75 920h21m-7 -6 7 6-7 6" fill="none" stroke="#b84c26" stroke-width="2.5"/>
+<rect x="596.75" y="855" width="231.375" height="135" rx="12" fill="#f6e5bd" stroke="#d4ddd6"/>
+<text x="612.75" y="894" font-size="29" fill="#172426" font-weight="700">脚本</text>
+<text x="612.75" y="930" font-size="19" fill="#556566" font-weight="400" data-max-width="199.375">script</text>
+<text x="612.75" y="967" font-size="20" fill="#b84c26" font-weight="400">默认需确认</text>
+<path d="M831.125 920h21m-7 -6 7 6-7 6" fill="none" stroke="#b84c26" stroke-width="2.5"/>
+<rect x="855.125" y="855" width="231.375" height="135" rx="12" fill="#f6e5bd" stroke="#d4ddd6"/>
+<text x="871.125" y="894" font-size="29" fill="#172426" font-weight="700">分镜</text>
+<text x="871.125" y="930" font-size="19" fill="#556566" font-weight="400" data-max-width="199.375">scene_plan</text>
+<text x="871.125" y="967" font-size="20" fill="#b84c26" font-weight="400">默认需确认</text>
+<path d="M1089.5 920h21m-7 -6 7 6-7 6" fill="none" stroke="#b84c26" stroke-width="2.5"/>
+<rect x="1113.5" y="855" width="231.375" height="135" rx="12" fill="#f6e5bd" stroke="#d4ddd6"/>
+<text x="1129.5" y="894" font-size="29" fill="#172426" font-weight="700">素材</text>
+<text x="1129.5" y="930" font-size="19" fill="#556566" font-weight="400" data-max-width="199.375">asset_manifest</text>
+<text x="1129.5" y="967" font-size="20" fill="#b84c26" font-weight="400">默认需确认</text>
+<path d="M1347.875 920h21m-7 -6 7 6-7 6" fill="none" stroke="#b84c26" stroke-width="2.5"/>
+<rect x="1371.875" y="855" width="231.375" height="135" rx="12" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1387.875" y="894" font-size="29" fill="#172426" font-weight="700">剪辑</text>
+<text x="1387.875" y="930" font-size="19" fill="#556566" font-weight="400" data-max-width="199.375">edit_decisions</text>
+<text x="1387.875" y="967" font-size="20" fill="#556566" font-weight="400">默认无确认门</text>
+<path d="M1606.25 920h21m-7 -6 7 6-7 6" fill="none" stroke="#b84c26" stroke-width="2.5"/>
+<rect x="1630.25" y="855" width="231.375" height="135" rx="12" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1646.25" y="894" font-size="29" fill="#172426" font-weight="700">合成</text>
+<text x="1646.25" y="930" font-size="19" fill="#556566" font-weight="400" data-max-width="199.375">render_report</text>
+<text x="1646.25" y="967" font-size="20" fill="#556566" font-weight="400">默认无确认门</text>
+<path d="M1864.625 920h21m-7 -6 7 6-7 6" fill="none" stroke="#b84c26" stroke-width="2.5"/>
+<rect x="1888.625" y="855" width="231.375" height="135" rx="12" fill="#f6e5bd" stroke="#d4ddd6"/>
+<text x="1904.625" y="894" font-size="29" fill="#172426" font-weight="700">导出</text>
+<text x="1904.625" y="930" font-size="19" fill="#556566" font-weight="400" data-max-width="199.375">publish_log</text>
+<text x="1904.625" y="967" font-size="20" fill="#b84c26" font-weight="400">默认需确认</text>
+<text x="80" y="1025" font-size="23" fill="#556566" font-weight="400" data-max-width="2040">讲解流程示例：参考制作可先做 10–15 秒样片；合成还产出 final_review；导出不会自动上传社交平台。</text>
+<text x="80" y="1095" font-size="28" fill="#b84c26" font-weight="700">03</text>
+<text x="140" y="1095" font-size="38" fill="#172426" font-weight="700">能力：六类工作，共 34 项</text>
+<text x="140" y="1138" font-size="23" fill="#556566" font-weight="400" data-max-width="1980">编号是本研究的能力归纳；右侧标明实现线索。能力可以单独使用，也可以沿阶段组合。 [1–5]</text>
+<rect x="80.0" y="1163" width="664.0" height="410" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="105.0" y="1208" font-size="31" fill="#172426" font-weight="700">研究与检索</text>
+<text x="719.0" y="1206" font-size="24" fill="#b84c26" font-weight="600" text-anchor="end">5 项</text>
+<text x="719.0" y="1241" font-size="19" fill="#556566" font-weight="400" text-anchor="end">实现线索</text>
+<text x="105.0" y="1271" font-size="18" fill="#b84c26" font-weight="400">01</text>
+<text x="142.0" y="1271" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">主题研究与内容方案</text>
+<text x="719.0" y="1271" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">助手判断</text>
+<text x="105.0" y="1301" font-size="18" fill="#b84c26" font-weight="400">02</text>
+<text x="142.0" y="1301" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">脚本、分镜与镜头计划</text>
+<text x="719.0" y="1301" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">助手+技能</text>
+<text x="105.0" y="1331" font-size="18" fill="#b84c26" font-weight="400">03</text>
+<text x="142.0" y="1331" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">参考视频分析</text>
+<text x="719.0" y="1331" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">代码+转录</text>
+<text x="105.0" y="1361" font-size="18" fill="#b84c26" font-weight="400">04</text>
+<text x="142.0" y="1361" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">真实素材收集与索引</text>
+<text x="719.0" y="1361" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">代码+索引</text>
+<text x="105.0" y="1391" font-size="18" fill="#b84c26" font-weight="400">05</text>
+<text x="142.0" y="1391" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">按分镜描述检索镜头</text>
+<text x="719.0" y="1391" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">CLIP+筛选</text>
+<text x="105.0" y="1530" font-size="21" fill="#556566" font-weight="400" data-max-width="614.0">主题、资料、参考 → 简报、脚本、镜头计划、候选素材</text>
+<rect x="768.0" y="1163" width="664.0" height="410" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="793.0" y="1208" font-size="31" fill="#172426" font-weight="700">素材生成</text>
+<text x="1407.0" y="1206" font-size="24" fill="#b84c26" font-weight="600" text-anchor="end">7 项</text>
+<text x="1407.0" y="1241" font-size="19" fill="#556566" font-weight="400" text-anchor="end">实现线索</text>
+<text x="793.0" y="1271" font-size="18" fill="#b84c26" font-weight="400">06</text>
+<text x="830.0" y="1271" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">图片生成与编辑</text>
+<text x="1407.0" y="1271" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">生成模型</text>
+<text x="793.0" y="1301" font-size="18" fill="#b84c26" font-weight="400">07</text>
+<text x="830.0" y="1301" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">视频镜头生成</text>
+<text x="1407.0" y="1301" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">生成模型</text>
+<text x="793.0" y="1331" font-size="18" fill="#b84c26" font-weight="400">08</text>
+<text x="830.0" y="1331" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">配音与语音合成</text>
+<text x="1407.0" y="1331" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">TTS 模型</text>
+<text x="793.0" y="1361" font-size="18" fill="#b84c26" font-weight="400">09</text>
+<text x="830.0" y="1361" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">音乐与音效素材</text>
+<text x="1407.0" y="1361" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">模型/素材</text>
+<text x="793.0" y="1391" font-size="18" fill="#b84c26" font-weight="400">10</text>
+<text x="830.0" y="1391" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">虚拟人物与口型</text>
+<text x="1407.0" y="1391" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">模型接入</text>
+<text x="793.0" y="1421" font-size="18" fill="#b84c26" font-weight="400">11</text>
+<text x="830.0" y="1421" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">可复用角色动画</text>
+<text x="1407.0" y="1421" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">代码+资产</text>
+<text x="793.0" y="1451" font-size="18" fill="#b84c26" font-weight="400">12</text>
+<text x="830.0" y="1451" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">3D 场景与资产工具入口</text>
+<text x="1407.0" y="1451" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">工具入口</text>
+<text x="793.0" y="1530" font-size="21" fill="#556566" font-weight="400" data-max-width="614.0">脚本、提示、参考 → 图片、运动镜头、声音与角色素材</text>
+<rect x="1456.0" y="1163" width="664.0" height="410" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1481.0" y="1208" font-size="31" fill="#172426" font-weight="700">已有视频处理</text>
+<text x="2095.0" y="1206" font-size="24" fill="#b84c26" font-weight="600" text-anchor="end">7 项</text>
+<text x="2095.0" y="1241" font-size="19" fill="#556566" font-weight="400" text-anchor="end">实现线索</text>
+<text x="1481.0" y="1271" font-size="18" fill="#b84c26" font-weight="400">13</text>
+<text x="1518.0" y="1271" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">裁剪、拼接与速度调整</text>
+<text x="2095.0" y="1271" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">FFmpeg</text>
+<text x="1481.0" y="1301" font-size="18" fill="#b84c26" font-weight="400">14</text>
+<text x="1518.0" y="1301" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">音频提取、混音与音量控制</text>
+<text x="2095.0" y="1301" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">代码+混音</text>
+<text x="1481.0" y="1331" font-size="18" fill="#b84c26" font-weight="400">15</text>
+<text x="1518.0" y="1331" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">字幕生成与叠加</text>
+<text x="2095.0" y="1331" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">转录+叠加</text>
+<text x="1481.0" y="1361" font-size="18" fill="#b84c26" font-weight="400">16</text>
+<text x="1518.0" y="1361" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">调色、音频清理与增强</text>
+<text x="2095.0" y="1361" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">过滤/增强</text>
+<text x="1481.0" y="1391" font-size="18" fill="#b84c26" font-weight="400">17</text>
+<text x="1518.0" y="1391" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">抽帧与媒体规格检查</text>
+<text x="2095.0" y="1391" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">采样+探测</text>
+<text x="1481.0" y="1421" font-size="18" fill="#b84c26" font-weight="400">18</text>
+<text x="1518.0" y="1421" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">转码与输出规格适配</text>
+<text x="2095.0" y="1421" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">转码/配置</text>
+<text x="1481.0" y="1451" font-size="18" fill="#b84c26" font-weight="400">19</text>
+<text x="1518.0" y="1451" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">批量或自定义处理脚本</text>
+<text x="2095.0" y="1451" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">助手写代码</text>
+<text x="1481.0" y="1530" font-size="21" fill="#556566" font-weight="400" data-max-width="614.0">既有视频/音频 → 加工后的片段、音轨、字幕和文件</text>
+<rect x="80.0" y="1597" width="664.0" height="410" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="105.0" y="1642" font-size="31" fill="#172426" font-weight="700">画面与合成</text>
+<text x="719.0" y="1640" font-size="24" fill="#b84c26" font-weight="600" text-anchor="end">5 项</text>
+<text x="719.0" y="1675" font-size="19" fill="#556566" font-weight="400" text-anchor="end">实现线索</text>
+<text x="105.0" y="1705" font-size="18" fill="#b84c26" font-weight="400">20</text>
+<text x="142.0" y="1705" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">React 程序化画面</text>
+<text x="719.0" y="1705" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">代码逐帧</text>
+<text x="105.0" y="1735" font-size="18" fill="#b84c26" font-weight="400">21</text>
+<text x="142.0" y="1735" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">HTML/CSS/GSAP 动画</text>
+<text x="719.0" y="1735" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">HTML 渲染</text>
+<text x="105.0" y="1765" font-size="18" fill="#b84c26" font-weight="400">22</text>
+<text x="142.0" y="1765" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">图解、代码和数学动画</text>
+<text x="719.0" y="1765" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">专用工具</text>
+<text x="105.0" y="1795" font-size="18" fill="#b84c26" font-weight="400">23</text>
+<text x="142.0" y="1795" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">自定义分屏与画中画</text>
+<text x="719.0" y="1795" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">助手+渲染</text>
+<text x="105.0" y="1825" font-size="18" fill="#b84c26" font-weight="400">24</text>
+<text x="142.0" y="1825" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">时间线合成与渲染</text>
+<text x="719.0" y="1825" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">确定性执行</text>
+<text x="105.0" y="1964" font-size="21" fill="#556566" font-weight="400" data-max-width="614.0">内容、数据、素材与时间线 → 图形、动画和最终视频</text>
+<rect x="768.0" y="1597" width="664.0" height="410" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="793.0" y="1642" font-size="31" fill="#172426" font-weight="700">制作管理</text>
+<text x="1407.0" y="1640" font-size="24" fill="#b84c26" font-weight="600" text-anchor="end">8 项</text>
+<text x="1407.0" y="1675" font-size="19" fill="#556566" font-weight="400" text-anchor="end">实现线索</text>
+<text x="793.0" y="1705" font-size="18" fill="#b84c26" font-weight="400">25</text>
+<text x="830.0" y="1705" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">工具发现与可用性报告</text>
+<text x="1407.0" y="1705" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">注册/检查</text>
+<text x="793.0" y="1735" font-size="18" fill="#b84c26" font-weight="400">26</text>
+<text x="830.0" y="1735" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">模型/工具选择与备用路径</text>
+<text x="1407.0" y="1735" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">规则+评分</text>
+<text x="793.0" y="1765" font-size="18" fill="#b84c26" font-weight="400">27</text>
+<text x="830.0" y="1765" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">结构化成果与阶段检查点</text>
+<text x="1407.0" y="1765" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">schema+状态</text>
+<text x="793.0" y="1795" font-size="18" fill="#b84c26" font-weight="400">28</text>
+<text x="830.0" y="1795" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">人工确认与阶段放行</text>
+<text x="1407.0" y="1795" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">字段+人工</text>
+<text x="793.0" y="1825" font-size="18" fill="#b84c26" font-weight="400">29</text>
+<text x="830.0" y="1825" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">预算记录与付费控制</text>
+<text x="1407.0" y="1825" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">费用规则</text>
+<text x="793.0" y="1855" font-size="18" fill="#b84c26" font-weight="400">30</text>
+<text x="830.0" y="1855" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">渲染前要求与画面风险检查</text>
+<text x="1407.0" y="1855" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">规则检查</text>
+<text x="793.0" y="1885" font-size="18" fill="#b84c26" font-weight="400">31</text>
+<text x="830.0" y="1885" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">成片检查与助手复核</text>
+<text x="1407.0" y="1885" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">抽检+复核</text>
+<text x="793.0" y="1915" font-size="18" fill="#b84c26" font-weight="400">32</text>
+<text x="830.0" y="1915" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">Backlot 进度看板与回放</text>
+<text x="1407.0" y="1915" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">文件+SSE</text>
+<text x="793.0" y="1964" font-size="21" fill="#556566" font-weight="400" data-max-width="614.0">阶段成果、约束和运行记录 → 检查、状态、费用和看板</text>
+<rect x="1456.0" y="1597" width="664.0" height="410" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1481.0" y="1642" font-size="31" fill="#172426" font-weight="700">交付与复用</text>
+<text x="2095.0" y="1640" font-size="24" fill="#b84c26" font-weight="600" text-anchor="end">2 项</text>
+<text x="2095.0" y="1675" font-size="19" fill="#556566" font-weight="400" text-anchor="end">实现线索</text>
+<text x="1481.0" y="1705" font-size="18" fill="#b84c26" font-weight="400">33</text>
+<text x="1518.0" y="1705" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">导出视频与传播资料</text>
+<text x="2095.0" y="1705" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">打包工具</text>
+<text x="1481.0" y="1735" font-size="18" fill="#b84c26" font-weight="400">34</text>
+<text x="1518.0" y="1735" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">可复用中间成果与模板</text>
+<text x="2095.0" y="1735" font-size="20" fill="#556566" font-weight="400" data-max-width="134" text-anchor="end">文件/模板</text>
+<text x="1481.0" y="1803" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">成片 / 元信息 / 封面概念 / 章节</text>
+<text x="1481.0" y="1837" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">脚本 / 分镜 / 素材清单 / 剪辑决策</text>
+<text x="1481.0" y="1871" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">可观察、可修改、可复用的制作记录</text>
+<text x="1481.0" y="1964" font-size="21" fill="#556566" font-weight="400" data-max-width="614.0">成片与中间成果 → 导出包、元信息及后续制作基础</text>
+<text x="80" y="2082" font-size="28" fill="#b84c26" font-weight="700">04</text>
+<text x="140" y="2082" font-size="38" fill="#172426" font-weight="700">底层：模型、算法、规则和代码，各负责什么？</text>
+<text x="140" y="2125" font-size="23" fill="#556566" font-weight="400" data-max-width="1980">生成有两种：素材模型生成画面/声音；助手写画面代码，再由渲染器逐帧执行。 [2–5]</text>
+<rect x="80.0" y="2150" width="664.0" height="202" rx="16" fill="#e0ece5" stroke="#d4ddd6"/>
+<text x="105.0" y="2193" font-size="27" fill="#172426" font-weight="700" data-max-width="614.0">A · 助手模型：理解与编排</text>
+<text x="105.0" y="2236" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">理解需求、研究与创作；选择素材和工具，编写处理/动画</text>
+<text x="105.0" y="2268" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">代码。实际调度依赖当前助手。</text>
+<rect x="768.0" y="2150" width="664.0" height="202" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="793.0" y="2193" font-size="27" fill="#172426" font-weight="700" data-max-width="614.0">B · 素材模型：图片、视频、声音</text>
+<text x="793.0" y="2236" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">专用图片、视频和 TTS 模型生成素材；可接云端服务或</text>
+<text x="793.0" y="2268" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">本地路径。模型能力、费用和效果各异。</text>
+<rect x="1456.0" y="2150" width="664.0" height="202" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1481.0" y="2193" font-size="27" fill="#172426" font-weight="700" data-max-width="614.0">C · 检索算法：寻找真实镜头</text>
+<text x="1481.0" y="2236" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">CLIP 图文 512 维向量，多帧均值；融合画面/标签相似</text>
+<text x="1481.0" y="2268" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">度，再筛选与增加多样性。相似不证明事实。</text>
+<rect x="80.0" y="2376" width="664.0" height="202" rx="16" fill="#e0ece5" stroke="#d4ddd6"/>
+<text x="105.0" y="2419" font-size="27" fill="#172426" font-weight="700" data-max-width="614.0">D · 程序化画面：代码渲染</text>
+<text x="105.0" y="2462" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">Remotion / HyperFrames 执行布局、图表、文字、</text>
+<text x="105.0" y="2494" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">动画与时间线。助手写代码，渲染器确定性生成视频帧。</text>
+<rect x="768.0" y="2376" width="664.0" height="202" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="793.0" y="2419" font-size="27" fill="#172426" font-weight="700" data-max-width="614.0">E · 媒体处理：工具加工</text>
+<text x="793.0" y="2462" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">FFmpeg / ffprobe 等执行剪切、拼接、变速、抽帧、</text>
+<text x="793.0" y="2494" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">字幕、混音、调色和转码；听感与画面仍需验收。</text>
+<rect x="1456.0" y="2376" width="664.0" height="202" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1481.0" y="2419" font-size="27" fill="#172426" font-weight="700" data-max-width="614.0">F · 规则与人工：检查和放行</text>
+<text x="1481.0" y="2462" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">YAML、已知成果 schema、检查点、预算和抽检提供约</text>
+<text x="1481.0" y="2494" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">束。确认字段由调用者记录；创作质量需实际复核。</text>
+<text x="80" y="2654" font-size="28" fill="#b84c26" font-weight="700">05</text>
+<text x="140" y="2654" font-size="38" fill="#172426" font-weight="700">效果：十二条制作流程，可以做什么？</text>
+<text x="140" y="2697" font-size="23" fill="#556566" font-weight="400" data-max-width="1980">这是固定版本的制作路径；流程名称不承诺实际成片质量。另有 framework-smoke 测试流程。 [1]</text>
+<rect x="80.0" y="2722" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="103.0" y="2763" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">知识讲解</text>
+<text x="103.0" y="2803" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：主题、资料或参考视频</text>
+<text x="103.0" y="2841" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：研究、脚本、配音、图解与讲解成</text>
+<text x="103.0" y="2872" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">片</text>
+<rect x="596.0" y="2722" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="619.0" y="2763" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">动态图形</text>
+<text x="619.0" y="2803" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：创意、文案、视觉要求</text>
+<text x="619.0" y="2841" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：动态文字、图形和动画序列</text>
+<rect x="1112.0" y="2722" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1135.0" y="2763" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">虚拟讲解员</text>
+<text x="1135.0" y="2803" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：脚本与人物素材</text>
+<text x="1135.0" y="2841" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：由虚拟人物讲述的内容</text>
+<rect x="1628.0" y="2722" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1651.0" y="2763" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">角色动画 · beta</text>
+<text x="1651.0" y="2803" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：脚本、角色和风格方向</text>
+<text x="1651.0" y="2841" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：角色规格、绑定、姿态库、动作与</text>
+<text x="1651.0" y="2872" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">动画</text>
+<rect x="80.0" y="2936" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="103.0" y="2977" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">预告与氛围片</text>
+<text x="103.0" y="3017" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：主题、概念或产品素材</text>
+<text x="103.0" y="3055" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：预告片、品牌短片、氛围剪辑</text>
+<rect x="596.0" y="2936" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="619.0" y="2977" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">长视频拆短片</text>
+<text x="619.0" y="3017" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：已有长视频</text>
+<text x="619.0" y="3055" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：一组经过选择与排序的短片</text>
+<rect x="1112.0" y="2936" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1135.0" y="2977" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">真实素材蒙太奇 · beta</text>
+<text x="1135.0" y="3017" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：主题、分镜描述与素材来源</text>
+<text x="1135.0" y="3055" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：由真实镜头组成的主题短片</text>
+<rect x="1628.0" y="2936" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1651.0" y="2977" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">混合制作</text>
+<text x="1651.0" y="3017" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：已有视频与补充画面需求</text>
+<text x="1651.0" y="3055" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：实拍、生成素材与图形的组合</text>
+<rect x="80.0" y="3150" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="103.0" y="3191" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">翻译与配音</text>
+<text x="103.0" y="3231" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：已有视频和目标语言</text>
+<text x="103.0" y="3269" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：翻译字幕、配音与语言版本</text>
+<rect x="596.0" y="3150" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="619.0" y="3191" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">播客再利用</text>
+<text x="619.0" y="3231" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：播客或长音频内容</text>
+<text x="619.0" y="3269" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：视频化片段与传播素材</text>
+<rect x="1112.0" y="3150" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1135.0" y="3191" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">软件操作演示</text>
+<text x="1135.0" y="3231" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：软件流程、屏幕录制需求</text>
+<text x="1135.0" y="3269" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：录屏、讲解与提示图形</text>
+<rect x="1628.0" y="3150" width="492.0" height="190" rx="16" fill="#fffefa" stroke="#d4ddd6"/>
+<text x="1651.0" y="3191" font-size="28" fill="#172426" font-weight="700" data-max-width="446.0">真人讲述剪辑</text>
+<text x="1651.0" y="3231" font-size="22" fill="#556566" font-weight="400" data-max-width="446.0">输入：真人口播、访谈或演讲素材</text>
+<text x="1651.0" y="3269" font-size="23" fill="#172426" font-weight="400" data-max-width="446.0">效果：以人物讲述为主的剪辑视频</text>
+<text x="80" y="3412" font-size="28" fill="#b84c26" font-weight="700">06</text>
+<text x="140" y="3412" font-size="38" fill="#172426" font-weight="700">输出：成片之外，还留下什么？</text>
+<text x="140" y="3455" font-size="23" fill="#556566" font-weight="400" data-max-width="1980">最终媒体与中间成果共同构成可复用的制作记录；结构合法不代表事实与表达已经正确。 [1][3][5]</text>
+<rect x="80" y="3480" width="2040" height="144" rx="16" fill="#e0ece5" stroke="#d4ddd6"/>
+<text x="110" y="3527" font-size="28" fill="#172426" font-weight="700">最终交付</text>
+<text x="292" y="3527" font-size="27" fill="#172426" font-weight="400" data-max-width="1785">视频 + 旁白/音轨 + 字幕相关材料 + 元信息 + 封面/章节等导出材料</text>
+<text x="110" y="3577" font-size="28" fill="#172426" font-weight="700">过程成果</text>
+<text x="292" y="3577" font-size="25" fill="#556566" font-weight="400" data-max-width="1785">研究 → 方案 → 脚本 → 分镜 → 素材清单 → 剪辑决策 → 渲染/检查 → 状态与费用</text>
+<text x="80" y="3695" font-size="28" fill="#b84c26" font-weight="700">07</text>
+<text x="140" y="3695" font-size="38" fill="#172426" font-weight="700">扩展：可以把它用到哪些工作中？</text>
+<text x="140" y="3738" font-size="23" fill="#556566" font-weight="400" data-max-width="1980">以下是适配方向；与本仓库其他系统的连接尚未实现。新增工具、业务模板与真实上传都需要接入和验证。 [6]</text>
+<rect x="80.0" y="3763" width="664.0" height="202" rx="16" fill="#f0efe8" stroke="#d4ddd6"/>
+<text x="105.0" y="3806" font-size="28" fill="#172426" font-weight="700" data-max-width="614.0">项目研究 → 短讲解</text>
+<text x="105.0" y="3847" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">README、截图、原理图与录屏 → 项目解说、对比片和功</text>
+<text x="105.0" y="3878" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">能演示。可探索与 001 写作、002 RAG 衔接。</text>
+<rect x="768.0" y="3763" width="664.0" height="202" rx="16" fill="#f0efe8" stroke="#d4ddd6"/>
+<text x="793.0" y="3806" font-size="28" fill="#172426" font-weight="700" data-max-width="614.0">课程 / 科普 / 数据解释</text>
+<text x="793.0" y="3847" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">概念、公式、数据 → 可控动态图形、系统原理动画和讲</text>
+<text x="793.0" y="3878" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">解。适合 RAG、网络、终端及 Agent 流程。</text>
+<rect x="1456.0" y="3763" width="664.0" height="202" rx="16" fill="#f0efe8" stroke="#d4ddd6"/>
+<text x="1481.0" y="3806" font-size="28" fill="#172426" font-weight="700" data-max-width="614.0">产品 / 品牌 / 栏目模板</text>
+<text x="1481.0" y="3847" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">产品与品牌素材 → 功能介绍、氛围片、虚拟讲解员；通</text>
+<text x="1481.0" y="3878" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">过模板统一视觉、声音与输出规格。</text>
+<rect x="80.0" y="3989" width="664.0" height="202" rx="16" fill="#f0efe8" stroke="#d4ddd6"/>
+<text x="105.0" y="4032" font-size="28" fill="#172426" font-weight="700" data-max-width="614.0">既有内容 → 多版本复用</text>
+<text x="105.0" y="4073" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">录屏、播客、访谈与口播 → 短片、字幕、语言版本与不</text>
+<text x="105.0" y="4104" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">同平台比例；跨平台画面要重新检查。</text>
+<rect x="768.0" y="3989" width="664.0" height="202" rx="16" fill="#f0efe8" stroke="#d4ddd6"/>
+<text x="793.0" y="4032" font-size="28" fill="#172426" font-weight="700" data-max-width="614.0">自有素材 / 新模型工具</text>
+<text x="793.0" y="4073" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">接入原创图库、录屏索引、中文发音与字幕规则、新提供</text>
+<text x="793.0" y="4104" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">商；适配参数、输出、错误、费用和依赖。</text>
+<rect x="1456.0" y="3989" width="664.0" height="202" rx="16" fill="#f0efe8" stroke="#d4ddd6"/>
+<text x="1481.0" y="4032" font-size="28" fill="#172426" font-weight="700" data-max-width="614.0">更可靠的制作系统</text>
+<text x="1481.0" y="4073" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">加入实测质量/费用评分、材料失效传播、重试、外部任务</text>
+<text x="1481.0" y="4104" font-size="23" fill="#556566" font-weight="400" data-max-width="614.0">恢复和平台发布；逐项定义真实验收条件。</text>
+<rect x="80" y="4246" width="2040" height="116" rx="16" fill="#172426" stroke="#172426"/>
+<text x="110" y="4292" font-size="37" fill="#f1c88e" font-weight="700">最有价值：阶段职责 + 结构化成果交接</text>
+<text x="110" y="4335" font-size="27" fill="#e6eee8" font-weight="400" data-max-width="1980">把开放的创作工作变成可检查、可修改、可复用的过程；再按能力替换模型、素材和代码工具。</text>
+<text x="80" y="4401" font-size="27" fill="#b84c26" font-weight="700">使用边界</text>
+<text x="234" y="4401" font-size="23" fill="#556566" font-weight="400" data-max-width="1886">本研究核对源码与文档，未安装上游或制作真实视频。人物连续性、中文配音、翻译、真实费用和效率待实测；3D 仅确认入口。</text>
+<text x="80" y="4479" font-size="22" fill="#556566" font-weight="400" data-max-width="2040">预算默认 warn，cap 才阻断超预算预留；评分含经验默认值；抽帧和格式检查覆盖有限。依赖、硬件、API 与素材许可影响实际可用性。</text>
+<path d="M80 4559H2120" stroke="#d4ddd6"/>
+<text x="80" y="4598" font-size="25" fill="#172426" font-weight="700">依据与阅读方式</text>
+<a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/animated-explainer.yaml">
+<text x="80" y="4634" font-size="20" fill="#b84c26" font-weight="400">[1] README、架构与制作流程</text>
+</a>
+<a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/scoring.py">
+<text x="400.0" y="4634" font-size="20" fill="#b84c26" font-weight="400">[2] 注册、选择与七维评分</text>
+</a>
+<a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/checkpoint.py">
+<text x="686.8" y="4634" font-size="20" fill="#b84c26" font-weight="400">[3] 检查点、预算与配置</text>
+</a>
+<a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/clip_embedder.py">
+<text x="953.5999999999999" y="4634" font-size="20" fill="#b84c26" font-weight="400">[4] CLIP 编码与素材检索</text>
+</a>
+<a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/video/video_compose.py">
+<text x="1241.3999999999999" y="4634" font-size="20" fill="#b84c26" font-weight="400">[5] 合成、Remotion 与 FFmpeg</text>
+</a>
+<text x="80" y="4668" font-size="21" fill="#556566" font-weight="400" data-max-width="2040">[6] 核心价值与扩展为研究判断；完整 34 项输入输出和 27 项来源见配套网页。此图为本仓库原创，非上游运行截图。</text>
+<text x="80" y="4702" font-size="21" fill="#556566" font-weight="400" data-max-width="2040">calesthio/OpenMontage @ e45f5b12bd46440b04f3675af9a77d0718e6a254 · AGPL-3.0 · 研究日期 2026-10-14</text>
+</svg>

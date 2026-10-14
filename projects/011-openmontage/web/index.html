@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="OpenMontage 中文研究：完整能力图、12 条制作流程、结构化交接、模型与工具分工；与BaoCut等10个已研究项目对比，说明制作、编辑、检索、判断、运行和模型接入的差异及组合边界。">
+  <meta name="theme-color" content="#172426">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <title>OpenMontage · 让 AI 助手按流程做视频</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="masthead">
+  <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">▰</span> OpenMontage <small>研究 / 011</small></a>
+  <nav aria-label="全局导航"><a href="#understanding">一图总览</a><a href="../">项目索引</a><a href="https://github.com/yydshly/1013_codex_project/tree/main/projects/011-openmontage">研究文档</a><a href="https://github.com/calesthio/OpenMontage" target="_blank" rel="noopener noreferrer">上游仓库 ↗</a></nav>
+</header>
+<main id="main">
+  <section class="hero wrap" id="top">
+    <div class="hero-copy">
+      <p class="eyebrow">从一个想法，到可检查的视频制作过程</p>
+      <h1>让 AI 助手，<br>按<span>流程</span>做视频。</h1>
+      <p class="hero-lead">从主题、资料、参考视频或已有素材开始，借助 AI 助手完成研究、脚本、分镜、素材准备、剪辑与成片。OpenMontage 连接制作方法、模型接口、本地工具和阶段成果，让过程可检查、可修改并能复用。</p>
+      <div class="hero-actions"><a class="button primary" href="#value">先看最有价值的设计 ↓</a><a class="button secondary" href="#capabilities">查看完整能力范围</a><a class="button secondary" href="#comparison">对比已研究的项目</a></div>
+      <p class="research-stamp"><span class="dot"></span> 固定版本源码研究 · 2026.10.14 · <code>e45f5b12bd46</code></p>
+    </div>
+    <figure class="hero-figure">
+      <img src="./assets/overview.svg" width="1200" height="760" alt="本仓库原创理解图：AI 助手读取流程与技能，通过脚本、分镜、素材清单和剪辑决策交接，再调用素材模型或本地工具渲染视频。">
+      <figcaption>本仓库原创理解图 · 非上游运行截图 <a href="./assets/overview.svg" download="openmontage-understanding.svg">下载 SVG ↗</a></figcaption>
+    </figure>
+  </section>
+  <div class="scope-band"><div class="wrap"><strong>阅读基准</strong><span>12 条制作流程</span><span>3 类制作路径</span><span>源码核对 ≠ 制作实测</span><a href="#evidence">证据与验证边界 ↓</a></div></div>
+  <section class="brief wrap" id="brief" aria-labelledby="brief-title">
+    <p class="eyebrow">先读四个核心问题，再看完整图与证据</p><h2 id="brief-title">能力、原理、价值与扩展。</h2>
+    <div class="brief-grid">
+<!-- BRIEF:START -->
+<article><span class="brief-index">01 / 能力</span><h3>能力是什么？</h3><p>覆盖主题研究、方案、脚本与分镜，图片/视频/配音和音乐素材，参考视频分析与真实镜头检索，已有视频裁剪、字幕、混音、调色、转码，以及程序化画面、时间线合成、预算、检查和导出。本研究归纳 34 项能力。</p><a href="#capabilities">展开能力说明 ↓</a></article>
+<article><span class="brief-index">02 / 原理</span><h3>如何组织与执行？</h3><p>助手读取 YAML 中的阶段顺序、输入输出、允许工具和确认要求，再按 Markdown 技能完成工作；研究简报、脚本、分镜、素材清单和剪辑决策以 JSON 等文件交接，执行工具生成媒体，检查点记录进度并校验部分前置条件。</p><a href="#workflow">展开原理说明 ↓</a></article>
+<article><span class="brief-index">03 / 核心价值</span><h3>最有价值的是什么？</h3><p>最值得复用的是阶段职责与结构化成果交接：把开放创作组织成可检查、可修改、可保存和可复用的过程，使工具选择有依据、返工有入口。其次是按能力替换执行工具和记录状态费用；实际省时、成本和质量优势尚未比较。</p><a href="#value">展开核心价值说明 ↓</a></article>
+<article><span class="brief-index">04 / 可扩展场景</span><h3>可以扩展到哪些工作？</h3><p>可探索知识库/RAG 资料到专题解说或课程视频、自有截图录屏素材库、中文发音与字幕规则、统一栏目模板、新生成模型和工具、实测质量评分、材料失效与外部任务恢复，以及多渠道交付。与写作、RAG 或 BaoCut 的衔接需适配格式、接口和验收，尚未集成。</p><a href="#extensions">展开可扩展场景说明 ↓</a></article>
+<!-- BRIEF:END -->
+    </div>
+  </section>
+  <div class="reading-layout wrap">
+    <aside class="contents" aria-label="章节目录">
+      <p>理解路线</p>
+      <nav><a href="#brief">先读 / 四个核心问题</a><a href="#understanding">一图 / 完整能力总览</a><a href="#essence">01 / 本质与模型分工</a><a href="#value">02 / 最有价值的设计</a><a href="#capabilities">03 / 能力完整范围</a><a href="#pipelines">04 / 十二条制作流程</a><a href="#workflow">05 / 流程如何组合</a><a href="#paths">06 / 三种制作路径</a><a href="#code">07 / 代码如何处理视频</a><a href="#scenarios">08 / 对你的实际价值</a><a href="#comparison">09 / 产品与项目对比</a><a href="#extensions">10 / 使用与扩展路线</a><a href="#limits">11 / 能力边界</a><a href="#evidence">12 / 来源与验证</a></nav>
+      <a class="download-note" href="./research-summary.txt" download>↓ 保存文字导读</a>
+    </aside>
+    <div class="chapters">
+      <section class="chapter" id="understanding">
+        <div class="section-heading"><span>图</span><div><p class="eyebrow">一张图，把输入、能力与实现连起来</p><h2>OpenMontage 完整能力理解总览。</h2></div></div>
+        <p>从上到下阅读：<strong>输入 → 流程组合 → 六类能力 → 底层实现 → 十二种制作效果 → 输出 → 扩展场景。</strong> 图中区分助手判断、素材模型、检索算法、代码执行与规则检查，并标明核心价值和使用边界。</p>
+        <div class="poster-actions"><a class="button primary" href="./assets/ability-map.png" target="_blank" rel="noopener noreferrer">查看原尺寸大图 ↗</a><a class="button secondary" href="./assets/ability-map.png" download="openmontage-ability-map.png">下载 PNG</a><a class="button secondary" href="./assets/ability-map.svg" download="openmontage-ability-map.svg">下载 SVG</a></div>
+        <figure class="ability-poster"><a href="./assets/ability-map.png" target="_blank" rel="noopener noreferrer" aria-label="打开 OpenMontage 完整能力大图"><img src="./assets/ability-map.svg" width="2200" height="4753" alt="OpenMontage 原创完整总览：主题、资料、参考和已有媒体经八阶段交接；六类34项能力涵盖研究、素材生成、视频处理、画面合成、制作管理和导出；模型、CLIP检索、代码与规则分工；12条制作流程的输入与效果；最终和过程输出；六类扩展、核心价值与未验证边界。"></a><figcaption>本仓库原创理解图 · 2200 × 4753 · 固定源码归纳，非上游运行截图。<span>手机可打开原尺寸图片放大阅读。</span></figcaption></figure>
+        <p class="source-note">依据与完整来源见<a href="#evidence">来源与验证</a>；新增理解见<a href="#comparison">产品与项目对比</a>。图中扩展为后续适配方向；真实上游安装、成片、中文效果、费用和效率仍待验证。</p>
+      </section>
+      <section class="chapter" id="essence">
+        <div class="section-heading"><span>01</span><div><p class="eyebrow">把我们讨论的本质先说清楚</p><h2>模型安排工作，工具执行，库组织过程。</h2></div></div>
+        <p class="lead">可以把它理解为：<strong>供 AI 编程助手使用的一套视频制作技能、流程与工具系统。</strong> 助手是实际调度者；视频、图像、配音模型负责对应素材能力；代码工具负责处理和渲染。</p>
+        <div class="role-grid">
+          <article><p class="label">理解与决策</p><h3>AI 助手</h3><p>理解需求、研究主题、写脚本、设计镜头、选择工具、编写代码、检查结果。</p><p class="small">通常由你使用的 Codex、Claude Code 等环境提供。</p></article>
+          <article class="accent-card"><p class="label">流程与交接</p><h3>OpenMontage</h3><p>提供阶段规范、制作技能、成果格式、工具接口、预算记录、检查点与制作看板。</p><p class="small">项目核心的工程价值集中在这一层。</p></article>
+          <article><p class="label">素材与执行</p><h3>模型服务 + 本地工具</h3><p>图像、视频、语音模型生成素材；素材站提供镜头；FFmpeg、Remotion 等完成加工和合成。</p><p class="small">需要相应依赖、权限、硬件或 API 配置。</p></article>
+        </div>
+        <div class="callout"><strong>理解类似项目，比较它们组织的环节。</strong><p>模型理解、工具执行、保存成果是共同结构。具体差异要看工作对象、谁安排步骤、成果如何交接、人怎样接手，以及哪些要求由代码检查。OpenMontage 将这些方法落实到视频制作领域；下面的<a href="#comparison">项目对比</a>进一步说明各自的位置。</p></div>
+        <div class="discussion">
+          <details open><summary>“只给主题、资料或者参考素材，可以吗？”</summary><p>可以从主题、文档、图片、参考视频、已有长视频、播客或录屏需求开始。主题输入会先经过研究与方案；材料输入需要适配提取方式。成片目标、时长、受众和风格越明确，制作路径越容易确定。部分创作阶段默认要求人的确认。</p></details>
+          <details><summary>“底层直接接模型，还是作为 Skill 被模型调用？”</summary><p>分成两层：上层助手读取技能和流程，运行制作工具；下层生成工具再请求专门的图片、视频或语音模型，也可采用本地路径。技能文件是工作指导，完整执行需要工具和运行环境配合。</p></details>
+          <details><summary>“除了创作短剧，还能做什么？”</summary><p>覆盖知识讲解、软件演示、真实素材蒙太奇、长视频拆短片、播客再利用、翻译配音、真人口播处理和程序化图形。已有视频的剪辑、字幕、混音、调色与转码也可以单独使用。短剧的角色、表演与连续性仍需要额外验收。</p></details>
+          <details><summary>“最终还是调用工具、处理素材、拼接视频？”</summary><p>是。渲染和素材处理由工具执行；重要的制作判断发生在研究、脚本、分镜、选材与剪辑决策中。OpenMontage 为这些判断提供分工、交接材料和检查规则。</p></details>
+        </div>
+        <p class="source-note">依据：<a href="#source-architecture">架构说明</a>、<a href="#source-explainer">讲解视频流程</a>、<a href="#source-selector">视频选择器</a>。</p>
+      </section>
+
+      <section class="chapter" id="value">
+        <div class="section-heading"><span>02</span><div><p class="eyebrow">研究判断 · 按你的使用目标排序</p><h2>最有价值的，是可交接的制作流程。</h2></div></div>
+        <p class="lead">它把一个开放的创作任务变成有阶段目标、有成果文件、有执行工具、有检查依据的工作。<strong>模型的判断因此有了明确的工作边界，制作记录也能留下来。</strong></p>
+        <div class="value-ranking">
+          <article><b>01</b><div><h3>阶段职责 + 结构化成果交接</h3><p>脚本交给分镜，分镜交给素材，素材与剪辑决策交给渲染器。每一步都有可检查的成果，不必一直从聊天记录中猜测下一步需要什么。</p><span>优先研究：输入输出、成果格式、前置条件</span></div></article>
+          <article><b>02</b><div><h3>按能力连接模型、素材与代码工具</h3><p>制作阶段需要“语音”或“画面”能力，再从当前可用工具中选择路径。保持流程结构的同时，可以调整素材来源、提供商和程序化画面方案。</p><span>优先研究：注册表、选择器、参数适配与替代路径</span></div></article>
+          <article><b>03</b><div><h3>检查点、确认、费用和交付检查</h3><p>保存当前进度与中间成果，记录费用，检查前置阶段，并在创作节点等待确认。问题更容易定位，也为中断后的继续制作提供依据。</p><span>优先研究：哪些规则由代码检查，哪些仍由模型判断</span></div></article>
+        </div>
+        <div class="callout"><strong>优点如何落到实际工作？</strong><p>减少重复交代制作要求；复用已有模板与素材；修改某个阶段时有明确入口；能回看工具选择与花费。是否真正省时、便宜、少返工，需要在你的任务上记录并比较。</p></div>
+        <p class="source-note">“最有价值”是本研究的判断，依据来自<a href="#source-explainer">流程定义</a>、<a href="#source-registry">工具注册表</a>与<a href="#source-checkpoint">状态管理</a>；尚未做效率或费用优势实测。</p>
+      </section>
+
+      <section class="chapter" id="capabilities">
+        <div class="section-heading"><span>03</span><div><p class="eyebrow">输入 → 方法 → 输出 → 边界</p><h2>能力范围，从准备素材到交付。</h2></div></div>
+        <p>下表区分已有工具、流程能力和定制扩展。<strong>代码或文档中存在能力，不代表你当前环境已具备全部依赖，也不代表已经通过本研究的运行验证。</strong></p>
+        <div class="capability-controls">
+          <div class="filters" aria-label="能力类别"><button data-filter="all" aria-pressed="true" class="active">全部</button><button data-filter="prepare" aria-pressed="false">研究与检索</button><button data-filter="generate" aria-pressed="false">素材生成</button><button data-filter="process" aria-pressed="false">已有视频处理</button><button data-filter="compose" aria-pressed="false">画面与合成</button><button data-filter="govern" aria-pressed="false">制作管理</button><button data-filter="deliver" aria-pressed="false">交付与复用</button></div>
+          <label class="search-box">搜索能力<input type="search" id="capability-search" placeholder="例如：字幕、分镜、代码、中文" autocomplete="off"></label>
+        </div>
+        <p class="result-count" id="capability-count" aria-live="polite">完整能力清单</p>
+        <div class="table-shell"><table class="capability-table"><caption class="sr-only">OpenMontage 能力范围、输入输出、依据和使用边界</caption><thead><tr><th>能力</th><th>输入 / 输出</th><th>实现方法</th><th>使用边界</th><th>证据</th></tr></thead><tbody id="capability-rows">
+<!-- CAPABILITIES:START -->
+<tr data-category="prepare"><td data-label="能力"><small>研究与检索</small>主题研究与内容方案</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>主题、受众、目标</p><p><span class="io-label">输出：</span>有来源的研究简报与方案</p></td><td data-label="实现方法">助手读取阶段技能，使用自身研究与写作能力</td><td data-label="使用边界">资料引用不自动保证结论正确；需核对原文</td><td data-label="证据"><a href="#source-explainer" aria-label="主题研究与内容方案的来源">↗</a></td></tr>
+<tr data-category="prepare"><td data-label="能力"><small>研究与检索</small>脚本、分镜与镜头计划</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>已选方案、资料</p><p><span class="io-label">输出：</span>结构化脚本和 scene_plan</p></td><td data-label="实现方法">阶段技能及成果格式约定</td><td data-label="使用边界">创作质量由助手判断；格式正确不等于表达好</td><td data-label="证据"><a href="#source-explainer" aria-label="脚本、分镜与镜头计划的来源">↗</a></td></tr>
+<tr data-category="prepare"><td data-label="能力"><small>研究与检索</small>参考视频分析</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>视频 URL 或本地文件</p><p><span class="io-label">输出：</span>转录、镜头、关键帧与节奏信息</p></td><td data-label="实现方法">下载、字幕、场景检测、抽帧与语音转录</td><td data-label="使用边界">平台下载可用性依环境变化；视觉解释由助手完成</td><td data-label="证据"><a href="#source-analyzer" aria-label="参考视频分析的来源">↗</a></td></tr>
+<tr data-category="prepare"><td data-label="能力"><small>研究与检索</small>真实素材收集与索引</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>查询词、来源、筛选条件</p><p><span class="io-label">输出：</span>本地素材、缩略图、向量与来源记录</p></td><td data-label="实现方法">corpus_builder 连接来源并建立素材库</td><td data-label="使用边界">需要网络与相关依赖；素材许可须逐项核查</td><td data-label="证据"><a href="#source-corpus-builder" aria-label="真实素材收集与索引的来源">↗</a></td></tr>
+<tr data-category="prepare"><td data-label="能力"><small>研究与检索</small>按分镜描述检索镜头</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>描述和候选素材库</p><p><span class="io-label">输出：</span>有分数的候选镜头与多样性选择</p></td><td data-label="实现方法">CLIP 画面/文字向量、标签融合与筛选</td><td data-label="使用边界">相似度代表匹配线索，不证明事件、地点或事实</td><td data-label="证据"><a href="#source-clip-search" aria-label="按分镜描述检索镜头的来源">↗</a></td></tr>
+<tr data-category="generate"><td data-label="能力"><small>素材生成</small>图片生成与编辑</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>提示、参考图和风格要求</p><p><span class="io-label">输出：</span>用于画面的图像素材</p></td><td data-label="实现方法">云端接口或本地生成工具</td><td data-label="使用边界">依赖所接模型；文字、角色和产品一致性需检查</td><td data-label="证据"><a href="#source-readme" aria-label="图片生成与编辑的来源">↗</a></td></tr>
+<tr data-category="generate"><td data-label="能力"><small>素材生成</small>视频镜头生成</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>提示、图像或其他参考素材</p><p><span class="io-label">输出：</span>独立的运动镜头</p></td><td data-label="实现方法">视频选择器调用可用提供商</td><td data-label="使用边界">不同提供商支持的输入、时长和控制不同</td><td data-label="证据"><a href="#source-selector" aria-label="视频镜头生成的来源">↗</a></td></tr>
+<tr data-category="generate"><td data-label="能力"><small>素材生成</small>配音与语音合成</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>脚本、语言、声音与表演方向</p><p><span class="io-label">输出：</span>旁白音频</p></td><td data-label="实现方法">TTS 选择器、云端服务或 Piper 等本地路径</td><td data-label="使用边界">发音、情绪、停顿和中文效果需试听</td><td data-label="证据"><a href="#source-readme" aria-label="配音与语音合成的来源">↗</a></td></tr>
+<tr data-category="generate"><td data-label="能力"><small>素材生成</small>音乐与音效素材</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>风格、场景与声音要求</p><p><span class="io-label">输出：</span>音乐和音效，或选用已有素材</p></td><td data-label="实现方法">音乐生成工具与素材路径</td><td data-label="使用边界">可用性、费用和授权由实际来源决定</td><td data-label="证据"><a href="#source-readme" aria-label="音乐与音效素材的来源">↗</a></td></tr>
+<tr data-category="generate"><td data-label="能力"><small>素材生成</small>虚拟人物与口型</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>人物素材、脚本和音频</p><p><span class="io-label">输出：</span>人物讲述与口型相关画面</p></td><td data-label="实现方法">头像/人物制作流程及工具接入</td><td data-label="使用边界">并非所有环境都可用；人物表现需人工检查</td><td data-label="证据"><a href="#source-architecture" aria-label="虚拟人物与口型的来源">↗</a></td></tr>
+<tr data-category="generate"><td data-label="能力"><small>素材生成</small>可复用角色动画</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>角色规格、动作和时间线</p><p><span class="io-label">输出：</span>角色、绑定、姿态与本地动画</p></td><td data-label="实现方法">character-animation 的角色与动作成果</td><td data-label="使用边界">beta；需要制作资产，动作质量未实测</td><td data-label="证据"><a href="#source-character" aria-label="可复用角色动画的来源">↗</a></td></tr>
+<tr data-category="generate"><td data-label="能力"><small>素材生成</small>3D 场景与资产工具入口</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>场景、资产和镜头需求</p><p><span class="io-label">输出：</span>3D 素材或可编辑场景制作路径</p></td><td data-label="实现方法">Blender/Three.js/3D 生成相关工具目录与示例</td><td data-label="使用边界">属辅助能力，不额外计为第 13 条制作流程；未运行验证</td><td data-label="证据"><a href="#source-3d" aria-label="3D 场景与资产工具入口的来源">↗</a></td></tr>
+<tr data-category="process"><td data-label="能力"><small>已有视频处理</small>裁剪、拼接与速度调整</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>已有视频、时间点和顺序</p><p><span class="io-label">输出：</span>重新组织的片段</p></td><td data-label="实现方法">video_trimmer、FFmpeg</td><td data-label="使用边界">编码格式和精确剪切要求可能需要重新编码</td><td data-label="证据"><a href="#source-ffmpeg" aria-label="裁剪、拼接与速度调整的来源">↗</a></td></tr>
+<tr data-category="process"><td data-label="能力"><small>已有视频处理</small>音频提取、混音与音量控制</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>视频、语音、音乐和音效</p><p><span class="io-label">输出：</span>混合音轨与成片声音</p></td><td data-label="实现方法">audio_mixer、音量淡入淡出与语音压低背景音乐</td><td data-label="使用边界">参数仍需试听；不能仅凭音量推断清晰度</td><td data-label="证据"><a href="#source-ffmpeg" aria-label="音频提取、混音与音量控制的来源">↗</a></td></tr>
+<tr data-category="process"><td data-label="能力"><small>已有视频处理</small>字幕生成与叠加</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>转录时间戳、文稿和字幕样式</p><p><span class="io-label">输出：</span>字幕文件或画面字幕</p></td><td data-label="实现方法">字幕工具、FFmpeg 或 Remotion 字幕组件</td><td data-label="使用边界">字幕准确性、断句、字体和遮挡需检查</td><td data-label="证据"><a href="#source-remotion" aria-label="字幕生成与叠加的来源">↗</a></td></tr>
+<tr data-category="process"><td data-label="能力"><small>已有视频处理</small>调色、音频清理与增强</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>已有视频或音频</p><p><span class="io-label">输出：</span>调色、降噪、响度调整等结果</p></td><td data-label="实现方法">FFmpeg 处理工具与可选增强模型</td><td data-label="使用边界">修复程度依工具和素材；增强工具并非全部可用</td><td data-label="证据"><a href="#source-ffmpeg" aria-label="调色、音频清理与增强的来源">↗</a></td></tr>
+<tr data-category="process"><td data-label="能力"><small>已有视频处理</small>抽帧与媒体规格检查</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>视频文件</p><p><span class="io-label">输出：</span>代表帧、时长、分辨率、音轨等信息</p></td><td data-label="实现方法">frame_sampler、FFmpeg/ffprobe</td><td data-label="使用边界">抽样不能覆盖每一帧或证明内容质量</td><td data-label="证据"><a href="#source-compose" aria-label="抽帧与媒体规格检查的来源">↗</a></td></tr>
+<tr data-category="process"><td data-label="能力"><small>已有视频处理</small>转码与输出规格适配</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>视频与目标比例/规格</p><p><span class="io-label">输出：</span>编码、分辨率、帧率等符合目标的文件</p></td><td data-label="实现方法">FFmpeg 与媒体规格配置</td><td data-label="使用边界">横竖屏画面重构可能需要另行设计裁剪和布局</td><td data-label="证据"><a href="#source-remotion" aria-label="转码与输出规格适配的来源">↗</a></td></tr>
+<tr data-category="process"><td data-label="能力"><small>已有视频处理</small>批量或自定义处理脚本</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>一批素材与明确处理要求</p><p><span class="io-label">输出：</span>脚本以及批量处理结果</p></td><td data-label="实现方法">流程允许 custom_scripts，由助手编写和运行</td><td data-label="使用边界">定制扩展；不是每种任务都有开箱即用预设，需验证脚本</td><td data-label="证据"><a href="#source-explainer" aria-label="批量或自定义处理脚本的来源">↗</a></td></tr>
+<tr data-category="compose"><td data-label="能力"><small>画面与合成</small>React 程序化画面</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>素材、数据、布局与时间线</p><p><span class="io-label">输出：</span>图表、文字、叠加层与逐帧动画</p></td><td data-label="实现方法">Remotion 组件与参数化合成</td><td data-label="使用边界">代码和时间线必须经过渲染、资源与视觉验证</td><td data-label="证据"><a href="#source-remotion" aria-label="React 程序化画面的来源">↗</a></td></tr>
+<tr data-category="compose"><td data-label="能力"><small>画面与合成</small>HTML/CSS/GSAP 动画</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>素材与动画设计</p><p><span class="io-label">输出：</span>动态图形与浏览器渲染视频</p></td><td data-label="实现方法">HyperFrames 制作路径与合成工具</td><td data-label="使用边界">运行时在方案阶段选择；不同流程兼容程度不同</td><td data-label="证据"><a href="#source-hyperframes" aria-label="HTML/CSS/GSAP 动画的来源">↗</a></td></tr>
+<tr data-category="compose"><td data-label="能力"><small>画面与合成</small>图解、代码和数学动画</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>原理、代码或公式</p><p><span class="io-label">输出：</span>供讲解使用的图形和动画</p></td><td data-label="实现方法">diagram_gen、code_snippet、math_animate 等工具</td><td data-label="使用边界">表达与科学正确性需复核；依赖各工具安装</td><td data-label="证据"><a href="#source-explainer" aria-label="图解、代码和数学动画的来源">↗</a></td></tr>
+<tr data-category="compose"><td data-label="能力"><small>画面与合成</small>自定义分屏与画中画</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>布局和多路素材</p><p><span class="io-label">输出：</span>自定义合成代码及渲染画面</p></td><td data-label="实现方法">助手按扩展协议编写 Remotion 合成</td><td data-label="使用边界">可扩展能力，需要编写和验证，不保证所有布局已有模板</td><td data-label="证据"><a href="#source-remotion" aria-label="自定义分屏与画中画的来源">↗</a></td></tr>
+<tr data-category="compose"><td data-label="能力"><small>画面与合成</small>时间线合成与渲染</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>剪辑决策、素材清单和音轨</p><p><span class="io-label">输出：</span>最终视频与渲染记录</p></td><td data-label="实现方法">video_compose 路由到选定渲染运行时</td><td data-label="使用边界">实际资源、依赖和时间线正确性决定能否成功</td><td data-label="证据"><a href="#source-compose" aria-label="时间线合成与渲染的来源">↗</a></td></tr>
+<tr data-category="govern"><td data-label="能力"><small>制作管理</small>工具发现与可用性报告</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>当前环境和工具模块</p><p><span class="io-label">输出：</span>能力、提供商与依赖状态</p></td><td data-label="实现方法">注册表发现工具并报告 support_envelope</td><td data-label="使用边界">声明可用不等于所有远端请求都将成功</td><td data-label="证据"><a href="#source-registry" aria-label="工具发现与可用性报告的来源">↗</a></td></tr>
+<tr data-category="govern"><td data-label="能力"><small>制作管理</small>模型/工具选择与备用路径</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>任务、约束、预算与可用工具</p><p><span class="io-label">输出：</span>候选排名与选择记录</p></td><td data-label="实现方法">选择器过滤、七维评分和备用工具查询</td><td data-label="使用边界">部分分数是经验默认值；备用路径需满足原交付要求</td><td data-label="证据"><a href="#source-scoring" aria-label="模型/工具选择与备用路径的来源">↗</a></td></tr>
+<tr data-category="govern"><td data-label="能力"><small>制作管理</small>结构化成果与阶段检查点</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>阶段成果、状态和确认信息</p><p><span class="io-label">输出：</span>JSON 状态、历史和下一阶段依据</p></td><td data-label="实现方法">格式校验、前置阶段与确认检查</td><td data-label="使用边界">按正常接口提供约束；格式和确认字段不等于真实验收</td><td data-label="证据"><a href="#source-checkpoint" aria-label="结构化成果与阶段检查点的来源">↗</a></td></tr>
+<tr data-category="govern"><td data-label="能力"><small>制作管理</small>人工确认与阶段放行</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>阶段成果、默认确认门和人的反馈</p><p><span class="io-label">输出：</span>等待确认或允许继续的制作状态</p></td><td data-label="实现方法">流程定义与检查点 human_approved 字段检查</td><td data-label="使用边界">工具检查的是记录字段；真实确认与成果验收仍需助手和人落实</td><td data-label="证据"><a href="#source-checkpoint" aria-label="人工确认与阶段放行的来源">↗</a></td></tr>
+<tr data-category="govern"><td data-label="能力"><small>制作管理</small>预算记录与付费控制</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>估算费用、操作和预算模式</p><p><span class="io-label">输出：</span>预留、实际费用与预算提示或阻断</p></td><td data-label="实现方法">estimate → reserve → reconcile</td><td data-label="使用边界">默认 warn；cap 才阻断超预算预留，依赖费用路径正确接入</td><td data-label="证据"><a href="#source-cost" aria-label="预算记录与付费控制的来源">↗</a></td></tr>
+<tr data-category="govern"><td data-label="能力"><small>制作管理</small>渲染前要求与画面风险检查</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>剪辑决策和分镜计划</p><p><span class="io-label">输出：</span>检查结果与部分阻断条件</p></td><td data-label="实现方法">交付要求、幻灯片风险和渲染规则</td><td data-label="使用边界">规则依赖输入字段，部分缺失或异常会警告/跳过</td><td data-label="证据"><a href="#source-compose" aria-label="渲染前要求与画面风险检查的来源">↗</a></td></tr>
+<tr data-category="govern"><td data-label="能力"><small>制作管理</small>成片检查与助手复核</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>渲染视频及相关文稿</p><p><span class="io-label">输出：</span>规格、抽帧、音量、字幕等检查结果</p></td><td data-label="实现方法">ffprobe、抽帧、音频分析与可选转录比较</td><td data-label="使用边界">不是完整视觉/语义验收；并非每项问题都导致失败</td><td data-label="证据"><a href="#source-compose" aria-label="成片检查与助手复核的来源">↗</a></td></tr>
+<tr data-category="govern"><td data-label="能力"><small>制作管理</small>Backlot 进度看板与回放</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>项目文件、事件和检查点</p><p><span class="io-label">输出：</span>阶段、分镜、素材、费用与历史展示</p></td><td data-label="实现方法">文件监听、SSE 通知和浏览器刷新</td><td data-label="使用边界">只读看板；确认通常在聊天中进行，回放不是再次制作</td><td data-label="证据"><a href="#source-backlot" aria-label="Backlot 进度看板与回放的来源">↗</a></td></tr>
+<tr data-category="deliver"><td data-label="能力"><small>交付与复用</small>导出视频与传播资料</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>成片、方案与最终检查</p><p><span class="io-label">输出：</span>视频、元信息和封面/章节等导出材料</p></td><td data-label="实现方法">publish 阶段与 export_bundle 工具入口</td><td data-label="使用边界">导出不等于已自动上传任何社交平台；未运行验证</td><td data-label="证据"><a href="#source-export" aria-label="导出视频与传播资料的来源">↗</a></td></tr>
+<tr data-category="deliver"><td data-label="能力"><small>交付与复用</small>可复用中间成果与模板</td><td data-label="输入 / 输出"><p><span class="io-label">输入：</span>已保存的脚本、素材和风格规则</p><p><span class="io-label">输出：</span>后续制作的可复用基础</p></td><td data-label="实现方法">结构化成果、风格规则和参数化合成</td><td data-label="使用边界">改动前置材料可能要求重新制作下游成果</td><td data-label="证据"><a href="#source-checkpoint" aria-label="可复用中间成果与模板的来源">↗</a></td></tr>
+<!-- CAPABILITIES:END -->
+        </tbody></table></div>
+        <p id="empty-results" hidden>没有匹配项。尝试清空搜索或选择“全部”。</p>
+      </section>
+
+      <section class="chapter" id="pipelines">
+        <div class="section-heading"><span>04</span><div><p class="eyebrow">完整制作任务的不同入口</p><h2>十二条流程，各有适用任务。</h2></div></div>
+        <p>这里按固定版本的流程目录计数：12 条制作流程，另有一条 <code>framework-smoke</code> 框架测试流程。流程是否可以直接运行，要结合工具可用性核对；名称不等于成片质量承诺。</p>
+        <div class="pipeline-grid">
+<!-- PIPELINES:START -->
+<article class="pipeline-card"><header><span>01</span><div><h3>知识讲解</h3><code>animated-explainer</code></div></header><p><strong>输入：</strong>主题、资料或参考视频</p><p><strong>输出：</strong>研究、脚本、配音、图解与讲解成片</p><p>研究与方案先行；多个创作阶段默认要求确认。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/animated-explainer.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>02</span><div><h3>动态图形</h3><code>animation</code></div></header><p><strong>输入：</strong>创意、文案、视觉要求</p><p><strong>输出：</strong>动态文字、图形和动画序列</p><p>适合概念表达与产品演示，画面可由代码组织。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/animation.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>03</span><div><h3>虚拟讲解员</h3><code>avatar-spokesperson</code></div></header><p><strong>输入：</strong>脚本与人物素材</p><p><strong>输出：</strong>由虚拟人物讲述的内容</p><p>依赖实际可用的人像、语音和口型工具。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/avatar-spokesperson.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>04</span><div><h3>角色动画</h3><code>character-animation</code></div></header><p><strong>输入：</strong>脚本、角色和风格方向</p><p><strong>输出：</strong>角色规格、绑定、姿态库、动作与动画</p><p>beta；本地 SVG/GSAP 等路径，需制作角色与动作。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/character-animation.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>05</span><div><h3>预告与氛围片</h3><code>cinematic</code></div></header><p><strong>输入：</strong>主题、概念或产品素材</p><p><strong>输出：</strong>预告片、品牌短片、氛围剪辑</p><p>质量依赖素材、镜头计划与后续合成。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/cinematic.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>06</span><div><h3>长视频拆短片</h3><code>clip-factory</code></div></header><p><strong>输入：</strong>已有长视频</p><p><strong>输出：</strong>一组经过选择与排序的短片</p><p>精彩程度和剪辑取舍仍需判断与验收。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/clip-factory.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>07</span><div><h3>真实素材蒙太奇</h3><code>documentary-montage</code></div></header><p><strong>输入：</strong>主题、分镜描述与素材来源</p><p><strong>输出：</strong>由真实镜头组成的主题短片</p><p>beta；支持素材库检索及直接搜索路径。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/documentary-montage.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>08</span><div><h3>混合制作</h3><code>hybrid</code></div></header><p><strong>输入：</strong>已有视频与补充画面需求</p><p><strong>输出：</strong>实拍、生成素材与图形的组合</p><p>已有素材与新素材需要统一节奏和风格。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/hybrid.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>09</span><div><h3>翻译与配音</h3><code>localization-dub</code></div></header><p><strong>输入：</strong>已有视频和目标语言</p><p><strong>输出：</strong>翻译字幕、配音与语言版本</p><p>翻译、发音、字幕同步和口型效果需实测。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/localization-dub.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>10</span><div><h3>播客再利用</h3><code>podcast-repurpose</code></div></header><p><strong>输入：</strong>播客或长音频内容</p><p><strong>输出：</strong>视频化片段与传播素材</p><p>结合音频内容选择和画面组织。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/podcast-repurpose.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>11</span><div><h3>软件操作演示</h3><code>screen-demo</code></div></header><p><strong>输入：</strong>软件流程、屏幕录制需求</p><p><strong>输出：</strong>录屏、讲解与提示图形</p><p>录制和软件操作能力取决于运行环境。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/screen-demo.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<article class="pipeline-card"><header><span>12</span><div><h3>真人讲述剪辑</h3><code>talking-head</code></div></header><p><strong>输入：</strong>真人口播、访谈或演讲素材</p><p><strong>输出：</strong>以人物讲述为主的剪辑视频</p><p>可结合字幕、补充镜头和音频处理。 <a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/talking-head.yaml" target="_blank" rel="noopener noreferrer">流程定义 ↗</a></p></article>
+<!-- PIPELINES:END -->
+        </div>
+        <div class="callout"><strong>为什么有多个流程？</strong><p>长视频拆短片，需要先理解已有内容；主题讲解需要先研究与写脚本；角色动画额外涉及角色设计、绑定与动作。它们共用工具和状态机制，但阶段顺序与交付物可以不同。</p></div>
+      </section>
+
+      <section class="chapter" id="workflow">
+        <div class="section-heading"><span>05</span><div><p class="eyebrow">让阶段、成果和检查连起来</p><h2>模型执行阶段，成果把阶段连接起来。</h2></div></div>
+        <div class="mechanism-grid">
+          <article><span>规定任务</span><h3>流程文件 / YAML</h3><p>阶段顺序、输入输出、工具、通过条件、人的确认与制作限制。</p></article>
+          <article><span>指导方法</span><h3>阶段技能 / Markdown</h3><p>研究、脚本、分镜、选材、剪辑等不同职责的工作指导。</p></article>
+          <article><span>形成交接</span><h3>成果与状态 / JSON</h3><p>脚本、素材、剪辑决策和检查点，配合格式与阶段校验。</p></article>
+        </div>
+        <p>以讲解视频流程为例，点击任意阶段查看交接关系。下方按钮只演示阶段前置条件和确认，<strong>不调用模型、不生成素材、不制作视频。</strong></p>
+        <div class="workflow-demo" aria-label="阶段交接教学演示">
+          <div class="demo-top"><strong>60 秒 GitHub 项目解说片</strong><span class="badge">教学示意</span></div>
+          <div class="stage-buttons" role="group" aria-label="选择制作阶段">
+            <button data-stage="0" aria-pressed="true">研究</button><button data-stage="1" aria-pressed="false">方案</button><button data-stage="2" aria-pressed="false">脚本</button><button data-stage="3" aria-pressed="false">分镜</button><button data-stage="4" aria-pressed="false">素材</button><button data-stage="5" aria-pressed="false">剪辑</button><button data-stage="6" aria-pressed="false">合成</button><button data-stage="7" aria-pressed="false">导出</button>
+          </div>
+          <div id="stage-detail" class="stage-detail" aria-live="polite">
+            <h3>研究 / research</h3><p>助手研究主题，整理来源和不同讲解角度。</p><p>输入：主题与受众；输出：research_brief；下一阶段据此提出制作方案。</p>
+          </div>
+          <div class="gate-bar"><div><p class="label">当前演示状态</p><p id="gate-status" aria-live="polite">未完成：研究。请选择阶段，观察前置条件和确认规则。</p></div><div class="demo-actions"><button id="finish-stage" class="button primary">模拟完成阶段</button><button id="approve-stage" class="button secondary" disabled>模拟确认成果</button><button id="reset-flow" class="text-button">重置</button></div></div>
+          <p class="demo-note">这里用简化规则解释真实检查点机制；没有验证文件存在、工具执行、费用或创作质量。确认按钮代表教学中的假设确认，不构成任何实际操作授权。</p>
+        </div>
+        <div class="enforcement-grid">
+          <article><h3>代码能检查的约定</h3><p>阶段是否有效、已知成果格式是否匹配、前置阶段是否完成、必要确认字段是否存在；渲染工具还执行部分媒体和计划检查。扩展阶段和未知成果有兼容分支，全部自然语言要求并未自动校验。</p></article>
+          <article><h3>助手需要判断的质量</h3><p>方案是否有区别、脚本是否清楚、镜头是否合适、配音是否自然、画面是否准确。自然语言的审查要求需要实际执行和验收。</p></article>
+        </div>
+        <p class="source-note">依据：<a href="#source-explainer">阶段输入输出定义</a>、<a href="#source-checkpoint">检查点保存与前置检查</a>。检查点为继续制作提供依据；修改前置材料可能需要重做下游，跨进程外部任务也需另行恢复。</p>
+      </section>
+
+      <section class="chapter" id="paths">
+        <div class="section-heading"><span>06</span><div><p class="eyebrow">共同流程，不同素材路径</p><h2>生成、检索、编程，三条路径可以组合。</h2></div></div>
+        <div class="path-tabs" role="group" aria-label="制作路径"><button data-path="generated" aria-pressed="true" class="active">模型生成素材</button><button data-path="footage" aria-pressed="false">真实镜头检索</button><button data-path="code" aria-pressed="false">代码制作画面</button></div>
+        <div id="path-detail" class="path-detail" aria-live="polite"></div>
+        <div class="retrieval"><h3>真实素材路线，像“先找镜头，再组织视频”。</h3><p>素材建库时下载候选素材、抽取代表帧，把画面与标签转换成向量。分镜描述也转换成文字向量，再融合画面与标签相似度检索候选镜头，并筛选运动程度、避免重复或增加多样性。最后仍由助手和人决定实际选用。</p><p>固定实现采用 CLIP ViT-B/32，将图片和文字映射到 512 维向量，并以多帧均值表示片段。这个表示便于搜索相似画面，但对复杂动作、事件和时间关系的理解有限。</p><p class="source-note"><a href="#source-embedder">CLIP 编码</a> · <a href="#source-corpus">画面与标签融合</a> · <a href="#source-clip-search">分镜检索</a></p></div>
+        <details class="technical-detail"><summary>工具选择评分是怎么来的？</summary><p>候选先经过可用性和任务约束筛选，再按任务适配 30%、预期质量 20%、控制能力 15%、可靠性 15%、成本 10%、延迟 5%、连续性 5% 加权。工具可以提供实测质量、成功率和延迟；缺少时使用稳定性标签、运行类型与关键词匹配等经验值。</p><p>因此排名可解释，但尚不能当作客观质量榜。“沿用同一提供商”也只是连续性的经验信号，无法保证角色或产品一致。<a href="#source-scoring">查看评分源码</a></p></details>
+      </section>
+
+      <section class="chapter" id="code">
+        <div class="section-heading"><span>07</span><div><p class="eyebrow">两种不同的编程能力</p><h2>代码既能加工素材，也能绘制画面。</h2></div></div>
+        <div class="code-grid">
+          <article><p class="label">处理已有媒体</p><h3>Python + FFmpeg 等</h3><p>助手调用现有工具，或编写脚本组织裁剪、拼接、变速、抽帧、字幕、混音、转码与批量处理。</p><div class="example"><strong>例子</strong><p>根据给定时间点拆分一段录屏，再统一尺寸、加入字幕与配音，输出教程视频。</p></div></article>
+          <article><p class="label">生成程序化画面</p><h3>Remotion / HyperFrames</h3><p>助手以代码描述布局、图形、文字、动画与时间线，再由渲染器生成视频帧。可做动态图表、分屏、画中画与原理动画。</p><div class="example"><strong>例子</strong><p>让检索请求依次经过文档、片段索引、模型和引用结果，用动画解释 RAG 流程。</p></div></article>
+        </div>
+        <p><strong>写代码的能力来自助手。</strong> OpenMontage 提供制作指导、工具接口与扩展约定。固定流程允许自定义脚本和风格；自定义布局可能要另写代码，具体任务需测试，不能把“支持扩展”理解为已有全部预设。</p>
+        <p class="source-note"><a href="#source-ffmpeg">处理工具知识</a> · <a href="#source-remotion">程序化画面与自定义合成</a> · <a href="#source-explainer">custom_scripts 等扩展配置</a></p>
+      </section>
+
+      <section class="chapter" id="scenarios">
+        <div class="section-heading"><span>08</span><div><p class="eyebrow">结合你的项目研究，而不是泛泛列功能</p><h2>把研究成果，变成可复用的视听表达。</h2></div></div>
+        <div class="scenario-list">
+          <article><span>首选实验</span><h3>GitHub 项目解说栏目</h3><p>用研究 README、原理图和网页录屏，制作 60–90 秒中文解说。固定“能力 → 原理 → 使用 → 边界”结构，观众再进入详细文档。</p><p class="small">收益验证：制作耗时、人工修改次数、事实错误、图文匹配和总费用。</p></article>
+          <article><span>资料到表达</span><h3>知识科普与软件教程</h3><p>已有资料和经过核对的文稿可以进入讲解流程。论文、技术或农业科普尤其适合使用真实来源和程序化图解；需要资料选择与事实审核。</p><p class="small">高价值部分：把准确知识转成脚本与可理解画面。</p></article>
+          <article><span>复用已有内容</span><h3>录屏、口播、访谈与长内容</h3><p>对已有素材做字幕、混音、片段选择和短内容重组。若任务只是简单转码或剪切，直接调用处理工具也可完成。</p><p class="small">重复制作、复杂交接时，完整流程的价值更明显。</p></article>
+        </div>
+        <div class="research-chain"><span>002 / RAG：提供资料与来源</span><i aria-hidden="true">→</i><span>文稿整理：形成可靠讲解</span><i aria-hidden="true">→</i><span>011 / OpenMontage：组织视听制作</span></div>
+        <p class="small">这是后续衔接设想。本仓库尚未把 001 长文写作、002 RAG 与上游视频工具连接成真实自动化系统。</p>
+        <div class="callout"><strong>学习价值也可以独立存在。</strong><p>阶段职责、成果契约、工具发现、检查点与验收分工，同样适用于项目研究、报告生成和实验流程。你可以先借鉴组合方式，再决定是否维护完整视频环境。</p></div>
+      </section>
+
+      <section class="chapter" id="comparison">
+        <div class="section-heading"><span>09</span><div><p class="eyebrow">本仓库既有研究 · 架构定位比较</p><h2>最接近的是 BaoCut，重点各有不同。</h2></div></div>
+        <p class="lead"><strong>OpenMontage 重点组织制作流程与阶段交接；BaoCut 重点组织同一份可编辑作品上的人机协作。</strong> 两者的视频处理能力有不少重叠，主要差异体现在成果、状态和人的参与方式。</p>
+        <p>这里以 OpenMontage 为基准，对比本仓库已有的 10 个项目。依据是各自固定版本的研究记录；Claude Managed Agents 和 Vibe42 属于公开产品资料研究。<strong>下面没有质量、速度或费用排名，也没有进行相同任务的端到端实测。</strong></p>
+        <h3 class="comparison-heading">不同项目，解决哪个环节？</h3>
+        <div class="table-shell"><table class="comparison-table" id="project-comparison"><caption class="sr-only">OpenMontage 与10个已研究项目的输入输出、定位差异与参考价值</caption><thead><tr><th scope="col">项目 / 研究依据</th><th scope="col">输入 → 输出</th><th scope="col">与 OpenMontage 的区别</th><th scope="col">可借鉴的设计</th></tr></thead><tbody>
+<!-- COMPARISON:START -->
+<tr data-project="011-openmontage" class="current-product"><td data-label="项目 / 依据"><span class="project-role">视频制作</span><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/README.md" target="_blank" rel="noopener noreferrer">OpenMontage ↗</a><small class="project-version">固定版本 e45f5b12bd46</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>主题、资料、参考或已有媒体</p><p><span class="io-label">输出：</span>阶段成果、素材、成片与导出记录</p></td><td data-label="定位与差异">外部助手按技能与 YAML 执行；用结构化成果连接制作阶段。是本表的比较基准。</td><td data-label="可借鉴设计">阶段职责、成果交接、能力工具选择、制作检查。</td></tr>
+<tr data-project="014-baocut"><td data-label="项目 / 依据"><span class="project-role">可编辑作品</span><a href="https://github.com/JimLiu/baocut/blob/7aa049e82e1367da013b7aba80f0b79033fa04ad/README.zh-Hans.md" target="_blank" rel="noopener noreferrer">BaoCut ↗</a><small class="project-version">固定版本 7aa049e82e13</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>素材、创作目标、人工修改与位置反馈</p><p><span class="io-label">输出：</span>可编辑视频、字幕/音频、MP4 与便携项目</p></td><td data-label="定位与差异">AI 与人围绕当前作品继续编辑；UI 与工具接口进入同一套视频命令、事务和撤销机制。</td><td data-label="可借鉴设计">状态共享、局部修改、人工接手、范围控制与撤销。</td></tr>
+<tr data-project="001-infinite-bookshelf"><td data-label="项目 / 依据"><span class="project-role">长文生成</span><a href="https://github.com/Bklieger/infinite-bookshelf/blob/400b272175945d35eaefa68aefe9106fa9d7e467/README.md" target="_blank" rel="noopener noreferrer">Infinite Bookshelf ↗</a><small class="project-version">固定版本 400b27217594</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>主题、要求与参考笔记</p><p><span class="io-label">输出：</span>目录、书名、分节正文和 TXT/PDF 初稿</p></td><td data-label="定位与差异">Python 预设先后顺序和循环，模型生成文字；OpenMontage 的成果、执行工具与制作检查更多。</td><td data-label="可借鉴设计">把重复写作方法固化为可复用流程。</td></tr>
+<tr data-project="002-production-agentic-rag-course"><td data-label="项目 / 依据"><span class="project-role">资料检索</span><a href="https://github.com/jamwithai/production-agentic-rag-course/blob/424a0eb99edf841994f2a9a053912b489d2a94ff/README.md" target="_blank" rel="noopener noreferrer">Production Agentic RAG ↗</a><small class="project-version">固定版本 424a0eb99edf</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>文档、问题与检索参数</p><p><span class="io-label">输出：</span>相关片段、模型回答和来源链接</p></td><td data-label="定位与差异">围绕文字资料的检索与回答依据；OpenMontage 把内容变成视听表达，其 CLIP 检索主要寻找画面。</td><td data-label="可借鉴设计">资料索引、来源追溯、数据衔接和检索评测。</td></tr>
+<tr data-project="006-jev-seo"><td data-label="项目 / 依据"><span class="project-role">审查与证据</span><a href="https://github.com/AgriciDaniel/jev-seo/blob/55a184a3b0d09565a4c84268f725a47784e62528/README.md" target="_blank" rel="noopener noreferrer">Jev SEO ↗</a><small class="project-version">固定版本 55a184a3b0d0</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>网址、页面快照与评估标准</p><p><span class="io-label">输出：</span>固定规则问题、模型判断和整改报告</p></td><td data-label="定位与差异">围绕网页问题判断；固定规则和语义评估分工。OpenMontage 的检查服务于制作过程。</td><td data-label="可借鉴设计">检查标准、证据、未知状态、整改和人工复核。</td></tr>
+<tr data-project="007-hermes-jev-skills"><td data-label="项目 / 依据"><span class="project-role">有限决策</span><a href="https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/README.md" target="_blank" rel="noopener noreferrer">Hermes Jev Skills ↗</a><small class="project-version">固定版本 31f476cac497</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>必要状态、明确问题与有限选项</p><p><span class="io-label">输出：</span>选择、评分或是否判断，供本地策略执行</p></td><td data-label="定位与差异">Jev 提供语义判断，代码施加约束并选择动作；OpenMontage 提供视频流程，现有工具评分含经验值。</td><td data-label="可借鉴设计">把判断、选择、执行与验收分开，用真实任务校准策略。</td></tr>
+<tr data-project="013-claude-managed-agents"><td data-label="项目 / 依据"><span class="project-role">任务运行</span><a href="https://platform.claude.com/docs/en/managed-agents/overview" target="_blank" rel="noopener noreferrer">Claude Managed Agents ↗</a><small class="project-version">公开资料核对 2026-10-14</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>任务、Agent、工具与运行约束</p><p><span class="io-label">输出：</span>多线程成果、事件、运行状态和用量</p></td><td data-label="定位与差异">通用多 Agent 编排与托管运行；模型可编写编排程序。OpenMontage 的主要贡献是视频领域知识与交接约定。</td><td data-label="可借鉴设计">任务依赖、上下文交接、运行控制和失败处理。</td></tr>
+<tr data-project="015-rea"><td data-label="项目 / 依据"><span class="project-role">软件调查</span><a href="https://github.com/morluto/rea/blob/ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4/README.md" target="_blank" rel="noopener noreferrer">REA ↗</a><small class="project-version">固定版本 ebaaa79ca02b</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>具体问题、对应版本的软件材料与观察条件</p><p><span class="io-label">输出：</span>代码/结构、关系、观察证据与分析结果</p></td><td data-label="定位与差异">同样把领域工具接给助手，但围绕问题逐步调查；OpenMontage 围绕制作阶段形成作品。</td><td data-label="可借鉴设计">版本、来源、观察/推导/推测与覆盖边界的记录方法。</td></tr>
+<tr data-project="016-free-claude-code"><td data-label="项目 / 依据"><span class="project-role">模型接入</span><a href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/README.md" target="_blank" rel="noopener noreferrer">Free Claude Code ↗</a><small class="project-version">固定版本 74d4ccfde724</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>模型请求、协议与服务配置</p><p><span class="io-label">输出：</span>适配后的回答、工具指令和流式事件</p></td><td data-label="定位与差异">统一模型入口、协议转换与转发；不定义视频制作步骤。更换助手模型和素材生成服务需分别适配。</td><td data-label="可借鉴设计">模型可替换、协议适配、备用与接入管理。</td></tr>
+<tr data-project="009-cmux"><td data-label="项目 / 依据"><span class="project-role">会话工作台</span><a href="https://github.com/manaflow-ai/cmux/blob/cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb/README.md" target="_blank" rel="noopener noreferrer">cmux ↗</a><small class="project-version">固定版本 cdbe99596fe1</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>现有 Agent 会话、定向指令与状态事件</p><p><span class="io-label">输出：</span>可操作终端/网页、通知与控制结果</p></td><td data-label="定位与差异">让人集中查看和控制多个现有 Agent；任务理解与工具执行仍由各 Agent 完成。</td><td data-label="可借鉴设计">多会话可观察性、身份路由、交互与消息送达。</td></tr>
+<tr data-project="010-vibe42"><td data-label="项目 / 依据"><span class="project-role">远程入口</span><a href="https://vibe42.ai/" target="_blank" rel="noopener noreferrer">Vibe42 ↗</a><small class="project-version">公开资料核对 2026-10-14</small></td><td data-label="输入 → 输出"><p><span class="io-label">输入：</span>远程终端输入、操作与会话目标</p><p><span class="io-label">输出：</span>电脑中的执行结果、文件、状态和提醒</p></td><td data-label="定位与差异">从手机/Web 接续电脑中的 Agent；负责跨设备交互与连接，业务制作由电脑端 Agent 与工具完成。</td><td data-label="可借鉴设计">设备配对、授权、连接、持续会话与远程反馈。</td></tr>
+<!-- COMPARISON:END -->
+        </tbody></table></div>
+        <p class="source-note">项目名链接到固定源码或官方资料；版本标记来自本仓库已记录的研究。Jev SEO 行同时概括本仓库提取的审查实验；其自有模型接入是我们新增的适配。详细记录路径、版本与许可证可<a href="./comparison.json" download="openmontage-comparison.json">下载对比清单</a>查看。</p>
+
+        <h3 class="comparison-heading" id="baocut-comparison">OpenMontage 与 BaoCut：七个维度展开</h3>
+        <div class="table-shell"><table class="comparison-table two-product-table"><caption class="sr-only">OpenMontage 和 BaoCut 的制作与协作编辑机制对比</caption><thead><tr><th scope="col">维度</th><th scope="col">OpenMontage</th><th scope="col">BaoCut</th></tr></thead><tbody>
+          <tr><td data-label="维度">主要目标</td><td data-label="OpenMontage">把研究、方案、脚本、分镜、素材与合成组织成制作过程。</td><td data-label="BaoCut">让人和 AI 围绕当前可编辑作品持续查看、修改和导出。</td></tr>
+          <tr><td data-label="维度">谁组织执行</td><td data-label="OpenMontage">外部助手读取技能与 YAML，选择工具并按阶段成果推进。</td><td data-label="BaoCut">智能体经工具接口修改项目；人经 UI 操作，视频部分进入同一套命令和事务。</td></tr>
+          <tr><td data-label="维度">主要保存的成果</td><td data-label="OpenMontage">简报、脚本、分镜、素材清单、剪辑决策、检查点与渲染记录。</td><td data-label="BaoCut">可编辑项目、时间线、当前修改状态、回执与撤销记录。</td></tr>
+          <tr><td data-label="维度">UI 与人的参与</td><td data-label="OpenMontage">Backlot 是只读制作看板；人在聊天与创作节点查看并确认成果。</td><td data-label="BaoCut">人可预览、试听、直接编辑和撤销，也可指向位置或修改范围让 AI 继续处理。</td></tr>
+          <tr><td data-label="维度">修改入口</td><td data-label="OpenMontage">回到相应脚本、分镜、素材或剪辑决策，核对下游影响并重新合成。</td><td data-label="BaoCut">在同一项目上定位字幕或片段，修改指定范围，再查看回执与撤销结果。</td></tr>
+          <tr><td data-label="维度">交付与继续编辑</td><td data-label="OpenMontage">成片、检查报告、导出目录和中间成果提供继续制作的依据。</td><td data-label="BaoCut">MP4、字幕、音频与可继续编辑的便携 .baocut 包；设计稿另有 HTML/PDF 导出。</td></tr>
+          <tr><td data-label="维度">最值得借鉴</td><td data-label="OpenMontage">阶段职责、成果契约、工具替换、状态与制作验收。</td><td data-label="BaoCut">当前状态共享、人工接手、局部修改、范围控制、事务与撤销。</td></tr>
+        </tbody></table></div>
+        <p class="small">BaoCut 的同一命令、事务与撤销描述限定于视频部分；设计画布有独立运行时。两者都需要真实模型与实际成果验证，不能据文档推断每次人工改动都会被可靠保留。</p>
+
+        <div class="comparison-case"><p class="label">同一目标，观察不同工作重点 · 教学案例</p><h3>“把 RAG 研究做成一分钟视频，再修改第二段字幕。”</h3><div class="code-grid">
+          <article><h3>用 OpenMontage 理解制作</h3><ol><li>把核对过的研究整理为方案、脚本和分镜。</li><li>准备截图、图解与配音，形成素材清单和剪辑决策。</li><li>渲染、检查；要改字幕或镜头时，回到对应成果，核对后续制作。</li></ol><p class="small">重点是从资料到成片，各阶段如何衔接与验收。</p></article>
+          <article><h3>用 BaoCut 理解持续修改</h3><ol><li>在已有可编辑项目中预览、试听，并定位第二段字幕。</li><li>人直接修改，或明确指定范围让 AI 经工具接口修改。</li><li>检查变更回执、其他内容与撤销结果，再继续编辑或导出。</li></ol><p class="small">重点是人和 AI 如何基于当前作品继续协作。</p></article>
+        </div><p>这是工作方式的说明，没有制作真实样片。两者的项目结构与成果格式不同；把视频、字幕或音轨转入另一工具需要导入与适配，<strong>尚未验证直接互通。</strong></p></div>
+
+        <h3 class="comparison-heading">新增理解：三个容易混淆的环节</h3>
+        <div class="distinction-list">
+          <article><h4>资料检索与镜头检索</h4><p>RAG 查找文本片段，为回答补资料与来源。OpenMontage 的 CLIP 路线查找相似画面，为分镜准备镜头。画面匹配不能代替事实核查，文档来源也不会自动变成合适的镜头。</p></article>
+          <article><h4>助手模型与素材模型</h4><p>FCC 主要解决助手侧模型请求的协议、配置和转发。OpenMontage 的图片、视频和 TTS 提供商是素材执行路径。两类服务的能力、参数和接口要各自适配。</p></article>
+          <article><h4>工具评分与语义判断</h4><p>OpenMontage 的七维工具评分包含固定权重和经验值；Jev 接收状态与有限问题，返回语义判断。本地约束、候选选择和实际执行仍需要明确策略与验证。</p></article>
+        </div>
+
+        <h3 class="comparison-heading">对我们而言，可以形成怎样的互补关系？</h3>
+        <div class="research-chain"><span>RAG / 资料与来源</span><i aria-hidden="true">→</i><span>可靠讲解 / 文稿整理</span><i aria-hidden="true">→</i><span>OpenMontage / 制作流程</span><i aria-hidden="true">→</i><span>BaoCut / 可编辑修改</span></div>
+        <p class="small">这是后续组合设计，尚未接通。需要统一来源、素材、项目格式、模型接口、费用与验收，不能仅凭箭头认定已经兼容。</p>
+        <div class="comparison-support">
+          <article><h4>判断与接入</h4><p>Jev Skills 提供有限判断与路由方法；FCC 提供模型连接与协议适配。是否采用应按任务和真实结果验证。</p></article>
+          <article><h4>运行与工作入口</h4><p>Managed Agents 提供任务编排思路；cmux 帮人管理已有会话；Vibe42 提供远程操作入口。业务制作仍由实际助手与工具承担。</p></article>
+          <article><h4>检查与证据</h4><p>Jev SEO 和 REA 可借鉴判断标准、证据、版本与未知的记录方法。网站规则、软件分析工具需要重新适配，才能用于视频领域。</p></article>
+        </div>
+        <div class="callout"><strong>对我们的研究价值</strong><p>学习视频任务的阶段组织，重点看 OpenMontage；学习人的接手和连续修改，重点看 BaoCut；再借鉴其他项目的检索、判断、接入、运行与证据设计。最终是否省时、便宜或少返工，需要用同一真实任务比较。</p></div>
+      </section>
+
+      <section class="chapter" id="extensions">
+        <div class="section-heading"><span>10</span><div><p class="eyebrow">先建立一个可比较的基线</p><h2>先做一条，再决定扩展哪一层。</h2></div></div>
+        <ol class="practice">
+          <li><strong>选已研究清楚的项目。</strong> 准备核对过的资料、实际截图、原理图和录屏，明确受众、时长与交付要求。</li>
+          <li><strong>检查真实可用工具。</strong> 基础环境涉及 Python 3.10+、Node.js 18+、FFmpeg 与 AI 助手；不同路线另需语音、检索、图形或模型依赖。</li>
+          <li><strong>先批准脚本、分镜和代表样片。</strong> 先用可控图解和已有素材跑通一条制作路径，再尝试生成镜头与更复杂动画。</li>
+          <li><strong>记录一条完整制作的成本。</strong> 包含助手/模型费用、生成重试、渲染耗时、人工修订与最终可用程度。上游示例费用不能直接当作你的预算。</li>
+          <li><strong>按重复痛点扩展。</strong> 优先中文术语发音、字幕断句、栏目模板、自有素材索引与来源记录；之后用制作数据改进工具评分。</li>
+        </ol>
+        <div class="extension-grid"><article><h3>内容层</h3><p>接研究资料、论文或 RAG 结果，保留可核查来源；形成自己的脚本与分镜模板。</p></article><article><h3>工具层</h3><p>封装新提供商，核对输入输出、费用、依赖、错误和任务约束；完善可用性报告。</p></article><article><h3>治理层</h3><p>增加真实质量、延迟与成功率记录，明确重试、预算、材料失效和最终验收策略。</p></article></div>
+        <p class="source-note">环境与免费/本地路线见<a href="#source-readme">上游 README</a>。没有付费生成接口时可以探索已有素材和程序化画面；“无需某类 API”不等于没有助手、硬件、下载与维护成本。</p>
+      </section>
+
+      <section class="chapter" id="limits">
+        <div class="section-heading"><span>11</span><div><p class="eyebrow">明确边界，才能判断值不值得用</p><h2>可检查的过程，仍需要真实验收。</h2></div></div>
+        <div class="limits-list">
+          <article><h3>流程执行依赖助手</h3><p>助手读取规范并执行任务。代码提供部分校验；它没有替代助手完成所有调度判断，也不能保证每一条自然语言审查要求都被执行。</p></article>
+          <article><h3>格式正确不等于内容正确</h3><p>成果 schema 检查字段与结构；主题事实、来源支撑、画面含义、字幕准确性和审美质量需要另外核查。</p></article>
+          <article><h3>评分包含经验判断</h3><p>缺少实测数据时，质量、可靠性、延迟等使用默认值。任务适配也涉及关键词和同义词匹配；排名需通过自己的任务验证。</p></article>
+          <article><h3>质量检查有覆盖范围</h3><p>成片工具做文件探测、四个位置抽帧、音量分析和可选文稿比较；部分视觉字段不是完整自动检测。缺少输入时某些检查会跳过，并非所有问题都阻断交付。</p></article>
+          <article><h3>预算约束要看模式与接入</h3><p>固定版本默认 warn；cap 才阻断超预算预留。费用估算、预留和核算还需要在实际调用链中正确使用。</p></article>
+          <article><h3>能力不等于当前环境可用</h3><p>部分流程处于 beta；下载平台、API、GPU、依赖与素材许可都影响执行。导出阶段不表示已经上传到任何平台。</p></article>
+        </div>
+        <p>上游许可证为 <a href="#source-license">AGPL-3.0</a>。本页使用原创说明与图示，并链接固定源码；将上游用于二次开发或服务化时，需核对具体许可要求及第三方素材许可。</p>
+      </section>
+
+      <section class="chapter" id="evidence">
+        <div class="section-heading"><span>12</span><div><p class="eyebrow">研究结论与执行证据分开记录</p><h2>我们验证了什么，哪些仍待验证。</h2></div></div>
+        <div class="evidence-grid">
+          <article class="verified"><p class="label">源码 / 文档核对</p><h3>已核对的研究依据</h3><ul><li>固定 commit、目录中的 12 条制作流程与许可证。</li><li>讲解、真实素材、角色动画的流程定义。</li><li>工具发现、选择评分、素材检索、检查点与预算代码。</li><li>合成工具的渲染前检查与成片检查。</li><li>网页、原理图与教学交互是本仓库原创实现。</li></ul></article>
+          <article><p class="label">上游执行 / 效果</p><h3>尚未验证的事项</h3><ul><li>上游完整安装与从需求到成片的实际制作。</li><li>付费接口和本地 GPU 模型的成功率、耗时与费用。</li><li>中文配音、翻译、字幕同步与人物一致性。</li><li>多种助手对技能、确认和复核规范的遵守程度。</li><li>比直接使用助手与工具节省多少时间和返工。</li></ul></article>
+        </div>
+        <p class="verification-note">网页验证与公开发布情况见<a href="https://github.com/yydshly/1013_codex_project/tree/main/projects/011-openmontage">研究文档与发布记录</a>。网页交互解释流程，不连接上游 OpenMontage、不请求模型、不产出真实视频；网页发布与真实制作验证分别记录。</p>
+        <h3 class="sources-heading">固定版本来源</h3>
+        <p class="small">源码链接统一固定到 <code>e45f5b12bd46440b04f3675af9a77d0718e6a254</code>。架构文档中的旧数量与早期描述，以具体流程和代码为准；工具目录入口与逐行核对分别标明。</p>
+        <ol class="source-list">
+<!-- SOURCES:START -->
+<li id="source-readme"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/README.md" target="_blank" rel="noopener noreferrer">README：定位、输入、制作流程与环境</a><span>上游文档 · README.md</span></li>
+<li id="source-architecture"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/docs/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer">架构说明：助手是调度者，代码提供工具与状态</a><span>上游文档 · 部分清单早于当前源码 · docs/ARCHITECTURE.md</span></li>
+<li id="source-explainer"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/animated-explainer.yaml" target="_blank" rel="noopener noreferrer">讲解视频流程：阶段、输入输出、工具与确认</a><span>已阅读固定源码 · pipeline_defs/animated-explainer.yaml</span></li>
+<li id="source-documentary"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/documentary-montage.yaml" target="_blank" rel="noopener noreferrer">真实素材蒙太奇：语义检索与剪辑规则</a><span>已阅读固定源码 · beta · pipeline_defs/documentary-montage.yaml</span></li>
+<li id="source-character"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/pipeline_defs/character-animation.yaml" target="_blank" rel="noopener noreferrer">角色动画：角色设计、绑定、姿态与动作时间线</a><span>已阅读流程定义 · beta · pipeline_defs/character-animation.yaml</span></li>
+<li id="source-registry"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/tool_registry.py" target="_blank" rel="noopener noreferrer">工具注册表：发现、能力分组、状态和备用工具</a><span>已阅读固定源码 · tools/tool_registry.py</span></li>
+<li id="source-selector"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/video/video_selector.py" target="_blank" rel="noopener noreferrer">视频选择器：候选过滤、评分和提供商选择</a><span>已阅读固定源码 · tools/video/video_selector.py</span></li>
+<li id="source-scoring"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/scoring.py" target="_blank" rel="noopener noreferrer">评分：七项维度、固定权重与经验默认值</a><span>已阅读固定源码 · lib/scoring.py</span></li>
+<li id="source-checkpoint"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/checkpoint.py" target="_blank" rel="noopener noreferrer">检查点：成果格式、前置阶段、确认和历史保存</a><span>已阅读固定源码 · lib/checkpoint.py</span></li>
+<li id="source-cost"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/cost_tracker.py" target="_blank" rel="noopener noreferrer">费用管理：估算、预留、核算与预算模式</a><span>已阅读固定源码 · tools/cost_tracker.py</span></li>
+<li id="source-config"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/config.yaml" target="_blank" rel="noopener noreferrer">默认配置：预算 warn、输出规格与状态策略</a><span>已阅读固定配置 · config.yaml</span></li>
+<li id="source-analyzer"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/analysis/video_analyzer.py" target="_blank" rel="noopener noreferrer">参考视频分析：字幕、镜头、抽帧和节奏</a><span>已阅读固定源码 · tools/analysis/video_analyzer.py</span></li>
+<li id="source-corpus-builder"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/video/corpus_builder.py" target="_blank" rel="noopener noreferrer">素材建库：搜索、下载、抽帧、向量化与来源记录</a><span>已阅读固定源码 · tools/video/corpus_builder.py</span></li>
+<li id="source-embedder"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/clip_embedder.py" target="_blank" rel="noopener noreferrer">CLIP：图片与文字向量，以及视频帧均值聚合</a><span>已阅读固定源码 · lib/clip_embedder.py</span></li>
+<li id="source-corpus"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/corpus.py" target="_blank" rel="noopener noreferrer">素材索引：画面与标签相似度融合、多样性选择</a><span>已阅读固定源码 · lib/corpus.py</span></li>
+<li id="source-clip-search"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/video/clip_search.py" target="_blank" rel="noopener noreferrer">镜头检索：分镜描述查找候选片段</a><span>已阅读固定源码 · tools/video/clip_search.py</span></li>
+<li id="source-compose"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/video/video_compose.py" target="_blank" rel="noopener noreferrer">合成：运行时路由、渲染前校验与成片抽检</a><span>已阅读固定源码 · tools/video/video_compose.py</span></li>
+<li id="source-promise"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/delivery_promise.py" target="_blank" rel="noopener noreferrer">交付要求：检查镜头是否满足约定的运动等条件</a><span>已阅读固定源码 · lib/delivery_promise.py</span></li>
+<li id="source-risk"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/lib/slideshow_risk.py" target="_blank" rel="noopener noreferrer">幻灯片风险：重复画面、弱运动与镜头意图规则</a><span>已阅读固定源码 · lib/slideshow_risk.py</span></li>
+<li id="source-remotion"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/skills/core/remotion.md" target="_blank" rel="noopener noreferrer">Remotion 制作知识：参数化合成、自定义布局与图表</a><span>已阅读技能文档 · skills/core/remotion.md</span></li>
+<li id="source-ffmpeg"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/skills/core/ffmpeg.md" target="_blank" rel="noopener noreferrer">FFmpeg 制作知识：剪切、字幕、混音、调色与音频</a><span>已阅读技能文档 · skills/core/ffmpeg.md</span></li>
+<li id="source-backlot"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/backlot/README.md" target="_blank" rel="noopener noreferrer">Backlot：由文件变化驱动的只读制作看板与回放</a><span>已阅读上游文档 · backlot/README.md</span></li>
+<li id="source-hyperframes"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/skills/core/hyperframes.md" target="_blank" rel="noopener noreferrer">HyperFrames：HTML/CSS/GSAP 制作知识入口</a><span>README 与合成源码交叉引用 · skills/core/hyperframes.md</span></li>
+<li id="source-export"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/publishers/export_bundle.py" target="_blank" rel="noopener noreferrer">导出打包工具入口</a><span>目录确认与流程定义引用，未逐行审查 · tools/publishers/export_bundle.py</span></li>
+<li id="source-3d"><a href="https://github.com/calesthio/OpenMontage/tree/e45f5b12bd46440b04f3675af9a77d0718e6a254/tools/graphics" target="_blank" rel="noopener noreferrer">图形与 3D 工具目录：Blender、Three.js 和生成接口</a><span>目录确认与 README 示例，未逐项运行 · tools/graphics</span></li>
+<li id="source-requirements"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/requirements.txt" target="_blank" rel="noopener noreferrer">基础依赖：Python 库、模型客户端和看板服务</a><span>已阅读固定依赖清单 · requirements.txt</span></li>
+<li id="source-license"><a href="https://github.com/calesthio/OpenMontage/blob/e45f5b12bd46440b04f3675af9a77d0718e6a254/LICENSE" target="_blank" rel="noopener noreferrer">上游 GNU AGPL v3 许可证</a><span>许可证文件已核对 · LICENSE</span></li>
+<!-- SOURCES:END -->
+        </ol>
+        <div class="downloads"><a class="button secondary" href="./assets/overview.svg" download="openmontage-understanding.svg">下载理解总览图</a><a class="button secondary" href="./research-summary.txt" download>下载文字导读</a><a class="button secondary" href="./research.json" download>下载能力与来源清单</a><button class="button secondary" id="print-page">打印 / 保存 PDF</button></div>
+      </section>
+    </div>
+  </div>
+</main>
+<footer class="footer wrap"><div><strong>OpenMontage / 011</strong><p>本仓库原创中文导读与教学演示 · 2026-10-14</p></div><p>结构和能力判断以固定版本为依据，运行效果尚待实测。<br><a href="#top">返回顶部 ↑</a> · <a href="../">返回项目索引</a></p></footer>
+<noscript><p class="noscript-note">JavaScript 未启用。完整能力表、十二条流程和研究正文仍可阅读；筛选与教学交互需要 JavaScript。</p></noscript>
+</body>
+</html>

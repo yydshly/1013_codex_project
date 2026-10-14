@@ -1,0 +1,133 @@
+{
+  "date": "2026-10-14T01:41:25.284Z",
+  "url": "http://127.0.0.1:8792/011-openmontage/",
+  "scope": "本仓库原创静态研究网页；不是上游视频制作验证",
+  "browser": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+  "browser_version": "154.0.8037.99",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "完整静态目录",
+      "status": "passed",
+      "details": {
+        "capabilities": 34,
+        "pipelines": 12,
+        "sources": 27
+      }
+    },
+    {
+      "name": "四项导读与能力、原理、核心价值、可扩展场景摘要完全对应",
+      "status": "passed"
+    },
+    {
+      "name": "首页完整保留全部分项摘要与完整图入口",
+      "status": "passed",
+      "details": {
+        "summary_sections": 18
+      }
+    },
+    {
+      "name": "全部章节和证据锚点、唯一 ID",
+      "status": "passed"
+    },
+    {
+      "name": "站点子路径、首页返回与下载资源 HTTP 200",
+      "status": "passed"
+    },
+    {
+      "name": "完整能力图加载、PNG/SVG 实际下载、原尺寸查看",
+      "status": "passed"
+    },
+    {
+      "name": "11 项对比、七维 BaoCut 对照、来源对应与完整 JSON/文字下载",
+      "status": "passed"
+    },
+    {
+      "name": "响应式 1440px",
+      "status": "passed",
+      "details": {
+        "viewport": 1440,
+        "document": 1440,
+        "images": true
+      }
+    },
+    {
+      "name": "六类能力筛选、关键词、空结果、恢复全部",
+      "status": "passed"
+    },
+    {
+      "name": "三条制作路径切换",
+      "status": "passed"
+    },
+    {
+      "name": "前置阶段阻断、五个确认门、完整八阶段与重置",
+      "status": "passed"
+    },
+    {
+      "name": "交接材料示例展开",
+      "status": "passed"
+    },
+    {
+      "name": "响应式 1024px",
+      "status": "passed",
+      "details": {
+        "viewport": 1024,
+        "document": 1024,
+        "images": true
+      }
+    },
+    {
+      "name": "响应式 768px",
+      "status": "passed",
+      "details": {
+        "viewport": 768,
+        "document": 768,
+        "images": true
+      }
+    },
+    {
+      "name": "响应式 390px",
+      "status": "passed",
+      "details": {
+        "viewport": 390,
+        "document": 390,
+        "images": true
+      }
+    },
+    {
+      "name": "响应式 320px",
+      "status": "passed",
+      "details": {
+        "viewport": 320,
+        "document": 320,
+        "images": true
+      }
+    },
+    {
+      "name": "手机比较表逐项目显示、11 项完整可见且无横向溢出",
+      "status": "passed"
+    },
+    {
+      "name": "禁用 JavaScript 仍完整阅读",
+      "status": "passed"
+    },
+    {
+      "name": "无脚本错误、无页面自动外部请求",
+      "status": "passed"
+    },
+    {
+      "name": "直接打开本地 HTML 的正文、图片、筛选与教学交互",
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "assets/05-web-comparison.png",
+    "assets/06-web-baocut.png",
+    "assets/01-web-overview.png",
+    "assets/04-web-capabilities.png",
+    "assets/02-web-workflow.png",
+    "assets/03-web-mobile.png",
+    "assets/07-web-comparison-mobile.png"
+  ]
+}

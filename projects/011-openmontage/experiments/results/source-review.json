@@ -1,0 +1,315 @@
+{
+  "date": "2026-10-14",
+  "repository": "https://github.com/calesthio/OpenMontage",
+  "source_ref": "e45f5b12bd46440b04f3675af9a77d0718e6a254",
+  "source_commit_time_utc": "2026-10-12T16:48:52Z",
+  "license": "AGPL-3.0",
+  "method": "固定 commit 的 GitHub 源码、目录和上游文档阅读；本记录不包含上游运行证据。",
+  "sources": [
+    {
+      "id": "readme",
+      "path": "README.md",
+      "title": "README：定位、输入、制作流程与环境",
+      "kind": "上游文档",
+      "git_object": "b4612e95d34f3820253c96e48582a9c3a8113815",
+      "cached_full_content_available": false
+    },
+    {
+      "id": "architecture",
+      "path": "docs/ARCHITECTURE.md",
+      "title": "架构说明：助手是调度者，代码提供工具与状态",
+      "kind": "上游文档 · 部分清单早于当前源码",
+      "git_object": "90337ed2affc2f485b340df2885c103bf9ff8e0b",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "explainer",
+      "path": "pipeline_defs/animated-explainer.yaml",
+      "title": "讲解视频流程：阶段、输入输出、工具与确认",
+      "kind": "已阅读固定源码",
+      "git_object": "bd17a1975214077c74b6ebc8fb68ad18eaf331ed",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "documentary",
+      "path": "pipeline_defs/documentary-montage.yaml",
+      "title": "真实素材蒙太奇：语义检索与剪辑规则",
+      "kind": "已阅读固定源码 · beta",
+      "git_object": "2b7ef65c9aaf71783cd12c086da978ce29ffea03",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "character",
+      "path": "pipeline_defs/character-animation.yaml",
+      "title": "角色动画：角色设计、绑定、姿态与动作时间线",
+      "kind": "已阅读流程定义 · beta",
+      "git_object": "e40452ecd81496b44225973b36c1b210dff22d00",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "registry",
+      "path": "tools/tool_registry.py",
+      "title": "工具注册表：发现、能力分组、状态和备用工具",
+      "kind": "已阅读固定源码",
+      "git_object": "7dcf0d32c74e0d8dda2f79b45c643199e806eb57",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "selector",
+      "path": "tools/video/video_selector.py",
+      "title": "视频选择器：候选过滤、评分和提供商选择",
+      "kind": "已阅读固定源码",
+      "git_object": "7e00df73eac392fe89247cd6f73ff54506536330",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "scoring",
+      "path": "lib/scoring.py",
+      "title": "评分：七项维度、固定权重与经验默认值",
+      "kind": "已阅读固定源码",
+      "git_object": "ab7344a35f66697fc00b8b58ceff51692ebd721f",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "checkpoint",
+      "path": "lib/checkpoint.py",
+      "title": "检查点：成果格式、前置阶段、确认和历史保存",
+      "kind": "已阅读固定源码",
+      "git_object": "3951d35ce1a822147234901c9d802409d3a31a2d",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "cost",
+      "path": "tools/cost_tracker.py",
+      "title": "费用管理：估算、预留、核算与预算模式",
+      "kind": "已阅读固定源码",
+      "git_object": "be0355e357829e10f1d8dab953411c54214d824c",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "config",
+      "path": "config.yaml",
+      "title": "默认配置：预算 warn、输出规格与状态策略",
+      "kind": "已阅读固定配置",
+      "git_object": "f930a43eec6360fa2a50d0379672ecb6b6b9352f",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "analyzer",
+      "path": "tools/analysis/video_analyzer.py",
+      "title": "参考视频分析：字幕、镜头、抽帧和节奏",
+      "kind": "已阅读固定源码",
+      "git_object": "c4787a918bf6cbbdcdb57af7ede08420940429a5",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "corpus-builder",
+      "path": "tools/video/corpus_builder.py",
+      "title": "素材建库：搜索、下载、抽帧、向量化与来源记录",
+      "kind": "已阅读固定源码",
+      "git_object": "82eefe58066a43454bf2bba57658f1b39849a2ee",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "embedder",
+      "path": "lib/clip_embedder.py",
+      "title": "CLIP：图片与文字向量，以及视频帧均值聚合",
+      "kind": "已阅读固定源码",
+      "git_object": "82f0e1cd44822908d182548917b58728ce15211c",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "corpus",
+      "path": "lib/corpus.py",
+      "title": "素材索引：画面与标签相似度融合、多样性选择",
+      "kind": "已阅读固定源码",
+      "git_object": "068d617a1d6472f929ddc58de420f6b9f5ab29fb",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "clip-search",
+      "path": "tools/video/clip_search.py",
+      "title": "镜头检索：分镜描述查找候选片段",
+      "kind": "已阅读固定源码",
+      "git_object": "a141a6d3e0652290cc01b0b4e4aec46c98c3c7fc",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "compose",
+      "path": "tools/video/video_compose.py",
+      "title": "合成：运行时路由、渲染前校验与成片抽检",
+      "kind": "已阅读固定源码",
+      "git_object": "b0edc8de5249d987476bb03bab60abf20affc626",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "promise",
+      "path": "lib/delivery_promise.py",
+      "title": "交付要求：检查镜头是否满足约定的运动等条件",
+      "kind": "已阅读固定源码",
+      "git_object": "9f3bad39d34f5d8593bb35b2eb5bd870fc437a8a",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "risk",
+      "path": "lib/slideshow_risk.py",
+      "title": "幻灯片风险：重复画面、弱运动与镜头意图规则",
+      "kind": "已阅读固定源码",
+      "git_object": "43f507d1176282b7105df41e93b97319e6dd2b38",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "remotion",
+      "path": "skills/core/remotion.md",
+      "title": "Remotion 制作知识：参数化合成、自定义布局与图表",
+      "kind": "已阅读技能文档",
+      "git_object": "c0e7564f050b790c92f967e4e1270e5d6c4c0818",
+      "cached_full_content_available": false
+    },
+    {
+      "id": "ffmpeg",
+      "path": "skills/core/ffmpeg.md",
+      "title": "FFmpeg 制作知识：剪切、字幕、混音、调色与音频",
+      "kind": "已阅读技能文档",
+      "git_object": "8e564233ed7c3d7d5465c8ccba38b102b0eb5910",
+      "cached_full_content_available": false
+    },
+    {
+      "id": "backlot",
+      "path": "backlot/README.md",
+      "title": "Backlot：由文件变化驱动的只读制作看板与回放",
+      "kind": "已阅读上游文档",
+      "git_object": "6ce7edcbb23bf471b4eebb10311bd460fb967792",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "hyperframes",
+      "path": "skills/core/hyperframes.md",
+      "title": "HyperFrames：HTML/CSS/GSAP 制作知识入口",
+      "kind": "README 与合成源码交叉引用",
+      "git_object": "315fe346e6b5dbcb2c7c9c387a3f25cb5e32e093",
+      "cached_full_content_available": false
+    },
+    {
+      "id": "export",
+      "path": "tools/publishers/export_bundle.py",
+      "title": "导出打包工具入口",
+      "kind": "目录确认与流程定义引用，未逐行审查",
+      "git_object": "43cd21efbdd792c9f360934d05e4b2ceecbb05d8",
+      "cached_full_content_available": false
+    },
+    {
+      "id": "3d",
+      "path": "tools/graphics",
+      "title": "图形与 3D 工具目录：Blender、Three.js 和生成接口",
+      "kind": "目录确认与 README 示例，未逐项运行",
+      "git_object": "f5394b2836c422f1d109ab4bc533012ec4e02e91",
+      "cached_full_content_available": false
+    },
+    {
+      "id": "requirements",
+      "path": "requirements.txt",
+      "title": "基础依赖：Python 库、模型客户端和看板服务",
+      "kind": "已阅读固定依赖清单",
+      "git_object": "1a26d96e620fe8f6b040dda208087cb4698f605c",
+      "cached_full_content_available": true
+    },
+    {
+      "id": "license",
+      "path": "LICENSE",
+      "title": "上游 GNU AGPL v3 许可证",
+      "kind": "许可证文件已核对",
+      "git_object": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
+      "cached_full_content_available": false
+    }
+  ],
+  "production_pipeline_ids": [
+    "animated-explainer",
+    "animation",
+    "avatar-spokesperson",
+    "character-animation",
+    "cinematic",
+    "clip-factory",
+    "documentary-montage",
+    "hybrid",
+    "localization-dub",
+    "podcast-repurpose",
+    "screen-demo",
+    "talking-head"
+  ],
+  "evidence": [
+    {
+      "path": "pipeline_defs/animated-explainer.yaml",
+      "lines": [
+        64,
+        269
+      ],
+      "finding": "八阶段、技能入口、输入输出、工具和默认确认门；参考制作有 sample 子阶段。"
+    },
+    {
+      "path": "lib/checkpoint.py",
+      "lines": [
+        124,
+        160
+      ],
+      "finding": "标准阶段必要成果与已知成果 schema；未知成果跳过该 schema 检查。"
+    },
+    {
+      "path": "lib/checkpoint.py",
+      "lines": [
+        284,
+        349
+      ],
+      "finding": "推进 completed/awaiting_human 时检查前序完成与确认字段；未知流程和失败/进行中状态有分支。"
+    },
+    {
+      "path": "lib/checkpoint.py",
+      "lines": [
+        470,
+        495
+      ],
+      "finding": "正常写入 gated completed 状态需 human_approved=True，字段由调用者记录，仍需真实人的确认。"
+    },
+    {
+      "path": "tools/cost_tracker.py",
+      "lines": [
+        101,
+        175
+      ],
+      "finding": "estimate/reserve/reconcile；warn 超预算记警告，cap 阻断；另有单次费用和新付费工具确认。"
+    },
+    {
+      "path": "lib/scoring.py",
+      "lines": [
+        28,
+        45
+      ],
+      "finding": "七维固定权重；后续 score_provider 包含默认经验值和可选实测数据。"
+    },
+    {
+      "path": "lib/clip_embedder.py",
+      "finding": "CLIP ViT-B/32、512 维文字/图像向量与视频多帧均值；没有完整事件事实验证。"
+    },
+    {
+      "path": "lib/corpus.py",
+      "finding": "素材索引、画面/标签融合和多样性选择。"
+    },
+    {
+      "path": "tools/video/video_compose.py",
+      "finding": "不同运行时路由、渲染前规则与成片抽检；部分检查可跳过或非阻断。"
+    },
+    {
+      "path": "backlot/README.md",
+      "finding": "文件驱动的只读制作看板和记录回放。"
+    }
+  ],
+  "not_verified": [
+    "完整安装和从输入到真实成片",
+    "付费接口、本地 GPU 模型与所有提供商",
+    "中文发音、字幕、翻译、口型和角色连续性",
+    "真实费用、性能、返工和效率优势",
+    "所有流程与3D工具逐项运行",
+    "公网网页部署"
+  ],
+  "original_work": "中文归纳、原理图、静态网页和教学交互；没有复制完整上游源码或素材。"
+}

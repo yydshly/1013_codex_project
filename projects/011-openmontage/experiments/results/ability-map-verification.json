@@ -1,0 +1,12 @@
+{
+  "date": "2026-10-14T00:56:00.730Z",
+  "status": "passed",
+  "width": 2200,
+  "height": 4753,
+  "capabilities": 34,
+  "pipelines": 12,
+  "text_width_issues": [],
+  "browser_version": "154.0.8037.99",
+  "source_ref": "e45f5b12bd46440b04f3675af9a77d0718e6a254",
+  "scope": "原创 SVG 完整性、实际字体边界与 PNG 渲染；不代表上游制作实测"
+}
