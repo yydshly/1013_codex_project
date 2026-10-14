@@ -13,7 +13,7 @@ from pathlib import Path
 from urllib.parse import quote
 
 from project_index import (
-    DIRECTORY_PATTERN, ROOT, STATUSES, has_guide_image, source_details,
+    DIRECTORY_PATTERN, ROOT, STATUSES, has_guide_image, overview_text, source_details,
     validate_source, validate_summary_sections, validate_url,
 )
 
@@ -67,6 +67,7 @@ def read_metadata(root: Path, directory: str) -> dict:
         raise ValueError(f"{directory}: tags must be a list of nonempty strings")
     validate_source(metadata)
     validate_summary_sections(metadata, directory)
+    overview_text({**metadata, "directory": directory})
     for field in ("source_ref", "source_license", "demo_url"):
         value = metadata.get(field, "")
         if not isinstance(value, str) or "\n" in value or "\r" in value:
@@ -121,14 +122,28 @@ def demo_files(root: Path, project: dict, tracked: set[str] | None) -> list[Path
     return files
 
 
-def render_home(projects: list[dict], repository: str) -> str:
+def render_home(
+    projects: list[dict], repository: str, *, overview_projects: list[dict] | None = None,
+) -> str:
     rows = []
     guides = []
-    has_website = any(p.get("source_type") == "website" for p in projects)
+    overviews = []
+    overview_projects = projects if overview_projects is None else overview_projects
+    demo_directories = {project["directory"] for project in projects}
+    has_website = any(p.get("source_type") == "website" for p in overview_projects)
     source_heading = "研究来源" if has_website else "目标源库"
     catalog_title = "项目与产品研究" if has_website else "开源项目研究"
     catalog_eyebrow = "GITHUB 项目与产品公开资料研究" if has_website else "GITHUB 开源项目研究"
     source_basis = "从源码、官方资料和演示出发" if has_website else "从源码和演示出发"
+    for project in overview_projects:
+        directory = quote(project["directory"], safe="-_")
+        research_url = f"https://github.com/{repository}/blob/main/projects/{directory}/README.md"
+        overview_url = f"./{directory}/" if project["directory"] in demo_directories else research_url
+        short_name = html.escape(project["name"].partition("：")[0])
+        overviews.append(
+            f'<li><span class="overview-number">{project["id"]}</span>'
+            f'<p><a href="{overview_url}">{short_name}</a>：{html.escape(overview_text(project))}</p></li>'
+        )
     for project in projects:
         directory = quote(project["directory"], safe="-_")
         research_url = f"https://github.com/{repository}/blob/main/projects/{directory}/README.md"
@@ -173,6 +188,10 @@ def render_home(projects: list[dict], repository: str) -> str:
     gallery = ('<section class="project-guides" id="project-guides" aria-labelledby="guides-heading">'
                '<h2 id="guides-heading">项目引导图</h2><p class="guide-intro">按项目编号阅读整体思路、架构或导读页面。每张图保留来源说明，点击图片可查看原图。</p>'
                + "\n".join(guides) + '</section>') if guides else ""
+    overview = ('<section class="project-overviews" aria-labelledby="overviews-heading">'
+                '<h2 id="overviews-heading">一句话速览</h2>'
+                '<p class="overview-intro">每句概括能力、核心机制与我们的扩展；“拟”表示后续方向，详细依据与验证范围见下方索引。</p>'
+                '<ol>' + "\n".join(overviews) + '</ol></section>') if overviews else ""
     return f'''<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="{catalog_title}：能力、实现原理、输入输出、实际效果、价值与局限，附研究依据和可交互演示。">
@@ -186,14 +205,15 @@ caption{{text-align:left;font-size:20px;font-weight:700;padding:0 0 14px}}.col-n
 thead th{{background:#edf2ea;color:#3e5745;font-size:14px;text-align:left;padding:13px 16px;border-bottom:1px solid #dce2da}}tbody td,tbody th{{text-align:left;vertical-align:top;padding:22px 16px;border-bottom:1px solid #e4e9e1;font-weight:400;overflow-wrap:anywhere}}tbody tr:last-child>*{{border-bottom:0}}
 .number{{color:#597363;font-weight:700;font-variant-numeric:tabular-nums}}h2{{font-size:20px;line-height:1.5;margin:0 0 14px}}h2 a{{text-decoration:none}}.source a{{font-weight:650;font-size:15px}}.owner{{display:block;color:#69776e;font-size:13px;margin-top:6px}}
 .summary{{margin:0;white-space:normal}}.summary-sections{{margin:0}}.summary-sections>div{{display:grid;grid-template-columns:6em minmax(0,1fr);gap:12px;padding:9px 0;border-bottom:1px solid #edf0ea}}.summary-sections>div:first-child{{padding-top:0}}.summary-sections>div:last-child{{border-bottom:0;padding-bottom:0}}.summary-sections dt{{font-weight:650;color:#3e5745;font-size:14px}}.summary-sections dd{{margin:0;font-size:15px;line-height:1.75}}
+.project-overviews{{margin:0 0 36px}}.project-overviews h2{{margin-bottom:8px}}.overview-intro{{color:#53636a;margin:0 0 14px;font-size:14px}}.project-overviews ol{{list-style:none;padding:0;margin:0}}.project-overviews li{{display:grid;grid-template-columns:3em minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid #dce2da}}.overview-number{{color:#597363;font-weight:700;font-variant-numeric:tabular-nums}}.project-overviews li p{{margin:0;overflow-wrap:anywhere}}.project-overviews li a{{font-weight:650}}
 .tags{{display:flex;flex-wrap:wrap;gap:6px}}.tags span{{font-size:12px;background:#eef4ed;border-radius:20px;padding:2px 9px}}.status{{display:inline-block;font-size:12px;color:#32593d;background:#eaf2e6;padding:3px 10px;border-radius:20px;margin-bottom:13px}}.links{{display:flex;flex-direction:column;align-items:flex-start;gap:10px;font-size:14px}}.primary{{font-weight:650}}footer{{color:#748078;font-size:13px;margin-top:32px}}.empty{{padding:28px;background:white;border-radius:12px}}
 .project-guides{{margin-top:44px;scroll-margin-top:24px}}.project-guides>h2{{font-size:26px;margin-bottom:8px}}.guide-intro{{color:#53636a;margin:0 0 22px}}.project-guide{{background:#fff;border:1px solid #dce2da;border-radius:12px;padding:26px;margin-bottom:24px;scroll-margin-top:24px}}.project-guide h3{{font-size:20px;line-height:1.5;margin:0 0 20px}}.project-guide figure{{margin:0}}.project-guide figure>a{{display:block;text-align:center;background:#f3f5f0;border-radius:8px;padding:18px}}.project-guide img{{display:block;width:100%;max-width:760px;height:auto;margin:0 auto;border-radius:6px}}.project-guide figcaption{{color:#62736a;font-size:14px;margin:14px 0 18px;overflow-wrap:anywhere}}.guide-links{{display:flex;flex-wrap:wrap;gap:12px 24px;font-size:14px}}
 @media(max-width:1000px){{.wrap{{padding:28px 20px}}.project-index,.project-index tbody{{display:block;border:0;background:transparent}}.project-index colgroup,.project-index thead{{display:none}}.project-index caption{{display:block}}.project-index tr{{display:grid;grid-template-columns:1fr 1fr;background:#fff;border:1px solid #dce2da;border-radius:12px;padding:20px;margin:0 0 20px;gap:20px}}tbody td,tbody th{{display:block;padding:0;border:0}}tbody [data-label]::before{{content:attr(data-label);display:block;font-size:12px;color:#69776e;margin-bottom:7px}}.number{{grid-column:1/-1;display:flex;gap:8px;align-items:center}}tbody .number::before{{margin:0}}.project-name,.project-summary{{grid-column:1/-1}}.project-name{{grid-row:2}}.project-summary{{grid-row:4}}.source{{grid-column:1}}.entries{{grid-column:2}}.status{{margin-bottom:9px}}h2{{margin-bottom:10px}}}}
 @media(max-width:520px){{.wrap{{padding:24px 14px}}.project-index tr{{padding:18px;gap:18px}}.source,.entries{{grid-column:1/-1}}.project-summary{{grid-row:5}}.summary-sections>div{{grid-template-columns:1fr;gap:3px;padding:12px 0}}h2{{font-size:21px}}}}
 </style></head><body><main class="wrap"><header><div class="eyebrow">{catalog_eyebrow}</div><h1>理解能力、原理与实际价值。</h1>
 <p>{source_basis}，说明项目能做什么、如何执行、接受什么输入、产生什么输出，以及它对我们有什么用。区分验证结果、研究判断与尚未验证的事项。</p>
-<p>当前有 {len(projects)} 个静态研究演示。点击{source_heading}名称查看研究目标，按分项摘要快速判断能力和价值；引导图在索引表下方独立展示，详细说明与示例见项目页。</p></header>
-{content}{gallery}<footer><a href="https://github.com/{repository}">查看研究仓库 ↗</a> · 静态页面公开展示；模型密钥和本地实验后端不随站点发布。</footer></main></body></html>
+<p>当前有 {len(overview_projects)} 个研究项目、{len(projects)} 个静态演示。先读一句话速览，再查看详细索引；点击{source_heading}名称查看研究目标，引导图在索引表下方，详细说明与示例见项目页。</p></header>
+{overview}{content}{gallery}<footer><a href="https://github.com/{repository}">查看研究仓库 ↗</a> · 静态页面公开展示；模型密钥和本地实验后端不随站点发布。</footer></main></body></html>
 '''
 
 
@@ -219,8 +239,10 @@ def build_site(
         if len(parts := path.split("/")) == 3 and parts[0] == "projects" and parts[2] == "project.json"
     })))
     selected = []
+    overview_projects = []
     for directory in directories:
         metadata = read_metadata(root, directory)
+        overview_projects.append(metadata)
         files = demo_files(root, metadata, tracked)
         entry = root / "projects" / directory / "web" / "index.html"
         if entry not in files:
@@ -232,6 +254,7 @@ def build_site(
             raise ValueError(f"Preview image must be tracked before publishing: {directory}")
         selected.append((metadata, files, preview))
     selected.sort(key=lambda item: int(item[0]["id"]))
+    overview_projects.sort(key=lambda project: int(project["id"]))
     # Build completely before replacing any previous output; no input directories are deleted.
     with tempfile.TemporaryDirectory(prefix=".site-build-", dir=root) as temporary:
         staging = Path(temporary)
@@ -246,7 +269,10 @@ def build_site(
             previews.mkdir(exist_ok=True)
             shutil.copyfile(preview, previews / f"{metadata['directory']}{preview.suffix.lower()}")
         published = [item[0] for item in selected]
-        (staging / "index.html").write_text(render_home(published, repository), encoding="utf-8", newline="\n")
+        (staging / "index.html").write_text(
+            render_home(published, repository, overview_projects=overview_projects),
+            encoding="utf-8", newline="\n",
+        )
         (staging / ".nojekyll").write_text("", encoding="utf-8")
         (staging / MARKER).write_text(json.dumps({
             "generator": "scripts/build_site.py", "repository": repository,

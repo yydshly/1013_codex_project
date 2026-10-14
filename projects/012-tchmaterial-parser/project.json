@@ -2,6 +2,7 @@
   "id": "012",
   "slug": "tchmaterial-parser",
   "name": "tchMaterial Parser：小学教材批量下载与整理研究",
+  "overview": "解析国家中小学智慧教育平台资源，按需认证、批量下载并分类保存教材与配套资料，我们拟扩展版本追溯、正文检索与 RAG。",
   "summary": "不同版本小学课本与配套资料的桌面下载工具：从国家中小学智慧教育平台读取资源信息，按需认证后批量获取 PDF、音频和受支持的教学文件，自动命名、分类保存并集中处理失败。价值在于减少重复获取和整理，适合整学期资料、听力、备课与人工版本对比；来源追溯、更新识别、正文检索及 RAG 是后续扩展。上游也覆盖初中、高中，不托管教材。",
   "source_url": "https://github.com/happycola233/tchMaterial-parser",
   "summary_sections": [

@@ -2,6 +2,7 @@
   "id": "013",
   "slug": "claude-managed-agents",
   "name": "Claude Managed Agents：多 Agent 编排、运行管理与参考价值研究",
+  "overview": "由主 Agent 用模型规划、编排程序按依赖分派和汇总多 Agent 任务，我们拟借鉴其机制建设批量研究与验收流水线。",
   "summary": "Claude Managed Agents 是托管 Agent API 服务，本质是多 Agent 的编排与运行管理。主 Agent 依靠模型规划拆分任务，由编排程序按依赖分派、交接、处理失败并汇总；单次工作流累计启动 Agent 上限 1000，非同时并发。核心价值是把大型目标组织成可验收的工作，适用于并行研究、大型任务和模块化开发，可参考扩展研究流水线、RAG、模型路由、工程集成与运行看板。",
   "source_type": "website",
   "source_name": "Claude Managed Agents 官方文档",

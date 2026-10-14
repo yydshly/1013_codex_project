@@ -74,6 +74,32 @@ class ProjectToolsTests(unittest.TestCase):
         rendered = render_index(load_projects(self.root))
         self.assertLess(rendered.index("z-first"), rendered.index("a-second"))
 
+    def test_overviews_precede_table_with_escaped_text_and_legacy_fallback(self):
+        first = self.create("first", name="库 A：详细研究", summary="A 的完整研究摘要")
+        self.create("second", name="库 B", summary="B 的原始摘要")
+        self.modify_metadata(first, overview="<模型> *检查* [资料]，我们拟扩展报告。")
+        projects = load_projects(self.root)
+        overview, table = render_index(projects).split("### 详细索引\n", 1)
+        self.assertIn("### 一句话速览", overview)
+        self.assertIn("**001 · [库 A](./projects/001-first/README.md)**", overview)
+        self.assertIn("&lt;模型&gt; \\*检查\\* \\[资料\\]，我们拟扩展报告。", overview)
+        self.assertIn("**002 · [库 B](./projects/002-second/README.md)**：B 的原始摘要", overview)
+        self.assertLess(overview.index("001 ·"), overview.index("002 ·"))
+        self.assertNotIn("A 的完整研究摘要", overview)
+        self.assertIn("库 A：详细研究", table)
+        self.assertIn("A 的完整研究摘要", table)
+        self.assertFalse(update_readme(self.root, check=True))
+        update_readme(self.root)
+        self.assertTrue(update_readme(self.root, check=True))
+
+    def test_invalid_overviews_are_rejected(self):
+        target = self.create()
+        for overview in (None, 1, [], {}, "", " \t ", "第一行\n第二行", "第一行\r第二行"):
+            with self.subTest(overview=overview):
+                self.modify_metadata(target, overview=overview)
+                with self.assertRaisesRegex(ValueError, "overview"):
+                    load_projects(self.root)
+
     def test_product_website_requires_explicit_type_and_renders_honest_source(self):
         with self.assertRaises(ValueError):
             create_project("product", "产品", "https://vibe42.ai/", "公开资料研究", root=self.root)

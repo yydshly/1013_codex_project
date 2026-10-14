@@ -25,6 +25,14 @@ TEXT_FIELDS = (
 OPTIONAL_TEXT_FIELDS = {"source_ref", "source_license", "demo_url"}
 
 
+def overview_text(project: dict) -> str:
+    """Read the concise overview, falling back to legacy summaries."""
+    value = project.get("overview", project["summary"])
+    if not isinstance(value, str) or not value.strip() or "\n" in value or "\r" in value:
+        raise ValueError(f"{project['directory']}: overview must be a nonempty single-line string")
+    return value
+
+
 def validate_url(value: str, *, github: bool = False) -> None:
     """Accept public HTTP(S) links, optionally requiring a GitHub repository URL."""
     url = urlsplit(value)
@@ -130,6 +138,7 @@ def load_projects(root: Path = ROOT) -> list[dict]:
         ):
             raise ValueError(f"{directory.name}: tags must be a list of nonempty strings")
         validate_summary_sections(metadata, directory.name)
+        overview_text({**metadata, "directory": directory.name})
         validate_source(metadata)
         if metadata["demo_url"]:
             validate_url(metadata["demo_url"])
@@ -177,6 +186,17 @@ def render_index(projects: list[dict]) -> str:
             "暂无研究项目。首个项目将从 **001** 开始；添加后，这里会展示项目摘要、目标源库、研究状态和相关入口。"
         )
         return "\n".join(lines)
+    lines.extend([
+        "### 一句话速览", "",
+        "每句概括能力、核心机制与我们的扩展；“拟”表示后续方向，详细依据与验证范围见下方索引。", "",
+    ])
+    for project in projects:
+        path = f"./projects/{project['directory']}/README.md"
+        name = markdown_text(project["name"].partition("：")[0])
+        lines.append(
+            f"- **{project['id']} · [{name}]({path})**：{markdown_text(overview_text(project))}"
+        )
+    lines.extend(["", "### 详细索引", ""])
     source_heading = "研究来源" if any(p.get("source_type") == "website" for p in projects) else "目标源库"
     lines.extend([
         f"| 编号 | 项目 / 研究摘要 | {source_heading} | 研究状态 | 相关入口 |",

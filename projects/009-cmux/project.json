@@ -2,6 +2,7 @@
   "id": "009",
   "slug": "cmux",
   "name": "cmux：一个人控制多个 Agent 的工作台与实现原理",
+  "overview": "用终端分屏、会话定位与定向控制让一个人管理多个 Agent，我们已补交互教学，拟扩展任务编排与成果验收。",
   "summary": "把多个现有 Agent 会话放进一个工作台，分屏展示、独立交互、定向控制，让它们并行工作，使一个人能够同时管理和控制多个 Agent；研究其价值、架构原理、接入方式与扩展思路。",
   "source_url": "https://github.com/manaflow-ai/cmux",
   "source_ref": "cdbe99596fe13784ec5ea24d2e1c720a8f67f5cb",

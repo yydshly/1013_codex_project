@@ -2,6 +2,7 @@
   "id": "004",
   "slug": "leak-check",
   "name": "Leak Check：个人信息泄漏查询与关联原理研究",
+  "overview": "在已有 SQLite 数据中精确查询、一轮关联并脱敏返回个人信息，我们仅保留查询机制参考，暂不扩展。",
   "summary": "支持按手机号、邮箱、身份证号和 QQ 号搜索；本质是在本地 SQLite 既有数据库中精确匹配、再关联一轮并脱敏返回。完整数据未随仓库提供，对我们价值不大，主要是数据库查询与处理的封装，保留参考即可。",
   "source_url": "https://github.com/garinasset/leak-check",
   "source_ref": "7e3a113b9cf616b142ad5236c547c2c9a9246607",

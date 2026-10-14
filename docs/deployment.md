@@ -16,6 +16,8 @@ https://yydshly.github.io/1013_codex_project/
 
 没有公开源码的产品可显式登记 `source_type: "website"` 与真实官网。混合索引的来源栏使用“研究来源”，网站项目标记为公开资料研究，首页也不把整个列表概括为开源产品。此来源类型不会改变发布范围、独立子路径或 `demo_url` 的验证要求。
 
+首页索引表上方的“一句话速览”从各项目的 `overview` 自动生成，概括能力、核心机制和我们的扩展；“拟”表示后续方向。速览覆盖全部已跟踪研究项目，无静态演示的项目链接到研究文档；演示表与发布目录继续保留各项目的独立入口。未填写 `overview` 的旧项目回退到 `summary`。
+
 ## 当前已验证发布
 
 2026-10-13，已启用仓库 GitHub Pages 的 Actions 发布方式，首次部署提交为 `8d12bcc46c753c9ddc30c8b95f32fa92ecd29013`，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38393707526)以及索引检查均成功。

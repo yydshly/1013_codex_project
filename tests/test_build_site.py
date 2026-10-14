@@ -93,6 +93,38 @@ class BuildSiteTests(unittest.TestCase):
         home = (self.root / "site-dist" / "index.html").read_text(encoding="utf-8")
         self.assertIn('./005-later/', home)
 
+    def test_overviews_precede_table_with_safe_links_order_and_legacy_fallback(self):
+        overview = '<script>模型 & 工具</script>，我们拟扩展报告。'
+        self.create_project("005-later", name="库 B", summary="旧项目摘要")
+        self.create_project("001-sample", name="库 A <示例>：详细研究",
+                            summary="完整的研究摘要", overview=overview)
+        build_site(self.root, projects=["005-later", "001-sample"])
+        home = (self.root / "site-dist" / "index.html").read_text(encoding="utf-8")
+        before_table, table = home.split('<table class="project-index">', 1)
+        self.assertIn('<h2 id="overviews-heading">一句话速览</h2>', before_table)
+        self.assertIn('href="./001-sample/">库 A &lt;示例&gt;</a>', before_table)
+        self.assertIn(html.escape(overview), before_table)
+        self.assertNotIn('<script>', before_table)
+        self.assertIn('href="./005-later/">库 B</a>：旧项目摘要', before_table)
+        self.assertLess(before_table.index('overview-number">001'),
+                        before_table.index('overview-number">005'))
+        self.assertNotIn("完整的研究摘要", before_table)
+        self.assertIn("完整的研究摘要", table)
+
+    def test_invalid_overviews_preserve_previous_build(self):
+        project = self.create_project()
+        build_site(self.root, projects=["001-sample"])
+        home = self.root / "site-dist" / "index.html"
+        original_home = home.read_bytes()
+        path = project / "project.json"
+        original_metadata = json.loads(path.read_text(encoding="utf-8"))
+        for overview in (None, 1, [], {}, "", " \t ", "第一行\n第二行", "第一行\r第二行"):
+            with self.subTest(overview=overview):
+                path.write_text(json.dumps({**original_metadata, "overview": overview}), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "overview"):
+                    build_site(self.root, projects=["001-sample"])
+                self.assertEqual(home.read_bytes(), original_home)
+
     def test_missing_deployed_demo_stops_build_without_replacing_previous_site(self):
         self.create_project(tracked=True)
         build_site(self.root)
@@ -108,6 +140,11 @@ class BuildSiteTests(unittest.TestCase):
         published = build_site(self.root)
         self.assertEqual(published, [])
         self.assertTrue((self.root / "site-dist" / ".nojekyll").is_file())
+        home = (self.root / "site-dist" / "index.html").read_text(encoding="utf-8")
+        self.assertIn('id="overviews-heading"', home)
+        self.assertIn('https://github.com/yydshly/1013_codex_project/blob/main/projects/001-sample/README.md', home)
+        self.assertNotIn('href="./001-sample/"', home)
+        self.assertFalse((self.root / "site-dist" / "001-sample").exists())
 
     def test_secrets_backends_dependencies_and_documents_are_excluded(self):
         project = self.create_project()

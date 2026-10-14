@@ -2,6 +2,7 @@
   "id": "015",
   "slug": "rea",
   "name": "REA：逆向工具管理、软件调查与证据组织",
+  "overview": "以 CLI／MCP 统一调用反编译、代码解析和运行观察工具并返回可追溯证据，我们拟衔接研究证据库与 RAG。",
   "summary": "把反编译、代码解析、浏览器和运行观察工具接到 AI：REA 管理目标与提供者，补充结构解析、关系追踪和比较，通过 CLI / MCP 返回可核查证据；用于功能理解、兼容迁移、版本研究与故障调查，并可扩展为研究证据库、RAG 和复现评测流程。",
   "source_url": "https://github.com/morluto/rea",
   "source_ref": "ebaaa79ca02bde4a73013a2a9a781d0b07a57ee4",

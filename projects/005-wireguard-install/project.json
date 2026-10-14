@@ -2,6 +2,7 @@
   "id": "005",
   "slug": "wireguard-install",
   "name": "WireGuard Install：自建 VPN、原理与应用研究",
+  "overview": "自动生成密钥和配置，借助 WireGuard 的 UDP 加密隧道与 Linux 转发搭建自有 VPN，我们拟扩展分流和管理面板。",
   "summary": "帮助个人在 Linux 服务器上搭建自己的 VPN，自动生成两端密钥与配置、设置转发和 NAT，并管理设备接入；底层通过 WireGuard 的 UDP 加密 IP 隧道传输。研究部署方法、个人价值、使用场景和需要另行实现的扩展方向。",
   "source_url": "https://github.com/hwdsl2/wireguard-install",
   "source_ref": "3f428774e61c95bca60d1e7b80f0c768ca2c6137",

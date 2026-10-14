@@ -13,6 +13,28 @@
 <!-- PROJECT_INDEX:START -->
 当前收录 **15** 个项目，按三位编号升序排列。
 
+### 一句话速览
+
+每句概括能力、核心机制与我们的扩展；“拟”表示后续方向，详细依据与验证范围见下方索引。
+
+- **001 · [Infinite Bookshelf](./projects/001-infinite-bookshelf/README.md)**：按“目录→书名→分节正文”多次调用模型生成长文初稿，我们已补可替换模型接口与中文样稿回放。
+- **002 · [Production Agentic RAG Course](./projects/002-production-agentic-rag-course/README.md)**：通过文档切块、关键词与向量混合检索及模型回答构建论文助手，我们拟扩展为农业资料与项目研究知识库。
+- **004 · [Leak Check](./projects/004-leak-check/README.md)**：在已有 SQLite 数据中精确查询、一轮关联并脱敏返回个人信息，我们仅保留查询机制参考，暂不扩展。
+- **005 · [WireGuard Install](./projects/005-wireguard-install/README.md)**：自动生成密钥和配置，借助 WireGuard 的 UDP 加密隧道与 Linux 转发搭建自有 VPN，我们拟扩展分流和管理面板。
+- **006 · [Jev SEO](./projects/006-jev-seo/README.md)**：以网页采集、固定规则和模型判断生成网站整改报告，我们已提取审查流程，支持当前聊天模型与自有模型接口。
+- **007 · [Hermes Jev Skills](./projects/007-hermes-jev-skills/README.md)**：让 Jev 做有限判断、本地策略选模型或技能、主模型与工具执行，我们拟扩展个人判断标准与规则或小模型替代方案。
+- **008 · [shadPS4](./projects/008-shadps4/README.md)**：通过 x86-64 原生执行、系统兼容与 Vulkan 图形转换运行兼容 PS4 程序，我们已补公开自制程序实测与原理教学。
+- **009 · [cmux](./projects/009-cmux/README.md)**：用终端分屏、会话定位与定向控制让一个人管理多个 Agent，我们已补交互教学，拟扩展任务编排与成果验收。
+- **010 · [Vibe42](./projects/010-vibe42/README.md)**：通过电脑端 Companion、配对加密连接与终端会话从手机远程操作 Agent，我们拟衔接研究任务与产物验收。
+- **011 · [OpenMontage](./projects/011-openmontage/README.md)**：让助手按技能与阶段流程交接脚本、分镜和素材，再调用媒体工具制作视频，我们拟衔接知识库解说与栏目模板。
+- **012 · [tchMaterial Parser](./projects/012-tchmaterial-parser/README.md)**：解析国家中小学智慧教育平台资源，按需认证、批量下载并分类保存教材与配套资料，我们拟扩展版本追溯、正文检索与 RAG。
+- **013 · [Claude Managed Agents](./projects/013-claude-managed-agents/README.md)**：由主 Agent 用模型规划、编排程序按依赖分派和汇总多 Agent 任务，我们拟借鉴其机制建设批量研究与验收流水线。
+- **014 · [BaoCut](./projects/014-baocut/README.md)**：结合视频引擎、可视化编辑与模型工具调用完成剪辑、字幕和配音，人和 AI 共改同一作品，我们拟扩展项目解说与栏目模板。
+- **015 · [REA](./projects/015-rea/README.md)**：以 CLI／MCP 统一调用反编译、代码解析和运行观察工具并返回可追溯证据，我们拟衔接研究证据库与 RAG。
+- **016 · [Free Claude Code](./projects/016-free-claude-code/README.md)**：在 Agent 与云端或本地模型间用统一网关转换协议、按配置路由与切换备用服务，我们拟扩展任务判断路由与模型评测。
+
+### 详细索引
+
 | 编号 | 项目 / 研究摘要 | 研究来源 | 研究状态 | 相关入口 |
 | --- | --- | --- | --- | --- |
 | **001** | **[Infinite Bookshelf：写书流程、能力与价值研究](./projects/001-infinite-bookshelf/README.md)**<br><br>**能力：** 把主题展开为目录、书名和分节长文初稿，顺序生成并汇总展示。<br>**原理：** 代码组织多次模型请求，先目录、再书名、逐节正文；写作方法与手动让模型先出大纲再写细节相同。<br>**输入：** 主题；可补充读者、目标、范围和风格要求，高级模式可加入笔记或 TXT 资料。<br>**输出：** 书名、目录、各节正文，以及可导出的 TXT/PDF 初稿，供人工编辑和审核。<br>**价值：** 减少重复请求与整理，复用写作流程，并可修改接口接入自有模型；没有提高模型本身能力。<br>**意义与场景：** 适合重复起草较独立的教程和培训材料；偶尔写作额外价值有限，复杂小说需补前文与人工审核。<br>**边界与验证：** 不能自动保证质量。本研究提供源码证据、总览图与摄影等可读样稿；样稿是保存内容，未验证真实模型 API 的质量、速度和费用优势。<br><br>AI 写作 · 长文生成 · 模型可替换 · 源码研究 | [infinite-bookshelf](https://github.com/Bklieger/infinite-bookshelf)<br>Bklieger | 已完成 | [研究文档](./projects/001-infinite-bookshelf/README.md)<br>[在线演示](https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/) |

@@ -2,6 +2,7 @@
   "id": "007",
   "slug": "hermes-jev-skills",
   "name": "Hermes Jev Skills：多模型路由与判断标准研究",
+  "overview": "让 Jev 做有限判断、本地策略选模型或技能、主模型与工具执行，我们拟扩展个人判断标准与规则或小模型替代方案。",
   "summary": "把模型路由、技能选择、证据判断等有限决策接入 Agent：Jev 按给定问题判断，本地策略决定动作，主模型与工具执行；研究如何按能力拆分自己的工作、选择规则或判断模型，并用任务验收验证价值。",
   "source_url": "https://github.com/kerpopule/hermes-jev-skills",
   "source_ref": "31f476cac49713b6bf88c00d42382542e1c36965",
