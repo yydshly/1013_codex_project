@@ -1,0 +1,38 @@
+{
+  "checked_at": "2026-10-14T01:24:23.991Z",
+  "url": "https://yydshly.github.io/1013_codex_project/010-vibe42/",
+  "browser": "Chromium 151.0.7922.34",
+  "scope": "已访问的静态研究网页；不验证真实Vibe42产品",
+  "checks": [
+    {
+      "name": "六项完整摘要与16个正文入口",
+      "status": "passed"
+    },
+    {
+      "name": "原理节点、结果回传和中继交互",
+      "status": "passed"
+    },
+    {
+      "name": "公开PNG实际下载",
+      "filename": "vibe42-understanding-overview.png",
+      "status": "passed"
+    },
+    {
+      "name": "390px完整摘要和布局",
+      "width": {
+        "viewport": 390,
+        "document": 390
+      },
+      "status": "passed"
+    },
+    {
+      "name": "统一索引17项完整摘要和进入研究页",
+      "status": "passed"
+    },
+    {
+      "name": "关闭JavaScript后摘要与来源可读",
+      "status": "passed"
+    }
+  ],
+  "errors": []
+}
