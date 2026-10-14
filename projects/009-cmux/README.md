@@ -2,7 +2,7 @@
 
 > cmux 的本质是把多个现有 Agent 会话放进一个工作台，分屏展示、独立交互、定向控制，让它们并行工作，实现一个人同时管理和控制多个 Agent 的能力。它通过真实终端、会话身份、状态、通知、控制与消息提供操作环境；任务拆分、依赖与验收由人、协调 Agent 或规则决定。
 
-[返回总索引](../../README.md#项目索引) · [上游仓库](https://github.com/manaflow-ai/cmux) · [网页源码](./web/index.html) · [运行网页](./web/README.md) · [验证记录](./experiments/results/verification.md)
+[返回总索引](../../README.md#项目索引) · [在线理解网页](https://yydshly.github.io/1013_codex_project/009-cmux/#understanding) · [上游仓库](https://github.com/manaflow-ai/cmux) · [网页源码](./web/index.html) · [验证记录](./experiments/results/verification.md) · [公网发布记录](./experiments/results/publication-2026-10-14.md)
 
 ## 研究范围与版本
 
@@ -17,7 +17,7 @@
 | 本次实现 | 原创中文静态网页、SVG 图示、浏览器内教学模型与验证脚本 |
 | 上游运行 | 未运行；未登录 Agent 或调用模型 |
 | 状态 | 源码分析与本地教学页完成；上游运行待验证，元信息为 `researching` |
-| 公网 | 未部署；`demo_url` 保持空字符串 |
+| 公网 | [理解网页与总图](https://yydshly.github.io/1013_codex_project/009-cmux/#understanding)，2026-10-14 已发布并验证；教学模拟未连接真实 Agent |
 
 ## 理解图与截图来源
 

@@ -40,8 +40,8 @@ python -m unittest discover -s tests -v
 
 ## 部署与资源
 
-相对资源路径、hash 章节适配 `/1013_codex_project/009-cmux/`。沿用仓库原生静态汇集和 Pages 约定，无框架打包。本次未提交、推送或发布，`demo_url` 保持空字符串。
+相对资源路径、hash 章节适配 `/1013_codex_project/009-cmux/`。沿用仓库原生静态汇集和 Pages 约定，无框架打包。2026-10-14 已提交远端并发布，在线入口为 [cmux 理解网页](https://yydshly.github.io/1013_codex_project/009-cmux/#understanding)，详见 [公网验证](../experiments/results/publication-2026-10-14.md)。
 
-顶部文字摘要可直接打开，本地详细文档请打开项目 README。构建首页的 GitHub 研究入口按未来提交位置生成，提交前不是已发布页面。SVG 为本仓库原创，项目 `assets/` 留有对应副本供索引；截图是本仓库教学页，非上游应用。
+顶部文字摘要可直接打开，站点索引的研究文档链接指向已提交的 GitHub README。SVG 为本仓库原创，项目 `assets/` 留有对应副本供索引；截图是本仓库教学页，非上游应用。
 
 完整理解图入口是 `#understanding`，点击 PNG 可打开原图放大，PNG / SVG 均可下载。图像由本仓库根据研究内容直接绘制，界面为示意。可用 `python projects/009-cmux/experiments/draw-complete-understanding.py` 重新生成；绘制环境需要 Pillow、Microsoft YaHei 与 Segoe UI Symbol 字体，静态网页本身不需要 Python。

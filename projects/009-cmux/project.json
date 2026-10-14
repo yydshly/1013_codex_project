@@ -18,7 +18,7 @@
   ],
   "preview": "assets/07-complete-understanding.png",
   "preview_caption": "本仓库完整理解总图：承接现有 Agent，统一 UI 展示与交互，多会话定向控制；汇总分工、架构与四条通道、能力、效果、接入、场景、个人价值、扩展及边界，原创绘制，非上游运行截图",
-  "demo_url": "",
+  "demo_url": "https://yydshly.github.io/1013_codex_project/009-cmux/#understanding",
   "summary_sections": [
     {
       "label": "本质",

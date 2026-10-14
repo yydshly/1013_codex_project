@@ -35,6 +35,8 @@ https://yydshly.github.io/1013_codex_project/
 
 项目 008 于 2026-10-14 随提交 `1cda73485ccfe63e7862403387ae5b5d3363c478` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38443817551)成功。[shadPS4 理解网页](https://yydshly.github.io/1013_codex_project/008-shadps4/)完整说明能力、加载与执行原理、资源控制边界、学习与工程价值、个人意义及可扩展方向。首页完整保留十二项摘要，并沿用本次讨论整理的完整总览图；19 个公网地址均 HTTP 200，项目资源与对应提交一致，11 项公网浏览器检查通过，已有五个演示入口保留。公开样例的本机原生执行与网页教学分别记录，商业游戏与完整 3D 渲染尚未验证；详见 [项目 008 发布记录](../projects/008-shadps4/experiments/results/publication-2026-10-14.md)。
 
+项目 009 于 2026-10-14 随提交 `4a7ec58c8f3e8b3c2d59833a656842973f1b6821` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38490130025)成功。[cmux 理解网页](https://yydshly.github.io/1013_codex_project/009-cmux/#understanding)明确说明多个现有 Agent 会话进入一个工作台，分屏展示、独立交互、定向控制、并行工作，使一个人能控制多个 Agent；完整整理能力、价值、扩展方向和实现思路，保留高清总图与教学交互。首页保留十二项完整摘要。17 个公网资源及已有六个网页入口均 HTTP 200，内容与构建快照一致；公网定向输入、消息教学、PNG 下载与索引摘要已实际检查。网页未连接真实 Agent，详见 [项目 009 发布记录](../projects/009-cmux/experiments/results/publication-2026-10-14.md)。
+
 子项目静态源文件保存在 `projects/编号-slug/web/`。`scripts/build_site.py` 使用 Python 标准库，将可发布的原生静态项目汇集为一个完整站点：
 
 ```text

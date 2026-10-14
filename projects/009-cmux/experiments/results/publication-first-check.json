@@ -1,0 +1,142 @@
+{
+  "commit": "4a7ec58c8f3e8b3c2d59833a656842973f1b6821",
+  "base_url": "https://yydshly.github.io/1013_codex_project/",
+  "checks": [
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/index.html",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "1b7ccc30c03270a82fca9554a9779d01e67063d23aad7d13efbba9858c7e5ba5",
+      "bytes": 40255,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/site-build.json",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "aa5bd9e1f6b42d99fa60ffca8b09723e958efda52609ee0ae8fd82a0b9f683c2",
+      "bytes": 292,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/index.html",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "9d33f2c060888589053e0eac4ec2d7f9ef3298e83eef1e7f5170dafb4c89d92d",
+      "bytes": 46039,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/styles.css",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "de22c1bed14e54a3e2cee68b9c8ba22ba01af745a288e0b9b89a9de8ce5980f1",
+      "bytes": 26703,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/app.js",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "4742799e61c7e63a98a3c25742ba0e06c540178615691e3bac20d1e74805c22f",
+      "bytes": 14178,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/assets/complete-understanding.png",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "43099b4451e7b6ee1b820801b10ebd6d09f62db14a2a0255dbd039bca828541a",
+      "bytes": 1053217,
+      "text_line_endings_normalized": false
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/assets/complete-understanding.svg",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "8030f4eff0d20d73ea3a259a9337b8921e9b4c535b6e5bbe9505b2b72314de19",
+      "bytes": 23753,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/assets/overview.svg",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "863eb1439294a3a3f29c0fbbbdd8edc7d0757943755c072170faafc01123f7a3",
+      "bytes": 4089,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/assets/architecture.svg",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "fb37d66ae0be4c24e9db33aa3595dea3ae8fed39f28ea74f9bd5fa23394ad209",
+      "bytes": 7816,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/research-summary.txt",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "d526391e6415388a971761dca27203567c336b77834468b4e9f3d81ca899ee59",
+      "bytes": 3019,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/previews/009-cmux.png",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "43099b4451e7b6ee1b820801b10ebd6d09f62db14a2a0255dbd039bca828541a",
+      "bytes": 1053217,
+      "text_line_endings_normalized": false
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/index.html",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "5c746e81e4163cd8b97d457511e049b67d5d67a287fe23ca03b703210d98f9b6",
+      "bytes": 37527,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/index.html",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "883a2a525a526a79a20c30762f684cf4c25c1cfd87c173c30f3e474472ff6edd",
+      "bytes": 29930,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/005-wireguard-install/index.html",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "e09e362d6e1ca044de1743c462599b8b2bcc01e4dc49a6b6e024b9d5c7f18bbb",
+      "bytes": 44962,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/006-jev-seo/index.html",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "5ec202fb45140d10af636e5ec8bd1893b9310a343599015654b6f6ed9b364166",
+      "bytes": 37580,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/index.html",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "e84fdf06174327131e092974a8a9412ae335157396e2dc1509818f1827029d88",
+      "bytes": 36875,
+      "text_line_endings_normalized": true
+    },
+    {
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/index.html",
+      "status": 200,
+      "matches_build": true,
+      "sha256": "9063a1affb3fd206693f8b9055785604d598c8eb92f2cf6baee84b37e5fe45f1",
+      "bytes": 33372,
+      "text_line_endings_normalized": true
+    }
+  ]
+}
