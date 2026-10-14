@@ -45,3 +45,11 @@ REA 的本质明确写为逆向工具管理与适配、自身解析与关系分�
 ## 发布范围
 
 交付公开 HTML / CSS / JavaScript、研究数据、下载文本与原创图。GitHub Pages 不运行 REA、分析引擎、模型或目标程序；本次没有安装上游、重跑案例、实现产品整合或测量质量 / 时间 / 费用优势。status 仍为 researching，公开发布成功不等于真实逆向能力已复现。
+
+## 正式入口登记版本的最终核对
+
+地址与发布记录登记提交：[b8ac8adae0cd8ac577199c73d983b5f8acb5e1b2](https://github.com/yydshly/1013_codex_project/commit/b8ac8adae0cd8ac577199c73d983b5f8acb5e1b2)；[对应 Pages 运行](https://github.com/yydshly/1013_codex_project/actions/runs/38527528468) completed / success。
+
+对登记版本再次请求 27 个公开地址，全部 HTTP 200；11 项 REA 静态资源与 b8ac8ad 的 blob 字节一致，首页和完整引导 PNG 与最终构建快照一致。十四项摘要在首页和项目页完整存在；已提交元信息的 demo_url 与公开目标一致，首页相对入口也解析到该地址。十三个旧演示继续可用。
+
+最终公网页面刷新后仍显示十四项摘要，来源章节已更新公开状态，08-public-summary.jpg 更新为该版本实拍。完整机器结果已保存并提交为 [publication-public-checks-final.json](./publication-public-checks-final.json)。后续保留证据的提交不改变公开 HTML、数据、原图或首页内容。
