@@ -27,8 +27,10 @@ python -m http.server 8774 --bind 127.0.0.1 --directory site-baocut-preview
 
 访问 `http://127.0.0.1:8774/014-baocut/`。返回总览使用 `../`，资源使用相对路径，页面导航使用 hash。
 
-计划部署路径：仓库站点下 `/1013_codex_project/014-baocut/`。未发布公网，`project.json` 的 `demo_url` 保持空字符串。正式发布沿用 [统一部署约定](../../../docs/deployment.md)，不创建独立托管站点。
+公开入口：[BaoCut 理解网页](https://yydshly.github.io/1013_codex_project/014-baocut/)，使用仓库站点下 `/1013_codex_project/014-baocut/`。2026-10-14 已发布并验证，`project.json` 已登记真实地址。发布沿用 [统一部署约定](../../../docs/deployment.md)，不创建独立托管站点。
 
 ## 验证
 
 JavaScript 语法、本地资源、网页流程与手机布局的实际检查见 [验证记录](../experiments/verification.md)。无模型凭据、服务器功能或用户数据上传。
+
+公开部署、资源一致性与实际浏览器交互结果见 [发布记录](../experiments/results/publication-2026-10-14.md)。

@@ -1,0 +1,21 @@
+{
+  "capabilityRows": 8,
+  "extensionScenarios": 8,
+  "humanKept": true,
+  "thirdSentenceChanged": true,
+  "undoRestoredThird": true,
+  "undoKeptHuman": true,
+  "resetDuration": "90 秒",
+  "resetUndoDisabled": true,
+  "downloads": [
+    "PNG",
+    "SVG",
+    "TXT"
+  ],
+  "mobile": {
+    "columns": "328.667px",
+    "pageWidth": 375,
+    "viewport": 390
+  },
+  "consoleErrors": []
+}

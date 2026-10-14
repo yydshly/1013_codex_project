@@ -2,7 +2,7 @@
 
 > 核心理解：在底层视频处理能力之上，搭配可视化 UI 与模型对话，人能直接查看、编辑和撤销，AI 通过工具修改，双方基于同一份作品继续优化。
 
-[返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/JimLiu/baocut) · [网页源文件](./web/index.html) · [Web 运行说明](./web/README.md) · [验证记录](./experiments/verification.md)
+[返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/JimLiu/baocut) · [网页源文件](./web/index.html) · [在线理解网页](https://yydshly.github.io/1013_codex_project/014-baocut/) · [Web 运行说明](./web/README.md) · [验证记录](./experiments/verification.md) · [发布记录](./experiments/results/publication-2026-10-14.md)
 
 ## 研究范围与版本
 
@@ -16,7 +16,7 @@
 | 研究日期 | 2026-10-14，Asia/Shanghai |
 | 上游许可证 | BaoCut Community License 1.0，附条件的源码可用许可 |
 | 本次状态 | 文档研究与理解网页；上游运行尚未复现 |
-| 网页部署 | 本地完成后验证；未发布公网，`demo_url` 保持空字符串 |
+| 网页部署 | [已发布并验证的理解网页](https://yydshly.github.io/1013_codex_project/014-baocut/)；登记于 `project.json` |
 
 本次整理用户与助手关于 BaoCut 的共同理解，以固定版本的项目 README、提交说明、产品文档及设计模块说明为依据。没有克隆或运行上游，也没有调用真实模型。网页中的产品口播是本仓库编写的教学案例，时长、台词和变更均为示例数据。
 

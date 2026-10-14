@@ -39,6 +39,8 @@ https://yydshly.github.io/1013_codex_project/
 
 项目 009 于 2026-10-14 随提交 `4a7ec58c8f3e8b3c2d59833a656842973f1b6821` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38490130025)成功。[cmux 理解网页](https://yydshly.github.io/1013_codex_project/009-cmux/#understanding)明确说明多个现有 Agent 会话进入一个工作台，分屏展示、独立交互、定向控制、并行工作，使一个人能控制多个 Agent；完整整理能力、价值、扩展方向和实现思路，保留高清总图与教学交互。首页保留十二项完整摘要。17 个公网资源及已有六个网页入口均 HTTP 200，内容与构建快照一致；公网定向输入、消息教学、PNG 下载与索引摘要已实际检查。网页未连接真实 Agent，详见 [项目 009 发布记录](../projects/009-cmux/experiments/results/publication-2026-10-14.md)。
 
+项目 014 于 2026-10-14 随内容提交 `f8682c7a7d3010cb368bcaa8920b33db8acc1233` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38517467344)成功。[BaoCut 理解网页](https://yydshly.github.io/1013_codex_project/014-baocut/)完整说明视频能力、Node Runtime 与 Rust 视频引擎的执行分工、人通过 UI 与 AI 工具调用共同修改当前项目的原理，以及新增设计模块、实际价值、个人意义和八种可扩展场景。首页完整保留 18 项摘要，沿用本次讨论的完整高清引导图；22 个公开地址通过，11 项内容与静态快照一致，11 个已有演示入口保持可用，公开协作教学、撤销、重置、下载和手机布局已验证。网页不执行真实视频引擎或模型，登记后的最终证据见 [项目 014 发布记录](../projects/014-baocut/experiments/results/publication-2026-10-14.md)。
+
 子项目静态源文件保存在 `projects/编号-slug/web/`。`scripts/build_site.py` 使用 Python 标准库，将可发布的原生静态项目汇集为一个完整站点：
 
 ```text
