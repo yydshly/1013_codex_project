@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1320" viewBox="0 0 1600 1320" role="img" aria-labelledby="title desc">
+<title id="title">FCC 模型网关底层：请求适配与工具闭环</title><desc id="desc">Agent 使用稳定入口；FCC 入口校验、配置路由、协议适配和供应商调用连接真实模型，返回响应并继续本机工具循环。</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
+<rect width="1600" height="1320" fill="#f7f6f0"/>
+<text x="70" y="66" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="18" font-weight="400" fill="#607465">016 / 底层模块解释 / 概念数据流</text>
+<text x="70" y="143" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="52" font-weight="650" fill="#173d38">适配解耦，究竟发生在哪一层？</text>
+<text x="70" y="198" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="24" font-weight="400" fill="#607465">Agent 发模型请求；FCC 加载连接配置和适配逻辑；真实服务运行模型。</text>
+<rect x="70" y="246" width="400" height="210" rx="12" fill="#edf0e4" stroke="#cbd5c5"/>
+<text x="95" y="281" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" font-weight="400" fill="#607465">客户端侧 / 稳定入口</text>
+<text x="95" y="327" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="28" font-weight="600" fill="#173d38">Agent 执行框架</text>
+<text x="95" y="371" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#607465">任务、上下文与工具说明</text>
+<text x="95" y="406" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#607465">按自己的权限执行工具</text>
+<rect x="600" y="246" width="400" height="210" rx="12" fill="#173d38" stroke="#173d38"/>
+<text x="625" y="281" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" font-weight="400" fill="#bdd0b5">中间层 / 可配置目标</text>
+<text x="625" y="327" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="28" font-weight="600" fill="#eff5e4">FCC 模型网关</text>
+<text x="625" y="371" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#d0dfc7">代理 URL 与协议适配</text>
+<text x="625" y="406" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#d0dfc7">工作方式与模型服务解耦</text>
+<rect x="1130" y="246" width="400" height="210" rx="12" fill="#f0e4d3" stroke="#cbd5c5"/>
+<text x="1155" y="281" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="16" font-weight="400" fill="#607465">服务侧 / 真实生成</text>
+<text x="1155" y="327" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="28" font-weight="600" fill="#173d38">云端或本地模型</text>
+<text x="1155" y="371" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#607465">模型 ID 与推理服务</text>
+<text x="1155" y="406" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#607465">生成文本和工具调用</text>
+<path d="M482 325 L585 325" fill="none" stroke="#bf5337" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M1012 325 L1115 325" fill="none" stroke="#bf5337" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M1115 397 L1012 397" fill="none" stroke="#82967a" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M585 397 L482 397" fill="none" stroke="#82967a" stroke-width="2.5" marker-end="url(#arrow)"/>
+<text x="493" y="304" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="18" font-weight="400" fill="#bf5337">请求</text>
+<text x="1022" y="304" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="18" font-weight="400" fill="#bf5337">真实 API</text>
+<text x="493" y="435" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="18" font-weight="400" fill="#607465">响应</text>
+<text x="1022" y="435" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="18" font-weight="400" fill="#607465">输出</text>
+<text x="70" y="520" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="30" font-weight="600" fill="#173d38">网关内部的概念模块</text>
+<rect x="70" y="557" width="335" height="214" rx="12" fill="#fffef9" stroke="#d5ddd5"/>
+<text x="90" y="603" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="25" font-weight="600" fill="#173d38">① 接收与校验</text>
+<text x="90" y="651" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">Messages / Responses</text>
+<text x="90" y="686" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">参数、请求与鉴权</text>
+<text x="90" y="721" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">客户端入口和目录</text>
+<path d="M414 665 L435 665" fill="none" stroke="#bf5337" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="445" y="557" width="335" height="214" rx="12" fill="#fffef9" stroke="#d5ddd5"/>
+<text x="465" y="603" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="25" font-weight="600" fill="#173d38">② 模型路由</text>
+<text x="465" y="651" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">指定模型或档位映射</text>
+<text x="465" y="686" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">真实服务、模型与密钥</text>
+<text x="465" y="721" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">按配置形成备用顺序</text>
+<path d="M789 665 L810 665" fill="none" stroke="#bf5337" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="820" y="557" width="335" height="214" rx="12" fill="#fffef9" stroke="#d5ddd5"/>
+<text x="840" y="603" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="25" font-weight="600" fill="#173d38">③ 协议适配</text>
+<text x="840" y="651" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">消息与工具结构转换</text>
+<text x="840" y="686" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">图像、推理与流式字段</text>
+<text x="840" y="721" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">原生路径 / 不支持项</text>
+<path d="M1164 665 L1185 665" fill="none" stroke="#bf5337" stroke-width="2.5" marker-end="url(#arrow)"/>
+<rect x="1195" y="557" width="335" height="214" rx="12" fill="#fffef9" stroke="#d5ddd5"/>
+<text x="1215" y="603" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="25" font-weight="600" fill="#173d38">④ 供应商调用</text>
+<text x="1215" y="651" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">实际 Base URL 与凭据</text>
+<text x="1215" y="686" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">HTTP 请求 / SSE 响应</text>
+<text x="1215" y="721" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="21" font-weight="400" fill="#607465">错误、重试及恢复条件</text>
+<rect x="70" y="816" width="710" height="165" rx="12" fill="#e9eee2" stroke="#d5ddd5"/>
+<rect x="820" y="816" width="710" height="165" rx="12" fill="#e9eee2" stroke="#d5ddd5"/>
+<text x="95" y="857" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="25" font-weight="600" fill="#173d38">工具结构示例：连接两种表达方式</text>
+<text x="95" y="901" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#607465">Messages：tool_use / tool_result</text>
+<text x="95" y="938" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#607465">Chat：tool_calls / tool 消息</text>
+<text x="845" y="857" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="25" font-weight="600" fill="#173d38">响应与历史：保持调用关系</text>
+<text x="845" y="901" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#607465">调用标识、参数和结果要相互对应</text>
+<text x="845" y="938" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#607465">流式事件映射；无法表达的内容有限制</text>
+<rect x="70" y="1020" width="1460" height="144" rx="12" fill="#173d38" stroke="#173d38"/>
+<text x="100" y="1060" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="28" font-weight="600" fill="#eff5e4">回到 Agent 的实际工具环境</text>
+<text x="100" y="1106" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#caddc3">真实模型提出调用 → FCC 转回客户端事件 → Agent 执行 → 工具结果再次进入模型请求</text>
+<text x="100" y="1141" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="22" font-weight="400" fill="#caddc3">代理转发与模型推理是两层；文件、命令与业务操作仍由 Agent 的工具环境负责。</text>
+<text x="70" y="1222" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="19" font-weight="400" fill="#607465">此图按职责解释机制，不是逐函数调用图；原生透传、优化与错误路径可能绕过部分转换。</text>
+<text x="70" y="1255" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="19" font-weight="400" fill="#607465">依据：harnesses/claude.py · api/routes.py · application/routing.py · conversion.py · provider 层</text>
+<text x="70" y="1295" font-family="Microsoft YaHei,Segoe UI,sans-serif" font-size="17" font-weight="400" fill="#607465">源码版本 74d4ccf · 2026-10-14 · 原创解释图，非真实模型日志或上游运行截图</text>
+</svg>

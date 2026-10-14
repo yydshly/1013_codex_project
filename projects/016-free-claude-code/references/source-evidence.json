@@ -1,0 +1,240 @@
+{
+  "repository": "https://github.com/Alishahryar1/free-claude-code",
+  "source_ref": "74d4ccfde724f7416fa2a728d594d704dddc7c94",
+  "checked_on": "2026-10-14",
+  "method": "按固定 commit 使用 GitHub 公开仓库读取工具读取源码；只保存来源元信息与符号位置，不复制上游实现。",
+  "scope": "静态源码研究；未运行 FCC 或真实模型。",
+  "files": [
+    {
+      "path": "README.md",
+      "blob_sha": "a5752c150123b7928e126623db74db3febc5ca0d",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/README.md",
+      "line_count": 541,
+      "anchors": [
+        {
+          "line": 26,
+          "symbol": "## What You Get"
+        },
+        {
+          "line": 28,
+          "symbol": "供应商与免费额度描述（项目 README 宣称，未独立验证）"
+        },
+        {
+          "line": 37,
+          "symbol": "Free-tier availability and limits are controlled by each provider and may change."
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/harnesses/claude.py",
+      "blob_sha": "e2698d989294a9ada9f75bc4e221f540e8f208ea",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/harnesses/claude.py",
+      "line_count": 43,
+      "anchors": [
+        {
+          "line": 11,
+          "symbol": "def claude_proxy_values(proxy_root_url: str, auth_token: str) -> dict[str, str]:"
+        },
+        {
+          "line": 14,
+          "symbol": "\"ANTHROPIC_BASE_URL\": proxy_root_url,"
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/api/routes.py",
+      "blob_sha": "599d76666b16bca9397bdf10c34c62767f16a8ba",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/routes.py",
+      "line_count": 350,
+      "anchors": [
+        {
+          "line": 173,
+          "symbol": "@router.post(\"/v1/messages\")"
+        },
+        {
+          "line": 194,
+          "symbol": "@router.post(\"/v1/responses\")"
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/application/routing.py",
+      "blob_sha": "efac57cff783609ebd033c2b98a905cf243655e2",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/application/routing.py",
+      "line_count": 361,
+      "anchors": [
+        {
+          "line": 103,
+          "symbol": "class ModelRouter:"
+        },
+        {
+          "line": 172,
+          "symbol": "def _fallback_targets("
+        },
+        {
+          "line": 241,
+          "symbol": "def _resolve_model_ref(self, claude_model_name: str) -> str:"
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/core/anthropic/conversion.py",
+      "blob_sha": "af3f73266cda113706d496e71f21a3aca29a0d3f",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/anthropic/conversion.py",
+      "line_count": 895,
+      "anchors": [
+        {
+          "line": 38,
+          "symbol": "class OpenAIConversionError(Exception):"
+        },
+        {
+          "line": 120,
+          "symbol": "def _tool_call_from_tool_use(block: Any) -> dict[str, Any]:"
+        },
+        {
+          "line": 472,
+          "symbol": "def convert_messages("
+        },
+        {
+          "line": 804,
+          "symbol": "def convert_tools(tools: list[Any]) -> list[dict[str, Any]]:"
+        },
+        {
+          "line": 820,
+          "symbol": "def convert_tool_choice(tool_choice: Any) -> Any:"
+        },
+        {
+          "line": 839,
+          "symbol": "def convert_system_prompt(system: Any) -> dict[str, str] | None:"
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/config/custom_providers.py",
+      "blob_sha": "7f24d22eaac06dfd84cac980b059da6c94dec3aa",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/config/custom_providers.py",
+      "line_count": 129,
+      "anchors": [
+        {
+          "line": 33,
+          "symbol": "class CustomProviderDefinition(BaseModel):"
+        },
+        {
+          "line": 40,
+          "symbol": "api_format: Literal[\"openai_chat\", \"openai_responses\", \"anthropic_messages\"] = ("
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/application/execution.py",
+      "blob_sha": "34c7b48e462ab872f223897ec2651df064c01b5e",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/application/execution.py",
+      "line_count": 597,
+      "anchors": [
+        {
+          "line": 62,
+          "symbol": "class ProviderExecutor:"
+        },
+        {
+          "line": 373,
+          "symbol": "def _stream_candidates("
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/core/stream_recovery.py",
+      "blob_sha": "3c171c41cc1b613e1e31c23cdb43136371437750",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/stream_recovery.py",
+      "line_count": 107,
+      "anchors": [
+        {
+          "line": 48,
+          "symbol": "class RecoveryAction(StrEnum):"
+        },
+        {
+          "line": 62,
+          "symbol": "def assess_recovery("
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/api/optimization_handlers.py",
+      "blob_sha": "94e514d881b4a60f1fe8e880cfa62fc3bcefea2e",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/optimization_handlers.py",
+      "line_count": 163,
+      "anchors": [
+        {
+          "line": 140,
+          "symbol": "OPTIMIZATION_HANDLERS = ["
+        },
+        {
+          "line": 149,
+          "symbol": "def try_optimizations("
+        }
+      ]
+    },
+    {
+      "path": "src/free_claude_code/runtime/codex_app_server.py",
+      "blob_sha": "78531574df936c073a3d6a5b1dca2e30b8500b1f",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/runtime/codex_app_server.py",
+      "line_count": 778,
+      "anchors": [
+        {
+          "line": 50,
+          "symbol": "class CodexAppServer:"
+        },
+        {
+          "line": 91,
+          "symbol": "async def start(self) -> None:"
+        }
+      ]
+    },
+    {
+      "path": "pyproject.toml",
+      "blob_sha": "66c891773246ae1ddc62a95b096f2780b2372902",
+      "url": "https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/pyproject.toml",
+      "line_count": 174,
+      "anchors": [
+        {
+          "line": 10,
+          "symbol": "license = \"AGPL-3.0-only\""
+        },
+        {
+          "line": 12,
+          "symbol": "requires-python = \"==3.14.7\""
+        }
+      ]
+    }
+  ],
+  "supplement": {
+    "topic": "适配解耦与既有研究对比",
+    "checked_on": "2026-10-14",
+    "scope": "沿用已核对固定版本及本地研究；不进行当前功能或性能排名。",
+    "baselines": [
+      {
+        "repository": "tashfeenahmed/freellmapi",
+        "ref": "83562ad360a65d80b6319297fee4cd47dc5a2ff3",
+        "sources": [
+          "server/src/services/scoring.ts",
+          "docs/en/architecture/02-quota-and-cooldown-engine.md",
+          "docs/en/architecture/03-streaming-pipeline.md"
+        ]
+      },
+      {
+        "repository": "Xuanwo/agenvo",
+        "ref": "68e046a5d8691054f8c134d85ae051988bae3dff",
+        "sources": [
+          "design/architecture.zh-CN.md"
+        ]
+      },
+      {
+        "repository": "kerpopule/hermes-jev-skills",
+        "ref": "31f476cac49713b6bf88c00d42382542e1c36965",
+        "sources": [
+          "jevkit/route.py"
+        ]
+      }
+    ],
+    "diagram_source": "本仓库原创解释图，SVG 直接绘制并渲染为 PNG；图按职责归纳概念数据流。"
+  }
+}

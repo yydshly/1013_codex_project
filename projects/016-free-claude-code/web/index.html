@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free Claude Code 中文研究：在 Agent 与真实模型之间增加模型网关，通过统一 API、协议适配与配置路由实现接入解耦。完整引导图解释能力、原理、价值、可扩展场景、旧项目差异与验证边界。">
+  <meta name="theme-color" content="#173d38">
+  <title>Free Claude Code · 统一入口，真实模型 | 项目 016</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header">
+  <a class="brand" href="#top"><span class="brand-icon" aria-hidden="true">↔</span><span>Free Claude Code<small>016 / 模型接口研究</small></span></a>
+  <nav aria-label="章节导航"><a href="#essence">本质</a><a href="#understanding">总览图</a><a href="#request-lab">请求路径</a><a href="#gateway-internals">底层</a><a href="#comparison">对比</a><a href="#value">价值</a></nav>
+  <a class="catalog-link" href="../">返回研究索引 ↗</a>
+</header>
+<main id="main">
+  <section id="top" class="hero wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">GITHUB 项目研究 · 016</p>
+      <h1>Agent 与模型，<br><span>通过网关解耦。</span></h1>
+      <p class="hero-lead">在 Agent 与真实模型之间增加网关。<strong>统一接口与协议适配，让工作方式和模型服务分别选择。</strong>Agent 组织任务并执行工具，真实模型负责理解、生成与调用决策。</p>
+      <div class="hero-actions"><a class="button primary" href="#understanding">先看完整理解图 <span aria-hidden="true">↓</span></a><a class="text-link" href="#request-lab">再看请求怎么走 ↗</a></div>
+      <p class="hero-meta"><span class="status-dot" aria-hidden="true"></span>源码核对 · 74d4ccf · 2026-10-14<br><span>静态研究导读 / 交互为教学模拟</span></p>
+    </div>
+    <figure class="hero-diagram" aria-labelledby="hero-diagram-title">
+      <div class="diagram-heading"><span id="hero-diagram-title">一条通路，三种职责</span><span>REQUEST / RESPONSE</span></div>
+      <div class="diagram-node agent"><span class="node-index">01</span><div><strong>Agent 执行框架</strong><p>组织任务 · 管理上下文 · 执行工具</p></div><span class="node-tag">工作方式</span></div>
+      <div class="diagram-connector"><span>请求 ↓</span><i aria-hidden="true"></i><span>↑ 响应</span></div>
+      <div class="diagram-node gateway"><span class="node-index">02</span><div><strong>FCC 统一代理接口</strong><p>转换格式 · 路由模型 · 重试与备选</p></div><span class="node-tag">连接方式</span></div>
+      <div class="diagram-connector"><span>真实 API ↓</span><i aria-hidden="true"></i><span>↑ 模型输出</span></div>
+      <div class="diagram-node model"><span class="node-index">03</span><div><strong>你配置的真实模型</strong><p>理解问题 · 生成内容 · 提出工具调用</p></div><span class="node-tag">思考能力</span></div>
+      <figcaption>云端服务商 / 本地推理服务<br><strong>模型输出工具指令 → Agent 执行 → 结果回传模型</strong></figcaption>
+    </figure>
+  </section>
+  <div class="reading-strip"><div class="wrap strip-inner"><span><b>统一入口</b> 稳定客户端接入</span><span><b>适配解耦</b> 隔离接口差异</span><span><b>真实模型</b> 保留能力差异</span></div></div>
+
+  <section id="essence" class="section wrap">
+    <div class="section-heading"><span class="section-number">01</span><div><p class="eyebrow">从我们讨论的结论出发</p><h2>本质：在 Agent 与真实模型之间，加一层网关。</h2></div></div>
+    <p class="large-copy">我们的补充理解是：FCC 是位于 Agent 与真实模型之间的模型网关。共用地址是入口配置；消息、工具和响应的适配是底层机制；降低对具体模型服务的依赖、让模型可替换，是核心价值。</p>
+    <div class="definition-box"><span>准确的完整表述</span><p><strong>“通过统一模型网关适配与转发，实现 Agent 和模型服务的接入解耦。”</strong></p><p>“公共”在这里指多个客户端共用同一个入口。FCC 通常运行在本机；是否提供网络访问，是另一项部署选择。</p></div>
+    <div class="table-scroll"><table><caption>先回答四个核心问题，再展开完整图和源码原理</caption><thead><tr><th>问题</th><th>我们整理的理解</th></tr></thead><tbody>
+      <tr><td>能力是什么？</td><td>集中配置真实模型服务，接收 Agent 的模型请求，适配消息、工具和流式响应，按配置选目标并处理符合条件的重试与备用；多个集成入口围绕这条模型通路展开。</td></tr>
+      <tr><td>原理是什么？</td><td>Agent 指向共用代理 API → FCC 解析目标与转换协议 → 调用真实模型 → 转回响应 → Agent 执行工具 → 工具结果进入下一轮。模型仍由供应商或本地推理服务运行。</td></tr>
+      <tr><td>价值是什么？</td><td>通过适配降低接入耦合，让 Agent 工作方式和模型服务分别选择，减少重复配置与迁移，为同任务评测、成本比较和故障备选提供统一入口。</td></tr>
+      <tr><td>可扩展场景是什么？</td><td>多模型编程、写作与报告、资料问答、网页审查、本地推理、任务语义路由及团队入口；需要分别补齐工作流、资料、权限、协议兼容和结果验收。</td></tr>
+    </tbody></table></div>
+    <div class="role-grid">
+      <article><p class="role-kicker">AGENT / 执行者</p><h3>工具怎么用，由它组织。</h3><p>接收目标，组织任务和上下文，把工具定义交给模型，并在模型提出调用后，按权限读写文件、运行命令或执行其他工具。</p><span class="role-label">工作流与执行权限</span></article>
+      <article><p class="role-kicker">FCC / 连接者</p><h3>请求怎么接，由它适配。</h3><p>维护服务商与模型配置，解析实际目标，转换接口格式，整理流式事件，并处理重试、备用模型和兼容差异。</p><span class="role-label">代理与接口工程</span></article>
+      <article><p class="role-kicker">MODEL / 决策者</p><h3>内容怎么答，由它生成。</h3><p>根据收到的问题、上下文和工具说明生成回答或工具调用。理解、推理、知识覆盖和调用质量取决于真实模型及输入资料。</p><span class="role-label">生成与推理能力</span></article>
+    </div>
+    <div class="decoupling-grid">
+      <article><span>Agent 一侧</span><h3>保留工作方式，使用稳定入口。</h3><p>客户端按支持的协议调用 FCC；任务组织、工具执行和权限继续由 Agent 管理。选择另一个模型服务时，主要调整网关目标配置。</p></article>
+      <article><span>模型服务一侧</span><h3>隔离地址、鉴权和格式差异。</h3><p>供应商 URL、凭据、模型 ID 与协议适配由网关处理，减少每个客户端分别接入的重复工作。兼容的接口可以走原生路径。</p></article>
+      <article><span>解耦的范围</span><h3>接口可替换，能力仍需匹配。</h3><p>统一入口不会消除模型的上下文、工具、图像和输出行为差异。客户端要支持代理配置，实际任务质量、权限和费用仍需逐项验证。</p></article>
+    </div>
+    <div class="clarification-grid">
+      <div><strong>代理地址</strong><p>Agent 请求的入口，例如本机 HTTP 服务；具体端口以 FCC 配置和启动日志为准。</p></div>
+      <div><strong>真实服务地址</strong><p>FCC 调用的云端 API，或 Ollama 等本地推理服务；真实模型在这一端运行。</p></div>
+      <div><strong>库的文件夹路径</strong><p>保存代码和安装文件的位置。它与 Agent 使用的 API 地址是两种不同概念。</p></div>
+    </div>
+    <p class="source-note">依据：<a data-source="harnesses/claude.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/harnesses/claude.py">客户端基础地址配置</a> · <a data-source="api/routes.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/routes.py">代理 API 入口</a>。FCC 调用模型服务；无需把模型加载进这个库。</p>
+  </section>
+
+  <section id="understanding" class="section overview-section wrap" aria-labelledby="overview-title">
+    <div class="section-heading"><span class="section-number">02</span><div><p class="eyebrow">把完整理解放进一张图</p><h2 id="overview-title">能力、原理、价值与意义，一起看清。</h2></div></div>
+    <p class="section-lead">从 Agent → 网关 → 真实模型出发，展开网关内部、工具往返、已有能力、可扩展场景、个人意义及同类项目的位置。点击大图可放大、滚动阅读；SVG 和 PNG 均可下载。</p>
+    <figure><a class="diagram-open" data-diagram="./assets/understanding-overview.svg" data-title="适配解耦：完整理解总览" data-width="1600" href="./assets/understanding-overview.svg"><img src="./assets/understanding-overview.svg" width="1600" height="2460" loading="lazy" alt="完整理解总览：在 Agent 与真实模型中间增加 FCC 网关，通过统一入口、协议适配与配置路由实现接入解耦；图中汇总底层模块、工具闭环、能力、场景、价值、意义、扩展和同类定位。"><span>点击放大完整图 ↗</span></a><figcaption>本研究原创解释图，依据固定版本源码和此前研究整理；非上游运行截图。</figcaption></figure>
+    <div class="download-row"><a class="button" href="./assets/understanding-overview.png" download="fcc-understanding-overview.png">下载完整 PNG ↓</a><a class="button" href="./assets/understanding-overview.svg" download="fcc-understanding-overview.svg">下载可缩放 SVG ↓</a><a class="text-link" href="#gateway-internals">继续看底层模块 ↗</a></div>
+  </section>
+
+  <section id="request-lab" class="lab-section">
+    <div class="wrap">
+      <div class="section-heading"><span class="section-number">03</span><div><p class="eyebrow">可操作的原理说明</p><h2>一条请求，怎样完成一次往返？</h2></div></div>
+      <div class="section-intro"><p>换一个 Agent 或模型示例，逐步查看请求、转换、回答、工具执行和结果回传。所有内容均在浏览器本地演示。</p><span class="demo-badge">教学模拟 · 无模型调用</span></div>
+      <div class="lab-controls">
+        <fieldset><legend>客户端</legend><div class="segmented"><button type="button" data-agent="claude" aria-pressed="true">Claude Code</button><button type="button" data-agent="codex" aria-pressed="false">Codex</button></div></fieldset>
+        <label class="model-control" for="model-select">真实模型服务<select id="model-select"><option value="deepseek">DeepSeek 云端示例</option><option value="ollama">Ollama 本地示例</option><option value="custom">自定义接口示例</option></select></label>
+        <label class="fallback-control"><input id="fallback-toggle" type="checkbox">模拟主模型不可用</label>
+      </div>
+      <div class="route-map" aria-label="当前请求经过的三个角色">
+        <div id="route-agent"><small>客户端接口</small><strong id="agent-label">Claude Code</strong><code id="ingress-label">/v1/messages</code></div><span aria-hidden="true">⇄</span><div class="route-proxy"><small>统一代理</small><strong>FCC</strong><span>解析配置 / 协议适配</span></div><span aria-hidden="true">⇄</span><div id="route-model"><small>真实服务</small><strong id="model-label">DeepSeek 示例</strong><code id="target-label">deepseek/demo-model</code></div>
+      </div>
+      <ol class="step-tabs" aria-label="请求流程步骤">
+        <li><button type="button" data-step="0" aria-current="step"><span>01</span>Agent 发请求</button></li><li><button type="button" data-step="1"><span>02</span>FCC 选目标</button></li><li><button type="button" data-step="2"><span>03</span>适配与调用</button></li><li><button type="button" data-step="3"><span>04</span>响应转回</button></li><li><button type="button" data-step="4"><span>05</span>Agent 执行</button></li><li><button type="button" data-step="5"><span>06</span>结果再回传</button></li>
+      </ol>
+      <div class="lab-workspace">
+        <div class="step-explanation" aria-live="polite" aria-atomic="true"><p id="step-eyebrow" class="eyebrow">步骤 01 / 06</p><h3 id="step-title">Agent 把任务发到 FCC。</h3><p id="step-description">请求包括问题、已有上下文和可用工具定义。客户端使用的基础地址是 FCC 的代理地址，而不是直接连接原来的默认模型服务。</p><div class="step-takeaway"><span>这一步要记住</span><strong id="step-takeaway">改变的是模型请求的去向；Agent 的执行框架继续工作。</strong></div><div class="lab-actions"><button id="next-step" class="button primary" type="button">下一步 →</button><button id="reset-lab" class="text-button" type="button">重新看一遍</button></div></div>
+        <div class="protocol-panel"><div class="panel-heading"><span id="payload-label">客户端 → 统一入口</span><span>示意字段</span></div><pre id="request-payload" tabindex="0" aria-label="本步骤请求或响应的教学示例"></pre><p id="payload-note" class="payload-note">示例省略部分字段；demo-model 为教学标识，不是可直接调用的模型名称。</p></div>
+      </div>
+      <div id="fallback-note" class="fallback-note" hidden><strong>故障切换也有条件。</strong>这里演示“尚未输出内容时尝试预先配置的备用模型”。真实代码还会检查已输出文本、工具调用及结构化结果，再决定重启、续写、交接或停止。备选模型也可能消耗额度。</div>
+      <p class="source-note">依据：<a data-source="application/routing.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/application/routing.py">模型路由</a> · <a data-source="core/anthropic/conversion.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/anthropic/conversion.py">消息与工具转换</a> · <a data-source="core/stream_recovery.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/stream_recovery.py">恢复条件</a>。这段流程演示不是上游运行实测。</p>
+      <noscript><p class="noscript-note">交互需要 JavaScript。完整原理：Agent 请求 → FCC 解析目标 → 适配并调用真实模型 → 响应转回 → Agent 执行工具 → 工具结果再次交给模型。下方研究正文仍可直接阅读。</p></noscript>
+    </div>
+  </section>
+
+  <section id="protocols" class="section wrap">
+    <div class="section-heading"><span class="section-number">04</span><div><p class="eyebrow">接口怎样接起来</p><h2>转换的是格式，模型负责真实生成。</h2></div></div>
+    <p class="section-lead">FCC 对外主要接收 Anthropic Messages 和 OpenAI Responses 请求；向真实服务发出什么协议，取决于服务商及模型配置。兼容的原生请求可以透传，不必全部绕成同一种格式。</p>
+    <div class="table-scroll"><table><caption>客户端入口、代理处理与真实模型服务的关系</caption><thead><tr><th>接口所在位置</th><th>典型格式</th><th>承担的工作</th></tr></thead><tbody><tr><td>Agent → FCC</td><td><code>/v1/messages</code><br><code>/v1/responses</code></td><td>接收任务、上下文、工具说明和客户端参数。</td></tr><tr><td>FCC 内部适配</td><td>消息角色、工具参数、图像、推理字段、流式事件</td><td>把双方能够表达的字段连接起来，处理提供商差异与不支持项。</td></tr><tr><td>FCC → 真实服务</td><td>Chat Completions / Responses / Messages 等</td><td>带上真实目标模型和允许使用的凭据，请模型生成内容。</td></tr><tr><td>真实服务 → Agent</td><td>转回客户端响应或原生透传</td><td>把文本和工具调用交回 Agent，让执行循环继续。</td></tr></tbody></table></div>
+    <div class="two-column text-columns"><article><h3>为什么工具调用能继续？</h3><p>代理把工具名称、输入结构和调用结果转换成真实模型接口能够表达的格式。模型生成工具调用后，FCC 再把它转换回 Agent 可识别的事件。操作文件和执行命令仍发生在 Agent 的工具执行环境中。</p></article><article><h3>为什么接通了还可能不好用？</h3><p>接口能表达工具调用，不等于模型能稳定选对工具、填对参数或理解长上下文。模型的图像能力、推理字段、上下文长度和格式约束也不同；协议适配只能处理接口层面的差异。</p></article></div>
+    <div class="inline-note"><strong>已有应用接入前，先核对接口。</strong>使用 <code>/v1/chat/completions</code> 的应用不能仅修改地址就假定兼容；当前主要入站生成路由是 Messages 和 Responses，需要改客户端或增加适配层。</div>
+    <p class="source-note">依据：<a data-source="api/routes.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/routes.py">公开路由</a> · <a data-source="config/custom_providers.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/config/custom_providers.py">自定义协议配置</a> · <a data-source="core/anthropic/conversion.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/anthropic/conversion.py">转换与不支持项处理</a>。</p>
+  </section>
+
+  <section id="gateway-internals" class="section internals-section"><div class="wrap">
+    <div class="section-heading"><span class="section-number">05</span><div><p class="eyebrow">适配解耦的底层图解</p><h2>把网关展开：入口、路由、适配和真实调用。</h2></div></div>
+    <p class="section-lead">下图按职责解释概念数据流。公共地址对应入口；路由决定实际目标；适配连接双方格式；供应商调用才到达真实模型。响应沿相反方向返回，工具操作交回 Agent。</p>
+    <figure class="internals-figure"><a class="diagram-open" data-diagram="./assets/gateway-internals.svg" data-title="网关底层：协议适配与工具闭环" data-width="1600" href="./assets/gateway-internals.svg"><img src="./assets/gateway-internals.svg" width="1600" height="1320" loading="lazy" alt="FCC 底层模块图：Agent 的模型请求进入代理接口，经过接收校验、配置路由、消息与工具协议适配及供应商调用；模型输出转回客户端，Agent 执行工具并回传结果。"><span>点击放大底层模块图 ↗</span></a><figcaption>概念模块图，非逐函数执行顺序；原生透传、优化及失败路径存在条件分支。</figcaption></figure>
+    <div class="mechanism-notes"><article><h3>连接的两端是什么？</h3><p>Agent 的模型 API 与真实模型服务 API。转换的是消息、工具参数、历史关系、响应和事件格式；真实模型仍按自己的能力生成。</p></article><article><h3>解耦后改变什么？</h3><p>客户端可以保持支持的调用协议，把服务商更换、凭据与目标配置集中到网关。统一格式仍需保留错误、能力限制和实际路线。</p></article><article><h3>运行状态为什么重要？</h3><p>模型调用是流式、可失败的多轮过程。已输出文本、工具指令与结构化结果会限制恢复；重试和备用不是无条件继续。</p></article></div>
+    <div class="download-row"><a class="button" href="./assets/gateway-internals.png" download="fcc-gateway-internals.png">下载底层 PNG ↓</a><a class="button" href="./assets/gateway-internals.svg" download="fcc-gateway-internals.svg">下载底层 SVG ↓</a></div>
+    <p class="source-note">依据：<a data-source="api/routes.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/routes.py">代理路由</a> · <a data-source="application/routing.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/application/routing.py">目标选择</a> · <a data-source="core/anthropic/conversion.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/anthropic/conversion.py">协议适配</a> · <a data-source="core/stream_recovery.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/stream_recovery.py">恢复判定</a>。工具执行属于 Agent 的执行环境。</p>
+  </div></section>
+
+  <section id="capabilities" class="section capability-section">
+    <div class="wrap"><div class="section-heading"><span class="section-number">06</span><div><p class="eyebrow">能力汇总</p><h2>从接口桥接，扩展到接入管理。</h2></div></div>
+    <p class="section-lead">核心是代理与协议适配；配置、目录、重试、优化和多个入口，让这条通路更容易使用。以下区分源码已确认的能力、文档描述和依赖条件。</p>
+    <div class="capability-grid">
+      <article><span class="evidence-tag code">源码核对</span><h3>统一管理模型服务</h3><p>配置服务商、真实地址、凭据、模型和推理设置；模型目录让客户端能选择可用目标。云端、本地及自定义接口各自保留运行与计费条件。</p><a data-source="config/custom_providers.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/config/custom_providers.py">配置结构 ↗</a></article>
+      <article><span class="evidence-tag code">源码核对</span><h3>消息与工具协议转换</h3><p>适配消息、工具定义、调用参数和结果；处理图像和推理历史等兼容字段，并对无法表达的部分设定限制。</p><a data-source="core/anthropic/conversion.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/anthropic/conversion.py">转换实现 ↗</a></article>
+      <article><span class="evidence-tag code">源码核对</span><h3>配置式模型路由</h3><p>支持直接选择模型，或把客户端模型档位映射到实际模型；主模型与有序备用模型来自配置。语义判断最合适模型需要额外实现。</p><a data-source="application/routing.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/application/routing.py">路由实现 ↗</a></article>
+      <article><span class="evidence-tag code">源码核对</span><h3>失败重试与恢复</h3><p>重试和备用模型能处理部分故障；是否继续生成，还要检查已经输出的内容、工具调用和结构化数据，存在必须停止的情况。</p><a data-source="core/stream_recovery.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/stream_recovery.py">恢复条件 ↗</a></article>
+      <article><span class="evidence-tag code">源码核对</span><h3>减少辅助模型请求</h3><p>命令前缀、文件路径等可用本地逻辑处理；标题、建议或额度探测可跳过或返回固定响应。优化取决于开关，并可能改变辅助功能。</p><a data-source="api/optimization_handlers.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/optimization_handlers.py">优化实现 ↗</a></article>
+      <article><span class="evidence-tag code">源码核对</span><h3>浏览器原生会话</h3><p>浏览器页面连接本机的 Codex app-server 进程，管理会话、事件和模型选择。浏览器是入口，执行环境仍需持续运行。</p><a data-source="runtime/codex_app_server.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/runtime/codex_app_server.py">会话实现 ↗</a></article>
+      <article><span class="evidence-tag docs">文档描述 · 未实测</span><h3>编程工具与 IDE 入口</h3><p>文档列出 11 类工具，包括 Claude Code、Codex、Pi、OpenCode、Cline、Hermes、Aider 等，并描述 VS Code 与其他 IDE 集成。</p><a data-source="README.md" data-root-file href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/README.md">客户端说明 ↗</a></article>
+      <article><span class="evidence-tag docs">文档描述 · 未实测</span><h3>消息、语音与输出压缩</h3><p>文档描述 Telegram / Discord 入口、Whisper / NIM 语音转写，以及可选 RTK 和 Headroom 输出处理。各组件需单独配置和验证。</p><a data-source="README.md" data-root-file href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/README.md">集成说明 ↗</a></article>
+    </div>
+    <p class="source-note">研究版本文档列出 61 个供应商；本研究没有逐一验证账号资格、地区、模型可用性、免费额度或服务条款。浏览器内切换不同执行框架被文档列为后续支持，不列作已实现能力。</p></div>
+  </section>
+
+  <section id="free" class="section wrap">
+    <div class="section-heading"><span class="section-number">07</span><div><p class="eyebrow">理解 “FREE” 的来源</p><h2>免费的是某些调用额度，能力来自实际模型。</h2></div></div>
+    <div class="free-layout"><div class="free-statement"><span>Claude Code 是工具框架</span><strong>Claude 是模型系列</strong><p>例如：Claude Code → FCC → DeepSeek。你使用的是 Claude Code 的任务执行方式，加上 DeepSeek 的实际模型能力。</p></div><div class="free-details"><p><strong>云端免费额度：</strong>来自供应商开放的试用、免费档位或活动，其数量、速率和有效期由供应商决定。</p><p><strong>付费 API / 订阅：</strong>仍按对应服务计费和限定用途。接入 FCC 不会增加原有套餐额度，也不能把订阅资格当成通用 API 配额。</p><p><strong>本地模型：</strong>模型服务运行在自己的设备，仍要考虑硬件、内存、耗电、速度和维护成本。</p><p><strong>宣传数字：</strong>“13 亿以上免费 tokens”“最高减少 90%”是项目文档的说法，不是本研究证明的个人额度或节省比例。</p></div></div>
+    <div class="cost-equation"><span>判断有没有省钱，要看</span><strong>完成任务的总成本</strong><p>真实调用费用 + 重试与备用调用 + 人工返工 + 等待时间 + 运行维护</p></div>
+    <p class="source-note">依据：<a data-source="README.md" data-root-file href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/README.md">供应商、计费与免费额度说明</a>。此处不承诺任何具体供应商的当前额度。</p>
+  </section>
+
+  <section id="comparison" class="section comparison-section"><div class="wrap">
+    <div class="section-heading"><span class="section-number">08</span><div><p class="eyebrow">把这次理解接回以前的研究</p><h2>同样叫“接入”或“路由”，连接的层次不同。</h2></div></div>
+    <p class="section-lead">最接近 FCC 的旧研究是 FreeLLMAPI：两者都在应用或 Agent 与真实模型之间提供网关。Agenvo、Hermes Jev、cmux 和 Vibe42 则主要连接或控制其他层次。以下按保存的固定研究版本比较。</p>
+    <div class="table-scroll"><table><caption>FCC 与 FreeLLMAPI：共同主干是模型接口适配与调用，重点不同</caption><thead><tr><th>比较点</th><th>Free Claude Code</th><th>FreeLLMAPI</th></tr></thead><tbody>
+      <tr><td>实现重点</td><td>现有编程 Agent 的兼容接入、工具和流式适配、启动与集成。</td><td>个人模型资源与免费额度的动态调度、用量、冷却与调用管理。</td></tr>
+      <tr><td>主要客户端入口</td><td>Messages / Responses。</td><td>Chat Completions / Messages / Responses 等。</td></tr>
+      <tr><td>目标选择</td><td>直接模型引用、档位映射、配置的有序备用目标。</td><td>能力筛选、人工优先级或动态评分，再选择供应商、模型和密钥。</td></tr>
+      <tr><td>动态依据</td><td>主路由主要依配置，失败时按恢复条件处理。</td><td>历史调用表现、速度、目录能力等级、额度余量与限流状态。</td></tr>
+      <tr><td>主要聊天流式恢复</td><td>检查已交付内容，判定重启、继续、交接或停止。</td><td>所读版本在有效输出提交前争取回退，提交后通常报告流式错误并停止回退。</td></tr>
+      <tr><td>可补充学习</td><td>编程工具协议兼容、原生浏览器会话和恢复状态机。</td><td>额度账本、并发在途占用、动态评分、缓存和可选多模型融合。</td></tr>
+    </tbody></table></div>
+    <div class="routing-comparison"><article><span>FCC / 配置式目标解析</span><h3>先按配置确定调用谁。</h3><p>客户端模型名或档位 → 真实模型配置 → 调用；满足恢复条件时按有序备用列表尝试下一目标。</p></article><article><span>FreeLLMAPI / 运行数据调度</span><h3>把候选表现和资源状态纳入选择。</h3><p>可靠性、速度和目录能力加权，再考虑额度与限流；可靠性含 Beta 后验与 Thompson Sampling 探索机制。调用成功率仍需与任务正确率分别验收。</p></article><article><span>Hermes Jev / 任务语义判断</span><h3>先判断任务，再由策略选模型。</h3><p>Jev 判断难度、类型和风险，本地阈值、模型池与能力约束落实选择；它与网关的实际调用层可以研究性组合。</p></article></div>
+    <div class="table-scroll"><table><caption>其他既有项目位于哪里？</caption><thead><tr><th>项目</th><th>主要连接与职责</th><th>底层机制</th></tr></thead><tbody>
+      <tr><td>FCC / FreeLLMAPI</td><td>Agent → 模型服务。</td><td>统一模型 API、协议适配、配置或资源路由、调用与返回。</td></tr>
+      <tr><td>Agenvo</td><td>上层助手 → 原生 Agent。</td><td>MCP → Relay → Connector / Adapter → 原生 API 或 CLI；保留原生会话身份。</td></tr>
+      <tr><td>Hermes Jev Skills</td><td>任务判断 → 本地选择策略 → 执行模型。</td><td>有限问题与结构化判断、阈值、约束和模型池。</td></tr>
+      <tr><td>cmux / Vibe42</td><td>人 → 会话工作台或远程入口 → Agent。</td><td>终端 / PTY、会话定位、控制或加密远程输入输出；各产品范围不同。</td></tr>
+    </tbody></table></div>
+    <div class="inline-note"><strong>共同启发：</strong>判断谁来做、连接谁、如何执行和怎样验收应分别设计。多个层可以组合，但接口、权限、模型能力与故障语义需要逐项确认；这些比较没有统一运行或性能实测。</div>
+    <p class="source-note">既有研究：<a href="https://yydshly.github.io/0911_codex_project/008-freellmapi/">FreeLLMAPI 中文网页</a> · <a href="https://yydshly.github.io/1009_codex_project/016-agenvo/">Agenvo 中文网页</a>。固定依据：<a href="https://github.com/tashfeenahmed/freellmapi/blob/83562ad360a65d80b6319297fee4cd47dc5a2ff3/server/src/services/scoring.ts">FreeLLMAPI 评分</a> · <a href="https://github.com/tashfeenahmed/freellmapi/blob/83562ad360a65d80b6319297fee4cd47dc5a2ff3/docs/en/architecture/03-streaming-pipeline.md">流式管线</a> · <a href="https://github.com/Xuanwo/agenvo/blob/68e046a5d8691054f8c134d85ae051988bae3dff/design/architecture.zh-CN.md">Agenvo 架构</a> · <a href="https://github.com/kerpopule/hermes-jev-skills/blob/31f476cac49713b6bf88c00d42382542e1c36965/jevkit/route.py">Jev 路由</a>。</p>
+  </div></section>
+
+  <section id="scenarios" class="section scenarios-section"><div class="wrap">
+    <div class="section-heading"><span class="section-number">09</span><div><p class="eyebrow">使用场景与选择条件</p><h2>什么时候，加这一层值得？</h2></div></div>
+    <div class="scenario-list">
+      <article><span>01</span><div><h3>保持工具习惯，经常换模型</h3><p>你熟悉一种 Agent 的目录操作、命令和工作流，但想使用不同供应商。统一入口可减少每次改客户端的配置负担。</p></div><small>接入与迁移</small></article>
+      <article><span>02</span><div><h3>用同一任务比较多个模型</h3><p>固定任务、资料、工具和验收标准，比较模型完成率、工具调用、返工与费用，更容易形成自己的模型选择依据。</p></div><small>研究与评测</small></article>
+      <article><span>03</span><div><h3>把简单工作交给低成本模型</h3><p>文档整理、小脚本、简单修复可先做配对试验；复杂修改是否切换强模型，应根据实际结果和任务风险确定。</p></div><small>成本实验</small></article>
+      <article><span>04</span><div><h3>接入本地服务或配置故障备选</h3><p>选择工具能力和上下文足够的本地模型，或给云端服务配置备用目标；两者都需要验证请求和工具执行闭环。</p></div><small>运行选择</small></article>
+      <article><span>05</span><div><h3>通过浏览器或手机发起任务</h3><p>电脑服务与 Agent 持续运行时，可探索消息或浏览器入口。远程输入仍受本机目录、执行权限和集成配置约束。</p></div><small>操作入口</small></article>
+    </div>
+    <div class="inline-note"><strong>收益可能有限的情况：</strong>只使用一个模型，客户端已经原生支持它，且没有统一管理或故障备选需求。此时额外代理会增加运行组件，先比较收益与维护成本。</div>
+  </div></section>
+
+  <section id="value" class="section wrap">
+    <div class="section-heading"><span class="section-number">10</span><div><p class="eyebrow">结合你的研究仓库</p><h2>从“能换模型”，走到“会选、会验证”。</h2></div></div>
+    <p class="large-copy">核心价值是 Agent 与模型服务的接入解耦：保留熟悉的任务执行方式，把具体模型、供应商和兼容细节放进可配置网关。对我们而言，这既是可复用的接口工程，也是理解“判断、调用、执行、验收”分工的研究基础。</p>
+    <div class="value-grid"><article><span>学习价值</span><h3>看清三个层次的分工</h3><p>Agent 的执行、FCC 的连接、模型的生成分开之后，能更准确地判断一个 AI 项目的能力来自哪里，以及更换模型能解决什么问题。</p></article><article><span>实践价值</span><h3>让工作方式与模型分别选择</h3><p>多个兼容工具共用一套服务配置，模型可替换、故障可备选；实际收益应扣除代理自身维护与兼容适配的工作。</p></article><article><span>研究价值</span><h3>建立可重复的比较</h3><p>把不同模型放进同一工具与任务环境，记录结果和成本，让选择依据逐渐积累成自己的评测资料。</p></article></div>
+    <div class="table-scroll"><table><caption>与现有项目的潜在衔接；尚未实现或验证</caption><thead><tr><th>已有研究</th><th>可以借鉴或衔接什么</th><th>仍然需要什么</th></tr></thead><tbody><tr><td><a href="https://github.com/yydshly/1013_codex_project/tree/main/projects/007-hermes-jev-skills">007 · 模型判断与路由</a></td><td>判断层选择目标，FCC 处理实际接入、调用和响应适配。</td><td>把判断输出映射成模型配置，加入能力约束并验证路由收益。</td></tr><tr><td><a href="https://github.com/yydshly/1013_codex_project/tree/main/projects/001-infinite-bookshelf">001 · 长文写作</a></td><td>探索不同模型的生成质量、稳定性和费用，复用服务配置。</td><td>核对客户端协议，保留大纲、上下文、资料与人工编辑流程。</td></tr><tr><td><a href="https://github.com/yydshly/1013_codex_project/tree/main/projects/006-jev-seo">006 · 网站审查</a></td><td>让模型评估环节可切换，测试低成本模型是否满足输出标准。</td><td>网页采集、规则检查、证据复核和结构化结果仍由审查流程负责。</td></tr><tr><td><a href="https://github.com/yydshly/1013_codex_project/tree/main/projects/002-production-agentic-rag-course">002 · 资料与 RAG</a></td><td>探索生成环节的统一接入，或让 Agent 调用你的知识库工具。</td><td>资料导入、切块、索引、检索、引用核对和协议适配。</td></tr></tbody></table></div>
+    <div class="research-judgment"><span>本次判断</span><p><strong>值得作为模型接入工程案例研究。</strong>先在一个工具、两个模型、五类任务中验证，再决定是否成为日常基础设施。复杂编码质量与降本效果由真实任务结果决定。</p></div>
+  </section>
+
+  <section id="extensions" class="section extension-section"><div class="wrap">
+    <div class="section-heading"><span class="section-number">11</span><div><p class="eyebrow">已有基础与新增方向</p><h2>扩展，从能配置的地方开始。</h2></div></div>
+    <div class="extension-grid"><article><span class="extension-stage">已有支持 / 先配置</span><h3>接入自己的模型接口</h3><p>自定义供应商已有真实地址、凭据、协议、模型 ID 和推理格式配置。先验证你的服务是否符合所选协议，再考虑改源码。</p></article><article><span class="extension-stage">新增逻辑 / 要评测</span><h3>按任务语义选择模型</h3><p>在配置路由之上加入任务分类与约束：工具能力、上下文、资料敏感性、预算和质量。主模型失败后换备选，与判断任务最适合模型是不同功能。</p></article><article><span class="extension-stage">新增记录 / 先做基线</span><h3>成本、能力与结果闭环</h3><p>记录真实路由、模型版本、用量、失败、返工和验收结果；区分真实服务用量与本地估算，形成可追溯的选择依据。</p></article><article><span class="extension-stage">新增工具 / 保留来源</span><h3>连接知识库与研究资料</h3><p>把你的项目研究、论文和笔记开放为受控检索工具，交给 Agent 使用。FCC 解决模型接入，资料质量与引用验证需要单独建设。</p></article><article><span class="extension-stage">新增服务能力 / 明确职责</span><h3>团队权限与预算管理</h3><p>进一步设计用户身份、项目隔离、凭据管理、审计和预算；不能把本地个人代理直接视作完整的团队平台。</p></article><article><span class="extension-stage">复现维护 / 固定版本</span><h3>维护兼容性与回归样例</h3><p>固定 Agent、FCC 和模型配置，保留工具参数、流式中断、图像与长上下文样例，供应商或客户端更新时重新验证。</p></article></div>
+    <h3>从接入基础，扩展成具体应用</h3>
+    <div class="table-scroll"><table><caption>以下为可探索的应用组合，不是已完成的集成</caption><thead><tr><th>可扩展场景</th><th>网关提供什么</th><th>还需要建设什么</th><th>怎么判断价值</th></tr></thead><tbody>
+      <tr><td>多模型编程工作台</td><td>熟悉的 Agent 接入多个服务，集中维护模型与备用目标。</td><td>仓库环境、任务分类、模型能力检查、工具权限和代码验收。</td><td>真实任务完成率、测试结果、返工、耗时与总费用。</td></tr>
+      <tr><td>写作与专题报告</td><td>为起草、改写、总结提供可替换的生成模型入口。</td><td>与项目 001 衔接协议，保留大纲、资料、引用、上下文和编辑流程。</td><td>事实与引用正确率、长文一致性、人工编辑时间。</td></tr>
+      <tr><td>农业资料 / 技术文档问答</td><td>替换 RAG 的生成服务，或让 Agent 使用受控检索工具。</td><td>与项目 002 衔接；补齐资料导入、切块、索引、检索、版本和引用核查。</td><td>检索命中、答案可核查性、错误率及资料更新效果。</td></tr>
+      <tr><td>网页质量与内容审查</td><td>固定页面材料后比较不同模型的语义评估。</td><td>项目 006 的采集与规则流程、结构化输出和人工证据复核；当前 Chat Completions 客户端需调整接口。</td><td>问题定位准确率、误报漏报、整改后复核与调用成本。</td></tr>
+      <tr><td>按任务选择云端 / 本地模型</td><td>配置不同目标并执行统一模型调用。</td><td>结合项目 007 的判断思路新增任务策略，检查工具、上下文、资料去向与预算。</td><td>路由后质量、速度、总成本及实际发送目标是否符合约束。</td></tr>
+      <tr><td>小团队共用模型入口</td><td>为多个兼容客户端提供共同服务配置与协议适配基础。</td><td>用户身份、租户隔离、凭据托管、审计、额度、限流、运维和 AGPL 许可要求。</td><td>重复配置减少量、故障处理时间、费用归属和访问控制结果。</td></tr>
+    </tbody></table></div>
+    <div class="inline-note"><strong>组合分工：</strong>任务判断决定用谁，网关解决如何接入，Agent 和应用组织执行，检索系统提供资料，评测负责验收。扩展价值来自整条链路的结果，需要用实际任务证明。</div>
+    <p class="source-note">以上为本研究的扩展建议；仅“自定义接口配置”属于已核对的现有支持。协议类型见 <a data-source="config/custom_providers.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/config/custom_providers.py">配置源码</a>。</p>
+  </div></section>
+
+  <section id="usage" class="section wrap">
+    <div class="section-heading"><span class="section-number">12</span><div><p class="eyebrow">从配置到真实任务</p><h2>先跑通一次，再比较五类任务。</h2></div></div>
+    <div class="setup-list"><article><span>1</span><div><h3>确定 Agent 与模型服务</h3><p>选择一个工具和两个你有权使用的真实模型服务，确认工具能力、上下文长度、调用资格和任务资料范围。</p></div></article><article><span>2</span><div><h3>安装并启动 FCC</h3><p>按固定版本文档准备运行环境，启动本地服务，读取实际管理界面与代理地址。本研究未执行上游安装器。</p></div></article><article><span>3</span><div><h3>配置真实模型目标</h3><p>填入供应商地址、允许使用的凭据与真实模型 ID，选择协议；本地方案需先启动自己的推理服务。配置备用模型时确定顺序与适用条件。</p></div></article><article><span>4</span><div><h3>让客户端连接统一代理</h3><p>通过 FCC 启动器或已支持的集成连接客户端。Claude Code 启动配置会把 <code>ANTHROPIC_BASE_URL</code> 指向代理 URL；这不是修改模型权重路径。</p></div></article><article><span>5</span><div><h3>核对请求与工具闭环</h3><p>先问一个简单问题，再让 Agent 读取测试文件、修改副本并运行检查。核对实际模型、工具参数和返回结果，避免只测试“能回答一句话”。</p></div></article><article><span>6</span><div><h3>比较结果、成本和恢复</h3><p>固定任务、输入、配置和验收方式，分别运行两种模型；随后测试额度不足或断流，记录是否恢复、是否重复操作及最终费用。</p></div></article></div>
+    <div class="evaluation-box"><div><p class="eyebrow">建议的最小评测集</p><h3>解释源码 / 写小脚本 / 修复错误 / 整理文档 / 修改小功能</h3><p>每类使用相同资料与独立工作副本。记录完成率、人工核查、返工次数、工具调用失败、耗时和费用，不用单次演示替代结论。</p></div><a class="button" href="./data/evaluation-template.txt" download="fcc-evaluation-template.csv">下载空白评测表 ↓</a></div>
+    <p class="source-note">固定版本 <a data-source="pyproject.toml" data-root-file href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/pyproject.toml">pyproject.toml</a> 要求 Python 3.14.7；本研究网页使用无构建依赖的 HTML / CSS / JavaScript，本地静态验证环境与上游运行环境分开记录。</p>
+  </section>
+
+  <section id="faq" class="section faq-section"><div class="wrap">
+    <div class="section-heading"><span class="section-number">13</span><div><p class="eyebrow">把容易混淆的地方说清楚</p><h2>读完以后，再核对这几个问题。</h2></div></div>
+    <div class="faq-list">
+      <details open><summary>“公共地址”一定是公网地址吗？</summary><p>这里更准确的说法是“共用代理 API 地址”。FCC 通常运行在本机，多个支持的客户端可以连接它。是否允许其他设备访问，需要另行配置网络、访问控制和部署；不是使用这个库的前提。</p></details>
+      <details><summary>是不是模型加载到 FCC 以后再转换？</summary><p>FCC 加载的是服务配置和适配逻辑。真实模型通常运行在供应商或你自己的推理服务中。Agent 把请求发给 FCC，FCC 转换请求并调用真实服务，再转回响应。</p></details>
+      <details><summary>它只是把地址改一下吗？</summary><p>改变地址是入口配置。实际工程还包含消息与工具转换、模型目录、档位映射、流式事件、提供商差异、重试恢复和集成管理。协议相同时可能透传，协议不同时需要适配。</p></details>
+      <details><summary>使用 Claude Code，就拥有 Claude 的能力吗？</summary><p>Claude Code 是任务执行框架，Claude 是模型系列。实际模型由 FCC 配置决定：选择 DeepSeek，就由 DeepSeek 负责生成和决策；使用 Claude 模型需有相应的合法接入与额度。</p></details>
+      <details><summary>FCC 会让弱模型变得更聪明吗？</summary><p>协议适配可以让模型进入 Agent 的工具循环，但不会训练或改变模型本身。任务表现仍取决于模型、提示与资料、工具支持、上下文以及验收方式。</p></details>
+      <details><summary>它会自动判断哪个模型最适合任务吗？</summary><p>当前核对的主路径是直接模型选择、预设档位映射及有序备用目标。根据任务内容判断能力、质量与成本，是可新增并评测的路由逻辑。</p></details>
+      <details><summary>本地代理是否意味着资料都留在本机？</summary><p>使用云端模型时，发送给模型的上下文和工具结果会经过对应供应商。选择本地模型时，模型推理可以发生在本机；完整工作流中其他工具和外部服务的去向仍需单独确认。</p></details>
+      <details><summary>它是否已经替我完成知识库、写作或多 Agent 系统？</summary><p>FCC 提供模型接入与相关运行入口。知识库的采集检索、写作的章节流程、审查的证据规则，以及复杂多 Agent 编排仍需要相应的应用与工具实现。</p></details>
+    </div>
+  </div></section>
+
+  <section id="evidence" class="section wrap">
+    <div class="section-heading"><span class="section-number">14</span><div><p class="eyebrow">来源、证据与验证范围</p><h2>源码支持结论，实测决定收益。</h2></div></div>
+    <div class="verification-grid"><article><span class="evidence-tag code">已经核对</span><h3>固定版本的核心实现</h3><ul><li>客户端代理地址、Messages / Responses 入口。</li><li>模型选择、档位映射、有序备用目标。</li><li>消息与工具协议转换、不支持项处理。</li><li>辅助请求优化与恢复条件。</li><li>浏览器 Codex 进程与会话管理。</li><li>上游运行时要求与 AGPL-3.0-only 标识。</li></ul></article><article><span class="evidence-tag docs">仍待真实运行验证</span><h3>每个模型在任务中的实际表现</h3><ul><li>上游安装、真实客户端与模型接入。</li><li>免费资格、当前额度和各入口兼容性。</li><li>图像、推理字段、长上下文和工具调用质量。</li><li>真实断流、备用模型与重复操作风险。</li><li>任务总成本、返工、速度与质量收益。</li><li>RTK、Headroom、消息和语音集成效果。</li></ul></article></div>
+    <div class="source-list"><a data-source="harnesses/claude.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/harnesses/claude.py"><span>请求去向</span><strong>Claude 客户端代理地址配置</strong><span>↗</span></a><a data-source="api/routes.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/routes.py"><span>接口入口</span><strong>Messages / Responses 与模型目录路由</strong><span>↗</span></a><a data-source="application/routing.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/application/routing.py"><span>模型选择</span><strong>直接选择、档位映射与备用模型</strong><span>↗</span></a><a data-source="core/anthropic/conversion.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/anthropic/conversion.py"><span>协议转换</span><strong>消息、工具调用、图像与字段限制</strong><span>↗</span></a><a data-source="core/stream_recovery.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/core/stream_recovery.py"><span>故障条件</span><strong>重启、继续、交接与停止的判定</strong><span>↗</span></a><a data-source="api/optimization_handlers.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/api/optimization_handlers.py"><span>调用优化</span><strong>五类辅助请求的本地处理</strong><span>↗</span></a><a data-source="runtime/codex_app_server.py" href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/src/free_claude_code/runtime/codex_app_server.py"><span>浏览器会话</span><strong>原生 Codex 进程、线程与事件</strong><span>↗</span></a></div>
+    <div class="license-note"><strong>研究版本：74d4ccfde724f7416fa2a728d594d704dddc7c94 · 核对日期：2026-10-14</strong><p>上游：<a href="https://github.com/Alishahryar1/free-claude-code">Alishahryar1/free-claude-code</a>。独立开源项目，非 Anthropic 官方项目。许可证为 <a data-source="LICENSE" data-root-file href="https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/LICENSE">AGPL-3.0-only</a>；修改后用于托管或分发时，应把许可证要求纳入方案。网页文字、结构和图示为本仓库原创整理，代码片段仅为教学示意；未复制上游 UI 或素材。</p><p>网页运行与交互验证见子项目文档；静态页面成功显示，不代表真实 FCC 服务或模型任务已经通过验证。</p></div>
+    <div class="download-row"><a class="button" href="./assets/understanding-overview.svg" download="fcc-understanding-overview.svg">下载理解总览图 ↓</a><a class="button" href="./data/evaluation-template.txt" download="fcc-evaluation-template.csv">下载空白评测表 ↓</a><a class="text-link" href="https://github.com/yydshly/1013_codex_project/tree/main/projects/016-free-claude-code">研究源码与文档 ↗</a></div>
+  </section>
+
+</main>
+<dialog id="diagram-dialog" class="diagram-dialog" aria-labelledby="diagram-dialog-title">
+  <div class="diagram-toolbar"><strong id="diagram-dialog-title">理解图</strong><div><button id="diagram-zoom-out" type="button" aria-label="缩小理解图">−</button><span id="diagram-scale" aria-live="polite">100%</span><button id="diagram-zoom-in" type="button" aria-label="放大理解图">＋</button><button id="diagram-fit" type="button">适应宽度</button><button id="diagram-close" type="button">关闭 ×</button></div></div>
+  <div id="diagram-viewport" class="diagram-viewport"><img id="diagram-full-image" alt="" src="./assets/understanding-overview.svg"></div>
+</dialog>
+<footer class="site-footer wrap"><span>016 / FREE CLAUDE CODE</span><p>统一入口连接工具与模型。实际能力与收益，用真实任务验证。</p><a href="#top">回到顶部 ↑</a><a href="../">返回总览 ↗</a></footer>
+</body>
+</html>
