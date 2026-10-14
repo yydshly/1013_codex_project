@@ -1,0 +1,200 @@
+{
+  "date": "2026-10-14T12:44:17.167218+08:00",
+  "base_url": "https://yydshly.github.io/1013_codex_project/",
+  "source_commit": "dd312b54a573d4d7b68a3ccd4b2d64c05b005a8a",
+  "status": "passed",
+  "scope": "公网静态发布与已有入口；不验证上游登录、真实教材下载、音频书签或 RAG",
+  "results": [
+    {
+      "path": "012-tchmaterial-parser/app.js",
+      "url": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/app.js",
+      "type": "project",
+      "http_status": 200,
+      "bytes": 7647,
+      "sha256": "8b86a8fd3ec9e81954f4a601291dba89cb5cf4f0e161198fc9e08b39d8f843df",
+      "matches_expected": true,
+      "expected_sha256": "8b86a8fd3ec9e81954f4a601291dba89cb5cf4f0e161198fc9e08b39d8f843df",
+      "passed": true
+    },
+    {
+      "path": "012-tchmaterial-parser/assets/favicon.svg",
+      "url": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/assets/favicon.svg",
+      "type": "project",
+      "http_status": 200,
+      "bytes": 237,
+      "sha256": "7632834e664513a27f40c7ef9b1268bb36f3a7b08e69f4c6b7b08898cc79cd6d",
+      "matches_expected": true,
+      "expected_sha256": "7632834e664513a27f40c7ef9b1268bb36f3a7b08e69f4c6b7b08898cc79cd6d",
+      "passed": true
+    },
+    {
+      "path": "012-tchmaterial-parser/assets/understanding-overview.svg",
+      "url": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/assets/understanding-overview.svg",
+      "type": "project",
+      "http_status": 200,
+      "bytes": 4873,
+      "sha256": "03056400d872e858b3a81d4583a79a1f77a542f5722c4b3d5e927b0ef5fa6cdf",
+      "matches_expected": true,
+      "expected_sha256": "03056400d872e858b3a81d4583a79a1f77a542f5722c4b3d5e927b0ef5fa6cdf",
+      "passed": true
+    },
+    {
+      "path": "012-tchmaterial-parser/assets/understanding-summary.png",
+      "url": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/assets/understanding-summary.png",
+      "type": "project",
+      "http_status": 200,
+      "bytes": 2125330,
+      "sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1",
+      "matches_expected": true,
+      "expected_sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1",
+      "passed": true
+    },
+    {
+      "path": "012-tchmaterial-parser/",
+      "url": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/",
+      "type": "project",
+      "http_status": 200,
+      "bytes": 35261,
+      "sha256": "51dc41f30f5549e4dc9270481c125bf795454fc22689c1b4c64bffa84d1d7c0a",
+      "matches_expected": true,
+      "expected_sha256": "51dc41f30f5549e4dc9270481c125bf795454fc22689c1b4c64bffa84d1d7c0a",
+      "passed": true
+    },
+    {
+      "path": "012-tchmaterial-parser/styles.css",
+      "url": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/styles.css",
+      "type": "project",
+      "http_status": 200,
+      "bytes": 22939,
+      "sha256": "d80495611736f11ffd09c445825c963450607e9a00326292cd4885c97c535478",
+      "matches_expected": true,
+      "expected_sha256": "d80495611736f11ffd09c445825c963450607e9a00326292cd4885c97c535478",
+      "passed": true
+    },
+    {
+      "path": "previews/012-tchmaterial-parser.png",
+      "url": "https://yydshly.github.io/1013_codex_project/previews/012-tchmaterial-parser.png",
+      "type": "preview",
+      "http_status": 200,
+      "bytes": 2125330,
+      "sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1",
+      "matches_expected": true,
+      "expected_sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1",
+      "passed": true
+    },
+    {
+      "path": "",
+      "url": "https://yydshly.github.io/1013_codex_project/",
+      "type": "home",
+      "http_status": 200,
+      "bytes": 63454,
+      "sha256": "91e18912cc37541e0e38e05126008105629235038a9e483f04970ac69c6614c7",
+      "matches_expected": true,
+      "expected_sha256": "91e18912cc37541e0e38e05126008105629235038a9e483f04970ac69c6614c7",
+      "all_summary_sections": true,
+      "summary_sections": 16,
+      "passed": true
+    },
+    {
+      "path": "site-build.json",
+      "url": "https://yydshly.github.io/1013_codex_project/site-build.json",
+      "type": "manifest",
+      "http_status": 200,
+      "bytes": 363,
+      "sha256": "1aa965b2bc25183d740f50a0e527fe45edbe4e54173eda1bd4c5b6f8cdc87a4b",
+      "matches_expected": true,
+      "expected_sha256": "1aa965b2bc25183d740f50a0e527fe45edbe4e54173eda1bd4c5b6f8cdc87a4b",
+      "passed": true
+    },
+    {
+      "path": "001-infinite-bookshelf/",
+      "url": "https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 37527,
+      "sha256": "5c746e81e4163cd8b97d457511e049b67d5d67a287fe23ca03b703210d98f9b6",
+      "matches_expected": true,
+      "passed": true
+    },
+    {
+      "path": "002-production-agentic-rag-course/",
+      "url": "https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 29930,
+      "sha256": "883a2a525a526a79a20c30762f684cf4c25c1cfd87c173c30f3e474472ff6edd",
+      "matches_expected": true,
+      "passed": true
+    },
+    {
+      "path": "005-wireguard-install/",
+      "url": "https://yydshly.github.io/1013_codex_project/005-wireguard-install/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 44962,
+      "sha256": "e09e362d6e1ca044de1743c462599b8b2bcc01e4dc49a6b6e024b9d5c7f18bbb",
+      "matches_expected": true,
+      "passed": true
+    },
+    {
+      "path": "006-jev-seo/",
+      "url": "https://yydshly.github.io/1013_codex_project/006-jev-seo/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 37580,
+      "sha256": "5ec202fb45140d10af636e5ec8bd1893b9310a343599015654b6f6ed9b364166",
+      "matches_expected": true,
+      "passed": true
+    },
+    {
+      "path": "007-hermes-jev-skills/",
+      "url": "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 36875,
+      "sha256": "e84fdf06174327131e092974a8a9412ae335157396e2dc1509818f1827029d88",
+      "matches_expected": true,
+      "passed": true
+    },
+    {
+      "path": "008-shadps4/",
+      "url": "https://yydshly.github.io/1013_codex_project/008-shadps4/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 33372,
+      "sha256": "9063a1affb3fd206693f8b9055785604d598c8eb92f2cf6baee84b37e5fe45f1",
+      "matches_expected": true,
+      "passed": true
+    },
+    {
+      "path": "009-cmux/",
+      "url": "https://yydshly.github.io/1013_codex_project/009-cmux/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 46039,
+      "sha256": "9d33f2c060888589053e0eac4ec2d7f9ef3298e83eef1e7f5170dafb4c89d92d",
+      "matches_expected": true,
+      "passed": true
+    },
+    {
+      "path": "010-vibe42/",
+      "url": "https://yydshly.github.io/1013_codex_project/010-vibe42/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 98170,
+      "sha256": "7ad7270ab188c7d0b946450fbb12ee265788333d90f431bf0636e417b8ceb30b",
+      "matches_expected": true,
+      "passed": true
+    },
+    {
+      "path": "011-openmontage/",
+      "url": "https://yydshly.github.io/1013_codex_project/011-openmontage/",
+      "type": "preserved-entry",
+      "http_status": 200,
+      "bytes": 85961,
+      "sha256": "437b28cf9942a398dd75b48ed35fe3b1900ea7adb0e46bccc0f266e1f246411e",
+      "matches_expected": true,
+      "passed": true
+    }
+  ]
+}

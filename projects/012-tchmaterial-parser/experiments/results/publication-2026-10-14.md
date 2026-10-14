@@ -23,7 +23,9 @@
 - [在线理解网页](https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/)与[总索引](https://yydshly.github.io/1013_codex_project/)已实际访问。
 - 首次 18 个公网地址通过：项目页、CSS、JS、PNG、SVG、图标、首页引导图、首页、构建清单与此前 9 个网页入口；项目资源与上述提交的 Git 内容一致，首页与构建快照一致，16 项摘要完整存在。结果见 [publication-http-first.json](./publication-http-first.json)。
 - 25 项公网浏览器检查通过：四场景、六步原理、六项版本勾选与重置、RAG 折叠说明、17 列空白 CSV 实际下载、指定原 PNG 下载及哈希、六项扩展场景、键盘选择、桌面 / 390px / 320px 无横向溢出、原图显示、首页 16 项摘要与引导图、返回与进入、浏览器无警告错误。结果见 [public-web-verification.json](./public-web-verification.json)。
-- 在上述成功后登记 demo_url；登记提交与最终工作流、资源核对在下一轮完成后补充。
+- 在上述成功后登记 demo_url，登记提交：[dd312b54a573d4d7b68a3ccd4b2d64c05b005a8a](https://github.com/yydshly/1013_codex_project/commit/dd312b54a573d4d7b68a3ccd4b2d64c05b005a8a)。
+- [登记后的 Pages 工作流](https://github.com/yydshly/1013_codex_project/actions/runs/38512835233)与[独立索引验证](https://github.com/yydshly/1013_codex_project/actions/runs/38512835203)均 success。再次核对 18 个公网地址，全部 HTTP 200 且对应内容一致；首页 16 项最终摘要完整保留，9 个已有网页入口保持可访问。证据见 [publication-http-final.json](./publication-http-final.json)。
+- 后续只补充发布证据的提交不改变网页静态资源；此处按入口登记提交记录内容一致性，不把后续文档提交误写成首次内容发布版本。
 
 ## 公网实拍
 
