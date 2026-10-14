@@ -55,6 +55,8 @@ site-dist/                   # 临时构建目录，不提交到 Git
 
 ## 构建与发布范围
 
+项目011正式入口登记提交为 `06ed87fd610618df067a9d90f612470d6577ad15`，[对应运行](https://github.com/yydshly/1013_codex_project/actions/runs/38498026649)成功；登记后21个公开地址和20组公网浏览器检查再次通过，18项最终摘要完整存在，证据见项目011发布记录。
+
 项目 011 于 2026-10-14 随内容提交 `ba8980a123bd00fed7d3fd98dbeafd1ee986555a` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38497224736)成功。[OpenMontage 理解网页](https://yydshly.github.io/1013_codex_project/011-openmontage/#brief)明确说明视频制作能力、助手/模型/检索/代码/规则分工、阶段成果交接、核心价值、适用与扩展场景，保留完整图、34项能力、12条流程、11项项目对比和教学交互。首页完整展示18项摘要；首轮21个公网地址及20组公网交互通过，已有八个演示入口保留。网页不执行上游制作或请求模型，正式入口登记和最终证据见[项目011发布记录](../projects/011-openmontage/experiments/results/publication-2026-10-14.md)。
 
 默认构建只读取 Git 已跟踪的 `projects/*/project.json`，只复制其中已跟踪的 `web/` 静态文件和元信息明确指定的预览图片。工作区中新建但尚未提交的其他研究项目不会被意外收录。Git 暂存区中的新增文件也属于本地已跟踪文件；GitHub Actions 运行时只有实际提交并检出的文件。

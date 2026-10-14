@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-14T01:47:26.708Z",
+  "date": "2026-10-14T01:54:46.232Z",
   "url": "https://yydshly.github.io/1013_codex_project/011-openmontage/",
   "scope": "本仓库原创静态研究网页；不是上游视频制作验证",
   "browser": "C:/Program Files/Google/Chrome/Application/chrome.exe",
@@ -122,12 +122,13 @@
   ],
   "errors": [],
   "screenshots": [
-    "assets/05-web-comparison.png",
-    "assets/06-web-baocut.png",
-    "assets/01-web-overview.png",
-    "assets/04-web-capabilities.png",
-    "assets/02-web-workflow.png",
-    "assets/03-web-mobile.png",
-    "assets/07-web-comparison-mobile.png"
+    "assets/public-05-web-comparison.png",
+    "assets/public-06-web-baocut.png",
+    "assets/public-01-web-overview.png",
+    "assets/public-08-web-core-summary.png",
+    "assets/public-04-web-capabilities.png",
+    "assets/public-02-web-workflow.png",
+    "assets/public-03-web-mobile.png",
+    "assets/public-07-web-comparison-mobile.png"
   ]
 }
