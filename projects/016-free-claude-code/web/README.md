@@ -24,7 +24,7 @@ python -m http.server 8875 --bind 127.0.0.1 --directory site-fcc-preview
 
 查看 `http://127.0.0.1:8875/016-free-claude-code/`。上级 `../` 指向生成的总览页。本地服务只提供静态文件，不提供模型 API。
 
-正式发布约定见 [deployment.md](../../../docs/deployment.md)。默认发布只收集已跟踪文件；本项目当前未发布，demo_url 为空，不将本地验证写成公网验证。
+正式发布约定见 [deployment.md](../../../docs/deployment.md)。默认发布只收集已跟踪文件；本项目已发布并验证：[在线导读](https://yydshly.github.io/1013_codex_project/016-free-claude-code/)。公开资源、浏览器检查和固定提交见 [发布记录](../experiments/results/publication-2026-10-14.md)。
 
 ## 文件与依赖
 
@@ -38,6 +38,8 @@ python -m http.server 8875 --bind 127.0.0.1 --directory site-fcc-preview
 ## 已验证与限制
 
 桌面和手机阅读、六步切换、模型和 Agent 示例、备用提示、问答、两种下载、资源、无 JavaScript 阅读、本地 HTML 以及仓库校验已检查。详情及截图见 [verification.md](../experiments/results/verification.md)，机器结果见 [browser-checks.json](../experiments/results/browser-checks.json)。
+
+上述交互也在实际公开网址复核通过；[公网浏览器结果](../experiments/results/publication-browser.json)与[公开资源一致性](../experiments/results/publication-content.json)分开记录。
 
 上游服务、真实模型、免费额度、生成质量、恢复与费用均未实测；本网页不输入或保存凭据，也不启动 Agent。
 

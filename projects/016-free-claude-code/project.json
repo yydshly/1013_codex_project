@@ -17,7 +17,7 @@
   ],
   "preview": "assets/understanding-overview.png",
   "preview_caption": "本研究原创完整理解图：Agent 与真实模型之间的网关、接口适配解耦、底层模块、工具闭环、能力、场景、价值、意义、扩展、同类定位与验证边界；由 SVG 渲染为 PNG，非上游运行截图。",
-  "demo_url": "",
+  "demo_url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/",
   "summary_sections": [
     {
       "label": "定位与本质",
@@ -77,7 +77,7 @@
     },
     {
       "label": "边界与验证",
-      "text": "固定研究版本为 74d4ccf，许可证为 AGPL-3.0-only；已核对核心源码，网页为静态研究导读与教学模拟，不提交密钥或发送模型请求。真实 Agent 接入、免费额度、模型质量、恢复效果、费用及上游运行仍待实测，网页未发布时 demo_url 保持为空。"
+      "text": "固定研究版本为 74d4ccf，许可证为 AGPL-3.0-only；已核对核心源码，中文网页已发布并核对公开资源与提交一致性。网页是静态研究导读和教学模拟，不发送模型请求；真实 Agent 接入、免费额度、模型质量、恢复效果、费用及上游运行仍待实测。"
     }
   ]
 }

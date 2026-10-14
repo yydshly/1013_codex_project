@@ -1,0 +1,65 @@
+{
+  "checked_on": "2026-10-14",
+  "url": "https://yydshly.github.io/1013_codex_project/016-free-claude-code/",
+  "scope": "静态研究网页和固定教学模拟；不运行 FCC 或模型。",
+  "checks": [
+    "完整正文与单一主标题显示",
+    "章节锚点、固定版本来源、两张 SVG / PNG 和全部静态资源可用",
+    "六步往返、重置、Codex 协议、本地与自定义模型、备用条件及工具响应切换",
+    "问答展开与 CSV 下载",
+    "原创总览 SVG 下载",
+    "适配解耦和旧项目对比正文、双图放大/适应/关闭/键盘退出及全部图示下载",
+    "390px 手机布局无全页横向溢出，交互可用",
+    "手机大图可放大并双向滚动，关闭后返回正文",
+    "禁用 JavaScript 后正文、来源与原理说明仍可读",
+    "保存的 HTML 文件可直接打开，静态正文不依赖预览服务器"
+  ],
+  "screenshots": [
+    "assets/01-web-overview.png",
+    "assets/02-request-flow.png",
+    "assets/05-gateway-internals-page.png",
+    "assets/03-mobile-overview.png",
+    "assets/06-mobile-diagram-reader.png",
+    "assets/04-overview-render.png"
+  ],
+  "resources": [
+    {
+      "path": "styles.css",
+      "status": 200,
+      "bytes": 30183
+    },
+    {
+      "path": "app.js",
+      "status": 200,
+      "bytes": 11896
+    },
+    {
+      "path": "assets/understanding-overview.svg",
+      "status": 200,
+      "bytes": 16411
+    },
+    {
+      "path": "assets/understanding-overview.png",
+      "status": 200,
+      "bytes": 478038
+    },
+    {
+      "path": "assets/gateway-internals.svg",
+      "status": 200,
+      "bytes": 10128
+    },
+    {
+      "path": "assets/gateway-internals.png",
+      "status": 200,
+      "bytes": 241956
+    },
+    {
+      "path": "data/evaluation-template.txt",
+      "status": 200,
+      "bytes": 528
+    }
+  ],
+  "browser_errors": [],
+  "external_requests": 0,
+  "result": "passed"
+}

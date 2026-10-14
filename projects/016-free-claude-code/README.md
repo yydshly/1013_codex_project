@@ -2,7 +2,7 @@
 
 > 能力是统一模型接入、消息与工具协议适配、流式响应转换及配置路由；原理是在 Agent 与真实模型之间增加网关，转发请求并返回兼容响应；价值是接入解耦，让工作方式和模型服务分别选择。可扩展到多模型编程、写作与报告、资料问答、网页审查、任务路由及团队入口，组合需要另行适配和验证。沿用我们的完整引导图，并提供底层图、旧项目对比与评测路线；真实质量和总成本仍待实测。
 
-[返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/Alishahryar1/free-claude-code) · [网页](./web/index.html) · [网页说明](./web/README.md) · [实验记录](./experiments/README.md)
+[返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/Alishahryar1/free-claude-code) · [在线网页](https://yydshly.github.io/1013_codex_project/016-free-claude-code/) · [本地网页](./web/index.html) · [网页说明](./web/README.md) · [实验记录](./experiments/README.md)
 
 ## 研究概览
 
@@ -16,7 +16,7 @@
 | 本次产物 | 六步请求模拟、Agent / 模型切换、备用条件、适配解耦总结、旧项目对比、两张原创 PNG / SVG、放大阅读、评测 CSV 与源码证据 |
 | 上游环境 | pyproject.toml 要求 Python `==3.14.7`，使用 uv；本次未安装上游依赖或运行安装器 |
 | 网页环境 | 原生 HTML / CSS / JavaScript，无第三方运行或构建依赖，不发送模型请求 |
-| 发布状态 | 未发布，`demo_url` 保持空字符串 |
+| 发布状态 | 已部署并验证：https://yydshly.github.io/1013_codex_project/016-free-claude-code/；静态网页发布与真实模型运行分别记录 |
 
 ## 能力、原理、价值与可扩展场景
 
@@ -211,6 +211,8 @@ FreeLLMAPI 的可靠性包含 Beta 后验与 Thompson Sampling；该评分基于
 
 网页与仓库校验记录在 [verification.md](./experiments/results/verification.md)。静态网页检查只能证明本次产物可读可用；真实安装、接入、额度、工具质量、恢复、费用和任务收益仍待实测。
 
+公网发布记录见 [publication-2026-10-14.md](./experiments/results/publication-2026-10-14.md)。沿用我们的引导图和底层图；公开资源与已提交文件逐字节一致，桌面、手机、教学流程、大图阅读与下载已核对，其他十二个已发布入口仍可访问。
+
 上游是独立项目，非 Anthropic 官方项目。改造与引用应遵循 `AGPL-3.0-only`，托管或分发方案应纳入许可证要求。本网页未复制上游 UI、图片、权重或实现代码，示意请求为原创。本仓库未设统一许可证，不能把上游许可自动套用到所有研究内容。
 
 ## 后续
@@ -219,6 +221,6 @@ FreeLLMAPI 的可靠性包含 Beta 后验与 Thompson Sampling；该评分基于
 - [ ] 两种服务跑通问答、工具、图像与流式请求。
 - [ ] 五类任务配对评测真实成本、返工与质量。
 - [ ] 验证断流和备用，不重复执行有副作用的工具。
-- [ ] 按仓库站点独立路径发布并验证，再填写 demo_url。
+- [x] 按仓库站点独立路径发布并验证，再填写 demo_url。
 
 [固定源码树](https://github.com/Alishahryar1/free-claude-code/tree/74d4ccfde724f7416fa2a728d594d704dddc7c94) · [许可证](https://github.com/Alishahryar1/free-claude-code/blob/74d4ccfde724f7416fa2a728d594d704dddc7c94/LICENSE)
