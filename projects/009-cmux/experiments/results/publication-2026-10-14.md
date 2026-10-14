@@ -10,6 +10,8 @@
 - [高清 PNG](https://yydshly.github.io/1013_codex_project/009-cmux/assets/complete-understanding.png)、[可编辑 SVG](https://yydshly.github.io/1013_codex_project/009-cmux/assets/complete-understanding.svg)
 - 首发提交：[`4a7ec58c8f3e8b3c2d59833a656842973f1b6821`](https://github.com/yydshly/1013_codex_project/commit/4a7ec58c8f3e8b3c2d59833a656842973f1b6821)
 - [首发构建与部署运行 38490130025](https://github.com/yydshly/1013_codex_project/actions/runs/38490130025)：build / deploy 均 success。
+- 公开入口登记提交：[`e1fb139873b3e7b95a1f6ef1b1e648fc488b1a4f`](https://github.com/yydshly/1013_codex_project/commit/e1fb139873b3e7b95a1f6ef1b1e648fc488b1a4f)。
+- [入口登记后的构建与部署运行 38490756289](https://github.com/yydshly/1013_codex_project/actions/runs/38490756289)：build / deploy 均 success。
 
 首次公网访问与内容验证成功之后，再登记 `demo_url` 并更新发布记录和自动索引。
 
@@ -29,14 +31,18 @@
 
 PNG 按字节和 SHA-256 核对；文字资源仅归一化 Windows / Linux 换行符，其余内容完全比较。检查请求使用提交标识避免读取旧缓存，并保留 TLS 验证；网络临时错误采用有限重试。核验脚本为 `experiments/verify-publication.py`。
 
+公开入口登记并重新部署后，[最终检查记录](./publication-final-check.json)再次核对同样的 17 个地址，均 HTTP 200 且与 `e1fb139` 正式构建一致。本记录和移动截图的后续归档仅增加研究证据，不更改网页产物。
+
 ## 浏览器与本地检查
 
 - 公网首屏标题、核心摘要正常显示；[公网桌面截图](../../assets/10-public-desktop.jpg)来自本仓库网页，非上游应用。
 - 公网定位待输入会话到 B、定向输入后 B 转为运行。
 - Codex 空闲消息保持 queued，提示等待人提交下一次提示。
 - PNG 下载实际触发并取得文件。
+- 下载文件与公开 PNG 的 SHA-256 一致：`43099b4451e7b6ee1b820801b10ebd6d09f62db14a2a0255dbd039bca828541a`。
 - 返回公开索引成功，cmux 行展示全部十二项摘要，核心“一人控制多个 Agent”描述可见。
 - 本地 390px 首屏与完整图正常加载，无页面横向溢出；见 [发布前检查](./release-validation-2026-10-14.md)。
+- 公网 390 × 844 移动视口正常显示，完整图加载为 2400 × 3700，页面无横向溢出；[公网移动截图](../../assets/11-public-mobile.jpg)来自本仓库教学网页，非上游应用。
 - 索引检查、静态检查、9 项消息教学检查通过；远端基线的仓库测试 32 项中 31 通过、1 因 Windows 符号链接不可用跳过，Pages 构建与部署均成功。
 
 ## 范围
