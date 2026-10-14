@@ -2,7 +2,7 @@
 
 > 从国家中小学智慧教育平台获取不同版本的小学教材及配套教学资料，方便批量下载和自动整理。上游也覆盖初中、高中，实际资源以平台提供为准。
 
-[返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/happycola233/tchMaterial-parser) · [中文网页说明](./web/README.md) · [验证记录](./experiments/results/verification.md)
+[返回总索引](../../README.md#项目索引) · [原仓库](https://github.com/happycola233/tchMaterial-parser) · [在线理解网页](https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/) · [验证记录](./experiments/results/verification.md) · [发布记录](./experiments/results/publication-2026-10-14.md)
 
 ## 项目概览
 
@@ -16,7 +16,7 @@
 | 上游代码许可证 | [MIT](https://github.com/happycola233/tchMaterial-parser/blob/244170e17bf8bc97401f65e04d261533d252572a/LICENSE) |
 | 状态 | 研究中：源码分析与导读完成，上游完整运行待复现 |
 | 本仓库输出 | 中文网页、理解总览图、版本核对清单、空白资料登记表与验证记录 |
-| 在线演示 | 尚未发布；project.json 的 demo_url 保持空字符串 |
+| 在线演示 | [已发布并验证的中文网页](https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/)，2026-10-14；静态导读不执行教材下载 |
 
 ## 理解总览
 
@@ -190,7 +190,9 @@
 
 已开展的工作：固定源码分析、上游版本和许可证核对、公开元信息只读探测、网页编写与静态汇集检查。验证记录将分别注明源码证据、网络样本、浏览器交互和未执行的上游运行，不把导读网页当作原程序实测。
 
-仍待完成：登录后端到端下载、失败与停止恢复的真实网络测试、配套音频与书签效果、目标小学教材的完整覆盖和版本准确性、公开发布，以及未来正文处理 / RAG 效果。
+公开发布：2026-10-14 内容提交 4d40a06 的 Pages 工作流成功，18 个公网地址的访问与内容核对通过，25 项公网浏览器检查通过；沿用本次完整理解图，首页完整保留 16 项摘要与此前 9 个演示入口。后续正式入口登记及最终校验见[发布记录](./experiments/results/publication-2026-10-14.md)。
+
+仍待完成：登录后端到端下载、失败与停止恢复的真实网络测试、配套音频与书签效果、目标小学教材的完整覆盖和版本准确性，以及未来正文处理 / RAG 效果。
 
 ## 来源与版权
 

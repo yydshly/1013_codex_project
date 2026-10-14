@@ -39,7 +39,7 @@
 
     /1013_codex_project/012-tchmaterial-parser/
 
-遵循[仓库部署约定](../../../docs/deployment.md)。正式构建默认只包含 Git 已跟踪文件，本地 --project 预览允许当前新建未提交的文件；实际提交、发布并验证后才能填写 demo_url。当前尚未公开发布，元信息保留空入口。
+遵循[仓库部署约定](../../../docs/deployment.md)。正式构建默认只包含 Git 已跟踪文件，本地 --project 预览允许当前新建未提交的文件；实际提交、发布并验证后才能填写 demo_url。本项目于 2026-10-14 发布，[正式网页入口](https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/)已通过公网访问、文件一致与交互检查；入口已登记。
 
 ## 图像与来源
 
@@ -49,6 +49,9 @@
 - ../assets/01-web-desktop.png：本地桌面首页实拍。
 - ../assets/02-web-mobile.png：390px 宽度的手机首页实拍。
 - ../assets/03-web-mechanism.png：六步下载原理区实拍。
+- ../assets/04-public-desktop.png：首次发布后的公网桌面首页实拍。
+- ../assets/05-public-mobile.png：公网 390px 手机能力区实拍。
+- ../assets/06-public-guide.png：公网完整理解图显示实拍。
 
 截图来源：2026-10-14，本地构建预览的浏览器截图。页面研究依据为上游固定 commit 244170e17bf8bc97401f65e04d261533d252572a；本地网页实拍不证明上游下载功能已经运行。
 
@@ -56,4 +59,4 @@
 
 页面、CSS、JavaScript、图像、站点索引预览及首页引导图请求成功。四场景、六步流程、版本核对与重置、空白 CSV 实际下载、键盘选择与折叠说明经过检查；桌面、390px / 320px 无页面横向溢出，浏览器检查未发现错误或警告。
 
-详细记录与范围见[验证记录](../experiments/results/verification.md)。教材端到端下载、音频和书签、学校版本对应、平台全部库存与后续 RAG 效果尚未实测。
+详细记录与范围见[验证记录](../experiments/results/verification.md)与[公网发布记录](../experiments/results/publication-2026-10-14.md)。首次公网 18 个地址、25 项浏览器检查通过，正式入口登记后再核对最终资源。教材端到端下载、音频和书签、学校版本对应、平台全部库存与后续 RAG 效果尚未实测。

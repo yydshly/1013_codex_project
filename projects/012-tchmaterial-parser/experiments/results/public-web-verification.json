@@ -1,0 +1,212 @@
+{
+  "date": "2026-10-14",
+  "url": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/",
+  "content_commit": "4d40a06c72d223dd60140e531f69a044744bcaca",
+  "status": "passed",
+  "scope": "公网静态导读；不执行教材下载或模型",
+  "checks": [
+    {
+      "name": "scenario-single",
+      "passed": true,
+      "evidence": {
+        "title": "偶尔获取一两本，直接使用官网",
+        "selected": "true"
+      }
+    },
+    {
+      "name": "scenario-semester",
+      "passed": true,
+      "evidence": {
+        "title": "准备小学整学期，集中获取与归档",
+        "selected": "true"
+      }
+    },
+    {
+      "name": "scenario-compare",
+      "passed": true,
+      "evidence": {
+        "title": "比较同学科教材，先把不同版本找齐",
+        "selected": "true"
+      }
+    },
+    {
+      "name": "scenario-teaching",
+      "passed": true,
+      "evidence": {
+        "title": "备课与听力学习，把相关资料放在一起",
+        "selected": "true"
+      }
+    },
+    {
+      "name": "mechanism-step-1",
+      "passed": true,
+      "evidence": {
+        "title": "选择教材，或粘贴多个页面链接",
+        "number": "01"
+      }
+    },
+    {
+      "name": "mechanism-step-2",
+      "passed": true,
+      "evidence": {
+        "title": "识别页面类型，提取资源编号",
+        "number": "02"
+      }
+    },
+    {
+      "name": "mechanism-step-3",
+      "passed": true,
+      "evidence": {
+        "title": "向平台请求 JSON 资源信息",
+        "number": "03"
+      }
+    },
+    {
+      "name": "mechanism-step-4",
+      "passed": true,
+      "evidence": {
+        "title": "选择文档源文件和音频播放文件",
+        "number": "04"
+      }
+    },
+    {
+      "name": "mechanism-step-5",
+      "passed": true,
+      "evidence": {
+        "title": "携带认证信息，分块下载",
+        "number": "05"
+      }
+    },
+    {
+      "name": "mechanism-step-6",
+      "passed": true,
+      "evidence": {
+        "title": "命名、分类、写入书签并保存",
+        "number": "06"
+      }
+    },
+    {
+      "name": "version-six-checks",
+      "passed": true,
+      "evidence": "6 项已自行确认。请按学校要求和实物教材做最后核对；本页未自动验证一致性。"
+    },
+    {
+      "name": "version-reset",
+      "passed": true,
+      "evidence": "已自行确认 0 / 6 项"
+    },
+    {
+      "name": "faq-rag-disclosure",
+      "passed": true,
+      "evidence": "书签和“解析”是不是 AI 或 RAG 处理？\n\n书签来自平台目录与页码映射；解析用于找到文件。源码尚未包含正文切块、向量索引与检索问答，RAG 是后续扩展思路。"
+    },
+    {
+      "name": "blank-csv-download",
+      "passed": true,
+      "evidence": {
+        "rows": 2,
+        "columns": 17,
+        "bom": true
+      }
+    },
+    {
+      "name": "requested-guide-download",
+      "passed": true,
+      "evidence": {
+        "sha256": "073535223b514c5578fa6369dca8a5ed9ae73289e9233ad4d682fca420ba5dc1"
+      }
+    },
+    {
+      "name": "extension-scenarios",
+      "passed": true,
+      "evidence": [
+        "家庭或教师资料台账",
+        "按学期补齐与版本更新提醒",
+        "章节搜索与人工版本对照",
+        "备课材料库",
+        "配套听力检索",
+        "带引用的教材学习问答"
+      ]
+    },
+    {
+      "name": "keyboard-scenario",
+      "passed": true,
+      "evidence": "比较同学科教材，先把不同版本找齐"
+    },
+    {
+      "name": "desktop-no-overflow",
+      "passed": true,
+      "evidence": {
+        "page": 1265,
+        "viewport": 1265
+      }
+    },
+    {
+      "name": "mobile-390-no-overflow",
+      "passed": true,
+      "evidence": {
+        "page": 375,
+        "viewport": 375
+      }
+    },
+    {
+      "name": "mobile-320-no-overflow",
+      "passed": true,
+      "evidence": {
+        "page": 305,
+        "viewport": 305
+      }
+    },
+    {
+      "name": "guide-display",
+      "passed": true,
+      "evidence": {
+        "complete": true,
+        "height": 1448,
+        "src": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/assets/understanding-summary.png",
+        "width": 1086
+      }
+    },
+    {
+      "name": "index-sixteen-summaries",
+      "passed": true,
+      "evidence": {
+        "labels": [
+          "定位与本质",
+          "能力",
+          "资料范围",
+          "下载源",
+          "原理",
+          "输入",
+          "输出",
+          "整理与可靠性",
+          "比直接下载方便",
+          "价值与意义",
+          "当前使用场景",
+          "对你的价值",
+          "可扩展场景",
+          "扩展实现路线",
+          "学校用书与版权",
+          "研究与验证"
+        ]
+      }
+    },
+    {
+      "name": "index-requested-guide",
+      "passed": true,
+      "evidence": {
+        "src": "./previews/012-tchmaterial-parser.png"
+      }
+    },
+    {
+      "name": "index-round-trip",
+      "passed": true,
+      "evidence": "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/"
+    },
+    {
+      "name": "browser-no-errors",
+      "passed": true,
+      "evidence": []
+    }
+  ]
+}

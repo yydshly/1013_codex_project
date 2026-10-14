@@ -18,7 +18,22 @@
 
 ## 发布状态
 
-先提交内容并等待 Pages 工作流；在首次公网 HTTP、内容一致与交互核对成功后填写 demo_url 并补全本记录。此准备记录不代表部署已成功。
+- 内容提交：[4d40a06c72d223dd60140e531f69a044744bcaca](https://github.com/yydshly/1013_codex_project/commit/4d40a06c72d223dd60140e531f69a044744bcaca)。
+- [Pages 构建与部署](https://github.com/yydshly/1013_codex_project/actions/runs/38512370698)：success；[索引与工具验证](https://github.com/yydshly/1013_codex_project/actions/runs/38512370726)：success。
+- [在线理解网页](https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/)与[总索引](https://yydshly.github.io/1013_codex_project/)已实际访问。
+- 首次 18 个公网地址通过：项目页、CSS、JS、PNG、SVG、图标、首页引导图、首页、构建清单与此前 9 个网页入口；项目资源与上述提交的 Git 内容一致，首页与构建快照一致，16 项摘要完整存在。结果见 [publication-http-first.json](./publication-http-first.json)。
+- 25 项公网浏览器检查通过：四场景、六步原理、六项版本勾选与重置、RAG 折叠说明、17 列空白 CSV 实际下载、指定原 PNG 下载及哈希、六项扩展场景、键盘选择、桌面 / 390px / 320px 无横向溢出、原图显示、首页 16 项摘要与引导图、返回与进入、浏览器无警告错误。结果见 [public-web-verification.json](./public-web-verification.json)。
+- 在上述成功后登记 demo_url；登记提交与最终工作流、资源核对在下一轮完成后补充。
+
+## 公网实拍
+
+![公网桌面首页，说明不同版本小学教材的批量下载与自动整理，并提供一图总览入口](../../assets/04-public-desktop.png)
+
+![390px 公网手机能力区，显示响应式章节导航与六项现有能力](../../assets/05-public-mobile.png)
+
+![公网网页显示本次讨论生成的完整理解图，包含角色、下载来源和优点](../../assets/06-public-guide.png)
+
+来源：2026-10-14，Codex 内置浏览器访问已部署 HTTPS 网页的实际截图；不是上游程序界面。
 
 ## 验证边界
 
