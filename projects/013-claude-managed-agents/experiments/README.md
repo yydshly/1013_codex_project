@@ -1,10 +1,23 @@
 # 实验与验证
 
-本次完成公开资料研究和本地网页制作。真实 Managed Agents、自建调度器和模型接入尚未运行。
+本次完成公开资料研究、网页制作及公网发布。真实 Managed Agents、自建调度器和模型接入尚未运行。
 
 [本地网页验证](./results/verification.md) 记录资源、桌面与手机布局、模式切换、并行教学流程、海底世界阶段与任务单、图像导出、下载和索引检查。教学数据不是模型输出。
 
 `check_web.cjs` 检查完整网页交互；`export_overview.cjs` 将本仓库 SVG 导出为高清 PNG，并检查文字是否越出画布或面板。两者需要本机已有 Playwright 和 Chromium，没有模型请求。可用位置参数传入现有 Playwright 包目录。
+
+## 公网发布检查
+
+[发布记录](./results/publication-2026-10-14.md)保留内容提交、入口登记、成功工作流、公开资源哈希及 13 组实际浏览器验证。[初次](./results/publication-http-initial.json)与[最终](./results/publication-http-final.json)资源报告区分两次部署。
+
+`check_publication.py` 使用 Python 标准库访问公开资源，与当前 Git 提交及同次静态构建比较，并确认 18 项摘要、八种扩展场景、原高清图及全部已有入口。需在对应提交的 Pages 工作流成功、同一工作副本构建成功后运行：
+
+```powershell
+python scripts/build_site.py
+python projects/013-claude-managed-agents/experiments/check_publication.py --phase maintenance --run-id <实际成功运行编号> --report projects/013-claude-managed-agents/experiments/results/publication-http-maintenance.json
+```
+
+命令只验证静态文件，没有模型请求或浏览器交互。网页交互验证独立记录在 [publication-browser.json](./results/publication-browser.json)；没有将固定教学结果视为真实 Agent 成果。
 
 ## 后续真实实验方案
 
