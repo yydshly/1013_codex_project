@@ -1,0 +1,9 @@
+{
+  "scope": "Current repository metadata and 013 explanatory assets only",
+  "checks": [
+    "All repository metadata loads, 013 is present, and demo_url remains empty",
+    "SVG is valid XML and SVG/PNG web copies match source assets",
+    "Teaching JSON parses and task dependencies contain no cycle or unknown task",
+    "Final HTML has 17 unique section anchors; local HTML/Markdown resources exist and text has no trailing whitespace"
+  ]
+}

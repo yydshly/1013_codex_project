@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3ee">
+  <meta name="description" content="Claude Managed Agents 的能力、原理、价值与扩展场景：本质是多 Agent 编排与运行管理；主模型规划拆分，程序按依赖分派、交接与验收。1000 是单次工作流累计启动上限。完整总览图、海底世界模块案例与自建路线。">
+  <title>Claude Managed Agents · 多 Agent 编排与运行管理</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#understanding">跳到正文</a>
+  <header class="header">
+    <a class="brand" href="#understanding"><span class="brand-symbol" aria-hidden="true">M<span>·</span>A</span><span>项目研究室<small>编排与运行 / 研究 013</small></span></a>
+    <div class="header-links"><a href="../">全部项目</a><a href="https://platform.claude.com/docs/en/managed-agents/overview" target="_blank" rel="noopener noreferrer">官方文档 ↗</a></div>
+  </header>
+  <div class="page-layout">
+    <aside class="sidebar">
+      <p class="nav-heading">阅读路线 <span>17 个问题</span></p>
+      <nav aria-label="研究章节">
+        <a href="#understanding" aria-current="location"><span>01</span>本质与核心结论</a>
+        <a href="#position"><span>02</span>研究的是什么</a>
+        <a href="#mechanism"><span>03</span>如何组织执行</a>
+        <a href="#capabilities"><span>04</span>能力与输入输出</a>
+        <a href="#control"><span>05</span>能控制到什么程度</a>
+        <a href="#decomposition"><span>06</span>任务由谁怎样拆分</a>
+        <a href="#contract"><span>07</span>任务接口与黑盒边界</a>
+        <a href="#handoff"><span>08</span>怎样下发与控制实现</a>
+        <a href="#undersea"><span>09</span>大型任务：海底世界</a>
+        <a href="#walkthrough"><span>10</span>并行任务：项目研究</a>
+        <a href="#scenarios"><span>11</span>适合哪些任务</a>
+        <a href="#value"><span>12</span>对我们的价值</a>
+        <a href="#depth"><span>13</span>资料深度与完整性</a>
+        <a href="#build"><span>14</span>参考它做自己的系统</a>
+        <a href="#evaluation"><span>15</span>怎样证明值得用</a>
+        <a href="#questions"><span>16</span>我们的理解核对</a>
+        <a href="#sources"><span>17</span>依据与验证范围</a>
+      </nav>
+      <div class="sidebar-note"><span class="status-dot" aria-hidden="true"></span><strong>公开资料研究</strong><p>机制已核对<br>运行收益待验证</p><small>资料核对：2026.10.14</small></div>
+    </aside>
+    <main>
+      <section class="section hero" id="understanding">
+        <p class="eyebrow">01 / 我们的核心理解</p>
+        <div class="hero-grid">
+          <div class="hero-copy"><p class="product-label">CLAUDE MANAGED AGENTS</p><h1>多 Agent 的<br><em>编排与运行管理</em></h1><p class="hero-lead">主 Agent 规划并拆分任务，<br>按依赖组织执行、交接与验收。</p><p class="hero-description">核心是把任务拆好，把接口与完成标准说清。<br>适用于独立并行工作，也可组织大型项目与模块化开发。</p><div class="hero-actions"><a class="button primary" href="#decomposition">看任务怎样拆分 <span aria-hidden="true">↓</span></a><a class="text-link" href="#undersea">用海底世界理解 →</a></div></div>
+          <div class="system-map" role="img" aria-label="理解示意：目标和资料进入主 Agent，主 Agent 生成编排程序；程序安排多个执行 Agent，再汇总和验收成果。运行管理支撑权限、预算、进度与恢复。">
+            <div class="map-caption"><span>工作如何被组织</span><small>理解示意</small></div>
+            <div class="map-node map-goal"><small>你定义</small><strong>目标 · 资料 · 验收条件</strong></div><div class="map-arrow" aria-hidden="true">↓</div>
+            <div class="map-node"><small>主 Agent 依靠模型规划</small><strong>拆任务 · 定接口 · 写编排程序</strong></div><div class="map-arrow" aria-hidden="true">↓</div>
+            <div class="map-runtime"><span>程序安排执行</span><div class="map-workers"><b>Agent A</b><b>Agent B</b><b>Agent C</b></div><p>传递结果 · 选择分支 · 组织阶段</p></div><div class="map-arrow" aria-hidden="true">↓</div>
+            <div class="map-node map-result"><strong>汇总成果 · 按条件验收</strong></div>
+            <div class="map-base">运行管理：进度 / 权限 / 预算 / 失败</div>
+          </div>
+        </div>
+        <div class="scale-banner"><div><strong>1,000</strong><span>单次工作流累计启动 Agent 的上限</span></div><p>体现运行规模；不是 1,000 个同时工作。拆分质量依靠主模型、任务资料与工程约束，Agent 数量不能代表成果质量。<a href="#source-s3">[S3]</a></p></div>
+        <div class="thesis"><span>我们的共识</span><p><strong>用模型规划任务，用程序组织执行，用接口交接，用证据验收。</strong><br>内部实现可以按黑盒使用；能力、输入、输出、依赖约束、完成标准和失败规则都要明确。</p></div>
+        <div class="brief-grid" aria-label="能力、原理、价值和扩展场景摘要">
+          <article><span class="number">能力是什么</span><h3>组织多个执行 Agent</h3><p>托管 API 提供角色、工具、并行与阶段执行、结果交接、失败处理和运行观察。把大目标组织成可验收的工作。</p><a class="text-link" href="#capabilities">能力与输入输出 →</a></article>
+          <article><span class="number">原理是什么</span><h3>模型规划，程序编排</h3><p>主 Agent 结合资料与约束拆分任务、编写流程；后台程序安排线程和后续。各线程对话独立，文件共享，依赖与协作仍需管理。</p><a class="text-link" href="#mechanism">两种组织方式 →</a></article>
+          <article><span class="number">价值是什么</span><h3>复用任务组织方法</h3><p>减少持续分派、等待和汇总，把人的精力用于目标、判断与验收。最大参考价值在架构和管理方法，实际收益要通过任务比较。</p><a class="text-link" href="#value">对我们的意义 →</a></article>
+          <article><span class="number">可以扩展到哪里</span><h3>研究与模块化工程</h3><p>研究流水线、RAG 证据整理、大型产品、模型路由、迁移、质量复核、运行看板与增量重跑。每种方向都需接口与验证。</p><a class="text-link" href="#extension-scenarios">八种扩展场景 →</a></article>
+        </div>
+        <figure class="overview-figure"><div class="figure-title"><div><p class="eyebrow">一张图整理完整理解</p><h3>规模、拆分、接口、黑盒与大型项目。</h3><p class="figure-instruction">点击图片可打开高清总览，放大阅读。</p></div><div class="figure-downloads"><a class="button secondary" href="./assets/understanding-overview.svg" download="多Agent完整能力与任务拆分总览.svg">下载 SVG ↓</a><a class="button secondary" href="./assets/understanding-overview.png" download="多Agent完整能力与任务拆分总览.png">下载 PNG ↓</a></div></div><a href="./assets/understanding-overview.svg" target="_blank" rel="noopener noreferrer"><img src="./assets/understanding-overview.svg" width="1200" height="2600" loading="lazy" alt="Claude Managed Agents 完整能力总览：单次工作流累计启动 Agent 上限 1000；主 Agent 依靠模型拆分任务，程序下发与交接，平台支撑运行。任务契约包含能力、输入、输出、约束、验收和失败规则；内部实现可黑盒，状态和证据需可查。适用于并行、大型和模块化任务，海底世界案例按依赖开发、集成与修复。"></a><figcaption>本仓库绘制的研究解释图，非产品界面或运行截图。上限依据官方资料；拆分方法、接口契约、海底世界与自建路线为我们的归纳和设计示例。</figcaption></figure>
+      </section>
+      <section class="section" id="position">
+        <p class="eyebrow">02 / 定位与资料范围</p><h2>一项托管服务里的<br>多 Agent 能力。</h2><p class="section-lead">研究对象是 Claude Managed Agents 及其动态工作流。它面向开发者提供可配置的执行框架和环境，适合持续时间较长的异步任务。<a class="source-ref" href="#source-s1">[S1]</a></p>
+        <div class="table-wrap"><table><caption>这次讨论中的三个对象</caption><thead><tr><th scope="col">对象</th><th scope="col">提供什么</th><th scope="col">怎样看待</th></tr></thead><tbody><tr><th scope="row">MIXED 新闻文章</th><td>介绍动态工作流、规模、权限与预算边界</td><td>讨论入口，技术概述</td></tr><tr><th scope="row">Claude Managed Agents</th><td>托管 Agent 执行与多 Agent 编排能力</td><td>可通过 API 使用的服务</td></tr><tr><th scope="row">本次研究网页</th><td>解释机制，整理控制方法和自建参考</td><td>导读与教学模拟</td></tr></tbody></table></div>
+        <p>文章没有提供一份完整的调度源码库，也不能据此将动态工作流归为 Claude Code 的内部功能。我们的研究依据是公开产品文档，不是底层调度代码审计。动态工作流于 <strong>2026 年 10 月 9 日进入 Beta</strong>；本页记录的是 2026 年 10 月 14 日核对到的行为。<a class="source-ref" href="#source-s0">[S0]</a><a class="source-ref" href="#source-s10">[S10]</a></p>
+        <div class="definition-list"><div><b>Agent</b><p>一个任务执行单元：模型、指令、上下文和可用工具共同决定它怎样工作。</p></div><div><b>编排</b><p>为这些执行单元安排任务、顺序、依赖和结果交接。</p></div><div><b>运行管理</b><p>在执行过程中记录状态、控制操作并处理异常，让任务能够结束或恢复。</p></div></div>
+      </section>
+      <section class="section" id="mechanism">
+        <p class="eyebrow">03 / 两种组织方式</p><h2>主 Agent 持续分派，<br>或让编排程序安排后续。</h2><p class="section-lead">两种方式都能使用独立的对话上下文。区别在于谁负责组织后续工作。<a class="source-ref" href="#source-s2">[S2]</a></p>
+        <div class="mode-buttons" role="group" aria-label="选择协作方式"><button type="button" data-mode="workflow" aria-pressed="true">动态工作流</button><button type="button" data-mode="subagents" aria-pressed="false">普通子 Agent</button></div>
+        <div class="mode-panel" id="mode-panel" aria-live="polite"><p class="mini-label" id="mode-label">由程序组织后续</p><h3 id="mode-title">主 Agent 写程序，服务端后台执行。</h3><div class="mode-flow" id="mode-flow">目标 → 编排程序 → 分阶段执行 Agent → 汇总</div><p id="mode-description">程序收集各 Agent 的结果，再选择分支、循环和下一阶段；主线程可以继续与用户沟通。</p><p class="mode-limit" id="mode-limit">流程中的 Agent 线程由程序管理，主 Agent 不能像普通子 Agent 那样逐个发送后续消息。</p></div>
+        <div class="three-columns"><article><h3>模型负责规划</h3><p>理解目标、判断如何拆分、为执行任务提供指令。方案质量受资料和判断能力影响。</p></article><article><h3>程序负责组织</h3><p>并行启动、等待依赖、交接结果、按返回内容选择下一步。动态工作流的核心变化在这里。</p></article><article><h3>平台支撑运行</h3><p>提供线程、工具和事件；开发者读取进度、处理客户端工具与操作权限。</p></article></div>
+        <p class="note">对话上下文独立，不等于文件和凭据独立。官方多 Agent 会话共享沙箱、文件系统和会话凭据；并行修改同一文件仍需设计协作规则。<a class="source-ref" href="#source-s2">[S2]</a></p>
+        <div class="callout"><h3>普通脚本与动态工作流有什么区别？</h3><p>固定脚本由开发者预先写好步骤；这里由 Claude 按当前任务生成编排程序。把规划交给模型可以增加适应性，也增加了验证生成方案的工作。我们自建时，可以先用固定调度器执行结构化任务，再逐步增加动态规划。</p></div>
+      </section>
+      <section class="section" id="capabilities">
+        <p class="eyebrow">04 / 输入、输出与能力</p><h2>把任务组织成<br>可持续执行的流程。</h2>
+        <div class="io-strip"><div><span>输入</span><p>目标、资料、Agent 配置<br>工具、约束和完成条件</p></div><b aria-hidden="true">→</b><div><span>执行</span><p>拆分、分派、阶段协作<br>结果交接与异常处理</p></div><b aria-hidden="true">→</b><div><span>输出</span><p>任务成果、状态事件<br>工具记录与用量</p></div></div>
+        <div class="capability-list"><article><b>01</b><div><h3>同时处理独立工作</h3><p>不同 Agent 分别处理资料或任务；能否提速取决于依赖和协调开销。</p></div></article><article><b>02</b><div><h3>安排阶段与交接</h3><p>先收集各项结果，再交给后续步骤处理；可以按返回内容循环或选择分支。</p></div></article><article><b>03</b><div><h3>调用实际工具</h3><p>文件操作、命令执行、网页检索和 MCP 工具扩展任务的操作范围。</p></div></article><article><b>04</b><div><h3>跟踪运行过程</h3><p>通过事件读取阶段、线程状态和操作记录；失败处置需要工作流或应用明确处理。</p></div></article></div>
+        <p class="source-line">能力依据：<a href="#source-s3">工作流运行 [S3]</a> · <a href="#source-s11">工具 [S11]</a> · <a href="#source-s4">线程管理 [S4]</a></p>
+        <div class="limit-grid"><div><strong>1,000</strong><span>一次流程累计启动的 Agent 上限</span></div><div><strong>64</strong><span>文档当前列出的同时工作线程数</span></div><div><strong>24h</strong><span>默认流程生命周期</span></div><div><strong>10</strong><span>会话默认可同时保持的开放流程</span></div></div>
+        <p class="note">不是 1,000 个同时工作。64 的并发值并非 API 的长期保证；失败重跑可新增线程，线程总数与累计启动 Agent 的计数也不完全相同。暂停仍计入生命周期，实际吞吐还受模型和组织限流影响。<a class="source-ref" href="#source-s3">[S3]</a></p>
+      </section>
+      <section class="section" id="control">
+        <p class="eyebrow">05 / 控制能力与边界</p><h2>控制角色、工具和运行，<br>也要理解控制的限制。</h2><p class="section-lead">“告诉模型怎么做”和“由程序强制限制”是不同层次。自建时应分别设计。</p>
+        <div class="table-wrap"><table><caption>官方服务能控制什么</caption><thead><tr><th scope="col">控制对象</th><th scope="col">可以做</th><th scope="col">边界</th></tr></thead><tbody>
+          <tr><th scope="row">角色与候选 Agent</th><td>配置模型、指令和工具；限制只使用预定义 Agent</td><td>角色描述仍需具体输入、输出和完成条件 <a href="#source-s2">[S2]</a></td></tr>
+          <tr><th scope="row">任务拆分与启动</th><td>在用户消息和系统指令中引导使用方式</td><td>动态流程是否启动由 Agent 判断；启动不经过工具权限策略 <a href="#source-s2">[S2]</a></td></tr>
+          <tr><th scope="row">工具操作</th><td>自动允许、逐次询问，或由服务端评估调用</td><td>自定义工具由应用控制；自动评估不等于人工审批 <a href="#source-s5">[S5]</a></td></tr>
+          <tr><th scope="row">进度与线程</th><td>查看状态、读取线程事件和工具记录</td><td>工作流线程不能按普通子 Agent 的方式追加指令 <a href="#source-s4">[S4]</a></td></tr>
+          <tr><th scope="row">停止与恢复</th><td>向主 Agent 发消息要求停止或继续，并核对运行状态</td><td>中断主会话不会直接结束流程；需要确认结束事件 <a href="#source-s3">[S3]</a></td></tr>
+          <tr><th scope="row">预算</th><td>创建会话时设预算，达到后暂停模型工作</td><td>在途请求可能造成超额；提高或移除预算可恢复因预算暂停的流程 <a href="#source-s6">[S6]</a></td></tr>
+        </tbody></table></div>
+        <p class="note">运行结束也不等于成果合格。官方的 <code>completed</code> 表示编排程序运行完毕，仍可能有线程失败；应检查线程记录与验收证据。停止流程时，需要观察 <code>workflow_run.status_ended</code>，不能仅凭主会话空闲判断结束。<a class="source-ref" href="#source-s3">[S3]</a></p>
+        <div class="two-columns"><article class="plain-panel"><span class="mini-label">指令引导</span><h3>表达任务意图</h3><p>例如“每个项目独立研究”“最多复核两轮”。在托管动态流程里，这些是给模型的行为指引；不能直接当成确定执行的系统约束。</p></article><article class="plain-panel"><span class="mini-label">自建程序约束</span><h3>明确限制执行</h3><p>由调度器检查允许的 Agent、依赖、并发、写入范围和重试次数；由工具层执行权限检查。这是我们的自建设计建议。</p></article></div>
+        <div class="callout"><h3>预算、权限与可靠性需要一起看。</h3><p>费用包含模型用量、会话运行时和适用的工具费用，不能只按 Agent 数量估算。<a href="#source-s7">[S7]</a> 自托管支持把工具执行放到自己的环境，但模型与编排仍在 Anthropic 一侧，工具输入输出也会返回控制端；不能将它理解为完整离线部署。<a href="#source-s8">[S8]</a></p></div>
+      </section>
+      <section class="section" id="decomposition">
+        <p class="eyebrow">06 / 核心：把任务拆好</p><h2>怎样拆，主要依赖模型规划。<br>框架提供执行与管理机制。</h2><p class="section-lead">主 Agent 根据目标、资料和指令决定如何分派，再编写工作流。公开资料没有披露能保证最优软件架构的通用拆分算法。我们可以向模型提供工程方法和约束，规划结果仍需检查。<a class="source-ref" href="#source-s2">[S2]</a></p>
+        <div class="responsibility-grid"><article><span>你与开发者</span><h3>定义目标和标准</h3><p>提供需求、现有代码、资源范围、接口约定与完成条件。</p></article><article><span>主 Agent / 模型</span><h3>应用方法做规划</h3><p>确定阶段、任务边界、依赖与交付；资料不足时需要补充，设计不合理时需要重规划。</p></article><article><span>编排程序与平台</span><h3>组织任务并支撑运行</h3><p>程序安排后续、交接结果；平台提供线程、事件与运行控制。</p></article></div>
+        <div class="table-wrap"><table><caption>我们归纳的拆分判断方法，不是官方内置的固定算法</caption><thead><tr><th scope="col">判断</th><th scope="col">要回答的问题</th><th scope="col">海底世界例子</th></tr></thead><tbody>
+          <tr><th scope="row">功能边界</th><td>一项任务究竟负责哪种能力？</td><td>鱼群负责游动；环境负责海床、珊瑚和区域信息</td></tr>
+          <tr><th scope="row">数据依赖</th><td>启动与完成需要别人提供什么？</td><td>鱼群避障依赖环境的障碍物查询接口</td></tr>
+          <tr><th scope="row">修改冲突</th><td>哪些任务会同时修改共享文件或状态？</td><td>共享接口集中维护，模块分别提交改动</td></tr>
+          <tr><th scope="row">交付与验收</th><td>成果能否独立检查，组合后如何验证？</td><td>先检查鱼群，再把它接入场景检查与珊瑚的交互</td></tr>
+        </tbody></table></div>
+        <div class="two-columns"><article class="plain-panel"><h3>拆成可交付的任务</h3><p>任务粒度应能说明输入、结果和完成标准。把“开发鱼群”进一步明确为“实现移动接口并检查活动范围”，比只给一个角色名称更容易管理。</p></article><article class="plain-panel"><h3>保留共同目标与上下文</h3><p>拆分后仍使用同一套世界规格、坐标、资源格式和接口版本。跨模块的问题交回规划或集成步骤处理，避免每个执行任务各自设计整个世界。</p></article></div>
+        <p class="note">划分层次可以是“大目标 → 阶段 → 模块 → 可验收任务”。这是计划的层次，不等于创建无限嵌套的 Agent。拆分质量、交接信息与协调成本，比数量更值得检查。</p>
+      </section>
+      <section class="section" id="contract">
+        <p class="eyebrow">07 / 接口与黑盒</p><h2>内部实现可以黑盒，<br>交付接口与验收要清楚。</h2><p class="section-lead">从外部把执行 Agent 当作有明确职责的任务单元。能力、输入与输出是基础；还要说明依赖约束、完成标准和失败处理。以下是我们的任务契约设计。</p>
+        <div class="contract-grid"><article><span>01 / 能力与职责</span><h3>负责什么</h3><p>例如鱼群游动与避障；明确任务边界和需要报告的问题。</p></article><article><span>02 / 输入</span><h3>需要哪些材料</h3><p>目标、代码、规格、资源、接口与必要上下文；不要只给一个任务名称。</p></article><article><span>03 / 输出</span><h3>交付什么成果</h3><p>代码或文件、接口说明、改动记录、检查结果与未完成事项。</p></article><article><span>04 / 依赖与约束</span><h3>如何与别人协作</h3><p>依赖哪些成果，可修改什么，能调用哪些工具，时间与重做范围是什么。</p></article><article><span>05 / 完成标准</span><h3>怎样判定可用</h3><p>接口检查、场景运行、证据核查与整体体验。运行结束不是质量证明。</p></article><article><span>06 / 失败规则</span><h3>无法完成时怎么办</h3><p>报告阻塞、补充资料、定向修复、有限重试或披露未覆盖内容。</p></article></div>
+        <div class="blackbox-boundary"><div><span class="mini-label">可以隐藏的内部过程</span><h3>模型如何生成与实现</h3><p>主 Agent 不必逐步干涉每次推理和每一行代码。内部实现可以调整，只要仍满足约定的接口与检查条件。</p></div><div><span class="mini-label">外部需要看见的信息</span><h3>状态、错误与验收证据</h3><p>记录工具操作、文件改动、检查结果、资源用量及剩余问题。不能仅凭“我完成了”确认任务成功。</p></div></div>
+        <div class="callout"><h3>Agent、任务和模块是三个层次。</h3><p>Agent 是执行单元；任务是一次工作委派；模块是成果对象。一个鱼群模块可以经历开发、检查、修复和集成多个任务，执行 Agent 可以重用或替换。模型输出也可能变化，应核对每次实际成果。</p></div>
+      </section>
+      <section class="section" id="handoff">
+        <p class="eyebrow">08 / 下发与控制</p><h2>给子 Agent 一份任务单，<br>用程序和工具落实控制。</h2><p class="section-lead">先定义角色、模型与可用工具，再下发具体目标和上下文。执行 Agent 使用模型与工具读代码、修改文件、运行检查，提交成果供后续步骤处理。</p>
+        <div class="table-wrap"><table><caption>鱼群任务单示例：我们的设计，不是官方 API 配置</caption><thead><tr><th scope="col">字段</th><th scope="col">示例要求</th></tr></thead><tbody><tr><th scope="row">目标</th><td>实现小型珊瑚礁区域内的鱼群游动和避障</td></tr><tr><th scope="row">输入</th><td>世界规格、米制坐标约定、环境查询接口、鱼模型资源</td></tr><tr><th scope="row">边界与依赖</th><td>维护鱼群模块；依赖场景基座与环境接口，共享接口有问题先报告</td></tr><tr><th scope="row">输出</th><td>可集成代码、接口说明、改动记录、检查结果与剩余问题</td></tr><tr><th scope="row">完成与失败</th><td>检查活动范围及避障；缺接口报告阻塞，检查失败定向修复</td></tr></tbody></table></div>
+        <div class="two-columns"><article class="plain-panel"><span class="mini-label">普通子 Agent</span><h3>主 Agent 委派并跟进</h3><p>任务进入独立对话线程；主 Agent 读取报告后，可以发送后续任务并保留此前上下文。适合需要持续纠正和讨论的工作。<a href="#source-s2">[S2]</a></p></article><article class="plain-panel"><span class="mini-label">动态工作流</span><h3>编排程序安排后续</h3><p>程序创建任务线程、传入指令并接收结果，再按分支安排下一步。主 Agent 不能逐个向工作流线程追加跟进消息。<a href="#source-s3">[S3]</a></p></article></div>
+        <div class="handoff-strip" aria-label="我们的执行设计流程"><span>选择执行 Agent</span><b aria-hidden="true">→</b><span>传入任务与上下文</span><b aria-hidden="true">→</b><span>模型和工具执行</span><b aria-hidden="true">→</b><span>返回成果与检查记录</span><b aria-hidden="true">→</b><span>验收、继续或返工</span></div>
+        <div class="table-wrap"><table><caption>控制应落实在哪一层</caption><thead><tr><th scope="col">层次</th><th scope="col">控制内容</th><th scope="col">如何判断落实</th></tr></thead><tbody><tr><th scope="row">任务指令</th><td>职责、上下文、接口与交付要求</td><td>这是行为引导；读取实际结果核对是否遵守</td></tr><tr><th scope="row">编排程序</th><td>等待依赖、安排并行、限制返工和选择分支</td><td>查看计划与程序，检查异常情况能否按预期处理</td></tr><tr><th scope="row">工具与执行环境</th><td>允许的操作、参数和读写范围</td><td>需要真实的工具配置、写入检查或隔离措施</td></tr><tr><th scope="row">成果验收</th><td>代码可用性、证据、场景与集成行为</td><td>以运行检查和审阅结果决定完成，保留失败记录</td></tr></tbody></table></div>
+        <p class="note">“只修改鱼群目录”写在提示词里，不能直接视为强制隔离。服务器工具受权限策略控制；自定义工具由应用决定是否执行，可自行增加路径与参数检查。共享文件仍需协作规则。<a class="source-ref" href="#source-s5">[S5]</a></p>
+        <p class="note">官方运行过程中不直接展示生成的工作流代码；运行结束、主会话空闲后，可以要求主 Agent 打印当次编排程序，以研究这次任务怎样组织。该程序与平台底层调度器源码是不同层次。<a class="source-ref" href="#source-s3">[S3]</a></p>
+      </section>
+      <section class="section" id="undersea">
+        <p class="eyebrow">09 / 大型任务与模块化开发</p><h2>开发一个海底世界，<br>需要共同规格与持续集成。</h2><p class="section-lead">这是贴近实际开发的工作设计：先完成一个可自由游动、观察鱼群、找到三个地标的小型珊瑚礁区域，再扩展世界。以下交互只解释任务组织，采用固定教学数据，不生成或运行 3D 海底场景。</p>
+        <div class="ocean-goal"><span class="mini-label">同一个大目标</span><h3>做出一个可完整体验的小区域</h3><p>共同使用米制坐标、资源格式、环境查询、玩家状态与互动事件约定。让不同模块能够组合，再按体验与检查结果扩大范围。</p></div>
+        <div class="ocean-explorer">
+          <div class="ocean-toolbar"><p>切换阶段，观察哪些任务能启动</p><span class="demo-badge">工作设计 · 教学数据</span></div>
+          <div class="ocean-phases" role="group" aria-label="海底世界任务阶段"><button type="button" data-ocean-phase="0" aria-pressed="true">1 · 目标与规格</button><button type="button" data-ocean-phase="1" aria-pressed="false">2 · 场景基座</button><button type="button" data-ocean-phase="2" aria-pressed="false">3 · 模块并行</button><button type="button" data-ocean-phase="3" aria-pressed="false">4 · 互动玩法</button><button type="button" data-ocean-phase="4" aria-pressed="false">5 · 集成发现问题</button><button type="button" data-ocean-phase="5" aria-pressed="false">6 · 修复与验收</button></div>
+          <div class="ocean-stage" aria-live="polite" aria-atomic="true"><span class="mini-label" id="ocean-stage-label">阶段 1 / 6</span><h3 id="ocean-stage-title">先明确玩法、接口与完成标准</h3><p id="ocean-stage-description">主 Agent 应用工程方法形成计划，先固定第一版范围和共享规格。各模块等待输入。</p></div>
+          <div class="ocean-flow" aria-label="依赖顺序示意"><span>整体规格 → 场景基座</span><span>环境 / 玩家 / 鱼群：按接口组织并行开发</span><span>互动与任务 → 集成检查 → 修复与验收</span></div>
+          <div class="ocean-task-grid" role="group" aria-label="选择模块查看任务接口">
+            <button type="button" data-ocean-task="foundation" aria-pressed="false"><small>T1 / 共享基础</small><strong>场景基座</strong><span class="ocean-status">等待规格</span><span class="ocean-dependency">依赖：整体设计</span></button>
+            <button type="button" data-ocean-task="environment" aria-pressed="false"><small>T2 / 环境能力</small><strong>海床、珊瑚与水体</strong><span class="ocean-status">等待基座</span><span class="ocean-dependency">依赖：基座与资源规范</span></button>
+            <button type="button" data-ocean-task="player" aria-pressed="false"><small>T3 / 玩家能力</small><strong>移动与视角</strong><span class="ocean-status">等待基座</span><span class="ocean-dependency">依赖：基座与坐标规范</span></button>
+            <button type="button" data-ocean-task="fish" aria-pressed="true"><small>T4 / 生物能力</small><strong>鱼群游动与避障</strong><span class="ocean-status">等待接口</span><span class="ocean-dependency">依赖：基座与环境查询</span></button>
+            <button type="button" data-ocean-task="interaction" aria-pressed="false"><small>T5 / 联动能力</small><strong>观察与地标互动</strong><span class="ocean-status">等待模块</span><span class="ocean-dependency">依赖：环境、玩家与生物</span></button>
+            <button type="button" data-ocean-task="objectives" aria-pressed="false"><small>T6 / 体验能力</small><strong>探索任务与界面</strong><span class="ocean-status">等待事件</span><span class="ocean-dependency">依赖：互动事件</span></button>
+          </div>
+          <div class="ocean-task-detail" aria-live="polite"><span class="mini-label" id="ocean-task-label">T4 / 任务单与验收接口</span><h3 id="ocean-task-title">鱼群游动与避障</h3><dl id="ocean-task-contract"><div><dt>能力</dt><dd>实现鱼群游动、活动范围与避障。</dd></div><div><dt>输入</dt><dd>米制坐标、环境查询接口、鱼模型与更新时步。</dd></div><div><dt>输出</dt><dd>可集成的鱼群模块、接口说明、改动与检查记录。</dd></div><div><dt>依赖与约束</dt><dd>依赖场景基座和环境数据；维护鱼群范围，共享接口有问题先报告。</dd></div><div><dt>验收</dt><dd>在指定检查场景中保持活动范围、避开珊瑚，并与玩家观察功能组合。</dd></div><div><dt>失败处理</dt><dd>缺接口报告阻塞；检查失败修复对应问题，重测受影响联动。</dd></div></dl></div>
+          <div class="ocean-observation"><span class="mini-label">这一阶段的管理判断</span><p id="ocean-observation">先明确任务边界、输入输出与依赖，再决定并行范围。框架没有内置海底世界的最优拆分模板。</p></div>
+        </div>
+        <noscript><p class="note">开启 JavaScript 可切换六个阶段和六份任务单。默认展示鱼群任务接口；总体流程是规格 → 基座 → 模块开发 → 互动与任务 → 集成与修复。教学案例没有真实模型输出。</p></noscript>
+        <div class="two-columns"><article class="plain-panel"><h3>临时数据支持提前开发</h3><p>接口固定后，鱼群可先使用临时环境数据，任务界面可先使用模拟互动事件。待真实模块交付后必须重新检查组合行为，不能把各模块的局部通过当成整体验收。</p></article><article class="plain-panel"><h3>失败后修复受影响的部分</h3><p>教学例子假设鱼群错误转换了环境坐标单位，导致穿过珊瑚。定位到鱼群逻辑后保留其他成果，修正并重测联动；需要改共享接口时，再评估所有依赖任务。</p></article></div>
+        <p class="note">一个大任务可产生多轮开发、检查、修复和扩展任务。任务数量、模块数量和 Agent 数量不必相同。真正的完成条件是可体验的整体成果，以及与目标对应的运行和检查记录。</p>
+      </section>
+      <section class="section" id="walkthrough">
+        <p class="eyebrow">10 / 交互理解</p><h2>看一次批量项目研究，<br>怎样分派、重试与验收。</h2><p class="section-lead">点击“下一步”观察流程。全部任务、证据和结果均为固定教学数据；不调用模型、不读取实际仓库，也不模拟官方 API 的精确事件。</p>
+        <div class="walkthrough"><div class="demo-toolbar"><label for="demo-scenario">选择情况<select id="demo-scenario"><option value="normal">任务正常完成</option><option value="retry">一个任务首次失败</option><option value="evidence">一个结果证据不足</option></select></label><span class="demo-badge">教学模拟</span></div><div class="demo-stage"><span id="demo-stage-number">步骤 1 / 5</span><h3 id="demo-title">先定义研究任务</h3><p id="demo-description">研究三个候选项目。每个任务同时负责分析与实验，提交结论、依据和未验证事项。</p></div><ol class="demo-progress" id="demo-progress" aria-label="演示进度"></ol><div class="demo-body"><div class="table-wrap"><table class="task-table"><caption>三个独立研究任务</caption><thead><tr><th scope="col">任务</th><th scope="col">状态</th><th scope="col">交付与依据</th></tr></thead><tbody id="demo-tasks"><tr><th scope="row">项目 A</th><td>待分派</td><td>等待任务定义</td></tr><tr><th scope="row">项目 B</th><td>待分派</td><td>等待任务定义</td></tr><tr><th scope="row">项目 C</th><td>待分派</td><td>等待任务定义</td></tr></tbody></table></div><div class="demo-observation" aria-live="polite" aria-atomic="true"><span class="mini-label">这一阶段看什么</span><p id="demo-observation">先约定输出和验收条件，防止最后只收到三段无法比较的摘要。</p></div></div><div class="demo-controls"><button type="button" class="button secondary" id="demo-reset">重新开始</button><button type="button" class="button primary" id="demo-next">下一步 →</button></div></div>
+        <noscript><p class="note">开启 JavaScript 可逐步查看演示；正文和总览图可直接阅读。流程是任务定义 → 独立执行 → 收集结果 → 核对证据 → 统一汇总，失败或证据不足需要补齐。</p></noscript>
+        <p class="note">自建建议：每个 Agent 写自己的结果目录，最后由一个步骤汇总。不要让多个任务同时修改总索引。本例说明控制思路，不证明多 Agent 提高了真实研究质量。</p>
+        <div class="callout"><h3>真实资料场景：研究我们已有的三个项目。</h3><p>可以为 <a href="../001-infinite-bookshelf/">001 长文写作</a>、<a href="../002-production-agentic-rag-course/">002 资料检索</a>、<a href="../007-hermes-jev-skills/">007 模型判断与路由</a>分别安排研究任务，统一提交来源、能力、证据与限制，再检查这些能力如何衔接。这里的 A/B/C 用于解释分派与验收；不是三个项目的真实模型运行记录。</p></div>
+      </section>
+      <section class="section" id="scenarios">
+        <p class="eyebrow">11 / 使用场景</p><h2>并行、大型与模块化任务，<br>先把边界和依赖讲清楚。</h2>
+        <div class="three-columns"><article><h3>独立并行任务</h3><p>按项目、文档或站点拆分，分别处理，再统一比较与汇总。</p></article><article><h3>有依赖的大型任务</h3><p>统一目标后分阶段开发，任务按依赖启动，持续检查和重规划。</p></article><article><h3>模块化开发</h3><p>通过稳定接口协作，分别提交成果，再验证各模块组合后的行为。</p></article></div>
+        <div class="scenario-list"><article><span>研究</span><h3>批量 GitHub 项目比较</h3><p>每个项目独立分析和复现；统一比较能力、证据、依赖与使用边界。</p></article><article><span>资料</span><h3>论文与农业资料整理</h3><p>每份资料提取研究条件和结果，再比较差异；保留原文位置以便核查。</p></article><article><span>审查</span><h3>多个站点与文档检查</h3><p>按站点或文档处理独立问题，合并发现并设置整改优先级。</p></article><article><span>工程</span><h3>边界清楚的模块迁移</h3><p>每个任务承担一个模块及其验证，最后统一检查接口与整体行为。</p></article></div>
+        <div class="two-columns"><article class="plain-panel"><h3>优先考虑多 Agent</h3><ul><li>有多份独立资料或项目需要同时处理。</li><li>单一上下文包含过多无关资料。</li><li>不同任务需要明确不同的工具范围。</li><li>成果能用相同标准独立验收。</li></ul></article><article class="plain-panel"><h3>先做好单 Agent</h3><ul><li>任务很小，协调开销占比高。</li><li>必须频繁交换尚未稳定的上下文。</li><li>多个任务不断修改同一份状态。</li><li>问题主要是资料不足或验收不清。</li></ul></article></div>
+        <p class="source-line">独立性、上下文与协作开销的判断参考 <a href="#source-s9">官方多 Agent 适用指南 [S9]</a>；上述场景为我们的应用设想。</p>
+      </section>
+      <section class="section" id="value">
+        <p class="eyebrow">12 / 对我们的价值</p><h2>把研究方法，<br>积累成可重复执行的流程。</h2><p class="section-lead">对这个研究仓库，最有参考价值的是组织研究与保留证据的方法。减少人工操作的效果，需要在真实任务中测量。</p>
+        <div class="value-steps"><article><span>01</span><h3>固定研究标准</h3><p>目标源库、版本、能力、核心调用链、运行条件、实验和未验证事项。</p></article><article><span>02</span><h3>独立完成每个项目</h3><p>按资料边界分派，尽量让分析与实验在同一任务里完成，减少信息交接。</p></article><article><span>03</span><h3>检查结论与证据</h3><p>源码是否支持结论？实验是否确实执行？未覆盖内容是否明确？</p></article><article><span>04</span><h3>统一组织成果</h3><p>合并研究文档、比较表与网页说明，由单一步骤更新索引。</p></article></div>
+        <div class="table-wrap"><table><caption>已有项目可提供的组合思路</caption><thead><tr><th scope="col">已有研究</th><th scope="col">可借鉴的部分</th><th scope="col">衔接时要补什么</th></tr></thead><tbody><tr><th scope="row"><a href="../002-production-agentic-rag-course/">002 · RAG</a></th><td>检索历史资料与原文依据</td><td>来源权限、版本字段、引用格式与检索接口</td></tr><tr><th scope="row"><a href="../007-hermes-jev-skills/">007 · 模型路由</a></th><td>任务分类与判断标准</td><td>执行模型接入、能力测试与失败回退</td></tr><tr><th scope="row"><a href="../001-infinite-bookshelf/">001 · 长文写作</a></th><td>将核查后的材料组织为报告</td><td>证据传递、术语统一和最终编辑验收</td></tr></tbody></table></div>
+        <p class="note">组合是后续方向。现有项目不会自动组成完整系统；写出的报告长度、Agent 数量和相互认可次数，都不能替代证据与实际价值。</p>
+      </section>
+      <section class="section" id="depth">
+        <p class="eyebrow">13 / 资料的深度</p><h2>概念容易理解，<br>工程问题仍值得研究。</h2><p class="section-lead">我们的判断：这篇新闻的技术深度有限；它的参考价值在能力与边界概述。官方文档能指导使用服务，但不能替代自建系统的完整实施方案。</p>
+        <div class="table-wrap"><table><caption>三种资料分别能指导到哪里</caption><thead><tr><th scope="col">资料</th><th scope="col">可以得到</th><th scope="col">尚需补充</th></tr></thead><tbody><tr><th scope="row">新闻概述</th><td>知道功能和值得注意的限制</td><td>调用方法、实际验证与底层机制</td></tr><tr><th scope="row">官方 API 文档</th><td>配置、事件、权限与运行行为</td><td>自己的拆分标准、验收方案与故障测试</td></tr><tr><th scope="row">自建实现与实验</th><td>检查调度和交接，测量真实效果</td><td>持续维护、回归数据与部署运行经验</td></tr></tbody></table></div>
+        <div class="three-columns"><article><h3>拆分是否有效</h3><p>任务之间共享多少资料？交接丢了什么？增加 Agent 后遗漏减少了吗？</p></article><article><h3>运行是否可靠</h3><p>中断后如何恢复？重复执行会产生什么？失败结果是否被静默跳过？</p></article><article><h3>协作是否值得</h3><p>核查时间、质量、延迟和费用一起比较，不能只看并发数。</p></article></div>
+        <div class="callout"><h3>参考价值与实现深度分别判断。</h3><p>从公开资料可借鉴设计分工；目前研究范围没有完整调度源码或服务实测。不能因为文章概述较浅，就推断底层实现简单；也不能因为支持很多 Agent，就认定存在更强的推理算法或更好的成果。</p></div>
+      </section>
+      <section class="section" id="build">
+        <p class="eyebrow">14 / 自建参考路线</p><h2>先把少量任务管好，<br>再增加动态与规模。</h2><p class="section-lead">以下是我们的设计建议，可以独立选择模型与工具。它不是 Anthropic 的 API 格式，也不是已实现的 Agent 系统。</p>
+        <div class="build-timeline"><article><span>1</span><div><h3>明确任务与交付</h3><p>保存目标、输入来源、依赖、输出格式、写入范围和验收标准。先用三个同类研究任务。</p></div></article><article><span>2</span><div><h3>使用固定调度器</h3><p>让模型提出结构化计划，程序检查后执行；程序限制并发、重试和可调用工具。</p></div></article><article><span>3</span><div><h3>保存状态与成果</h3><p>记录待执行、运行、待复核、完成、失败或取消。结果按任务独立存放，汇总前检查依赖和覆盖范围。</p></div></article><article><span>4</span><div><h3>验证失败与恢复</h3><p>测试请求失败、证据缺失、重复执行和停止。恢复时检查已有成果，不把每次重试当成全新工作。</p></div></article><article><span>5</span><div><h3>再扩展动态能力</h3><p>基础流程有收益后，再考虑模型选择、动态拆分、阶段重规划和生成编排程序。</p></div></article></div>
+        <div class="table-wrap"><table><caption>自建系统最小职责</caption><thead><tr><th scope="col">组件</th><th scope="col">职责</th><th scope="col">完成标准</th></tr></thead><tbody><tr><th scope="row">规划器</th><td>生成任务与依赖</td><td>输入输出明确，依赖没有循环，资源需求可接受</td></tr><tr><th scope="row">调度器</th><td>安排可执行任务</td><td>并发受控，未完成依赖不启动后续任务</td></tr><tr><th scope="row">执行 Agent</th><td>调用模型和工具完成任务</td><td>只访问允许范围，输出带来源的结构化成果</td></tr><tr><th scope="row">状态与记录</th><td>保存进度、用量和异常</td><td>恢复后能识别已完成、失败及等待任务</td></tr><tr><th scope="row">验收与汇总</th><td>核对证据并组织最终成果</td><td>未验收结果不标成完成，遗漏必须显式列出</td></tr></tbody></table></div>
+        <div class="template-download"><div><h3>下载自建任务模板</h3><p>包含目标、依赖、并发、重试、输出路径和证据要求。示例字段需由你自己的程序实现。</p></div><a class="button secondary" href="./data/research-plan.example.json" download="多Agent研究任务模板.json">下载 JSON ↓</a></div>
+        <div class="two-columns"><article class="plain-panel"><h3>值得继续扩展</h3><p>历史资料检索、统一证据格式、独立工具权限、模型选择、运行看板、恢复记录，以及按项目维护研究版本。</p></article><article class="plain-panel"><h3>扩展的前提</h3><p>明确任务边界与验收、单 Agent 基线、接口和数据格式、可观察的失败，以及能证明收益的任务集。</p></article></div>
+        <div class="extension-intro" id="extension-scenarios"><p class="mini-label">八种可扩展场景 · 我们的设计方向</p><h3>每个扩展，都要说明如何交接和怎样验收。</h3><p>以下以现有能力作为参考。需要自己接入模型、工具、状态和业务系统；本网页没有执行这些流程，也没有证明它们的收益。</p></div>
+        <div class="table-wrap"><table class="extension-table"><caption>场景、输入输出、实现前提与价值验证</caption><thead><tr><th scope="col">场景与工作流程</th><th scope="col">输入 → 输出</th><th scope="col">需要新增什么</th><th scope="col">怎样判断值得用</th></tr></thead><tbody>
+          <tr><th scope="row">01 · 批量项目研究<p>主 Agent 分派多个项目；各任务分析并复现，独立复核后统一汇总。</p></th><td>项目清单、固定版本、研究标准 → 带源码位置与实验记录的报告、比较表、网页。</td><td>统一研究格式、只读来源与独立实验目录、单一索引写入步骤、遗漏和失败清单。</td><td>同样的项目与标准，比较结论正确性、证据覆盖、人工核查时间与总费用。</td></tr>
+          <tr><th scope="row">02 · RAG 证据整理<p>检索资料并保留出处；执行任务利用证据回答，复核引用后形成报告。</p></th><td>问题、授权资料、来源版本 → 可追溯引用、回答及证据缺口。</td><td>参考 002 接入检索接口、版本与段落定位、来源权限、冲突证据处理；检索结果作为数据交接。</td><td>检查引用能否回到原文、遗漏是否减少、资料更新后能否正确修订。</td></tr>
+          <tr><th scope="row">03 · 大型产品与海底世界<p>统一规格与接口，先做基座，再按依赖开发模块；集成失败后定向修复。</p></th><td>最小交付、接口与资源约束 → 可运行版本、模块成果、集成检查与已知问题。</td><td>共享接口版本、模块目录归属、临时数据约定、代码集成与性能检查；一条受影响链路一个修复任务。</td><td>实际启动并检查整体行为；海底世界要能游动、看鱼群、找地标，不能只验收文件存在。</td></tr>
+          <tr><th scope="row">04 · 模型路由与专家分工<p>按任务特征选执行配置；检查结果，不合格时进入修订或备用模型。</p></th><td>任务类型、能力要求、预算 → 路由决定、任务成果、失败与回退记录。</td><td>参考 007 建立判断标准，接入模型，定义共同输出格式；用任务集测量能力与成本。</td><td>相同质量门槛下比较费用、延迟与失败率；角色名称不等于能力得到保证。</td></tr>
+          <tr><th scope="row">05 · 模块迁移与兼容改造<p>按边界迁移多个模块；保持共同接口，集中验证新旧行为与回退。</p></th><td>旧实现、目标接口、兼容要求 → 修改集、迁移记录、检查结果与回退方案。</td><td>隔离改动或明确写入归属、接口冻结、集成顺序、兼容样例；管理跨模块的依赖变化。</td><td>检查原有行为和目标行为、审阅改动、确认回退可执行，并披露未覆盖路径。</td></tr>
+          <tr><th scope="row">06 · 独立质量复核<p>生成、检查、修复分阶段；检查任务按固定标准验证成果，再决定是否接受。</p></th><td>成果、验收标准、原始依据 → 问题清单、可复现证据、修复结果或拒收原因。</td><td>可执行检查、独立证据来源、修订轮数上限、人工抽查；复核 Agent 的认可仍需依据。</td><td>比较漏检与误报、实际缺陷、修订费用及人工复核时间，避免只统计互相认可次数。</td></tr>
+          <tr><th scope="row">07 · 人工确认与运行看板<p>展示任务状态、产物、用量与待确认操作；人检查后继续、调整或停止。</p></th><td>线程与阶段事件、工具请求、用量 → 可追踪进度、确认记录、恢复或结束结果。</td><td>事件映射、任务与产物关联、权限界面、状态持久化；适配工作流的停止和预算恢复语义。</td><td>检查故障能否定位、待确认是否被正确处理、停止是否收到结束事件、恢复是否避免重复副作用。</td></tr>
+          <tr><th scope="row">08 · 版本更新与增量重跑<p>记录已研究版本，识别变化影响哪些任务；复用有效成果，只重跑受影响部分。</p></th><td>新旧版本、依赖图、已有成果 → 更新报告、差异证据、过期结论和新的验收记录。</td><td>版本标识、缓存有效性、任务幂等规则、检查点与重跑策略；持久状态由自己的系统落实。</td><td>验证未变化成果仍有效、受影响任务没有遗漏，中断恢复和重复运行没有产生重复改动。</td></tr>
+        </tbody></table></div>
+        <p class="note">这些方向可以组合：检索补资料、路由选执行配置、Agent 完成任务、检查决定是否接受、看板管理运行。先验证一个完整小流程，再决定是否扩大并发或增加动态规划。</p>
+      </section>
+      <section class="section" id="evaluation">
+        <p class="eyebrow">15 / 价值验证</p><h2>用同一组任务比较，<br>看它实际节省了什么。</h2><p class="section-lead">先定义完成标准，再分别运行单 Agent 与多 Agent。记录全部成果和失败，按相同标准核查。</p>
+        <div class="evaluation-grid"><article><h3>证据准确性</h3><p>结论是否能对应源码、原文或实验？引用是否支持结论？</p></article><article><h3>覆盖与遗漏</h3><p>研究问题是否全部回答？失败任务是否明确披露？</p></article><article><h3>人工核查时间</h3><p>从收到成果到确认可用，人工花了多少时间？</p></article><article><h3>耗时与费用</h3><p>记录总体耗时、模型用量、工具和运行费用，计入重试与汇总。</p></article></div>
+        <div class="callout"><h3>避免只比较“做得更多”。</h3><p>多 Agent 若搜索和输出更多内容，可能只是扩大了工作范围。公平比较时应固定研究问题、来源条件、验收标准和资源范围，并记录配置差异。首次试验后重复代表性任务，再决定是否扩大规模。</p></div>
+        <div class="verification-strip"><div><b>本次已做</b><p>核对官方资料，整理讨论，制作静态网页与教学交互。</p></div><div><b>本次尚未做</b><p>调用 Managed Agents、运行真实多 Agent 实验或验证成本和质量收益。</p></div></div>
+      </section>
+      <section class="section" id="questions">
+        <p class="eyebrow">16 / 理解核对</p><h2>把我们讨论中的疑问，<br>保留为清楚的判断。</h2>
+        <details open><summary>本质就是大任务的划分、分派和执行吗？</summary><p>是。完整地说，还包括结果交接、阶段组织、汇总和运行管理。核心价值在组织工作与持续执行。</p></details>
+        <details><summary>就是主 Agent 和多个子 Agent 之间的交互吗？</summary><p>这是主要问题之一，还要管理依赖、状态、权限、预算和失败。动态工作流由编排程序安排后续，主 Agent 不必每一步都主持交接。</p></details>
+        <details><summary>资料是否全面，能指导控制多 Agent 吗？</summary><p>新闻适合了解功能；官方资料可指导使用这项服务。自建时，文件协作、恢复、验收、模型适配和任务拆分仍需自己的实施方案与实验。</p></details>
+        <details><summary>是否说明这项能力没有技术深度？</summary><p>文章的技术深度有限；底层工程是否复杂不能由文章篇幅判断。可靠执行、有效拆分和价值评测值得研究，但本次资料没有给出完整实现。</p></details>
+        <details><summary>可以参考它实现自己的系统吗？</summary><p>可以参考公开的架构和行为，先实现结构化任务与固定调度，再补状态、权限、恢复和验收。不要把 API 使用示例当作完整调度源码。</p></details>
+        <details><summary>多 Agent 会自动更聪明、更快、更便宜吗？</summary><p>不能保证。多个任务可能扩大覆盖，也可能重复资料、丢失交接信息和增加费用。需要以相同标准比较实际成果。</p></details>
+        <details><summary>最大的价值是管理上千个 Agent 吗？</summary><p>最大的参考价值在多 Agent 编排与运行管理的架构。1000 是单次工作流累计启动 Agent 的上限，不是同时工作数量，也不是质量或速度保证。可以先用少量任务验证收益。</p></details>
+        <details><summary>任务拆分是框架提供的方法，还是模型能力？</summary><p>主要由主模型结合目标、资料、指令与工程约束做规划。框架提供执行和管理机制；公开资料没有披露保证最优分解的通用算法。海底世界的拆分是我们的设计示例。</p></details>
+        <details><summary>怎样下发给子 Agent 并控制实现？</summary><p>提供明确的任务、上下文、接口、交付和验收要求。普通子 Agent 由主 Agent 委派与跟进；动态工作流由程序安排线程和后续。工具权限、读写检查和集成验收需要真正落实。</p></details>
+        <details><summary>大型任务只是增加几个并行 Agent 吗？</summary><p>还需要共同规格、依赖关系、共享接口与集成检查。海底世界先做基座，再按接口开发环境、玩家和鱼群，随后接入互动与任务；发现问题后修复受影响部分，再逐步扩大。</p></details>
+        <details><summary>只关注能力、输入和输出，内部黑盒即可吗？</summary><p>可以隐藏内部实现，但还要明确依赖约束、完成标准与失败规则。状态、错误、改动和验收证据应可检查；模型生成了结果，不等于成果已经合格。</p></details>
+        <details><summary>每个模块都必须对应一个固定 Agent 吗？</summary><p>Agent 是执行单元，任务是一次委派，模块是成果对象。一个模块可经历开发、检查、修复和集成多个任务；同一个 Agent 也可承担不同阶段。三者数量不必相同。</p></details>
+      </section>
+      <section class="section" id="sources">
+        <p class="eyebrow">17 / 来源与研究范围</p><h2>官方事实、我们的理解、<br>教学演示分别看待。</h2>
+        <div class="scope-legend"><span>官方文档：产品行为</span><span>我们的理解：归纳与建议</span><span>教学模拟：固定数据</span></div>
+        <p>资料核对日期：<strong>2026-10-14（北京时间）</strong>。Managed Agents 仍为 Beta，文档和限制可能变化。未获取底层完整源码，研究 commit 与上游开源许可证保持为空；页面文字和示意图为本仓库整理，未复制上游代码或品牌素材。</p>
+        <ol class="sources-list">
+          <li id="source-s0"><b>S0 · 讨论入口</b><a href="https://mixed-news.com/en/claude-managed-agents-dynamic-workflows-1000-agents-permission-policies/" target="_blank" rel="noopener noreferrer">MIXED：动态工作流、规模与权限 ↗</a><p>2026-10-11 的新闻，用于提出问题；产品行为以官方资料为准。</p></li>
+          <li id="source-s1"><b>S1 · 产品定位</b><a href="https://platform.claude.com/docs/en/managed-agents/overview" target="_blank" rel="noopener noreferrer">Managed Agents overview ↗</a></li>
+          <li id="source-s2"><b>S2 · 协作与角色</b><a href="https://platform.claude.com/docs/en/managed-agents/multiagent-orchestration" target="_blank" rel="noopener noreferrer">Multiagent orchestration ↗</a></li>
+          <li id="source-s3"><b>S3 · 流程与限制</b><a href="https://platform.claude.com/docs/en/managed-agents/workflow-runs" target="_blank" rel="noopener noreferrer">Workflow runs ↗</a></li>
+          <li id="source-s4"><b>S4 · 线程与观察</b><a href="https://platform.claude.com/docs/en/managed-agents/session-threads" target="_blank" rel="noopener noreferrer">Session threads ↗</a></li>
+          <li id="source-s5"><b>S5 · 工具权限</b><a href="https://platform.claude.com/docs/en/managed-agents/permission-policies" target="_blank" rel="noopener noreferrer">Permission policies ↗</a></li>
+          <li id="source-s6"><b>S6 · 预算行为</b><a href="https://platform.claude.com/docs/en/managed-agents/budgets" target="_blank" rel="noopener noreferrer">Session budgets ↗</a></li>
+          <li id="source-s7"><b>S7 · 费用组成</b><a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener noreferrer">Claude Managed Agents pricing ↗</a></li>
+          <li id="source-s8"><b>S8 · 自托管范围</b><a href="https://platform.claude.com/docs/en/managed-agents/self-hosted-sandboxes" target="_blank" rel="noopener noreferrer">Self-hosted sandboxes ↗</a></li>
+          <li id="source-s9"><b>S9 · 适用条件</b><a href="https://claude.com/resources/articles/building-multi-agent-systems-when-and-how-to-use-them" target="_blank" rel="noopener noreferrer">When and how to use multi-agent systems ↗</a></li>
+          <li id="source-s10"><b>S10 · 发布日期</b><a href="https://platform.claude.com/docs/en/release-notes/overview" target="_blank" rel="noopener noreferrer">Claude Platform release notes ↗</a></li>
+          <li id="source-s11"><b>S11 · 工具能力</b><a href="https://platform.claude.com/docs/en/managed-agents/tools" target="_blank" rel="noopener noreferrer">Managed Agents tools ↗</a></li>
+        </ol>
+        <div class="end-note"><strong>具有参考价值。</strong><p>我们借鉴多 Agent 的编排与运行管理方式；采用哪种架构、是否扩大规模，由自己的任务和验证结果决定。</p><a class="text-link" href="#understanding">回到核心理解 ↑</a></div>
+      </section>
+      <footer><span>013 · Claude Managed Agents 理解研究</span><a href="https://github.com/yydshly/1013_codex_project/tree/main/projects/013-claude-managed-agents" target="_blank" rel="noopener noreferrer">研究文档与验证 ↗</a><span>中文导读 · 2026.10.14</span></footer>
+    </main>
+  </div>
+</body>
+</html>

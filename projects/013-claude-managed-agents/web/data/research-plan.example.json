@@ -1,0 +1,23 @@
+{
+  "example_only": true,
+  "format": "本仓库自建任务格式示例，非 Anthropic API 配置",
+  "goal": "按相同标准研究三个 GitHub 项目，并生成带证据的比较报告",
+  "control": {
+    "max_concurrency": 3,
+    "max_retries_per_task": 1,
+    "max_revision_rounds": 1,
+    "deadline_minutes": 60,
+    "allowed_tools": ["read_public_source", "run_isolated_experiment", "write_task_result"],
+    "stop_behavior": "停止派发新任务，处理或取消在途操作，保存状态并确认结束",
+    "budget_behavior": "先实现用量记录；预算与在途请求预留由实际模型适配器和调度器实现"
+  },
+  "tasks": [
+    {"id": "research-a", "role": "项目 A 研究", "depends_on": [], "input": {"source_url": "填写真实源库 URL", "source_ref": "填写固定 commit 或 tag"}, "output_directory": "results/research-a/", "required_fields": ["capabilities", "mechanism", "source_evidence", "experiment_results", "unverified", "license"]},
+    {"id": "research-b", "role": "项目 B 研究", "depends_on": [], "input": {"source_url": "填写真实源库 URL", "source_ref": "填写固定 commit 或 tag"}, "output_directory": "results/research-b/", "required_fields": ["capabilities", "mechanism", "source_evidence", "experiment_results", "unverified", "license"]},
+    {"id": "research-c", "role": "项目 C 研究", "depends_on": [], "input": {"source_url": "填写真实源库 URL", "source_ref": "填写固定 commit 或 tag"}, "output_directory": "results/research-c/", "required_fields": ["capabilities", "mechanism", "source_evidence", "experiment_results", "unverified", "license"]},
+    {"id": "verify", "role": "证据核查", "depends_on": ["research-a", "research-b", "research-c"], "output_directory": "results/verification/", "acceptance": ["每条能力结论有对应依据", "已实测与未验证分开", "来源与版本明确", "失败和遗漏明确列出"]},
+    {"id": "merge", "role": "统一汇总", "depends_on": ["verify"], "output_directory": "results/report/", "single_writer": true, "acceptance": ["只汇总已验收成果", "不将未验证事项写为成功", "统一比较问题与术语"]}
+  ],
+  "task_states": ["pending", "running", "awaiting_review", "completed", "failed", "cancelled"],
+  "note": "本文件只用于理解和设计；没有执行器。所有限制、权限、预算、恢复和验收均需在自建系统中实现。"
+}

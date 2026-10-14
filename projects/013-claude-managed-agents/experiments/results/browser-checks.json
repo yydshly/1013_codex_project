@@ -1,0 +1,97 @@
+{
+  "checked_at": "2026-10-14T01:37:52.841Z",
+  "url": "http://127.0.0.1:8793/013-claude-managed-agents/",
+  "browser": "151.0.7922.34",
+  "checks": [
+    {
+      "name": "Seventeen chapters, unique anchors, twelve questions, and twelve sources",
+      "result": "passed"
+    },
+    {
+      "name": "Local resources and project navigation return HTTP 200",
+      "result": "passed"
+    },
+    {
+      "name": "Collaboration mode switches its explanation and pressed state",
+      "result": "passed"
+    },
+    {
+      "name": "Teaching flow normal: intermediate status, completion, and reset",
+      "result": "passed"
+    },
+    {
+      "name": "Teaching flow retry: intermediate status, completion, and reset",
+      "result": "passed"
+    },
+    {
+      "name": "Teaching flow evidence: intermediate status, completion, and reset",
+      "result": "passed"
+    },
+    {
+      "name": "Chapter navigation and native questions expand",
+      "result": "passed"
+    },
+    {
+      "name": "Task template and overview diagram download",
+      "result": "passed"
+    },
+    {
+      "name": "Planning, six-field contracts, and black-box boundaries are present",
+      "result": "passed"
+    },
+    {
+      "name": "Undersea phases: dependencies, partial checks, failed integration, and acceptance",
+      "result": "passed"
+    },
+    {
+      "name": "Six undersea task contracts can be inspected independently",
+      "result": "passed"
+    },
+    {
+      "name": "Undersea controls work with keyboard activation",
+      "result": "passed"
+    },
+    {
+      "name": "Viewport 320px: no document overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Viewport 390px: no document overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Viewport 760px: no document overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Viewport 768px: no document overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Viewport 1024px: no document overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Viewport 1440px: no document overflow",
+      "result": "passed"
+    },
+    {
+      "name": "Mobile controls remain usable",
+      "result": "passed"
+    },
+    {
+      "name": "Undersea stages and contracts work on mobile",
+      "result": "passed"
+    },
+    {
+      "name": "Core content and reading aids remain available without JavaScript",
+      "result": "passed"
+    },
+    {
+      "name": "No browser script or console errors",
+      "result": "passed"
+    }
+  ],
+  "errors": [],
+  "scope": "Local static website only; no model or agent service was called."
+}
