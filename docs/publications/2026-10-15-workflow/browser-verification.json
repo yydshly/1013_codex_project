@@ -1,0 +1,224 @@
+{
+  "verified_at": "2026-10-15T00:11:10.207Z",
+  "content_commit": "b1b7ab07399e9c21bb186ca95850e3e96962cd37",
+  "desktop": {
+    "bodyOverflow": false,
+    "caseCount": 6,
+    "clip": {
+      "height": 941,
+      "width": 921,
+      "x": 0,
+      "y": 1573
+    },
+    "diagramLoaded": true,
+    "entryUrls": [
+      "https://yydshly.github.io/1013_codex_project/001-infinite-bookshelf/",
+      "https://yydshly.github.io/1013_codex_project/002-production-agentic-rag-course/",
+      "https://yydshly.github.io/1013_codex_project/005-wireguard-install/",
+      "https://yydshly.github.io/1013_codex_project/006-jev-seo/",
+      "https://yydshly.github.io/1013_codex_project/007-hermes-jev-skills/",
+      "https://yydshly.github.io/1013_codex_project/008-shadps4/",
+      "https://yydshly.github.io/1013_codex_project/009-cmux/",
+      "https://yydshly.github.io/1013_codex_project/010-vibe42/",
+      "https://yydshly.github.io/1013_codex_project/011-openmontage/",
+      "https://yydshly.github.io/1013_codex_project/012-tchmaterial-parser/",
+      "https://yydshly.github.io/1013_codex_project/013-claude-managed-agents/",
+      "https://yydshly.github.io/1013_codex_project/014-baocut/",
+      "https://yydshly.github.io/1013_codex_project/015-rea/",
+      "https://yydshly.github.io/1013_codex_project/016-free-claude-code/"
+    ],
+    "groupCount": 6,
+    "groupIds": [
+      "012",
+      "002",
+      "015",
+      "006",
+      "008",
+      "004",
+      "007",
+      "016",
+      "013",
+      "009",
+      "010",
+      "001",
+      "011",
+      "014",
+      "005"
+    ],
+    "overviewCount": 15,
+    "scriptCount": 0,
+    "url": "https://yydshly.github.io/1013_codex_project/#research-workflow",
+    "viewport": {
+      "height": 871,
+      "width": 921
+    },
+    "workflowBeforeTable": true,
+    "initialDiagramStillLoading": true
+  },
+  "wide": {
+    "bodyOverflow": false,
+    "clip": {
+      "height": 1028,
+      "width": 1280,
+      "x": 0,
+      "y": 1171
+    },
+    "diagramFitsWideViewport": true,
+    "diagramLoaded": true,
+    "width": 1280
+  },
+  "mobile": {
+    "bodyOverflow": false,
+    "diagramHasOwnScroll": true,
+    "diagramScrollLeft": 4,
+    "groupColumns": "346.667px",
+    "groupCount": 6,
+    "textFits": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "width": 390
+  },
+  "keyboardScroll": {
+    "diagramScrollLeft": 40
+  },
+  "localCoverage": {
+    "bodyOverflow": false,
+    "caseCount": 6,
+    "diagramLoaded": true,
+    "groupCount": 6,
+    "groupIds": [
+      "012",
+      "002",
+      "015",
+      "006",
+      "008",
+      "004",
+      "007",
+      "016",
+      "013",
+      "009",
+      "010",
+      "001",
+      "011",
+      "014",
+      "005"
+    ],
+    "overviewCount": 15,
+    "workflowBeforeTable": true
+  },
+  "localCombinationChecks": {
+    "allOpen": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "hasHandoffs": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "openCount": 6
+  },
+  "localMobile": {
+    "bodyOverflow": false,
+    "diagramHasOwnScroll": true,
+    "groupColumns": "346.667px",
+    "groupCount": 6,
+    "groupIds": [
+      "012",
+      "002",
+      "015",
+      "006",
+      "008",
+      "004",
+      "007",
+      "016",
+      "013",
+      "009",
+      "010",
+      "001",
+      "011",
+      "014",
+      "005"
+    ],
+    "textFits": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "width": 390
+  },
+  "localSvg": {
+    "outsideCanvas": [],
+    "projectIds": [
+      "013",
+      "009",
+      "010",
+      "007",
+      "016",
+      "012",
+      "015",
+      "006",
+      "002",
+      "001",
+      "011",
+      "014",
+      "005",
+      "008",
+      "004"
+    ],
+    "url": "http://127.0.0.1:8786/assets/research-workflow.svg",
+    "viewBox": "0 0 1600 1090"
+  },
+  "originalEntryUrlsPreserved": true,
+  "navigation": {
+    "project": {
+      "heading": "让 AI 调用逆向工具，\n沿着证据理解软件。",
+      "returnLinks": [
+        {
+          "text": "项目总览 ↗",
+          "url": "https://yydshly.github.io/1013_codex_project/"
+        },
+        {
+          "text": "返回项目总览 ↑",
+          "url": "https://yydshly.github.io/1013_codex_project/"
+        }
+      ],
+      "url": "https://yydshly.github.io/1013_codex_project/015-rea/"
+    },
+    "returned": {
+      "diagramLoaded": true,
+      "groups": 6,
+      "overviewCount": 15,
+      "url": "https://yydshly.github.io/1013_codex_project/"
+    }
+  }
+}

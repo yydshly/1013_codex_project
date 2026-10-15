@@ -22,6 +22,10 @@ https://yydshly.github.io/1013_codex_project/
 
 ## 当前已验证发布
 
+2026-10-15，能力分组与整体关系图随提交 `b1b7ab07399e9c21bb186ca95850e3e96962cd37` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38658081838)成功。[研究工作流入口](https://yydshly.github.io/1013_codex_project/#research-workflow)位于速览之后、详细索引表之前，完整包含六个能力组、十五个项目节点、六个可展开组合场景，以及分工、交接材料、适配前提和最小实践起点。首页、SVG、构建清单、十四个原有网页入口与 004 研究文档共十八个公开地址通过核对；十五条速览与原项目页面保留，网页内容与发布前一致。
+
+本地四十五项测试中四十四项通过、一项因 Windows 符号链接权限跳过；云端构建与部署成功。桌面 1280 × 720 完整显示关系图；手机 390 × 844 分组单列、图在自身容器横向滚动，方向键滚动与组合说明展开已验证。实际从分组打开 REA，再通过项目链接返回索引。组合为研究方案，尚未运行真实跨库集成。证据：[公开地址与内容](./publications/2026-10-15-workflow/http-verification.json)、[浏览器检查](./publications/2026-10-15-workflow/browser-verification.json)、[桌面截图](./publications/2026-10-15-workflow/desktop.jpg)、[手机截图](./publications/2026-10-15-workflow/mobile.jpg)。
+
 2026-10-15，一句话速览随提交 `cd85f2d0f3175ef813ee041d2a4034054b325203` 发布，[构建与部署运行](https://github.com/yydshly/1013_codex_project/actions/runs/38655435783)成功。[站点首页](https://yydshly.github.io/1013_codex_project/)在索引表上方完整显示 15 条速览，逐条与项目元信息一致；004 无静态演示，链接到其研究文档。原有 14 个网页入口全部返回 HTTP 200，目录清单和页面内容与发布前一致。共核对 140 个公开地址，其中 139 项与构建快照逐字节一致；两次临时请求失败重试后通过，原始错误保留在记录中。
 
 桌面 1280 × 720 与手机 390 × 844 均检查全部 15 条：顺序、位置、可见性与文字完整，无横向溢出，并实际验证从速览打开 Free Claude Code 后返回索引。本地索引检查通过，39 项工具测试中 38 项通过、1 项因 Windows 符号链接权限跳过；云端发布成功。证据：[公开地址与内容核对](./publications/2026-10-15-overviews/http-verification.json)、[浏览器检查](./publications/2026-10-15-overviews/browser-verification.json)、[桌面截图](./publications/2026-10-15-overviews/desktop.jpg)、[手机截图](./publications/2026-10-15-overviews/mobile.jpg)。
