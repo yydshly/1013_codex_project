@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1090" role="img" aria-labelledby="title desc">
+<title id="title">能力分组与研究工作流</title><desc id="desc">15 个项目的整体关系：获取资料、分析验证、知识检索与内容输出为主线，任务、模型和网络为可选支撑，shadPS4 与 Leak Check 为专项或参考支线。这是基于固定研究版本整理的组合方案，职责互补不表示已有现成连接；接口、资料格式、运行环境与验收仍需适配。</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#466452"/></marker><marker id="optional-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#6c7888"/></marker></defs>
+<style>text{font-family:"Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;fill:#223329}.title{font-weight:700}.role{fill:#46584b}.main-arrow{fill:none;stroke:#466452;stroke-width:3;marker-end:url(#arrow)}.optional{fill:none;stroke:#6c7888;stroke-width:2;stroke-dasharray:7 6;marker-end:url(#optional-arrow)}</style>
+<rect width="1600" height="1090" fill="#f6f7f2"/>
+<text x="80" y="60" font-size="32" class="title">15 个项目，按职责接成研究工作流</text>
+<text x="80" y="105" font-size="23" class="role">材料 → 可核查证据 → 知识沉淀 → 可验收成果</text>
+<rect x="80" y="145" width="680" height="205" rx="16" fill="#e9eff9" stroke="#cdd8cf"/>
+<text x="102" y="184" font-size="22" class="title">任务编排与会话操作 · 按需选用</text>
+<text x="102" y="221" font-size="20" class="title" data-project-id="013">013 · Managed Agents</text>
+<text x="365" y="221" font-size="17" class="role">托管任务编排、依赖与运行管理</text>
+<text x="102" y="278" font-size="20" class="title" data-project-id="009">009 · cmux</text>
+<text x="365" y="278" font-size="17" class="role">本地会话分屏、定向操作与观察</text>
+<text x="102" y="335" font-size="20" class="title" data-project-id="010">010 · Vibe42</text>
+<text x="365" y="335" font-size="17" class="role">跨设备观察与人工接手</text>
+<rect x="840" y="145" width="680" height="205" rx="16" fill="#fff1d9" stroke="#cdd8cf"/>
+<text x="862" y="184" font-size="22" class="title">任务判断与模型接入 · 按需选用</text>
+<text x="865" y="225" font-size="20" class="title" data-project-id="007">007 · Hermes Jev Skills</text>
+<text x="865" y="255" font-size="17" class="role">有限判断 → 上层策略选择</text>
+<text x="865" y="300" font-size="20" class="title" data-project-id="016">016 · Free Claude Code</text>
+<text x="865" y="330" font-size="17" class="role">协议适配、配置路由与备用</text>
+<path class="optional" d="M520 350 V375"/><path class="optional" d="M1050 350 V375"/>
+<rect x="440" y="375" width="720" height="40" rx="12" fill="#fff" stroke="#cdd8cf"/>
+<text x="460" y="402" font-size="19" class="role">模型理解与生成；Agent／程序调用工具；人验收</text>
+<text x="80" y="401" font-size="19" class="title">研究主线 · 交接方案</text>
+<rect x="80" y="430" width="330" height="355" rx="16" fill="#e9f2e5" stroke="#cdd8cf"/>
+<text x="102" y="469" font-size="22" class="title">① 获取与固定资料</text>
+<text x="103" y="527" font-size="20" class="title" data-project-id="012">012 · 教材下载器</text>
+<text x="103" y="557" font-size="17" class="role">获取文件、命名与分类</text>
+<text x="103" y="635" font-size="19" class="title">原仓库 / 论文 / 笔记</text>
+<text x="103" y="674" font-size="17" class="role">保留来源、版本与原文位置</text>
+<text x="103" y="729" font-size="17" class="role">002 也有论文采集入口</text>
+<rect x="450" y="430" width="330" height="355" rx="16" fill="#e8f0f7" stroke="#cdd8cf"/>
+<text x="472" y="469" font-size="22" class="title">② 分析与验证</text>
+<text x="474" y="527" font-size="20" class="title" data-project-id="015">015 · REA</text>
+<text x="474" y="557" font-size="17" class="role">软件调查、工具证据与关系</text>
+<text x="474" y="639" font-size="20" class="title" data-project-id="006">006 · Jev SEO</text>
+<text x="474" y="669" font-size="17" class="role">网页研究与发布后质量复核</text>
+<text x="474" y="756" font-size="17" class="role">人＋实验核对依据与未知</text>
+<rect x="820" y="430" width="330" height="355" rx="16" fill="#e9f2e5" stroke="#cdd8cf"/>
+<text x="842" y="469" font-size="22" class="title">③ 沉淀与检索</text>
+<text x="845" y="527" font-size="20" class="title" data-project-id="002">002 · Agentic RAG</text>
+<text x="845" y="557" font-size="17" class="role">切块、混合检索、来源问答</text>
+<text x="845" y="643" font-size="19" class="title">文档、证据与引用登记</text>
+<text x="845" y="685" font-size="17" class="role">先核对，再入库；</text>
+<text x="845" y="718" font-size="17" class="role">来源链接仍需检查结论支持</text>
+<rect x="1190" y="430" width="330" height="355" rx="16" fill="#f9ece7" stroke="#cdd8cf"/>
+<text x="1212" y="469" font-size="22" class="title">④ 表达与交付</text>
+<text x="1214" y="522" font-size="20" class="title" data-project-id="001">001 · Infinite Bookshelf</text>
+<text x="1214" y="552" font-size="17" class="role">目录与分节写作 → 长文初稿</text>
+<text x="1214" y="624" font-size="20" class="title" data-project-id="011">011 · OpenMontage</text>
+<text x="1214" y="654" font-size="17" class="role">阶段流程与工具 → 视频制作</text>
+<text x="1214" y="726" font-size="20" class="title" data-project-id="014">014 · BaoCut</text>
+<text x="1214" y="756" font-size="17" class="role">可视化编辑、工具修改与续改</text>
+<path class="main-arrow" d="M410 604 H448"/>
+<text x="412" y="581" font-size="16" class="role">文件</text>
+<path class="main-arrow" d="M780 604 H818"/>
+<text x="782" y="581" font-size="16" class="role">证据</text>
+<path class="main-arrow" d="M1150 604 H1188"/>
+<text x="1152" y="581" font-size="16" class="role">引用</text>
+<path class="main-arrow" d="M1355 785 V803"/><rect x="1210" y="807" width="310" height="32" rx="9" fill="#e2eddf"/>
+<text x="1235" y="830" font-size="17" class="title">人核对成品、修订并归档</text>
+<rect x="80" y="872" width="440" height="148" rx="16" fill="#e9eef1" stroke="#cdd8cf"/>
+<text x="102" y="911" font-size="22" class="title">网络连接 · 按需</text>
+<text x="103" y="948" font-size="20" class="title" data-project-id="005">005 · WireGuard Install</text>
+<text x="103" y="978" font-size="17" class="role">按网络需要提供自建 VPN</text>
+<rect x="560" y="872" width="440" height="148" rx="16" fill="#e8f0f7" stroke="#cdd8cf"/>
+<text x="582" y="911" font-size="22" class="title">专项程序实测</text>
+<text x="584" y="948" font-size="20" class="title" data-project-id="008">008 · shadPS4</text>
+<text x="584" y="978" font-size="17" class="role">兼容运行、日志与实测记录</text>
+<rect x="1040" y="872" width="480" height="148" rx="16" fill="#eeeeea" stroke="#cdd8cf"/>
+<text x="1062" y="911" font-size="22" class="title">查询机制参考</text>
+<text x="1064" y="948" font-size="20" class="title" data-project-id="004">004 · Leak Check</text>
+<text x="1064" y="978" font-size="17" class="role">查询机制参考；不纳入默认主线</text>
+<path class="optional" d="M80 955 H40 V250 H78"/><path class="optional" d="M780 870 V828 H615 V787"/>
+<text x="610" y="857" font-size="16" class="role">实测记录补入证据</text>
+<text x="80" y="1062" font-size="19" class="role">实线＝主线交接方案　虚线＝可选支撑；职责互补不表示现成连接，接口、格式与验收需适配。</text>
+</svg>

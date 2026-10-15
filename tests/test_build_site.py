@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from build_site import build_site
+from research_workflow import DATA_PATH, DIAGRAM_PATH, load_workflow, update_diagram
 
 
 class BuildSiteTests(unittest.TestCase):
@@ -92,6 +93,43 @@ class BuildSiteTests(unittest.TestCase):
         self.assertEqual([project["id"] for project in published], ["001", "005"])
         home = (self.root / "site-dist" / "index.html").read_text(encoding="utf-8")
         self.assertIn('./005-later/', home)
+
+    def test_workflow_covers_research_only_project_and_copies_only_tracked_diagram(self):
+        data = json.loads((ROOT / DATA_PATH).read_text(encoding="utf-8"))
+        ids = sorted({member["id"] for group in data["groups"] for member in group["members"]})
+        catalog = []
+        for project_id in ids:
+            directory = project_id + "-sample"
+            project = self.create_project(directory, tracked=True)
+            if project_id == "004":
+                (project / "web/index.html").unlink()
+                self.git("add", str(project.relative_to(self.root)))
+            catalog.append({"id": project_id, "name": "示例研究", "directory": directory})
+        source = self.root / DATA_PATH
+        source.parent.mkdir(parents=True)
+        source.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        workflow = load_workflow(self.root, catalog)
+        update_diagram(self.root, workflow)
+        self.git("add", DATA_PATH.as_posix())
+        with self.assertRaisesRegex(ValueError, "diagram must be tracked"):
+            build_site(self.root)
+        self.git("add", DIAGRAM_PATH.as_posix())
+        published = build_site(self.root)
+        self.assertEqual(len(published), 14)
+        home_path = self.root / "site-dist/index.html"
+        home = home_path.read_text(encoding="utf-8")
+        self.assertEqual(home.count('data-project-id="'), 15)
+        self.assertEqual(home.count('class="overview-number"'), 15)
+        self.assertLess(home.index('id="research-workflow"'), home.index('<table class="project-index">'))
+        self.assertIn('blob/main/projects/004-sample/README.md', home)
+        self.assertNotIn('href="./004-sample/"', home)
+        self.assertEqual((self.root / "site-dist/assets/research-workflow.svg").read_bytes(),
+                         (self.root / DIAGRAM_PATH).read_bytes())
+        self.assertFalse((self.root / "site-dist/docs/research-workflow.json").exists())
+        (self.root / DIAGRAM_PATH).write_text("stale diagram", encoding="utf-8")
+        with self.assertRaisesRegex(ValueError, "diagram is stale"):
+            build_site(self.root)
+        self.assertEqual(home_path.read_text(encoding="utf-8"), home)
 
     def test_overviews_precede_table_with_safe_links_order_and_legacy_fallback(self):
         overview = '<script>模型 & 工具</script>，我们拟扩展报告。'

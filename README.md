@@ -33,6 +33,99 @@
 - **015 · [REA](./projects/015-rea/README.md)**：以 CLI／MCP 统一调用反编译、代码解析和运行观察工具并返回可追溯证据，我们拟衔接研究证据库与 RAG。
 - **016 · [Free Claude Code](./projects/016-free-claude-code/README.md)**：在 Agent 与云端或本地模型间用统一网关转换协议、按配置路由与切换备用服务，我们拟扩展任务判断路由与模型评测。
 
+### 能力分组与研究工作流
+
+先把问题变成有来源的资料与可核查证据，再建立可检索的知识库，最后形成报告、网页或视频；模型、任务、会话与网络按实际需要接入。
+
+这是基于固定研究版本整理的组合方案，职责互补不表示已有现成连接；接口、资料格式、运行环境与验收仍需适配。
+
+![15 个项目的整体关系：获取资料、分析验证、知识检索与内容输出为主线，任务、模型和网络为可选支撑，shadPS4 与 Leak Check 为专项或参考支线](./docs/assets/research-workflow.svg)
+
+图示与来源：本仓库依据各项目固定研究记录原创绘制；实线表示主线交接方案，虚线表示可选支撑。
+
+[打开可缩放关系图](./docs/assets/research-workflow.svg)
+
+#### 按能力分组
+
+| 能力组 | 项目与职责 |
+| --- | --- |
+| **资料获取与知识检索**<br>把选定资料获取、整理并变成可检索的依据。 | [012 tchMaterial Parser](./projects/012-tchmaterial-parser/README.md)：获取官方教材与配套文件，批量命名和分类保存。<br>[002 Production Agentic RAG Course](./projects/002-production-agentic-rag-course/README.md)：采集、解析、切块、混合检索与来源问答；迁移到自有资料需适配。 |
+| **分析、复现与验证**<br>针对不同对象取证和做实验，整理结论与验证范围。 | [015 REA](./projects/015-rea/README.md)：连接软件分析工具，查询结构、关系与运行材料，返回可回查证据。<br>[006 Jev SEO](./projects/006-jev-seo/README.md)：检查公开网页规则与内容，给出带证据的整改建议。<br>[008 shadPS4](./projects/008-shadps4/README.md)：PS4 兼容运行与底层系统实验，产出日志和实测记录。<br>[004 Leak Check](./projects/004-leak-check/README.md)：参考已有数据库的精确查询、关联与脱敏机制，暂不扩展。 |
+| **任务判断与模型接入**<br>分开判断任务需要什么能力，以及请求怎样送到真实模型。 | [007 Hermes Jev Skills](./projects/007-hermes-jev-skills/README.md)：提供有限判断；本地策略据此选择模型、技能或动作。<br>[016 Free Claude Code](./projects/016-free-claude-code/README.md)：统一网关适配协议，按配置路由、重试和选择备用服务。 |
+| **任务编排与会话操作**<br>分别组织工作、承载本地会话、提供人的远程接手入口。 | [013 Claude Managed Agents](./projects/013-claude-managed-agents/README.md)：托管 Agent 任务拆分、依赖调度、交接与运行管理。<br>[009 cmux](./projects/009-cmux/README.md)：在本地终端工作台操作和观察多个现有 Agent 会话。<br>[010 Vibe42](./projects/010-vibe42/README.md)：从手机等设备远程观察、回应和接手电脑中的 Agent。 |
+| **写作与视频输出**<br>把核对后的研究材料变成可编辑、可验收的表达成果。 | [001 Infinite Bookshelf](./projects/001-infinite-bookshelf/README.md)：按目录与分节调用模型，生成待审核的报告或长文初稿。<br>[011 OpenMontage](./projects/011-openmontage/README.md)：给助手提供脚本、分镜、素材与合成的阶段流程和工具。<br>[014 BaoCut](./projects/014-baocut/README.md)：以视频引擎、工具和可视化界面，让人和 AI 修改同一作品。 |
+| **网络连接基础**<br>仅在需要访问自有服务器或内网时补充连接。 | [005 WireGuard Install](./projects/005-wireguard-install/README.md)：部署 WireGuard 加密隧道和设备配置；内网路由、访问策略另配。 |
+
+#### 可以怎样组合
+
+**资料问答与研究报告：012 → 002 → 001**
+
+- [012 tchMaterial Parser](./projects/012-tchmaterial-parser/README.md)：获取教材或配套原文件；其他资料也可人工准备。
+- [002 Production Agentic RAG Course](./projects/002-production-agentic-rag-course/README.md)：导入、解析与切块，检索片段并回答，保留来源。
+- [001 Infinite Bookshelf](./projects/001-infinite-bookshelf/README.md)：根据核对后的材料与提纲起草长文。
+
+交接：原文件＋来源与版本 → 文本片段与引用 → 核对后的材料包与提纲 → 报告初稿。
+
+需要补齐：补下载文件到 RAG 的导入入口、PDF/OCR 处理和领域规则，再补引用核验与写作上下文；下载器本身不提供正文检索，写作器也不会自动核对事实。
+
+**软件调查与证据复用：015 → 002 → 001**
+
+- [015 REA](./projects/015-rea/README.md)：让助手查询固定版本的软件材料，追踪功能与行为，返回 Evidence。
+- [002 Production Agentic RAG Course](./projects/002-production-agentic-rag-course/README.md)：检索已整理的调查记录，复用先前证据。
+- [001 Infinite Bookshelf](./projects/001-infinite-bookshelf/README.md)：把已复核的结论组织为研究报告。
+
+交接：问题与固定版本 → 工具证据、位置与未知 → 有来源的研究记录 → 报告与待验证项。
+
+需要补齐：归一化 REA 的证据格式与目标身份；新程序行为仍需实验，存入 RAG 不会把推断自动变成事实；008 可作为专项运行实验，004 仅保留查询机制参考。
+
+**研究成果表达：001 → 011 或 014**
+
+- [001 Infinite Bookshelf](./projects/001-infinite-bookshelf/README.md)：先起草讲解文稿，再由人核对结论、引用与表达。
+- [011 OpenMontage](./projects/011-openmontage/README.md)：按阶段交接脚本、分镜、素材和剪辑决策，调用制作工具。
+- [014 BaoCut](./projects/014-baocut/README.md)：在可视化界面中预览、修改、撤销和继续编辑视频。
+
+交接：核对后的文稿 → 脚本与素材要求 → 制作或可编辑作品 → 人工观看、试听与导出。
+
+需要补齐：011 与 014 可以择一使用；若串接，先验证媒体与字幕的导出、导入，再适配时间线和项目格式，不能假定可编辑项目互通。
+
+**网页成果复核：研究成果 → 006 → 修订**
+
+- [006 Jev SEO](./projects/006-jev-seo/README.md)：在网页部署后检查页面事实、固定规则和内容，输出整改依据。
+
+交接：已发布网址 → 页面快照与问题证据 → 修改文字或实现 → 再检查与保存记录。
+
+需要补齐：另做实际交互、手机布局、无障碍和业务功能检查；需要后端行为时补独立测试。规则未触发不代表整站已验收。
+
+**批量研究与任务交接：013 ＋ 015／006／002**
+
+- [013 Claude Managed Agents](./projects/013-claude-managed-agents/README.md)：组织独立任务、依赖、上下文、事件、失败与结果汇总。
+- [015 REA](./projects/015-rea/README.md)：按任务查询软件证据，前提是运行环境可访问相应工具和材料。
+- [006 Jev SEO](./projects/006-jev-seo/README.md)：按目标和范围执行网站检查。
+- [002 Production Agentic RAG Course](./projects/002-production-agentic-rag-course/README.md)：按权限提供已入库的研究资料。
+
+交接：任务契约 → 各自的证据与产物 → 单一汇总步骤 → 人与测试验收。
+
+需要补齐：统一来源字段、目录归属、工具权限、失败规则与验收；013 的托管线程与 009/010 的本地终端不是同一会话，若关联需接 API 事件或另写 CLI 适配。
+
+**模型选择与人工接手：007 ＋ 016 ＋ 009／010（005 按需）**
+
+- [007 Hermes Jev Skills](./projects/007-hermes-jev-skills/README.md)：判断任务性质；上层策略结合模型能力、预算和约束做选择。
+- [016 Free Claude Code](./projects/016-free-claude-code/README.md)：为兼容客户端转发到所选真实服务，处理协议与备用条件。
+- [009 cmux](./projects/009-cmux/README.md)：承载、定位、操作和观察本地 Agent 会话。
+- [010 Vibe42](./projects/010-vibe42/README.md)：远程处理待回答问题、接手任务和核对文件。
+- [005 WireGuard Install](./projects/005-wireguard-install/README.md)：有自建服务器或内网接入需求时提供网络隧道。
+
+交接：任务判断 → 上层策略与模型配置 → 原生 Agent 执行 → 人观察、回应与验收。
+
+需要补齐：先验证一种 Agent 的模型与工具调用，再核对协议、会话身份与授权；研究版本中 009 原生桌面端为 macOS，010 目标主机为 Mac/Linux，Windows 可作为浏览器控制端；013 托管模型接入另行核对，005 不替代任务权限，Vibe42 也不要求必配 WireGuard。
+
+#### 从一个最小流程开始
+
+最小起点：选一个研究问题和一批可靠资料，先验证 002 的普通检索问答与引用，再把核对后的材料交给 001 起草报告；需要教材时加 012，需要软件证据时加 015，其他支撑按痛点逐步增加。
+
+每次交接保留：任务目标、来源与版本、原文或代码位置、实际产物、已验证结果与未知、下一步和验收条件。人定义目标并验收，模型理解与生成，Agent 或程序组织工具执行。
+
+
 ### 详细索引
 
 | 编号 | 项目 / 研究摘要 | 研究来源 | 研究状态 | 相关入口 |

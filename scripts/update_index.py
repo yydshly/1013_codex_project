@@ -12,7 +12,7 @@ def main() -> int:
     args = parser.parse_args()
     try:
         if not update_readme(check=args.check):
-            print("README index is stale. Run: python scripts/update_index.py", file=sys.stderr)
+            print("README index or research workflow diagram is stale. Run: python scripts/update_index.py", file=sys.stderr)
             return 1
     except (ValueError, OSError) as error:
         print(f"Index validation failed: {error}", file=sys.stderr)

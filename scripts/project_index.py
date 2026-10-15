@@ -6,6 +6,8 @@ import re
 from pathlib import Path
 from urllib.parse import quote, urlsplit
 
+from research_workflow import load_workflow, render_markdown, update_diagram
+
 ROOT = Path(__file__).resolve().parents[1]
 START = "<!-- PROJECT_INDEX:START -->"
 END = "<!-- PROJECT_INDEX:END -->"
@@ -179,7 +181,7 @@ def has_guide_image(project: dict) -> bool:
     )
 
 
-def render_index(projects: list[dict]) -> str:
+def render_index(projects: list[dict], *, workflow=None) -> str:
     lines = [f"当前收录 **{len(projects)}** 个项目，按三位编号升序排列。", ""]
     if not projects:
         lines.append(
@@ -196,6 +198,8 @@ def render_index(projects: list[dict]) -> str:
         lines.append(
             f"- **{project['id']} · [{name}]({path})**：{markdown_text(overview_text(project))}"
         )
+    if workflow:
+        lines.extend(["", render_markdown(workflow, projects, markdown_text)])
     lines.extend(["", "### 详细索引", ""])
     source_heading = "研究来源" if any(p.get("source_type") == "website" for p in projects) else "目标源库"
     lines.extend([
@@ -261,11 +265,13 @@ def replace_index(readme: str, index: str) -> str:
 
 def update_readme(root: Path = ROOT, *, check: bool = False) -> bool:
     projects = load_projects(root)
+    workflow = load_workflow(root, projects)
     path = root / "README.md"
     original = path.read_text(encoding="utf-8")
-    updated = replace_index(original, render_index(projects))
+    updated = replace_index(original, render_index(projects, workflow=workflow))
+    diagram_valid = update_diagram(root, workflow, check=check)
     if original == updated:
-        return True
+        return diagram_valid
     if check:
         return False
     path.write_text(updated, encoding="utf-8", newline="\n")
